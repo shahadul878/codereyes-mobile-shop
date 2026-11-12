@@ -21,6 +21,8 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 
 	private const BRAND_LIMIT = 500;
 
+	private const PUBLIC_LIMIT = 2000;
+
 	/**
 	 * Unsold phones that already use one of these IMEIs.
 	 *
@@ -196,6 +198,44 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 		);
 
 		return array_map( 'intval', is_array( $ids ) ? $ids : array() );
+	}
+
+	/**
+	 * Items customers can buy now, for the public stock listing.
+	 *
+	 * Selects public columns only: never cost prices, IMEIs or notes.
+	 *
+	 * @param string $type      phone|accessory|'' for both.
+	 * @param string $condition new|used|'' for both (phones only).
+	 * @return array[]
+	 */
+	public function public_stock( string $type, string $condition ): array {
+		$where = array( 'status = %s', 'quantity > 0' );
+		$args  = array( $this->table, Cmshop_Item::STATUS_IN_STOCK );
+
+		if ( '' !== $type ) {
+			$where[] = 'item_type = %s';
+			$args[]  = $type;
+		}
+
+		if ( '' !== $condition ) {
+			$where[] = 'new' === $condition ? '( item_type <> %s OR grade = %s )' : '( item_type = %s AND grade <> %s )';
+			$args[]  = Cmshop_Item::TYPE_PHONE;
+			$args[]  = 'new';
+		}
+
+		$args[] = self::PUBLIC_LIMIT;
+
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where holds fixed placeholders only.
+				'SELECT id, item_type, name, brand, model, storage, color, grade, battery_health, status, quantity, sale_price, image_id, wc_product_id FROM %i WHERE ' . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT %d',
+				$args
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
 	}
 
 	/**

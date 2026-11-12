@@ -4,7 +4,7 @@ Tags: mobile shop, pos, imei, phone repair, inventory
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,12 @@ Codereyes Mobile Shop is a complete back office for mobile phone shops that sell
 * Every job gets a short ticket code (for example K7MQ2XRT) and a printable job ticket with a customer copy and a shop copy.
 * Move jobs through Received, Diagnosing, Waiting for parts, Repairing, Ready to collect and Collected.
 * Customers check progress on your website with the `[cmshop_repair_status]` shortcode, using their ticket code and the last 4 digits of their phone number.
+* Customers can book a repair online with `[cmshop_repair_request]`. The job appears as "Booked online" with a ticket code, you get an email, and the customer gets the code by email too. Spam protection: a hidden trap field and a limit of 5 bookings an hour per visitor.
+
+**On your website (shortcodes)**
+
+* `[cmshop_stock]` shows the phones in your shop now: photo, price, new or used (with battery health), colours and storage, with brand and new/used filters. New phones of one model share one card. Cost prices and IMEIs are never shown. Options: `type="phone|accessory|all"`, `brand="Samsung"`, `condition="new|used"`, `per_page="12"`, `filters="no"`.
+* `[cmshop_warranty]` lets a customer enter an IMEI to see when they bought the phone from you and whether it is still under warranty. Set the warranty for new and used phones in Settings. The buyer's name and the price are never shown.
 
 **Online shop (WooCommerce, optional)**
 
@@ -65,7 +71,7 @@ Bengali digits (০-৯) are accepted in IMEI, phone and price fields.
 3. Add your stock under **Mobile Shop → Stock**.
 4. Ring up sales under **Mobile Shop → New sale (POS)**.
 5. Optional: install WooCommerce to sell online, then open a stock item and click **Publish to website**.
-6. Optional: add `[cmshop_repair_status]` to a page so customers can track repairs.
+6. Optional: add the shortcodes to pages: `[cmshop_stock]` (phones in stock), `[cmshop_warranty]` (warranty check), `[cmshop_repair_request]` (book a repair) and `[cmshop_repair_status]` (track a repair). **Mobile Shop → Settings** lists them all.
 
 Administrators and WooCommerce Shop Managers can use the shop screens. Only administrators can change settings.
 
@@ -111,10 +117,19 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 
 == Changelog ==
 
+= 1.1.0 =
+* New: `[cmshop_stock]` shortcode, a grid of phones (or accessories) in stock with brand and new/used filters.
+* New: `[cmshop_warranty]` shortcode, a warranty check by IMEI, with warranty length for new and used phones in Settings.
+* New: `[cmshop_repair_request]` shortcode, online repair booking with email notifications and a new "Booked online" repair status.
+* Settings now list every shortcode with its options.
+
 = 1.0.0 =
 * First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export, item photos and WooCommerce stock and brand sync with one product per model for new phones.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Adds shortcodes for phones in stock, warranty checks and online repair booking.
 
 = 1.0.0 =
 First release.

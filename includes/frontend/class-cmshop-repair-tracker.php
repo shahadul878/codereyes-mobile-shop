@@ -92,7 +92,7 @@ final class Cmshop_Repair_Tracker {
 
 		$outcome['code'] = $code;
 
-		if ( $this->too_many_attempts() ) {
+		if ( Cmshop_Rate_Limit::exceeded( 'repair_lookup', self::MAX_ATTEMPTS, self::WINDOW ) ) {
 			return array_merge( $outcome, array( 'error' => __( 'Too many lookups. Please wait 15 minutes and try again.', 'codereyes-mobile-shop' ) ) );
 		}
 
@@ -103,25 +103,6 @@ final class Cmshop_Repair_Tracker {
 		}
 
 		return array_merge( $outcome, array( 'repair' => $repair ) );
-	}
-
-	/**
-	 * Count this visitor's lookup and say whether the limit is reached.
-	 *
-	 * @return bool
-	 */
-	private function too_many_attempts(): bool {
-		$ip       = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown';
-		$key      = 'cmshop_lookup_' . md5( $ip . wp_salt( 'nonce' ) );
-		$attempts = (int) get_transient( $key );
-
-		if ( $attempts >= self::MAX_ATTEMPTS ) {
-			return true;
-		}
-
-		set_transient( $key, $attempts + 1, self::WINDOW );
-
-		return false;
 	}
 
 	/**

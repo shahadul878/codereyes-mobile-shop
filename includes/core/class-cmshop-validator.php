@@ -102,6 +102,32 @@ final class Cmshop_Validator {
 	}
 
 	/**
+	 * Repair booked by a customer on the website. It starts as "Booked online"
+	 * with no estimate; staff price it when the phone is brought in.
+	 *
+	 * @param array $raw Submitted values.
+	 * @return Cmshop_Validation_Result
+	 */
+	public static function repair_request( array $raw ): Cmshop_Validation_Result {
+		$in = new Cmshop_Input( $raw );
+
+		return $in->result(
+			array(
+				'customer_name'  => $in->text( 'customer_name', 150, __( 'Enter your name.', 'codereyes-mobile-shop' ) ),
+				'customer_phone' => $in->phone( 'customer_phone', true ),
+				'customer_email' => $in->email( 'customer_email' ),
+				'device'         => $in->text( 'device', 150, __( 'Enter the phone brand and model.', 'codereyes-mobile-shop' ) ),
+				'imei'           => $in->imei( 'imei', false ),
+				'fault'          => $in->textarea( 'fault', 2000, __( 'Tell us what is wrong with the phone.', 'codereyes-mobile-shop' ) ),
+				'preferred_date' => $in->date( 'preferred_date' ),
+				'status'         => Cmshop_Repair_Status::REQUESTED,
+				'estimate'       => '0.00',
+				'deposit'        => '0.00',
+			)
+		);
+	}
+
+	/**
 	 * Phone-specific fields. A phone is always quantity 1.
 	 *
 	 * @param Cmshop_Input $in Input.

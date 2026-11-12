@@ -10,10 +10,12 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * A repair moves from received to collected (or cancelled).
+ * A repair moves from received to collected (or cancelled). Jobs booked on
+ * the website start as "requested" until the phone is brought in.
  */
 final class Cmshop_Repair_Status {
 
+	public const REQUESTED     = 'requested';
 	public const RECEIVED      = 'received';
 	public const DIAGNOSING    = 'diagnosing';
 	public const WAITING_PARTS = 'waiting_parts';
@@ -29,6 +31,7 @@ final class Cmshop_Repair_Status {
 	 */
 	public static function all(): array {
 		return array(
+			self::REQUESTED     => __( 'Booked online', 'codereyes-mobile-shop' ),
 			self::RECEIVED      => __( 'Received', 'codereyes-mobile-shop' ),
 			self::DIAGNOSING    => __( 'Diagnosing', 'codereyes-mobile-shop' ),
 			self::WAITING_PARTS => __( 'Waiting for parts', 'codereyes-mobile-shop' ),
@@ -45,7 +48,7 @@ final class Cmshop_Repair_Status {
 	 * @return string[]
 	 */
 	public static function open(): array {
-		return array( self::RECEIVED, self::DIAGNOSING, self::WAITING_PARTS, self::REPAIRING, self::READY );
+		return array( self::REQUESTED, self::RECEIVED, self::DIAGNOSING, self::WAITING_PARTS, self::REPAIRING, self::READY );
 	}
 
 	/**

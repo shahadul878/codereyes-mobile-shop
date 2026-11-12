@@ -18,6 +18,8 @@ final class Cmshop_Settings {
 
 	private const MAX_LOW_STOCK = 1000;
 
+	private const MAX_WARRANTY_DAYS = 3650;
+
 	/**
 	 * Default values.
 	 *
@@ -35,6 +37,8 @@ final class Cmshop_Settings {
 			'thermal_width'   => '80',
 			'repair_terms'    => __( 'Devices not collected within 60 days may be disposed of. We are not responsible for data loss.', 'codereyes-mobile-shop' ),
 			'low_stock'       => 3,
+			'warranty_new'    => 365,
+			'warranty_used'   => 30,
 			'woo_sync'        => 1,
 		);
 	}
@@ -134,6 +138,8 @@ final class Cmshop_Settings {
 			'thermal_width'   => Cmshop_Invoice_Format::thermal_width( (string) absint( $input['thermal_width'] ?? 0 ) ),
 			'repair_terms'    => $area( 'repair_terms' ),
 			'low_stock'       => max( 0, min( self::MAX_LOW_STOCK, absint( $input['low_stock'] ?? $defaults['low_stock'] ) ) ),
+			'warranty_new'    => min( self::MAX_WARRANTY_DAYS, absint( $input['warranty_new'] ?? $defaults['warranty_new'] ) ),
+			'warranty_used'   => min( self::MAX_WARRANTY_DAYS, absint( $input['warranty_used'] ?? $defaults['warranty_used'] ) ),
 			'woo_sync'        => empty( $input['woo_sync'] ) ? 0 : 1,
 		);
 	}

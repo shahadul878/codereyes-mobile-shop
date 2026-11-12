@@ -103,11 +103,44 @@ $cmshop_name = static function ( string $key ): string {
 			</tr>
 		</table>
 
-		<h2><?php esc_html_e( 'Repair tracker', 'codereyes-mobile-shop' ); ?></h2>
-		<p>
-			<?php esc_html_e( 'Add this shortcode to any page so customers can check their repair with their ticket number:', 'codereyes-mobile-shop' ); ?>
-			<code>[<?php echo esc_html( Cmshop_Repair_Tracker::SHORTCODE ); ?>]</code>
-		</p>
+		<h2><?php esc_html_e( 'Warranty', 'codereyes-mobile-shop' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="cmshop-warranty-new"><?php esc_html_e( 'New phones', 'codereyes-mobile-shop' ); ?></label></th>
+				<td><input type="number" id="cmshop-warranty-new" class="small-text" min="0" max="3650" name="<?php echo esc_attr( $cmshop_name( 'warranty_new' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['warranty_new'] ); ?>"> <?php esc_html_e( 'days', 'codereyes-mobile-shop' ); ?></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="cmshop-warranty-used"><?php esc_html_e( 'Used phones', 'codereyes-mobile-shop' ); ?></label></th>
+				<td><input type="number" id="cmshop-warranty-used" class="small-text" min="0" max="3650" name="<?php echo esc_attr( $cmshop_name( 'warranty_used' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['warranty_used'] ); ?>"> <?php esc_html_e( 'days', 'codereyes-mobile-shop' ); ?>
+				<p class="description"><?php esc_html_e( 'Counted from the sale date and shown by the warranty check on your website. 0 means no warranty.', 'codereyes-mobile-shop' ); ?></p></td>
+			</tr>
+		</table>
+
+		<h2><?php esc_html_e( 'Website shortcodes', 'codereyes-mobile-shop' ); ?></h2>
+		<p><?php esc_html_e( 'Add these to any page or post (in the block editor, use a Shortcode block).', 'codereyes-mobile-shop' ); ?></p>
+		<table class="widefat striped cmshop-shortcodes">
+			<tbody>
+				<tr>
+					<td><code>[<?php echo esc_html( Cmshop_Stock_Shortcode::SHORTCODE ); ?>]</code></td>
+					<td>
+						<?php esc_html_e( 'Phones in stock now, with photo, price, condition and colours, and brand and new/used filters. Cost prices and IMEIs are never shown.', 'codereyes-mobile-shop' ); ?><br>
+						<small><?php esc_html_e( 'Options: type="phone|accessory|all", brand="Samsung", condition="new|used", per_page="12", filters="no"', 'codereyes-mobile-shop' ); ?></small>
+					</td>
+				</tr>
+				<tr>
+					<td><code>[<?php echo esc_html( Cmshop_Warranty_Check::SHORTCODE ); ?>]</code></td>
+					<td><?php esc_html_e( 'Customers enter an IMEI to see when they bought the phone from you and whether it is still under warranty.', 'codereyes-mobile-shop' ); ?></td>
+				</tr>
+				<tr>
+					<td><code>[<?php echo esc_html( Cmshop_Repair_Request::SHORTCODE ); ?>]</code></td>
+					<td><?php esc_html_e( 'Customers book a repair online. It appears under Repairs as "Booked online" with a ticket code, and you get an email.', 'codereyes-mobile-shop' ); ?></td>
+				</tr>
+				<tr>
+					<td><code>[<?php echo esc_html( Cmshop_Repair_Tracker::SHORTCODE ); ?>]</code></td>
+					<td><?php esc_html_e( 'Customers check a repair with their ticket number and the last 4 digits of their phone number.', 'codereyes-mobile-shop' ); ?></td>
+				</tr>
+			</tbody>
+		</table>
 
 		<?php submit_button(); ?>
 	</form>

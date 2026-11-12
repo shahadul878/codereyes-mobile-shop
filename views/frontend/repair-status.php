@@ -11,6 +11,11 @@ defined( 'ABSPATH' ) || exit;
 
 $cmshop_repair = $outcome['repair'];
 $cmshop_steps  = array( 'received', 'diagnosing', 'repairing', 'ready', 'collected' );
+
+// A job booked online shows that step first until the phone is brought in.
+if ( null !== $cmshop_repair && Cmshop_Repair_Status::REQUESTED === $cmshop_repair['status'] ) {
+	$cmshop_steps = array_merge( array( Cmshop_Repair_Status::REQUESTED ), $cmshop_steps );
+}
 ?>
 <div class="cmshop-tracker">
 	<form method="post" class="cmshop-tracker__form">

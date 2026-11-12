@@ -33,6 +33,8 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-query.php',
 		'core/class-cmshop-invoice-format.php',
 		'core/class-cmshop-model-listing.php',
+		'core/class-cmshop-stock-cards.php',
+		'core/class-cmshop-warranty.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -42,7 +44,11 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-repair-repository.php',
 		'services/class-cmshop-sales-service.php',
 		'class-cmshop-rest.php',
+		'frontend/class-cmshop-rate-limit.php',
 		'frontend/class-cmshop-repair-tracker.php',
+		'frontend/class-cmshop-stock-shortcode.php',
+		'frontend/class-cmshop-warranty-check.php',
+		'frontend/class-cmshop-repair-request.php',
 	);
 
 	/**
@@ -85,6 +91,9 @@ final class Cmshop_Plugin {
 
 		( new Cmshop_Rest( self::items(), self::customers(), self::sales_service() ) )->register();
 		( new Cmshop_Repair_Tracker( self::repairs() ) )->register();
+		( new Cmshop_Stock_Shortcode( self::items() ) )->register();
+		( new Cmshop_Warranty_Check( self::sales() ) )->register();
+		( new Cmshop_Repair_Request( self::repairs(), self::customers() ) )->register();
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			self::load( array( 'woo/class-cmshop-woo-brands.php', 'woo/class-cmshop-woo-models.php', 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );

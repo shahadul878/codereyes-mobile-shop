@@ -96,6 +96,40 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * The latest completed sale of a phone, by either of its IMEIs.
+	 *
+	 * Returns only what a warranty check needs: never the customer or price.
+	 *
+	 * @param string $imei      Normalised IMEI.
+	 * @param string $items     Items table (for IMEI 2 and the condition).
+	 * @return array{sold_at: string, description: string, grade: string}|null
+	 */
+	public function find_phone_sale( string $imei, string $items ): ?array {
+		$row = $this->db->get_row(
+			$this->db->prepare(
+				'SELECT s.created_at AS sold_at, l.description, COALESCE( i.grade, %s ) AS grade
+				FROM %i l
+				INNER JOIN %i s ON s.id = l.sale_id
+				LEFT JOIN %i i ON i.id = l.item_id
+				WHERE s.status = %s AND l.item_type = %s AND ( l.imei = %s OR i.imei1 = %s OR i.imei2 = %s )
+				ORDER BY s.id DESC LIMIT 1',
+				'good',
+				$this->lines_table,
+				$this->table,
+				$items,
+				self::STATUS_COMPLETED,
+				Cmshop_Item::TYPE_PHONE,
+				$imei,
+				$imei,
+				$imei
+			),
+			ARRAY_A
+		);
+
+		return is_array( $row ) ? $row : null;
+	}
+
+	/**
 	 * Lock a sale row for the rest of the transaction.
 	 *
 	 * @param int $sale_id Sale ID.

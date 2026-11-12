@@ -153,4 +153,54 @@ final class ValidatorTest extends TestCase {
 		$this->assertSame( 0, $data['image_id'] );
 		$this->assertSame( '', $data['gallery_ids'] );
 	}
+
+	public function test_repair_request_needs_contact_device_and_fault(): void {
+		$result = Cmshop_Validator::repair_request( array() );
+
+		$this->assertFalse( $result->is_valid() );
+		$this->assertSame( array( 'customer_name', 'customer_phone', 'device', 'fault' ), array_keys( $result->errors() ) );
+	}
+
+	public function test_repair_request_becomes_a_booked_online_job(): void {
+		$result = Cmshop_Validator::repair_request(
+			array(
+				'customer_name'  => 'Rahim',
+				'customer_phone' => '০১৭১১-২২৩৩৪৪',
+				'customer_email' => 'rahim@example.com',
+				'device'         => 'iPhone 12',
+				'imei'           => '',
+				'fault'          => 'Battery drains fast',
+				'preferred_date' => '2026-11-20',
+			)
+		);
+		$data   = $result->data();
+
+		$this->assertTrue( $result->is_valid(), (string) json_encode( $result->errors() ) );
+		$this->assertSame( 'requested', $data['status'] );
+		$this->assertSame( '01711223344', $data['customer_phone'] );
+		$this->assertSame( '0.00', $data['estimate'] );
+		$this->assertSame( '2026-11-20', $data['preferred_date'] );
+		$this->assertSame( 'rahim@example.com', $data['customer_email'] );
+	}
+
+	public function test_repair_request_rejects_a_bad_imei_and_date(): void {
+		$errors = Cmshop_Validator::repair_request(
+			array(
+				'customer_name'  => 'Rahim',
+				'customer_phone' => '01711223344',
+				'device'         => 'iPhone 12',
+				'fault'          => 'Screen',
+				'imei'           => '123',
+				'preferred_date' => '20/11/2026',
+			)
+		)->errors();
+
+		$this->assertArrayHasKey( 'imei', $errors );
+		$this->assertArrayHasKey( 'preferred_date', $errors );
+	}
+
+	public function test_booked_online_is_an_open_status_first_in_order(): void {
+		$this->assertSame( 'requested', array_keys( Cmshop_Repair_Status::all() )[0] );
+		$this->assertContains( 'requested', Cmshop_Repair_Status::open() );
+	}
 }
