@@ -117,14 +117,14 @@ $cmshop_name = static function ( string $key ): string {
 		</table>
 
 		<h2><?php esc_html_e( 'Website shortcodes', 'codereyes-mobile-shop' ); ?></h2>
-		<p><?php esc_html_e( 'Add these to any page or post (in the block editor, use a Shortcode block).', 'codereyes-mobile-shop' ); ?></p>
+		<p><?php esc_html_e( 'Add these to any page with the "Mobile Shop" blocks in the block editor, the "Mobile Shop" widgets in Elementor, or the shortcodes below. Every one also accepts accent="#0d9488" and radius="16".', 'codereyes-mobile-shop' ); ?></p>
 		<table class="widefat striped cmshop-shortcodes">
 			<tbody>
 				<tr>
 					<td><code>[<?php echo esc_html( Cmshop_Stock_Shortcode::SHORTCODE ); ?>]</code></td>
 					<td>
 						<?php esc_html_e( 'Phones in stock now, with photo, price, condition and colours, and brand and new/used filters. Cost prices and IMEIs are never shown.', 'codereyes-mobile-shop' ); ?><br>
-						<small><?php esc_html_e( 'Options: type="phone|accessory|all", brand="Samsung", condition="new|used", per_page="12", filters="no"', 'codereyes-mobile-shop' ); ?></small>
+						<small><?php esc_html_e( 'Options: type="phone|accessory|all", brand="Samsung", condition="new|used", per_page="12", columns="3", filters="no"', 'codereyes-mobile-shop' ); ?></small>
 					</td>
 				</tr>
 				<tr>

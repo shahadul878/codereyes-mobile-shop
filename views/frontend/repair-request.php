@@ -4,7 +4,7 @@
  *
  * @package CodereyesMobileShop
  *
- * @var array $view { values, errors, error, booked, nonce, action, honeypot, today }
+ * @var array $view { values, errors, error, booked, nonce, action, honeypot, today, style }
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 	$id       = 'cmshop-book-' . str_replace( '_', '-', $name );
 	$required = ! empty( $opts['required'] );
 	?>
-	<p class="cmshop-booking__field<?php echo '' !== $error ? ' has-error' : ''; ?>">
+	<p class="cmshop-booking__field<?php echo ! empty( $opts['wide'] ) ? ' cmshop-booking__field--wide' : ''; ?>">
 		<label for="<?php echo esc_attr( $id ); ?>">
 			<?php echo esc_html( $label ); ?>
 			<?php if ( ! $required ) : ?>
@@ -36,9 +36,10 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 	<?php
 };
 ?>
-<div class="cmshop-tracker cmshop-booking" id="cmshop-booking">
+<div class="cmshop-ui cmshop-booking" id="cmshop-booking" style="<?php echo esc_attr( $view['style'] ); ?>">
 	<?php if ( '' !== $view['booked'] ) : ?>
-		<section class="cmshop-tracker__result cmshop-booking__done" role="status">
+		<section class="cmshop-panel cmshop-booking__done" role="status">
+			<span class="cmshop-status-icon" aria-hidden="true">&#10003;</span>
 			<h3><?php esc_html_e( 'Your repair is booked', 'codereyes-mobile-shop' ); ?></h3>
 			<p><?php esc_html_e( 'Your ticket number is', 'codereyes-mobile-shop' ); ?></p>
 			<p class="cmshop-booking__code"><?php echo esc_html( $view['booked'] ); ?></p>
@@ -46,16 +47,16 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 		</section>
 	<?php else : ?>
 		<?php if ( '' !== $view['error'] ) : ?>
-			<p class="cmshop-tracker__error" role="alert"><?php echo esc_html( $view['error'] ); ?></p>
+			<p class="cmshop-alert" role="alert"><?php echo esc_html( $view['error'] ); ?></p>
 		<?php elseif ( array() !== $view['errors'] ) : ?>
-			<p class="cmshop-tracker__error" role="alert"><?php esc_html_e( 'Please check the fields marked below.', 'codereyes-mobile-shop' ); ?></p>
+			<p class="cmshop-alert" role="alert"><?php esc_html_e( 'Please check the fields marked below.', 'codereyes-mobile-shop' ); ?></p>
 		<?php endif; ?>
 
-		<form method="post" class="cmshop-booking__form" novalidate>
+		<form method="post" class="cmshop-panel cmshop-booking__form" novalidate>
 			<?php wp_nonce_field( $view['nonce'], '_cmshop_nonce' ); ?>
 			<input type="hidden" name="cmshop_action" value="<?php echo esc_attr( $view['action'] ); ?>">
 
-			<div class="cmshop-booking__row">
+			<div class="cmshop-booking__grid">
 				<?php
 				$cmshop_field(
 					'customer_name',
@@ -76,22 +77,17 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 						'autocomplete' => 'tel',
 					)
 				);
-				?>
-			</div>
-			<?php
-			$cmshop_field(
-				'customer_email',
-				__( 'Email', 'codereyes-mobile-shop' ),
-				$view,
-				array(
-					'type'         => 'email',
-					'autocomplete' => 'email',
-					'help'         => __( 'We will email you the ticket number.', 'codereyes-mobile-shop' ),
-				)
-			);
-			?>
-			<div class="cmshop-booking__row">
-				<?php
+				$cmshop_field(
+					'customer_email',
+					__( 'Email', 'codereyes-mobile-shop' ),
+					$view,
+					array(
+						'type'         => 'email',
+						'autocomplete' => 'email',
+						'wide'         => true,
+						'help'         => __( 'We will email you the ticket number.', 'codereyes-mobile-shop' ),
+					)
+				);
 				$cmshop_field(
 					'device',
 					__( 'Phone brand and model', 'codereyes-mobile-shop' ),
@@ -110,28 +106,27 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 						'help'      => __( 'Dial *#06# to see it.', 'codereyes-mobile-shop' ),
 					)
 				);
+				$cmshop_field(
+					'fault',
+					__( 'What is wrong with the phone?', 'codereyes-mobile-shop' ),
+					$view,
+					array(
+						'required' => true,
+						'type'     => 'textarea',
+						'wide'     => true,
+					)
+				);
+				$cmshop_field(
+					'preferred_date',
+					__( 'When will you bring it in?', 'codereyes-mobile-shop' ),
+					$view,
+					array(
+						'type' => 'date',
+						'min'  => $view['today'],
+					)
+				);
 				?>
 			</div>
-			<?php
-			$cmshop_field(
-				'fault',
-				__( 'What is wrong with the phone?', 'codereyes-mobile-shop' ),
-				$view,
-				array(
-					'required' => true,
-					'type'     => 'textarea',
-				)
-			);
-			$cmshop_field(
-				'preferred_date',
-				__( 'When will you bring it in?', 'codereyes-mobile-shop' ),
-				$view,
-				array(
-					'type' => 'date',
-					'min'  => $view['today'],
-				)
-			);
-			?>
 
 			<p class="cmshop-booking__trap" aria-hidden="true">
 				<label for="cmshop-book-website"><?php esc_html_e( 'Leave this empty', 'codereyes-mobile-shop' ); ?></label>

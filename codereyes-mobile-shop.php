@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Codereyes Mobile Shop
  * Description:       Run a mobile phone shop online and in store: IMEI stock, point of sale with receipts, repair job tickets with customer status tracking, customers, and WooCommerce stock sync.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            H M Shahadul Islam
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CMSHOP_VERSION', '1.1.0' );
+define( 'CMSHOP_VERSION', '1.2.0' );
 define( 'CMSHOP_FILE', __FILE__ );
 define( 'CMSHOP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CMSHOP_URL', plugin_dir_url( __FILE__ ) );

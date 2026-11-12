@@ -1,198 +1,415 @@
-/* Codereyes Mobile Shop — website shortcodes and product badge. Inherits the theme's fonts. */
+/* Codereyes Mobile Shop — website parts (shortcodes, blocks, Elementor widgets).
+ * Text inherits the theme; lines and muted text are mixed from the theme's
+ * text colour so the parts sit well on light and dark themes.
+ * Blocks and widgets set --cmshop-accent, --cmshop-radius and --cmshop-columns.
+ */
 
-.cmshop-tracker,
-.cmshop-stock {
-	--cmshop-accent: #0f9d8a;
-	--cmshop-accent-soft: #e3f5f2;
-	--cmshop-danger: #b42318;
-	--cmshop-line: rgba(0, 0, 0, 0.12);
+.cmshop-ui {
+	--cmshop-accent: #0d9488;
+	--cmshop-accent-ink: #fff;
+	--cmshop-radius: 16px;
+	--cmshop-card: #fff;
+	--cmshop-danger: #dc2626;
+	--cmshop-warn: #b45309;
+	--cmshop-line: rgba(15, 23, 42, 0.12);
+	--cmshop-muted: rgba(15, 23, 42, 0.62);
+	--cmshop-tint: rgba(15, 23, 42, 0.04);
+	--cmshop-soft: rgba(13, 148, 136, 0.12);
+	--cmshop-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 12px 32px -16px rgba(15, 23, 42, 0.28);
+	--cmshop-shadow-lift: 0 2px 4px rgba(15, 23, 42, 0.06), 0 22px 44px -18px rgba(15, 23, 42, 0.38);
+	--cmshop-r-sm: calc(var(--cmshop-radius) * 0.6);
+	--cmshop-fast: 160ms;
+	--cmshop-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-	max-width: 560px;
+	box-sizing: border-box;
+	line-height: 1.5;
 }
 
-.cmshop-tracker__form {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 12px;
-	align-items: end;
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+	.cmshop-ui {
+		--cmshop-line: color-mix(in srgb, currentColor 13%, transparent);
+		--cmshop-muted: color-mix(in srgb, currentColor 64%, transparent);
+		--cmshop-tint: color-mix(in srgb, currentColor 4%, transparent);
+		--cmshop-soft: color-mix(in srgb, var(--cmshop-accent) 13%, transparent);
+	}
 }
 
-.cmshop-tracker__form p {
-	margin: 0;
+.cmshop-ui *,
+.cmshop-ui *::before,
+.cmshop-ui *::after {
+	box-sizing: inherit;
 }
 
-.cmshop-tracker__form p:last-child {
-	grid-column: 1 / -1;
+/* ---------- Shared: panels, fields, buttons, messages ---------- */
+
+.cmshop-panel {
+	padding: clamp(18px, 3vw, 28px);
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-card);
+	box-shadow: var(--cmshop-shadow);
+	color: #0f172a;
 }
 
-.cmshop-tracker label {
+.cmshop-ui label {
 	display: block;
-	margin-bottom: 4px;
+	margin: 0 0 6px;
+	font-size: 0.9em;
 	font-weight: 600;
 }
 
-.cmshop-tracker input {
-	box-sizing: border-box;
+.cmshop-ui input[type="text"],
+.cmshop-ui input[type="tel"],
+.cmshop-ui input[type="email"],
+.cmshop-ui input[type="date"],
+.cmshop-ui textarea {
 	width: 100%;
-	letter-spacing: 0.08em;
+	min-height: 46px;
+	margin: 0;
+	padding: 11px 14px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-r-sm);
+	background: #fff;
+	box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+	color: #0f172a;
+	font: inherit;
+	transition: border-color var(--cmshop-fast) ease, box-shadow var(--cmshop-fast) ease;
 }
 
-.cmshop-tracker button {
+.cmshop-ui textarea {
+	min-height: 112px;
+	resize: vertical;
+}
+
+.cmshop-ui input:focus,
+.cmshop-ui textarea:focus {
+	border-color: var(--cmshop-accent);
+	outline: none;
+	box-shadow: 0 0 0 4px var(--cmshop-soft);
+}
+
+.cmshop-ui [aria-invalid="true"] {
+	border-color: var(--cmshop-danger);
+}
+
+.cmshop-ui small,
+.cmshop-hint {
+	display: block;
+	margin-top: 6px;
+	color: var(--cmshop-muted);
+	font-size: 0.82em;
+}
+
+.cmshop-ui .cmshop-btn,
+.cmshop-ui button[type="submit"] {
+	display: inline-flex;
+	gap: 8px;
+	justify-content: center;
+	align-items: center;
+	min-height: 46px;
+	padding: 0 22px;
+	border: 0;
+	border-radius: var(--cmshop-r-sm);
+	background: var(--cmshop-accent);
+	box-shadow: 0 8px 18px -10px var(--cmshop-accent);
+	color: var(--cmshop-accent-ink);
+	font: inherit;
+	font-weight: 650;
+	line-height: 1;
+	text-decoration: none !important; /* Themes and the block editor underline links. */
 	cursor: pointer;
+	transition: transform var(--cmshop-fast) var(--cmshop-ease), box-shadow var(--cmshop-fast) ease, opacity var(--cmshop-fast) ease;
 }
 
-.cmshop-tracker__error {
-	margin-top: 16px;
-	padding: 10px 14px;
-	border-left: 4px solid var(--cmshop-danger);
+.cmshop-ui .cmshop-btn:hover,
+.cmshop-ui button[type="submit"]:hover {
+	box-shadow: 0 12px 22px -10px var(--cmshop-accent);
+	color: var(--cmshop-accent-ink);
+	transform: translateY(-1px);
+}
+
+.cmshop-ui .cmshop-btn:active,
+.cmshop-ui button[type="submit"]:active {
+	transform: translateY(0);
+	opacity: 0.9;
+}
+
+.cmshop-ui .cmshop-btn:focus-visible,
+.cmshop-ui button[type="submit"]:focus-visible,
+.cmshop-ui a:focus-visible {
+	outline: 3px solid var(--cmshop-accent);
+	outline-offset: 3px;
+}
+
+.cmshop-ui .cmshop-btn--ghost {
+	border: 1px solid var(--cmshop-accent);
+	background: transparent;
+	box-shadow: none;
+	color: var(--cmshop-accent);
+}
+
+.cmshop-ui .cmshop-btn--ghost:hover {
+	background: var(--cmshop-soft);
+	box-shadow: none;
+	color: var(--cmshop-accent);
+}
+
+.cmshop-alert {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	margin: 0 0 18px;
+	padding: 12px 16px;
+	border-radius: var(--cmshop-r-sm);
+	background: rgba(220, 38, 38, 0.08);
+	color: var(--cmshop-danger);
+	font-weight: 600;
+}
+
+.cmshop-alert::before {
+	flex: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--cmshop-danger);
+	color: #fff;
+	font-size: 13px;
+	line-height: 20px;
+	text-align: center;
+	content: "!";
+}
+
+.cmshop-pill {
+	display: inline-flex;
+	gap: 6px;
+	align-items: center;
+	padding: 3px 11px;
+	border-radius: 999px;
+	background: var(--cmshop-soft);
+	color: var(--cmshop-accent);
+	font-size: 0.78em;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+}
+
+.cmshop-pill--warn {
+	background: rgba(180, 83, 9, 0.12);
+	color: var(--cmshop-warn);
+}
+
+.cmshop-pill--danger {
+	background: rgba(220, 38, 38, 0.1);
 	color: var(--cmshop-danger);
 }
 
-.cmshop-tracker__result {
-	margin-top: 24px;
-	padding: 20px;
-	border: 1px solid var(--cmshop-line);
-	border-radius: 10px;
+.cmshop-pill--solid {
+	background: var(--cmshop-accent);
+	color: var(--cmshop-accent-ink);
 }
 
-.cmshop-tracker__result h3 {
+.cmshop-facts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 12px;
+	margin: 18px 0 0;
+}
+
+.cmshop-facts div {
+	padding: 12px 14px;
+	border-radius: var(--cmshop-r-sm);
+	background: var(--cmshop-tint);
+}
+
+.cmshop-facts dt {
+	color: var(--cmshop-muted);
+	font-size: 0.78em;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.cmshop-facts dd {
+	margin: 2px 0 0;
+	font-weight: 700;
+}
+
+.cmshop-note {
+	margin: 18px 0 0;
+	padding: 12px 16px;
+	border-left: 3px solid var(--cmshop-accent);
+	border-radius: 0 var(--cmshop-r-sm) var(--cmshop-r-sm) 0;
+	background: var(--cmshop-soft);
+}
+
+/* ---------- Lookup forms: repair tracker, warranty ---------- */
+
+.cmshop-lookup {
+	max-width: 640px;
+}
+
+.cmshop-lookup__form {
+	display: grid;
+	grid-template-columns: 1fr 1fr auto;
+	gap: 14px;
+	align-items: end;
+}
+
+.cmshop-lookup__form--single {
+	grid-template-columns: 1fr auto;
+}
+
+.cmshop-lookup__form p {
+	margin: 0;
+}
+
+.cmshop-lookup__form input {
+	letter-spacing: 0.06em;
+}
+
+.cmshop-lookup__form small {
+	position: absolute;
+}
+
+.cmshop-lookup__form p:has(small) {
+	position: relative;
+}
+
+.cmshop-lookup__result {
+	margin-top: 26px;
+	animation: cmshop-rise 320ms var(--cmshop-ease) both;
+}
+
+.cmshop-lookup__head {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px;
+	gap: 10px 14px;
 	align-items: center;
-	margin-top: 0;
+	margin: 0;
+	font-size: 1.15em;
 }
 
-.cmshop-tracker__badge {
-	padding: 2px 12px;
-	border-radius: 999px;
-	background: var(--cmshop-accent-soft);
-	color: #0b6e61;
-	font-size: 0.8em;
-}
-
-.cmshop-tracker__badge--ready {
+/* Status icon for the warranty result. */
+.cmshop-status-icon {
+	display: grid;
+	flex: none;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
 	background: var(--cmshop-accent);
+	color: var(--cmshop-accent-ink);
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.cmshop-status-icon--bad {
+	background: var(--cmshop-danger);
 	color: #fff;
 }
 
-.cmshop-tracker__badge--cancelled {
-	background: #eee;
-	color: #555;
-}
-
-.cmshop-tracker__steps {
+/* Repair progress: dots joined by a line. */
+.cmshop-steps {
 	display: grid;
 	grid-auto-columns: 1fr;
 	grid-auto-flow: column;
-	gap: 4px;
-	margin: 16px 0;
+	margin: 26px 0 6px;
 	padding: 0;
 	list-style: none;
 	counter-reset: cmshop-step;
 }
 
-.cmshop-tracker__steps li {
+.cmshop-steps li {
 	position: relative;
-	padding-top: 14px;
-	border-top: 4px solid var(--cmshop-line);
+	padding: 34px 4px 0;
+	color: var(--cmshop-muted);
 	font-size: 0.8em;
 	text-align: center;
+	counter-increment: cmshop-step;
 }
 
-.cmshop-tracker__steps li.is-done {
-	border-top-color: var(--cmshop-accent);
-	font-weight: 600;
-}
-
-.cmshop-tracker__note {
-	padding: 10px 14px;
-	border-radius: 8px;
-	background: var(--cmshop-accent-soft);
-}
-
-.cmshop-tracker dl {
+.cmshop-steps li::before {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	z-index: 1;
 	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 4px 16px;
-	margin: 0;
+	place-items: center;
+	width: 26px;
+	height: 26px;
+	border: 2px solid var(--cmshop-line);
+	border-radius: 50%;
+	background: var(--cmshop-card);
+	font-size: 12px;
+	font-weight: 700;
+	transform: translateX(-50%);
+	content: counter(cmshop-step);
 }
 
-.cmshop-tracker dd {
-	margin: 0;
+.cmshop-steps li::after {
+	position: absolute;
+	top: 12px;
+	right: 50%;
+	width: 100%;
+	height: 2px;
+	background: var(--cmshop-line);
+	content: "";
 }
 
-.cmshop-condition {
-	font-weight: 600;
+.cmshop-steps li:first-child::after {
+	display: none;
 }
 
-/* ---------- Single-field forms (warranty) ---------- */
-
-.cmshop-tracker__form--single {
-	grid-template-columns: 1fr auto;
+.cmshop-steps li.is-done {
+	color: inherit;
+	font-weight: 650;
 }
 
-.cmshop-tracker__form--single p:last-child {
-	grid-column: auto;
-}
-
-.cmshop-tracker small {
-	display: block;
-	margin-top: 4px;
-	opacity: 0.75;
-}
-
-.cmshop-warranty--active .cmshop-warranty__badge {
+.cmshop-steps li.is-done::before {
+	border-color: var(--cmshop-accent);
 	background: var(--cmshop-accent);
-	color: #fff;
+	color: var(--cmshop-accent-ink);
+	content: "✓";
 }
 
-.cmshop-warranty--expired .cmshop-warranty__badge,
-.cmshop-warranty--none .cmshop-warranty__badge {
-	background: #fdecea;
-	color: var(--cmshop-danger);
+.cmshop-steps li.is-done::after {
+	background: var(--cmshop-accent);
+}
+
+.cmshop-steps li.is-current::before {
+	box-shadow: 0 0 0 5px var(--cmshop-soft);
 }
 
 /* ---------- Repair booking ---------- */
 
 .cmshop-booking {
-	max-width: 640px;
+	max-width: 720px;
 }
 
-.cmshop-booking__row {
+.cmshop-booking__grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 12px;
+	gap: 0 16px;
 }
 
 .cmshop-booking__field {
-	margin: 0 0 14px;
+	margin: 0 0 16px;
 }
 
-.cmshop-booking textarea {
-	box-sizing: border-box;
-	width: 100%;
-}
-
-.cmshop-booking input,
-.cmshop-booking textarea {
-	letter-spacing: normal;
+.cmshop-booking__field--wide {
+	grid-column: 1 / -1;
 }
 
 .cmshop-booking__optional {
+	color: var(--cmshop-muted);
 	font-weight: 400;
-	opacity: 0.7;
-}
-
-.cmshop-booking__field.has-error input,
-.cmshop-booking__field.has-error textarea {
-	border-color: var(--cmshop-danger);
 }
 
 .cmshop-booking__error {
 	display: block;
-	margin-top: 4px;
+	margin-top: 6px;
 	color: var(--cmshop-danger);
+	font-size: 0.85em;
 	font-weight: 600;
 }
 
@@ -205,233 +422,385 @@
 	overflow: hidden;
 }
 
+.cmshop-booking__done {
+	text-align: center;
+	animation: cmshop-rise 320ms var(--cmshop-ease) both;
+}
+
+.cmshop-booking__done .cmshop-status-icon {
+	margin: 0 auto 12px;
+	width: 56px;
+	height: 56px;
+	font-size: 28px;
+}
+
 .cmshop-booking__done h3 {
-	margin-top: 0;
+	margin: 0 0 4px;
 }
 
 .cmshop-booking__code {
 	display: inline-block;
-	margin: 0 0 12px;
-	padding: 8px 18px;
-	border: 2px solid currentColor;
-	border-radius: 8px;
-	font-size: 1.6em;
+	margin: 14px 0;
+	padding: 12px 22px;
+	border: 2px dashed var(--cmshop-accent);
+	border-radius: var(--cmshop-r-sm);
+	background: var(--cmshop-soft);
+	color: var(--cmshop-accent);
+	font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+	font-size: 1.7em;
 	font-weight: 700;
-	letter-spacing: 0.18em;
+	letter-spacing: 0.2em;
 }
 
 /* ---------- Phones in stock ---------- */
 
-.cmshop-stock {
-	max-width: none;
-}
-
 .cmshop-stock__filters {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px 20px;
-	margin-bottom: 20px;
+	gap: 12px 20px;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 22px;
 }
 
-.cmshop-stock__chips {
+.cmshop-segmented {
+	display: inline-flex;
+	margin: 0;
+	padding: 4px;
+	border-radius: 999px;
+	background: var(--cmshop-tint);
+	box-shadow: inset 0 0 0 1px var(--cmshop-line);
+	list-style: none;
+}
+
+.cmshop-chips {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 6px;
+	gap: 8px;
+	min-width: 0;
+	max-width: 100%;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-.cmshop-stock .cmshop-stock__chips a {
+.cmshop-segmented li,
+.cmshop-chips li {
+	margin: 0;
+}
+
+.cmshop-ui .cmshop-segmented a,
+.cmshop-ui .cmshop-chips a {
 	display: inline-block;
-	padding: 5px 14px;
-	border: 1px solid var(--cmshop-line);
+	padding: 7px 16px;
 	border-radius: 999px;
 	color: inherit;
-	font-size: 0.9em;
-	text-decoration: none;
-	transition: border-color 150ms ease, background-color 150ms ease;
+	font-size: 0.88em;
+	font-weight: 600;
+	text-decoration: none !important; /* Themes and the block editor underline links. */
+	transition: background-color var(--cmshop-fast) ease, color var(--cmshop-fast) ease, box-shadow var(--cmshop-fast) ease;
 }
 
-.cmshop-stock__chips a:hover {
-	border-color: var(--cmshop-accent);
+.cmshop-ui .cmshop-chips a {
+	box-shadow: inset 0 0 0 1px var(--cmshop-line);
 }
 
-.cmshop-stock__chips a:focus-visible {
-	outline: 2px solid var(--cmshop-accent);
-	outline-offset: 2px;
+.cmshop-ui .cmshop-segmented a:hover,
+.cmshop-ui .cmshop-chips a:hover {
+	background: var(--cmshop-soft);
 }
 
-.cmshop-stock__chips a.is-active {
-	border-color: var(--cmshop-accent);
+.cmshop-ui .cmshop-segmented a.is-active,
+.cmshop-ui .cmshop-chips a.is-active {
 	background: var(--cmshop-accent);
-	color: #fff;
+	box-shadow: 0 6px 14px -8px var(--cmshop-accent);
+	color: var(--cmshop-accent-ink);
 }
 
 .cmshop-stock__grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-	gap: 18px;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 22px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
+.cmshop-stock--cols .cmshop-stock__grid {
+	grid-template-columns: repeat(var(--cmshop-columns), minmax(0, 1fr));
+}
+
 .cmshop-stock__card {
 	display: flex;
+	position: relative;
 	flex-direction: column;
 	margin: 0;
 	overflow: hidden;
 	border: 1px solid var(--cmshop-line);
-	border-radius: 12px;
-	transition: box-shadow 150ms ease, transform 150ms ease;
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-card);
+	box-shadow: var(--cmshop-shadow);
+	color: #0f172a;
+	transition: transform 240ms var(--cmshop-ease), box-shadow 240ms ease;
 }
 
 .cmshop-stock__card:hover {
-	box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.45);
-	transform: translateY(-2px);
+	box-shadow: var(--cmshop-shadow-lift);
+	transform: translateY(-4px);
 }
 
-.cmshop-stock__photo {
+.cmshop-stock__media {
 	display: grid;
+	position: relative;
 	place-items: center;
 	aspect-ratio: 1;
-	background: rgba(0, 0, 0, 0.035);
-	color: rgba(0, 0, 0, 0.28);
+	margin: 8px 8px 0;
+	overflow: hidden;
+	border-radius: calc(var(--cmshop-radius) - 6px);
+	background: radial-gradient(circle at 50% 35%, #fff 0%, #f1f5f9 70%, #e2e8f0 100%);
+	color: #94a3b8;
 }
 
-.cmshop-stock__photo img {
+.cmshop-stock__media img {
 	width: 100%;
 	height: 100%;
+	padding: 10%;
 	object-fit: contain;
+	transition: transform 360ms var(--cmshop-ease);
+}
+
+.cmshop-stock__card:hover .cmshop-stock__media img {
+	transform: scale(1.05);
+}
+
+.cmshop-stock__media .cmshop-pill {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background: rgba(255, 255, 255, 0.92);
+	box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+}
+
+.cmshop-stock__media .cmshop-pill--warn {
+	color: var(--cmshop-warn);
 }
 
 .cmshop-stock__body {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	gap: 4px;
-	padding: 14px 16px 16px;
+	gap: 8px;
+	padding: 14px 18px 18px;
 }
 
 .cmshop-stock__body p {
 	margin: 0;
 }
 
-.cmshop-stock__badge {
-	align-self: flex-start;
-	padding: 2px 10px;
-	border-radius: 999px;
-	font-size: 0.75em;
-	font-weight: 600;
-	letter-spacing: 0.02em;
-}
-
-.cmshop-stock__badge--new {
-	background: var(--cmshop-accent-soft);
-	color: #0b6e61;
-}
-
-.cmshop-stock__badge--used {
-	background: #fff4e0;
-	color: #8a4b06;
-}
-
 .cmshop-stock__title {
-	margin: 4px 0 0;
-	font-size: 1.05em;
+	margin: 0;
+	font-size: 1.06em;
+	font-weight: 700;
 	line-height: 1.3;
+	letter-spacing: -0.01em;
 }
 
-.cmshop-stock__options,
-.cmshop-stock__stock {
-	font-size: 0.85em;
-	opacity: 0.75;
+.cmshop-stock__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cmshop-stock__meta li {
+	margin: 0;
+}
+
+.cmshop-swatch {
+	display: block;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: var(--swatch, #cbd5e1);
+	box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.2), 0 0 0 2px #fff;
+}
+
+.cmshop-tag {
+	display: inline-block;
+	padding: 2px 9px;
+	border-radius: 6px;
+	background: #f1f5f9;
+	color: #334155;
+	font-size: 0.78em;
+	font-weight: 600;
+}
+
+.cmshop-stock__foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px 8px;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-top: auto;
+	padding-top: 6px;
 }
 
 .cmshop-stock__price {
-	margin-top: 6px !important;
-	font-size: 1.2em;
-	font-weight: 700;
+	white-space: nowrap;
+	font-size: 1.25em;
+	font-weight: 800;
+	letter-spacing: -0.01em;
 	font-variant-numeric: tabular-nums;
 }
 
-.cmshop-stock a.cmshop-stock__cta {
-	align-self: flex-start;
-	margin-top: auto;
-	padding: 8px 16px;
-	border-radius: 8px;
-	background: var(--cmshop-accent);
-	color: #fff;
+.cmshop-stock__price small {
+	display: inline;
+	margin: 0 4px 0 0;
 	font-weight: 600;
-	text-decoration: none;
 }
 
 .cmshop-stock__stock {
-	margin-bottom: 12px !important;
+	color: #64748b;
+	font-size: 0.8em;
+	white-space: nowrap;
 }
 
-.cmshop-stock a.cmshop-stock__cta:hover,
-.cmshop-stock a.cmshop-stock__cta:focus {
-	background: #0b7d6e;
-	color: #fff;
+.cmshop-stock__stock--low {
+	color: var(--cmshop-warn);
+	font-weight: 700;
 }
 
-.cmshop-stock a.cmshop-stock__cta--call {
-	border: 1px solid var(--cmshop-accent);
-	background: transparent;
-	color: #0b6e61;
+.cmshop-ui .cmshop-stock__card .cmshop-btn {
+	width: 100%;
+	margin-top: 4px;
+}
+
+/* Whole card is clickable when it links to the product. */
+.cmshop-stock__card .cmshop-stock__link::after {
+	position: absolute;
+	inset: 0;
+	content: "";
 }
 
 .cmshop-stock__pages {
 	display: flex;
-	gap: 16px;
+	gap: 14px;
 	justify-content: center;
 	align-items: center;
-	margin-top: 24px;
+	margin-top: 30px;
+	color: var(--cmshop-muted);
+	font-size: 0.9em;
 }
 
-.cmshop-stock__empty {
-	padding: 24px;
+.cmshop-empty {
+	padding: 40px 24px;
 	border: 1px dashed var(--cmshop-line);
-	border-radius: 12px;
+	border-radius: var(--cmshop-radius);
+	color: var(--cmshop-muted);
 	text-align: center;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.cmshop-stock__card,
-	.cmshop-stock__chips a {
-		transition: none;
+/* ---------- WooCommerce product page ---------- */
+
+.cmshop-condition {
+	font-weight: 600;
+}
+
+/* ---------- Motion and small screens ---------- */
+
+@keyframes cmshop-rise {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
 	}
 
-	.cmshop-stock__card:hover {
+	to {
+		opacity: 1;
 		transform: none;
 	}
 }
 
-@media (max-width: 480px) {
-	.cmshop-booking__row,
-	.cmshop-tracker__form--single {
-		grid-template-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-ui *,
+	.cmshop-ui *::before,
+	.cmshop-ui *::after {
+		animation: none !important;
+		transition: none !important;
 	}
 
-	.cmshop-stock__grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 10px;
-	}
-
-	.cmshop-stock__body {
-		padding: 10px 12px 12px;
+	.cmshop-stock__card:hover,
+	.cmshop-stock__card:hover .cmshop-stock__media img {
+		transform: none;
 	}
 }
 
-@media (max-width: 480px) {
-	.cmshop-tracker__form {
+@media (max-width: 782px) {
+	.cmshop-stock--cols .cmshop-stock__grid {
+		grid-template-columns: repeat(min(var(--cmshop-columns), 2), minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 560px) {
+	.cmshop-lookup__form,
+	.cmshop-lookup__form--single,
+	.cmshop-booking__grid {
 		grid-template-columns: 1fr;
 	}
 
-	.cmshop-tracker__steps {
+	.cmshop-lookup__form small {
+		position: static;
+	}
+
+	.cmshop-steps {
 		grid-auto-flow: row;
+		gap: 4px;
+	}
+
+	.cmshop-steps li {
+		padding: 4px 0 4px 40px;
 		text-align: left;
+	}
+
+	.cmshop-steps li::before {
+		top: 2px;
+		left: 13px;
+	}
+
+	.cmshop-steps li::after {
+		top: auto;
+		right: auto;
+		bottom: 50%;
+		left: 12px;
+		width: 2px;
+		height: 100%;
+	}
+
+	.cmshop-stock__grid,
+	.cmshop-stock--cols .cmshop-stock__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.cmshop-stock__body {
+		padding: 10px 12px 14px;
+	}
+
+	.cmshop-stock__foot {
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.cmshop-stock__filters {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.cmshop-chips {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: none;
 	}
 }

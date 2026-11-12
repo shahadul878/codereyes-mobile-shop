@@ -19,6 +19,9 @@ defined( 'ABSPATH' ) || exit;
  *   condition all (default), new or used
  *   per_page  cards per page, 1-48 (default 12)
  *   filters   yes (default) or no
+ *   columns   1-6 (default: as many as fit)
+ *   accent    hex colour, e.g. #7c3aed
+ *   radius    corner radius in px, 0-32
  */
 final class Cmshop_Stock_Shortcode {
 
@@ -61,7 +64,9 @@ final class Cmshop_Stock_Shortcode {
 	public function render( $atts ): string {
 		wp_enqueue_style( 'cmshop-frontend' );
 
-		$options   = $this->options( is_array( $atts ) ? $atts : array() );
+		$atts      = is_array( $atts ) ? $atts : array();
+		$options   = $this->options( $atts );
+		$style     = Cmshop_Style::css_vars( $atts );
 		$condition = $options['filters'] ? $this->query_choice( 'cmshop_condition', self::CONDITIONS, $options['condition'] ) : $options['condition'];
 		$rows      = $this->items->public_stock( 'all' === $options['type'] ? '' : $options['type'], 'all' === $condition ? '' : $condition );
 		$brands    = $this->brands( $rows );
@@ -81,6 +86,8 @@ final class Cmshop_Stock_Shortcode {
 			'shop_phone'  => (string) Cmshop_Settings::get( 'shop_phone' ),
 			'type'        => $options['type'],
 			'form_action' => remove_query_arg( array( 'cmshop_brand', 'cmshop_condition', 'cmshop_pg' ) ),
+			'style'       => $style,
+			'has_columns' => false !== strpos( $style, '--cmshop-columns' ),
 		);
 
 		ob_start();

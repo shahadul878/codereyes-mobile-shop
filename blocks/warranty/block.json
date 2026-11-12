@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "codereyes-mobile-shop/warranty",
+	"title": "Warranty Check",
+	"category": "codereyes-mobile-shop",
+	"icon": "shield",
+	"description": "Customers enter an IMEI to see when they bought the phone and whether it is still under warranty.",
+	"keywords": [
+		"warranty",
+		"imei",
+		"guarantee"
+	],
+	"textdomain": "codereyes-mobile-shop",
+	"attributes": {
+		"accentColor": {
+			"type": "string",
+			"default": ""
+		},
+		"cornerRadius": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"multiple": true
+	},
+	"editorScript": "cmshop-blocks",
+	"style": "cmshop-frontend"
+}

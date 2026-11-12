@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "codereyes-mobile-shop/repair-request",
+	"title": "Book a Repair",
+	"category": "codereyes-mobile-shop",
+	"icon": "hammer",
+	"description": "A form for customers to book a phone repair online. They get a ticket number.",
+	"keywords": [
+		"repair",
+		"booking",
+		"service",
+		"form"
+	],
+	"textdomain": "codereyes-mobile-shop",
+	"attributes": {
+		"accentColor": {
+			"type": "string",
+			"default": ""
+		},
+		"cornerRadius": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"multiple": true
+	},
+	"editorScript": "cmshop-blocks",
+	"style": "cmshop-frontend"
+}

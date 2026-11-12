@@ -135,9 +135,10 @@ final class Cmshop_Repair_Request {
 	/**
 	 * Shortcode output.
 	 *
+	 * @param array|string $atts accent, radius.
 	 * @return string
 	 */
-	public function render(): string {
+	public function render( $atts = array() ): string {
 		wp_enqueue_style( 'cmshop-frontend' );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Shows the code from our own redirect; nothing is changed.
@@ -151,6 +152,7 @@ final class Cmshop_Repair_Request {
 				'action'   => self::ACTION,
 				'honeypot' => self::HONEYPOT,
 				'today'    => current_time( 'Y-m-d' ),
+				'style'    => Cmshop_Style::css_vars( is_array( $atts ) ? $atts : array() ),
 			)
 		);
 

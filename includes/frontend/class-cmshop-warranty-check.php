@@ -47,12 +47,14 @@ final class Cmshop_Warranty_Check {
 	/**
 	 * Shortcode output.
 	 *
+	 * @param array|string $atts accent, radius.
 	 * @return string
 	 */
-	public function render(): string {
+	public function render( $atts = array() ): string {
 		wp_enqueue_style( 'cmshop-frontend' );
 
 		$outcome = $this->lookup();
+		$style   = Cmshop_Style::css_vars( is_array( $atts ) ? $atts : array() );
 
 		ob_start();
 		include CMSHOP_DIR . 'views/frontend/warranty.php';

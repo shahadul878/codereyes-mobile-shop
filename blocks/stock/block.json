@@ -1,0 +1,70 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "codereyes-mobile-shop/stock",
+	"title": "Phones in Stock",
+	"category": "codereyes-mobile-shop",
+	"icon": "smartphone",
+	"description": "Phones (or accessories) in your shop now, with photos, prices, colours and brand filters.",
+	"keywords": [
+		"phones",
+		"stock",
+		"shop",
+		"mobile",
+		"inventory"
+	],
+	"textdomain": "codereyes-mobile-shop",
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "phone",
+			"enum": [
+				"phone",
+				"accessory",
+				"all"
+			]
+		},
+		"brand": {
+			"type": "string",
+			"default": ""
+		},
+		"condition": {
+			"type": "string",
+			"default": "all",
+			"enum": [
+				"all",
+				"new",
+				"used"
+			]
+		},
+		"perPage": {
+			"type": "number",
+			"default": 12
+		},
+		"filters": {
+			"type": "boolean",
+			"default": true
+		},
+		"columns": {
+			"type": "number",
+			"default": 0
+		},
+		"accentColor": {
+			"type": "string",
+			"default": ""
+		},
+		"cornerRadius": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"multiple": true
+	},
+	"editorScript": "cmshop-blocks",
+	"style": "cmshop-frontend"
+}

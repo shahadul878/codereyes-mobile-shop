@@ -88,12 +88,18 @@ final class StockCardsTest extends TestCase {
 		$cards = Cmshop_Stock_Cards::build(
 			array(
 				$this->row( 1 ),
-				$this->row( 5, array( 'grade' => 'fair', 'name' => 'Old iPhone' ) ),
+				$this->row( 5, array( 'grade' => 'fair', 'brand' => 'Apple', 'model' => 'iPhone 11' ) ),
 				$this->row( 9, array( 'color' => 'Blue' ) ),
 			)
 		);
 
-		$this->assertSame( array( 'Samsung Galaxy A15', 'Old iPhone' ), array_column( $cards, 'title' ) );
+		$this->assertSame( array( 'Samsung Galaxy A15', 'Apple iPhone 11' ), array_column( $cards, 'title' ) );
+	}
+
+	public function test_accessories_keep_their_own_name(): void {
+		$cards = Cmshop_Stock_Cards::build( array( $this->row( 1, array( 'item_type' => 'accessory', 'name' => '20W charger', 'model' => '' ) ) ) );
+
+		$this->assertSame( '20W charger', $cards[0]['title'] );
 	}
 
 	public function test_card_uses_first_photo_and_website_link_found(): void {

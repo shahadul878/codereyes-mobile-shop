@@ -1,10 +1,10 @@
 === Codereyes Mobile Shop ===
 Contributors: codereyes
-Tags: mobile shop, pos, imei, phone repair, inventory
+Tags: mobile shop, pos, imei, phone repair, elementor
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +40,9 @@ Codereyes Mobile Shop is a complete back office for mobile phone shops that sell
 * Customers check progress on your website with the `[cmshop_repair_status]` shortcode, using their ticket code and the last 4 digits of their phone number.
 * Customers can book a repair online with `[cmshop_repair_request]`. The job appears as "Booked online" with a ticket code, you get an email, and the customer gets the code by email too. Spam protection: a hidden trap field and a limit of 5 bookings an hour per visitor.
 
-**On your website (shortcodes)**
+**On your website: blocks, Elementor widgets and shortcodes**
+
+Every website part is available three ways: as a block in the block editor (in the "Mobile Shop" category), as an Elementor widget (in the "Mobile Shop" category), and as a shortcode. Blocks and widgets let you set the accent colour and corner radius; Elementor widgets also set card colours and heading typography.
 
 * `[cmshop_stock]` shows the phones in your shop now: photo, price, new or used (with battery health), colours and storage, with brand and new/used filters. New phones of one model share one card. Cost prices and IMEIs are never shown. Options: `type="phone|accessory|all"`, `brand="Samsung"`, `condition="new|used"`, `per_page="12"`, `filters="no"`.
 * `[cmshop_warranty]` lets a customer enter an IMEI to see when they bought the phone from you and whether it is still under warranty. Set the warranty for new and used phones in Settings. The buyer's name and the price are never shown.
@@ -117,6 +119,13 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 
 == Changelog ==
 
+= 1.2.0 =
+* New: Gutenberg blocks for Phones in Stock, Warranty Check, Book a Repair and Repair Tracker, with live previews and colour, corner and column settings.
+* New: Elementor widgets for the same four parts, with content options and a Style tab (accent, card colours, corner radius, heading typography).
+* New: modern design for the website parts: layered cards, colour swatches, pill filters, progress steps for repairs, and styles that adapt to light and dark themes.
+* New: refreshed admin design across the dashboard, point of sale, stock, sales, repairs, customers and settings.
+* Shortcodes accept accent="#hex" and radius="16" too; [cmshop_stock] also accepts columns="3".
+
 = 1.1.0 =
 * New: `[cmshop_stock]` shortcode, a grid of phones (or accessories) in stock with brand and new/used filters.
 * New: `[cmshop_warranty]` shortcode, a warranty check by IMEI, with warranty length for new and used phones in Settings.
@@ -127,6 +136,9 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 * First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export, item photos and WooCommerce stock and brand sync with one product per model for new phones.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Adds blocks and Elementor widgets, and a modern design for your website and admin.
 
 = 1.1.0 =
 Adds shortcodes for phones in stock, warranty checks and online repair booking.

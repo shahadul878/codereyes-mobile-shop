@@ -35,6 +35,8 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-model-listing.php',
 		'core/class-cmshop-stock-cards.php',
 		'core/class-cmshop-warranty.php',
+		'core/class-cmshop-style.php',
+		'core/class-cmshop-block-atts.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -49,6 +51,8 @@ final class Cmshop_Plugin {
 		'frontend/class-cmshop-stock-shortcode.php',
 		'frontend/class-cmshop-warranty-check.php',
 		'frontend/class-cmshop-repair-request.php',
+		'integrations/class-cmshop-blocks.php',
+		'integrations/class-cmshop-elementor.php',
 	);
 
 	/**
@@ -90,10 +94,14 @@ final class Cmshop_Plugin {
 		Cmshop_Installer::maybe_upgrade();
 
 		( new Cmshop_Rest( self::items(), self::customers(), self::sales_service() ) )->register();
-		( new Cmshop_Repair_Tracker( self::repairs() ) )->register();
-		( new Cmshop_Stock_Shortcode( self::items() ) )->register();
-		( new Cmshop_Warranty_Check( self::sales() ) )->register();
-		( new Cmshop_Repair_Request( self::repairs(), self::customers() ) )->register();
+		add_action( 'init', array( self::class, 'register_frontend_style' ), 5 );
+
+		foreach ( self::website_parts() as $part ) {
+			$part->register();
+		}
+
+		( new Cmshop_Blocks() )->register();
+		( new Cmshop_Elementor() )->register();
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			self::load( array( 'woo/class-cmshop-woo-brands.php', 'woo/class-cmshop-woo-models.php', 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );
@@ -228,6 +236,45 @@ final class Cmshop_Plugin {
 				return new Cmshop_Woo_Products( self::items(), self::woo_models() );
 			}
 		);
+	}
+
+	/**
+	 * The website parts (shortcodes, also used by blocks and Elementor widgets), keyed by name.
+	 *
+	 * @return array{stock: Cmshop_Stock_Shortcode, warranty: Cmshop_Warranty_Check, repair_request: Cmshop_Repair_Request, repair_status: Cmshop_Repair_Tracker}
+	 */
+	public static function website_parts(): array {
+		return self::service(
+			'website_parts',
+			static function () {
+				return array(
+					'stock'          => new Cmshop_Stock_Shortcode( self::items() ),
+					'warranty'       => new Cmshop_Warranty_Check( self::sales() ),
+					'repair_request' => new Cmshop_Repair_Request( self::repairs(), self::customers() ),
+					'repair_status'  => new Cmshop_Repair_Tracker( self::repairs() ),
+				);
+			}
+		);
+	}
+
+	/**
+	 * Output of one website part.
+	 *
+	 * @param string $name  stock|warranty|repair_request|repair_status.
+	 * @param array  $atts  Shortcode-style attributes.
+	 * @return string
+	 */
+	public static function render_part( string $name, array $atts ): string {
+		$parts = self::website_parts();
+
+		return isset( $parts[ $name ] ) ? $parts[ $name ]->render( $atts ) : '';
+	}
+
+	/**
+	 * Register the website stylesheet early, so blocks and widgets can depend on it.
+	 */
+	public static function register_frontend_style(): void {
+		wp_register_style( 'cmshop-frontend', CMSHOP_URL . 'assets/css/frontend.css', array(), CMSHOP_VERSION );
 	}
 
 	/**

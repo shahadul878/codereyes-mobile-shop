@@ -76,11 +76,13 @@ final class Cmshop_Stock_Cards {
 	 * @return array
 	 */
 	private static function start( array $row, bool $grouped ): array {
-		$price = (string) $row['sale_price'];
+		$price    = (string) $row['sale_price'];
+		$is_phone = Cmshop_Item::TYPE_PHONE === $row['item_type'] && '' !== trim( (string) $row['model'] );
 
 		return array(
 			'kind'           => $grouped ? 'model' : 'item',
-			'title'          => $grouped ? Cmshop_Model_Listing::title( $row ) : (string) $row['name'],
+			// Phones are titled by brand and model; storage and colour show as tags.
+			'title'          => $is_phone ? Cmshop_Model_Listing::title( $row ) : (string) $row['name'],
 			'brand'          => trim( (string) $row['brand'] ),
 			'item_type'      => (string) $row['item_type'],
 			'grade'          => (string) $row['grade'],

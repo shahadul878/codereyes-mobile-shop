@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "codereyes-mobile-shop/repair-status",
+	"title": "Repair Tracker",
+	"category": "codereyes-mobile-shop",
+	"icon": "search",
+	"description": "Customers check their repair with the ticket number and the last 4 digits of their phone.",
+	"keywords": [
+		"repair",
+		"status",
+		"tracker",
+		"ticket"
+	],
+	"textdomain": "codereyes-mobile-shop",
+	"attributes": {
+		"accentColor": {
+			"type": "string",
+			"default": ""
+		},
+		"cornerRadius": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		],
+		"multiple": true
+	},
+	"editorScript": "cmshop-blocks",
+	"style": "cmshop-frontend"
+}

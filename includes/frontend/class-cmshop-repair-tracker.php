@@ -41,25 +41,19 @@ final class Cmshop_Repair_Tracker {
 	 */
 	public function register(): void {
 		add_shortcode( self::SHORTCODE, array( $this, 'render' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_style' ) );
-	}
-
-	/**
-	 * Register the stylesheet (enqueued only where the shortcode is used).
-	 */
-	public function register_style(): void {
-		wp_register_style( 'cmshop-frontend', CMSHOP_URL . 'assets/css/frontend.css', array(), CMSHOP_VERSION );
 	}
 
 	/**
 	 * Shortcode output.
 	 *
+	 * @param array|string $atts accent, radius.
 	 * @return string
 	 */
-	public function render(): string {
+	public function render( $atts = array() ): string {
 		wp_enqueue_style( 'cmshop-frontend' );
 
 		$outcome = $this->lookup();
+		$style   = Cmshop_Style::css_vars( is_array( $atts ) ? $atts : array() );
 
 		ob_start();
 		include CMSHOP_DIR . 'views/frontend/repair-status.php';
