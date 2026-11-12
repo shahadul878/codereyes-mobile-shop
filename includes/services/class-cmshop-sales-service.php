@@ -25,6 +25,13 @@ final class Cmshop_Sales_Service {
 	public const STOCK_CHANGED = 'cmshop_stock_changed';
 
 	/**
+	 * Payments ledger.
+	 *
+	 * @var Cmshop_Payment_Repository
+	 */
+	private $payments;
+
+	/**
 	 * Items.
 	 *
 	 * @var Cmshop_Item_Repository
@@ -51,8 +58,10 @@ final class Cmshop_Sales_Service {
 	 * @param Cmshop_Item_Repository     $items     Items.
 	 * @param Cmshop_Sale_Repository     $sales     Sales.
 	 * @param Cmshop_Customer_Repository $customers Customers.
+	 * @param Cmshop_Payment_Repository  $payments  Payments ledger.
 	 */
-	public function __construct( Cmshop_Item_Repository $items, Cmshop_Sale_Repository $sales, Cmshop_Customer_Repository $customers ) {
+	public function __construct( Cmshop_Item_Repository $items, Cmshop_Sale_Repository $sales, Cmshop_Customer_Repository $customers, Cmshop_Payment_Repository $payments ) {
+		$this->payments  = $payments;
 		$this->items     = $items;
 		$this->sales     = $sales;
 		$this->customers = $customers;
@@ -69,8 +78,9 @@ final class Cmshop_Sales_Service {
 	 *     @type string $customer_phone Optional, normalised.
 	 *     @type string $customer_email Optional.
 	 *     @type string $discount       Raw amount.
-	 *     @type string $amount_paid    Raw amount; empty = paid in full.
-	 *     @type string $payment_method Key from Cmshop_Settings::payment_methods().
+	 *     @type string $amount_paid    Raw amount; empty = paid in full (single-method sales).
+	 *     @type string $payment_method Key from Cmshop_Settings::payment_methods() (single-method sales).
+	 *     @type array  $payments       Split payment rows [ method, amount, reference ]; overrides the two above.
 	 *     @type string $notes          Notes.
 	 *     @type string $channel        store|online.
 	 *     @type int    $wc_order_id    WooCommerce order.
@@ -87,7 +97,8 @@ final class Cmshop_Sales_Service {
 		$result = $this->sales->transaction(
 			function () use ( $order, $lines, $buyer, $channel, $user_id ) {
 				$items    = $this->items->lock( array_column( $lines, 'item_id' ) );
-				$sale     = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), (string) ( $order['amount_paid'] ?? '' ) );
+				$sale     = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), '' );
+				$paid     = Cmshop_Payments::allocate( $this->payment_rows( $order, $sale['total'] ), Cmshop_Money::to_cents( $sale['total'] ), array_keys( Cmshop_Settings::payment_methods() ) );
 				$customer = isset( $buyer['phone'] ) ? $this->customers->find_or_create( $buyer['name'], $buyer['phone'], $buyer['email'] ) : $buyer;
 
 				$sale_id = $this->sales->insert_with_lines(
@@ -97,11 +108,12 @@ final class Cmshop_Sales_Service {
 						'customer_id'    => (int) ( $customer['id'] ?? 0 ),
 						'customer_name'  => (string) ( $customer['name'] ?? '' ),
 						'customer_phone' => (string) ( $customer['phone'] ?? '' ),
-						'payment_method' => $this->payment_method( (string) ( $order['payment_method'] ?? '' ) ),
+						'payment_method' => Cmshop_Payments::summary_method( $paid['entries'], $this->payment_method( (string) ( $order['payment_method'] ?? '' ) ) ),
 						'subtotal'       => $sale['subtotal'],
 						'discount'       => $sale['discount'],
 						'total'          => $sale['total'],
-						'amount_paid'    => $sale['amount_paid'],
+						// What the customer handed over (receipts show change); the ledger keeps what stayed.
+						'amount_paid'    => Cmshop_Money::from_cents( $paid['paid'] + $paid['change'] ),
 						'cost_total'     => $sale['cost_total'],
 						'profit'         => $sale['profit'],
 						'wc_order_id'    => (int) ( $order['wc_order_id'] ?? 0 ),
@@ -112,6 +124,15 @@ final class Cmshop_Sales_Service {
 				);
 
 				$this->sales->update( $sale_id, array( 'invoice_no' => Cmshop_Code::invoice( (string) Cmshop_Settings::get( 'invoice_prefix' ), $sale_id ) ) );
+				$this->payments->record(
+					$paid['entries'],
+					array(
+						'sale_id'     => $sale_id,
+						'customer_id' => (int) ( $customer['id'] ?? 0 ),
+						'kind'        => Cmshop_Payment_Repository::KIND_SALE,
+						'created_by'  => $user_id,
+					)
+				);
 
 				foreach ( $sale['lines'] as $line ) {
 					$this->items->adjust_quantity( $items[ $line['item_id'] ], -$line['quantity'] );
@@ -152,6 +173,7 @@ final class Cmshop_Sales_Service {
 				}
 
 				$this->sales->update( $sale_id, array( 'status' => Cmshop_Sale_Repository::STATUS_VOID ) );
+				$this->refund_all( $sale );
 
 				return array_map( 'intval', array_column( $lines, 'item_id' ) );
 			}
@@ -193,6 +215,58 @@ final class Cmshop_Sales_Service {
 			'name'  => '' === $name ? $phone : $name,
 			'phone' => $phone,
 			'email' => $email,
+		);
+	}
+
+	/**
+	 * Payment rows from the order: split rows, or one row for a single method.
+	 *
+	 * @param array  $order Order.
+	 * @param string $total Sale total.
+	 * @return array[]
+	 */
+	private function payment_rows( array $order, string $total ): array {
+		if ( isset( $order['payments'] ) && is_array( $order['payments'] ) ) {
+			return array_values( array_filter( $order['payments'], 'is_array' ) );
+		}
+
+		$amount = trim( (string) ( $order['amount_paid'] ?? '' ) );
+
+		return array(
+			array(
+				'method' => $this->payment_method( (string) ( $order['payment_method'] ?? '' ) ),
+				'amount' => '' === $amount ? $total : $amount,
+			),
+		);
+	}
+
+	/**
+	 * Give back everything still held for a voided sale, method by method.
+	 *
+	 * @param array $sale Sale row.
+	 */
+	private function refund_all( array $sale ): void {
+		$entries = array();
+
+		foreach ( $this->payments->net_by_method( (int) $sale['id'] ) as $method => $amount ) {
+			$cents = Cmshop_Money::to_cents( (string) $amount );
+
+			if ( $cents > 0 ) {
+				$entries[] = array(
+					'method' => (string) $method,
+					'amount' => Cmshop_Money::from_cents( -$cents ),
+				);
+			}
+		}
+
+		$this->payments->record(
+			$entries,
+			array(
+				'sale_id'     => (int) $sale['id'],
+				'customer_id' => (int) $sale['customer_id'],
+				'kind'        => Cmshop_Payment_Repository::KIND_REFUND,
+				'created_by'  => get_current_user_id(),
+			)
 		);
 	}
 

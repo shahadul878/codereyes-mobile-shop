@@ -66,7 +66,7 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 					Cmshop_Sale_Repository::CHANNEL_ONLINE => __( 'Online', 'codereyes-mobile-shop' ),
 				),
 			),
-			'payment_method' => array( __( 'Payment', 'codereyes-mobile-shop' ), Cmshop_Settings::payment_methods() ),
+			'payment_method' => array( __( 'Payment', 'codereyes-mobile-shop' ), Cmshop_Settings::payment_labels() ),
 			'status'         => array(
 				__( 'Status', 'codereyes-mobile-shop' ),
 				array(
@@ -141,7 +141,7 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	 * @return string
 	 */
 	protected function column_payment_method( $item ): string {
-		return esc_html( Cmshop_Item::label( Cmshop_Settings::payment_methods(), (string) $item['payment_method'] ) );
+		return esc_html( Cmshop_Item::label( Cmshop_Settings::payment_labels(), (string) $item['payment_method'] ) );
 	}
 
 	/**

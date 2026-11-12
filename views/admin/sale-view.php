@@ -14,7 +14,7 @@ $cmshop_format   = $cmshop['format'];
 $cmshop_settings = Cmshop_Settings::all();
 $cmshop_is_void  = 'void' === $cmshop_sale['status'];
 $cmshop_balance  = Cmshop_Money::to_cents( (string) $cmshop_sale['total'] ) - Cmshop_Money::to_cents( (string) $cmshop_sale['amount_paid'] );
-$cmshop_payment  = Cmshop_Item::label( Cmshop_Settings::payment_methods(), (string) $cmshop_sale['payment_method'] );
+$cmshop_payment  = Cmshop_Item::label( Cmshop_Settings::payment_labels(), (string) $cmshop_sale['payment_method'] );
 $cmshop_order    = null;
 
 if ( (int) $cmshop_sale['wc_order_id'] > 0 && function_exists( 'wc_get_order' ) ) {
@@ -32,7 +32,33 @@ if ( Cmshop_Money::to_cents( (string) $cmshop_sale['discount'] ) > 0 ) {
 }
 
 $cmshop_totals[] = array( __( 'Total', 'codereyes-mobile-shop' ), Cmshop_Settings::money( (string) $cmshop_sale['total'] ), 'is-total' );
-$cmshop_totals[] = array( __( 'Paid', 'codereyes-mobile-shop' ), Cmshop_Settings::money( (string) $cmshop_sale['amount_paid'] ), '' );
+$cmshop_paid_in  = array_values(
+	array_filter(
+		Cmshop_Plugin::payments()->for_sale( (int) $cmshop_sale['id'] ),
+		static function ( array $payment ): bool {
+			return Cmshop_Payment_Repository::KIND_SALE === $payment['kind'];
+		}
+	)
+);
+
+if ( count( $cmshop_paid_in ) > 1 ) {
+	// Split payment: one line per method. Cash shows what was handed over (change is added back).
+	$cmshop_change = max( 0, -$cmshop_balance );
+
+	foreach ( $cmshop_paid_in as $cmshop_payment_row ) {
+		$cmshop_cents    = Cmshop_Money::to_cents( (string) $cmshop_payment_row['amount'] ) + ( 'cash' === $cmshop_payment_row['method'] ? $cmshop_change : 0 );
+		$cmshop_label    = Cmshop_Item::label( Cmshop_Settings::payment_labels(), (string) $cmshop_payment_row['method'] );
+		$cmshop_label   .= '' !== (string) $cmshop_payment_row['reference'] ? ' (' . $cmshop_payment_row['reference'] . ')' : '';
+		$cmshop_totals[] = array(
+			/* translators: %s: payment method, e.g. "bKash (TRX123)". */
+			sprintf( __( 'Paid · %s', 'codereyes-mobile-shop' ), $cmshop_label ),
+			Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_cents ) ),
+			'',
+		);
+	}
+} else {
+	$cmshop_totals[] = array( __( 'Paid', 'codereyes-mobile-shop' ), Cmshop_Settings::money( (string) $cmshop_sale['amount_paid'] ), '' );
+}
 
 if ( $cmshop_balance > 0 ) {
 	$cmshop_totals[] = array( __( 'Balance due', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_balance ) ), 'is-due' );

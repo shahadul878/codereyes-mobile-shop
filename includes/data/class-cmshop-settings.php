@@ -59,6 +59,15 @@ final class Cmshop_Settings {
 	}
 
 	/**
+	 * Labels for every payment method a sale can show, including split payments.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function payment_labels(): array {
+		return array_merge( self::payment_methods(), array( Cmshop_Payments::SPLIT => __( 'Split payment', 'codereyes-mobile-shop' ) ) );
+	}
+
+	/**
 	 * All settings merged over the defaults.
 	 *
 	 * @return array

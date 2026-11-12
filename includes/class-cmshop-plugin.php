@@ -37,6 +37,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-warranty.php',
 		'core/class-cmshop-style.php',
 		'core/class-cmshop-block-atts.php',
+		'core/class-cmshop-payments.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -44,6 +45,8 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-customer-repository.php',
 		'data/class-cmshop-sale-repository.php',
 		'data/class-cmshop-repair-repository.php',
+		'data/class-cmshop-payment-repository.php',
+		'data/class-cmshop-migrations.php',
 		'services/class-cmshop-sales-service.php',
 		'class-cmshop-rest.php',
 		'frontend/class-cmshop-rate-limit.php',
@@ -215,7 +218,7 @@ final class Cmshop_Plugin {
 		return self::service(
 			'sales_service',
 			static function () {
-				return new Cmshop_Sales_Service( self::items(), self::sales(), self::customers() );
+				return new Cmshop_Sales_Service( self::items(), self::sales(), self::customers(), self::payments() );
 			}
 		);
 	}
@@ -234,6 +237,24 @@ final class Cmshop_Plugin {
 			'woo_products',
 			static function () {
 				return new Cmshop_Woo_Products( self::items(), self::woo_models() );
+			}
+		);
+	}
+
+	/**
+	 * Payments ledger.
+	 *
+	 * @return Cmshop_Payment_Repository
+	 */
+	public static function payments(): Cmshop_Payment_Repository {
+		return self::service(
+			'payments',
+			static function ( wpdb $db ) {
+				return new Cmshop_Payment_Repository(
+					$db,
+					Cmshop_Installer::table( 'payments' ),
+					new Cmshop_Query( array( 'reference', 'note' ), array( 'kind', 'method', 'sale_id', 'customer_id', 'shift_id' ), array( 'created_at', 'amount' ), 'created_at' )
+				);
 			}
 		);
 	}

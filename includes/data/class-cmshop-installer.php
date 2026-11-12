@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Installer {
 
-	public const DB_VERSION     = '1.1.0';
+	public const DB_VERSION     = '1.2.0';
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
@@ -27,21 +27,27 @@ final class Cmshop_Installer {
 	/**
 	 * Table suffixes.
 	 */
-	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs' );
+	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments' );
 
 	/**
 	 * Activation hook.
 	 */
 	public static function activate(): void {
+		$installed = (string) get_option( self::OPTION, '' );
+
 		self::install();
+		Cmshop_Migrations::run( $installed );
 	}
 
 	/**
 	 * Install when the stored schema version is behind (also covers new multisite sites).
 	 */
 	public static function maybe_upgrade(): void {
-		if ( self::DB_VERSION !== get_option( self::OPTION ) ) {
+		$installed = (string) get_option( self::OPTION, '' );
+
+		if ( self::DB_VERSION !== $installed ) {
 			self::install();
+			Cmshop_Migrations::run( $installed );
 		}
 	}
 
@@ -219,6 +225,23 @@ UNIQUE KEY ticket_code (ticket_code),
 KEY customer_id (customer_id),
 KEY status (status),
 KEY imei (imei)",
+			'payments'   => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+sale_id bigint(20) unsigned NOT NULL DEFAULT 0,
+customer_id bigint(20) unsigned NOT NULL DEFAULT 0,
+shift_id bigint(20) unsigned NOT NULL DEFAULT 0,
+kind varchar(20) NOT NULL DEFAULT 'sale',
+method varchar(30) NOT NULL DEFAULT 'cash',
+amount decimal(12,2) NOT NULL DEFAULT '0.00',
+reference varchar(100) NOT NULL DEFAULT '',
+note varchar(255) NOT NULL DEFAULT '',
+created_by bigint(20) unsigned NOT NULL DEFAULT 0,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY sale_id (sale_id),
+KEY customer_id (customer_id),
+KEY shift_id (shift_id),
+KEY created_at (created_at)",
 		);
 	}
 }
