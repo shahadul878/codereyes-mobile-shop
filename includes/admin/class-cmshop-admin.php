@@ -78,6 +78,7 @@ final class Cmshop_Admin {
 		}
 
 		wp_enqueue_style( 'cmshop-admin', CMSHOP_URL . 'assets/css/admin.css', array(), CMSHOP_VERSION );
+		wp_enqueue_style( 'cmshop-print', CMSHOP_URL . 'assets/css/print.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
 		wp_enqueue_script( 'cmshop-admin', CMSHOP_URL . 'assets/js/admin.js', array(), CMSHOP_VERSION, true );
 
 		if ( false === strpos( $hook, 'cmshop-pos' ) ) {
@@ -179,11 +180,15 @@ final class Cmshop_Admin {
 				return;
 			}
 
+			$customer_id = (int) $sale['customer_id'];
+
 			$this->render(
 				'sale-view',
 				array(
-					'sale'  => $sale,
-					'lines' => Cmshop_Plugin::sales()->lines( (int) $sale['id'] ),
+					'sale'     => $sale,
+					'lines'    => Cmshop_Plugin::sales()->lines( (int) $sale['id'] ),
+					'customer' => $customer_id > 0 ? Cmshop_Plugin::customers()->find( $customer_id ) : null,
+					'format'   => Cmshop_Invoice_Format::resolve( $this->query_key( 'format' ), (string) Cmshop_Settings::get( 'invoice_format' ) ),
 				)
 			);
 			return;
@@ -316,7 +321,17 @@ final class Cmshop_Admin {
 	 * @return string
 	 */
 	private function action(): string {
-		return isset( $_GET['action'] ) ? sanitize_key( wp_unslash( $_GET['action'] ) ) : '';
+		return $this->query_key( 'action' );
+	}
+
+	/**
+	 * A ?key= value from the URL, as a sanitised key.
+	 *
+	 * @param string $name Query arg.
+	 * @return string
+	 */
+	private function query_key( string $name ): string {
+		return isset( $_GET[ $name ] ) ? sanitize_key( wp_unslash( $_GET[ $name ] ) ) : '';
 	}
 
 	/**

@@ -1,0 +1,577 @@
+/* Codereyes Mobile Shop — receipts, A4 invoices, job tickets and print rules */
+
+/* ---------- Format switch and print bar ---------- */
+
+.cmshop-print-bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+	margin: 16px 0 4px;
+}
+
+.cmshop-format-switch {
+	display: inline-flex;
+	padding: 3px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: 999px;
+	background: #f6f7f9;
+}
+
+.cmshop-format-switch a {
+	padding: 6px 16px;
+	border-radius: 999px;
+	color: var(--cmshop-ink-soft);
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color var(--cmshop-fast) ease, color var(--cmshop-fast) ease;
+}
+
+.cmshop-format-switch a:hover {
+	color: var(--cmshop-ink);
+	background: #e9ecf1;
+}
+
+.cmshop-format-switch a:focus-visible {
+	outline: 2px solid var(--cmshop-accent);
+	outline-offset: 1px;
+	box-shadow: none;
+}
+
+.cmshop-format-switch a.is-active {
+	background: var(--cmshop-ink);
+	color: #fff;
+	box-shadow: 0 2px 6px -2px rgba(20, 33, 61, 0.6);
+}
+
+/* ---------- Thermal receipt and job ticket ---------- */
+
+.cmshop-receipt {
+	position: relative;
+	max-width: 380px;
+	margin: 20px 0;
+	padding: 24px 22px;
+	border: 1px solid var(--cmshop-line);
+	background: var(--cmshop-paper);
+	box-shadow: 0 12px 28px -20px rgba(20, 33, 61, 0.6);
+	font-family: var(--cmshop-mono);
+	font-size: 13px;
+}
+
+.cmshop-receipt::after {
+	position: absolute;
+	right: 0;
+	bottom: -8px;
+	left: 0;
+	height: 8px;
+	background: linear-gradient(-45deg, transparent 6px, var(--cmshop-paper) 0) 0 0 / 12px 8px repeat-x, linear-gradient(45deg, transparent 6px, var(--cmshop-paper) 0) 0 0 / 12px 8px repeat-x;
+	content: "";
+}
+
+.cmshop-receipt__head {
+	margin-bottom: 12px;
+	padding-bottom: 12px;
+	border-bottom: 1px dashed #999;
+	text-align: center;
+}
+
+.cmshop-receipt__head h2 {
+	margin: 0 0 4px;
+	font-family: inherit;
+	font-size: 17px;
+	text-transform: uppercase;
+}
+
+.cmshop-receipt__head p {
+	margin: 2px 0;
+}
+
+.cmshop-receipt__meta {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 2px 10px;
+	margin: 0 0 12px;
+}
+
+.cmshop-receipt__meta dt {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-receipt__meta dd {
+	margin: 0;
+	word-break: break-word;
+}
+
+.cmshop-receipt__lines {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cmshop-receipt__lines th,
+.cmshop-receipt__lines td {
+	padding: 4px 0;
+	vertical-align: top;
+	text-align: left;
+}
+
+.cmshop-receipt__lines .num {
+	padding-left: 8px;
+	text-align: right;
+}
+
+.cmshop-receipt__lines thead th {
+	border-bottom: 1px dashed #999;
+}
+
+.cmshop-receipt__lines tfoot tr:first-child th,
+.cmshop-receipt__lines tfoot tr:first-child td {
+	padding-top: 8px;
+	border-top: 1px dashed #999;
+}
+
+.cmshop-receipt__lines tfoot th {
+	font-weight: 400;
+	text-align: right;
+}
+
+.cmshop-receipt__lines .is-total th,
+.cmshop-receipt__lines .is-total td {
+	font-size: 16px;
+	font-weight: 700 !important;
+}
+
+.cmshop-receipt__lines .is-due td,
+.cmshop-receipt__lines .is-due th {
+	font-weight: 700 !important;
+}
+
+.cmshop-receipt__foot {
+	margin-top: 14px;
+	padding-top: 10px;
+	border-top: 1px dashed #999;
+	text-align: center;
+}
+
+.cmshop-receipt__void {
+	margin: 8px 0;
+	border: 3px double var(--cmshop-danger);
+	color: var(--cmshop-danger);
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 0.3em;
+	text-align: center;
+}
+
+.cmshop-receipt.is-void .cmshop-receipt__lines {
+	opacity: 0.6;
+}
+
+.cmshop-ticket__copy {
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.cmshop-ticket__code {
+	margin: 4px 0 14px;
+	padding: 10px;
+	border: 2px solid var(--cmshop-ink);
+	font-size: 26px;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-align: center;
+}
+
+.cmshop-ticket__track {
+	font-weight: 700;
+}
+
+.cmshop-ticket__sign {
+	margin-top: 40px;
+	padding-top: 6px;
+	border-top: 1px solid #333;
+}
+
+.cmshop-receipt__item td {
+	padding-bottom: 0;
+}
+
+.cmshop-receipt__qty td {
+	padding-top: 1px;
+	white-space: nowrap;
+}
+
+.cmshop-receipt__qty td:first-child {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-receipt--58 {
+	max-width: 280px;
+	padding: 18px 14px;
+	font-size: 11.5px;
+}
+
+.cmshop-receipt--58 .cmshop-receipt__head h2 {
+	font-size: 14px;
+}
+
+.cmshop-receipt--58 .cmshop-receipt__lines .is-total th,
+.cmshop-receipt--58 .cmshop-receipt__lines .is-total td {
+	font-size: 13px;
+}
+
+/* ---------- A4 invoice ---------- */
+
+.cmshop-invoice {
+	position: relative;
+	box-sizing: border-box;
+	max-width: 210mm;
+	margin: 20px 0;
+	padding: 44px 48px 40px;
+	overflow: hidden;
+	border-top: 6px solid var(--cmshop-accent);
+	background: var(--cmshop-paper);
+	box-shadow: 0 1px 0 var(--cmshop-line), 0 18px 40px -24px rgba(20, 33, 61, 0.55);
+	color: #1d2327;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.cmshop-invoice h2,
+.cmshop-invoice h3,
+.cmshop-invoice p {
+	margin: 0;
+}
+
+.cmshop-invoice__head {
+	display: flex;
+	gap: 24px;
+	justify-content: space-between;
+	padding-bottom: 24px;
+	border-bottom: 1px solid var(--cmshop-line);
+}
+
+.cmshop-invoice__shop h2 {
+	margin-bottom: 6px;
+	color: var(--cmshop-ink);
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+.cmshop-invoice__shop p {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-invoice__title {
+	text-align: right;
+}
+
+.cmshop-invoice__kicker {
+	color: var(--cmshop-accent);
+	font-size: 28px;
+	font-weight: 300;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+}
+
+.cmshop-invoice__number {
+	color: var(--cmshop-ink);
+	font-family: var(--cmshop-mono);
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.cmshop-invoice__parties {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 24px;
+	padding: 24px 0;
+}
+
+.cmshop-invoice h3 {
+	margin-bottom: 6px;
+	color: var(--cmshop-muted);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.cmshop-invoice__name {
+	color: var(--cmshop-ink);
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.cmshop-invoice__meta {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 4px 18px;
+	align-content: start;
+	margin: 0;
+}
+
+.cmshop-invoice__meta dt {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-invoice__meta dd {
+	margin: 0;
+	font-weight: 600;
+	text-align: right;
+}
+
+.cmshop-invoice__lines {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cmshop-invoice__lines th {
+	padding: 8px 10px;
+	border-bottom: 2px solid var(--cmshop-ink);
+	color: var(--cmshop-ink);
+	font-size: 11px;
+	letter-spacing: 0.08em;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+.cmshop-invoice__lines td {
+	padding: 10px;
+	border-bottom: 1px solid var(--cmshop-line);
+	vertical-align: top;
+}
+
+.cmshop-invoice__lines .num,
+.cmshop-invoice__totals .num {
+	text-align: right;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-invoice__no {
+	width: 28px;
+	color: var(--cmshop-muted);
+}
+
+.cmshop-invoice__imei {
+	display: block;
+	color: var(--cmshop-muted);
+	font-family: var(--cmshop-mono);
+	font-size: 12px;
+}
+
+.cmshop-invoice__summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+	gap: 32px;
+	padding-top: 20px;
+}
+
+.cmshop-invoice__note p {
+	color: var(--cmshop-ink-soft);
+}
+
+.cmshop-invoice__totals {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cmshop-invoice__totals th,
+.cmshop-invoice__totals td {
+	padding: 6px 12px;
+}
+
+.cmshop-invoice__totals th {
+	color: var(--cmshop-ink-soft);
+	font-weight: 400;
+	text-align: left;
+}
+
+.cmshop-invoice__totals .is-total th,
+.cmshop-invoice__totals .is-total td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: var(--cmshop-ink);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+
+.cmshop-invoice__totals .is-due th,
+.cmshop-invoice__totals .is-due td {
+	color: var(--cmshop-warn);
+	font-weight: 700;
+}
+
+.cmshop-invoice__sign {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 220px));
+	justify-content: space-between;
+	margin-top: 72px;
+}
+
+.cmshop-invoice__sign p {
+	padding-top: 6px;
+	border-top: 1px solid #50575e;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	text-align: center;
+}
+
+.cmshop-invoice__void {
+	position: absolute;
+	top: 42%;
+	left: 50%;
+	padding: 4px 28px;
+	border: 6px double var(--cmshop-danger);
+	color: var(--cmshop-danger);
+	font-size: 72px;
+	font-weight: 800;
+	letter-spacing: 0.2em;
+	opacity: 0.22;
+	pointer-events: none;
+	transform: translate(-50%, -50%) rotate(-18deg);
+}
+
+@media (max-width: 600px) {
+	.cmshop-invoice {
+		padding: 24px 18px;
+		font-size: 12px;
+	}
+
+	.cmshop-invoice__head,
+	.cmshop-invoice__parties,
+	.cmshop-invoice__summary {
+		display: block;
+	}
+
+	.cmshop-invoice__title {
+		margin-top: 12px;
+		text-align: left;
+	}
+
+	.cmshop-invoice__meta {
+		margin-top: 16px;
+	}
+
+	.cmshop-invoice__meta dd {
+		text-align: left;
+	}
+
+	.cmshop-invoice__lines th,
+	.cmshop-invoice__lines td {
+		padding-right: 4px;
+		padding-left: 4px;
+	}
+
+	.cmshop-invoice__no {
+		display: none;
+	}
+
+	.cmshop-invoice__totals {
+		margin-top: 16px;
+	}
+
+	.cmshop-invoice__void {
+		font-size: 44px;
+	}
+}
+
+/* ---------- Print: only the receipt, invoice or ticket ---------- */
+
+@page cmshop-thermal {
+	margin: 0;
+}
+
+@page cmshop-a4 {
+	size: A4 portrait;
+	margin: 12mm;
+}
+
+@media print {
+	#adminmenumain,
+	#wpadminbar,
+	#wpfooter,
+	.cmshop-no-print,
+	.notice,
+	#screen-meta,
+	#screen-meta-links {
+		display: none !important;
+	}
+
+	#wpcontent,
+	#wpbody-content {
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	html.wp-toolbar {
+		padding-top: 0 !important;
+	}
+
+	.cmshop-wrap {
+		margin: 0;
+	}
+
+	/* Printable width of the roll: 72 mm on 80 mm paper, 48 mm on 58 mm. */
+	.cmshop-receipt {
+		page: cmshop-thermal;
+		box-sizing: border-box;
+		width: 72mm;
+		max-width: none;
+		margin: 0 0 12mm;
+		padding: 2mm 0 4mm;
+		border: 0;
+		box-shadow: none;
+		color: #000;
+		font-size: 12px;
+		break-inside: avoid;
+	}
+
+	.cmshop-receipt--58 {
+		width: 48mm;
+		font-size: 10px;
+	}
+
+	.cmshop-receipt--58 .cmshop-receipt__lines .num {
+		padding-left: 4px;
+	}
+
+	.cmshop-receipt__meta dt,
+	.cmshop-receipt__qty td:first-child {
+		color: #000;
+	}
+
+	.cmshop-receipt::after {
+		display: none;
+	}
+
+	.cmshop-invoice {
+		page: cmshop-a4;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+		border-top: 0;
+		box-shadow: none;
+	}
+
+	.cmshop-invoice__lines tr,
+	.cmshop-invoice__summary,
+	.cmshop-invoice__sign {
+		break-inside: avoid;
+	}
+
+	.cmshop-invoice__lines thead {
+		display: table-header-group;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-format-switch a {
+		transition: none;
+	}
+}

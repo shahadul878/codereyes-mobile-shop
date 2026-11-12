@@ -46,6 +46,33 @@ $cmshop_name = static function ( string $key ): string {
 			</tr>
 		</table>
 
+		<h2><?php esc_html_e( 'Receipts and invoices', 'codereyes-mobile-shop' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Default print format', 'codereyes-mobile-shop' ); ?></th>
+				<td>
+					<fieldset>
+						<legend class="screen-reader-text"><?php esc_html_e( 'Default print format', 'codereyes-mobile-shop' ); ?></legend>
+						<?php foreach ( Cmshop_Invoice_Format::all() as $cmshop_format => $cmshop_format_label ) : ?>
+							<label><input type="radio" name="<?php echo esc_attr( $cmshop_name( 'invoice_format' ) ); ?>" value="<?php echo esc_attr( $cmshop_format ); ?>" <?php checked( $cmshop_format, (string) $cmshop_s['invoice_format'] ); ?>> <?php echo esc_html( $cmshop_format_label ); ?></label><br>
+						<?php endforeach; ?>
+					</fieldset>
+					<p class="description"><?php esc_html_e( 'Shown first after a sale. You can switch to the other format on any sale before printing.', 'codereyes-mobile-shop' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="cmshop-thermal-width"><?php esc_html_e( 'Thermal paper width', 'codereyes-mobile-shop' ); ?></label></th>
+				<td>
+					<select id="cmshop-thermal-width" name="<?php echo esc_attr( $cmshop_name( 'thermal_width' ) ); ?>">
+						<?php foreach ( Cmshop_Invoice_Format::thermal_widths() as $cmshop_width => $cmshop_width_label ) : ?>
+							<option value="<?php echo esc_attr( (string) $cmshop_width ); ?>" <?php selected( (string) $cmshop_width, (string) $cmshop_s['thermal_width'] ); ?>><?php echo esc_html( $cmshop_width_label ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'Match your receipt printer roll. In the print dialog, set margins to None.', 'codereyes-mobile-shop' ); ?></p>
+				</td>
+			</tr>
+		</table>
+
 		<h2><?php esc_html_e( 'Sales and stock', 'codereyes-mobile-shop' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>

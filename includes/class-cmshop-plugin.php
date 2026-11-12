@@ -31,6 +31,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-cart.php',
 		'core/class-cmshop-csv.php',
 		'core/class-cmshop-query.php',
+		'core/class-cmshop-invoice-format.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',

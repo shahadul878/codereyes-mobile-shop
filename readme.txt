@@ -26,7 +26,7 @@ Codereyes Mobile Shop is a complete back office for mobile phone shops that sell
 * Scan an IMEI or barcode, or type a name, and press Enter to add it to the cart.
 * Change prices at the counter, add a discount, take part payments and see the change due.
 * Cash, card, mobile banking (bKash, Nagad, Rocket) and bank transfer.
-* Printable receipts with your shop name, address and warranty note.
+* Print a thermal receipt (80 mm or 58 mm roll) or a full A4 invoice for any sale, with your shop name, address and warranty note. Choose the default in Settings and switch on any sale.
 * Void a sale (returns) and its items go back into stock.
 * Two tills can never sell the same phone: each sale locks its stock.
 
@@ -69,6 +69,10 @@ Administrators and WooCommerce Shop Managers can use the shop screens. Only admi
 
 No. Stock, the point of sale, repairs, customers and reports all work without it. WooCommerce is only needed to sell online.
 
+= Which printers are supported? =
+
+Any printer your browser can print to. Thermal receipt printers with 80 mm or 58 mm rolls use the receipt format (set the width in Settings and choose no margins in the print dialog). Office and inkjet printers use the A4 invoice.
+
 = Can I use a barcode scanner? =
 
 Yes. Scanners that type the code and press Enter work in the POS search box and in the IMEI fields.
@@ -85,7 +89,7 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 
 1. Dashboard with today's sales, stock and the repair queue.
 2. Point of sale with IMEI search and cart.
-3. Printable receipt.
+3. Thermal receipt and A4 invoice.
 4. Adding a phone to stock.
 5. Repair job ticket.
 6. Customer repair tracker on the website.
@@ -93,7 +97,7 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 == Changelog ==
 
 = 1.0.0 =
-* First release: IMEI stock, point of sale, receipts, repairs with website tracker, customers, CSV export and WooCommerce stock sync.
+* First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export and WooCommerce stock sync.
 
 == Upgrade Notice ==
 
