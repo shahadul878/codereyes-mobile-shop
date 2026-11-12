@@ -135,7 +135,7 @@ final class Cmshop_Dashboard {
 				'icon' => 'money-alt',
 				/* translators: 1: amount owed, 2: number of unpaid sales. */
 				'text' => sprintf( _n( 'Collect %1$s owed on %2$d sale', 'Collect %1$s owed on %2$d sales', $dues['sales'], 'codereyes-mobile-shop' ), Cmshop_Settings::money( $dues['amount'] ), $dues['sales'] ),
-				'url'  => Cmshop_View::url( 'cmshop-sales' ),
+				'url'  => Cmshop_View::url( 'cmshop-dues' ),
 				'tone' => 'warn',
 			);
 		}

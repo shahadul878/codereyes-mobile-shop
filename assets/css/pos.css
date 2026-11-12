@@ -607,6 +607,35 @@ body.cmshop-pos-screen {
 	color: var(--cmshop-warn);
 }
 
+.cmshop-pos-plan {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	margin-top: 8px;
+	padding: 10px;
+	border: 1px dashed var(--cmshop-warn);
+	border-radius: var(--cmshop-radius);
+}
+
+.cmshop-pos-plan[hidden] {
+	display: none;
+}
+
+.cmshop-pos-plan label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.cmshop-pos-plan__each {
+	grid-column: 1 / -1;
+	margin: 0;
+	color: var(--cmshop-warn);
+	font-weight: 600;
+}
+
 .cmshop-pos-error {
 	margin: 0;
 	padding: 8px 12px;

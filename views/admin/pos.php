@@ -74,6 +74,26 @@ defined( 'ABSPATH' ) || exit;
 				<div class="cmshop-pos-quick" data-quick aria-label="<?php esc_attr_e( 'Cash received', 'codereyes-mobile-shop' ); ?>"></div>
 				<button type="button" class="button-link cmshop-pos-split" data-action="split"><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><?php esc_html_e( 'Split payment', 'codereyes-mobile-shop' ); ?></button>
 				<p class="cmshop-pos-balance" data-balance></p>
+				<div class="cmshop-pos-plan" data-plan hidden>
+					<label><?php esc_html_e( 'Installments', 'codereyes-mobile-shop' ); ?>
+						<select data-plan-count>
+							<option value="0"><?php esc_html_e( 'No plan', 'codereyes-mobile-shop' ); ?></option>
+							<?php for ( $cmshop_n = Cmshop_Installments::MIN_COUNT; $cmshop_n <= Cmshop_Installments::MAX_COUNT; $cmshop_n++ ) : ?>
+								<option value="<?php echo esc_attr( (string) $cmshop_n ); ?>"><?php echo esc_html( (string) $cmshop_n ); ?></option>
+							<?php endfor; ?>
+						</select>
+					</label>
+					<label><?php esc_html_e( 'Every', 'codereyes-mobile-shop' ); ?>
+						<select data-plan-interval>
+							<option value="month"><?php esc_html_e( 'Month', 'codereyes-mobile-shop' ); ?></option>
+							<option value="week"><?php esc_html_e( 'Week', 'codereyes-mobile-shop' ); ?></option>
+						</select>
+					</label>
+					<label><?php esc_html_e( 'First payment', 'codereyes-mobile-shop' ); ?>
+						<input type="date" data-plan-first value="<?php echo esc_attr( gmdate( 'Y-m-d', strtotime( current_time( 'Y-m-d' ) . ' +1 month' ) ) ); ?>">
+					</label>
+					<p class="cmshop-pos-plan__each" data-plan-each></p>
+				</div>
 			</div>
 
 			<p class="cmshop-pos-error" data-error role="alert" hidden></p>

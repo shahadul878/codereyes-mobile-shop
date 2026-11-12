@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Installer {
 
-	public const DB_VERSION     = '1.2.0';
+	public const DB_VERSION     = '1.3.0';
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
@@ -27,7 +27,7 @@ final class Cmshop_Installer {
 	/**
 	 * Table suffixes.
 	 */
-	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments' );
+	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments', 'installments' );
 
 	/**
 	 * Activation hook.
@@ -121,7 +121,7 @@ final class Cmshop_Installer {
 	 */
 	private static function schema(): array {
 		return array(
-			'items'      => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			'items'        => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 item_type varchar(20) NOT NULL DEFAULT 'phone',
 name varchar(255) NOT NULL DEFAULT '',
 brand varchar(100) NOT NULL DEFAULT '',
@@ -153,7 +153,7 @@ KEY imei1 (imei1),
 KEY imei2 (imei2),
 KEY sku (sku),
 KEY wc_product_id (wc_product_id)",
-			'customers'  => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			'customers'    => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 name varchar(150) NOT NULL DEFAULT '',
 phone varchar(20) NOT NULL DEFAULT '',
 email varchar(100) NOT NULL DEFAULT '',
@@ -163,7 +163,7 @@ created_at datetime NOT NULL,
 updated_at datetime NOT NULL,
 PRIMARY KEY  (id),
 KEY phone (phone)",
-			'sales'      => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			'sales'        => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 invoice_no varchar(40) NOT NULL DEFAULT '',
 channel varchar(20) NOT NULL DEFAULT 'store',
 status varchar(20) NOT NULL DEFAULT 'completed',
@@ -187,7 +187,7 @@ KEY invoice_no (invoice_no),
 KEY customer_id (customer_id),
 KEY wc_order_id (wc_order_id),
 KEY status_created (status,created_at)",
-			'sale_items' => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			'sale_items'   => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 sale_id bigint(20) unsigned NOT NULL,
 item_id bigint(20) unsigned NOT NULL,
 item_type varchar(20) NOT NULL DEFAULT 'phone',
@@ -200,7 +200,7 @@ line_total decimal(12,2) NOT NULL DEFAULT '0.00',
 PRIMARY KEY  (id),
 KEY sale_id (sale_id),
 KEY item_id (item_id)",
-			'repairs'    => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			'repairs'      => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 ticket_code varchar(20) NOT NULL DEFAULT '',
 customer_id bigint(20) unsigned NOT NULL DEFAULT 0,
 customer_name varchar(150) NOT NULL DEFAULT '',
@@ -225,7 +225,7 @@ UNIQUE KEY ticket_code (ticket_code),
 KEY customer_id (customer_id),
 KEY status (status),
 KEY imei (imei)",
-			'payments'   => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			'payments'     => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 sale_id bigint(20) unsigned NOT NULL DEFAULT 0,
 customer_id bigint(20) unsigned NOT NULL DEFAULT 0,
 shift_id bigint(20) unsigned NOT NULL DEFAULT 0,
@@ -242,6 +242,18 @@ KEY sale_id (sale_id),
 KEY customer_id (customer_id),
 KEY shift_id (shift_id),
 KEY created_at (created_at)",
+			'installments' => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+sale_id bigint(20) unsigned NOT NULL,
+customer_id bigint(20) unsigned NOT NULL DEFAULT 0,
+seq tinyint(3) unsigned NOT NULL DEFAULT 1,
+due_date date NOT NULL,
+amount decimal(12,2) NOT NULL DEFAULT '0.00',
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY sale_id (sale_id),
+KEY customer_id (customer_id),
+KEY due_date (due_date)",
 		);
 	}
 }

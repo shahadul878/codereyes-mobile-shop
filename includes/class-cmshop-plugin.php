@@ -40,6 +40,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-payments.php',
 		'core/class-cmshop-dashboard-math.php',
 		'core/class-cmshop-pos-catalog.php',
+		'core/class-cmshop-installments.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -50,7 +51,9 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-payment-repository.php',
 		'data/class-cmshop-migrations.php',
 		'data/class-cmshop-held-sales.php',
+		'data/class-cmshop-installment-repository.php',
 		'services/class-cmshop-sales-service.php',
+		'services/class-cmshop-dues-service.php',
 		'class-cmshop-rest.php',
 		'frontend/class-cmshop-rate-limit.php',
 		'frontend/class-cmshop-repair-tracker.php',
@@ -224,7 +227,7 @@ final class Cmshop_Plugin {
 		return self::service(
 			'sales_service',
 			static function () {
-				return new Cmshop_Sales_Service( self::items(), self::sales(), self::customers(), self::payments() );
+				return new Cmshop_Sales_Service( self::items(), self::sales(), self::customers(), self::payments(), self::installments() );
 			}
 		);
 	}
@@ -261,6 +264,40 @@ final class Cmshop_Plugin {
 					Cmshop_Installer::table( 'payments' ),
 					new Cmshop_Query( array( 'reference', 'note' ), array( 'kind', 'method', 'sale_id', 'customer_id', 'shift_id' ), array( 'created_at', 'amount' ), 'created_at' )
 				);
+			}
+		);
+	}
+
+	/**
+	 * Installment schedules and dues.
+	 *
+	 * @return Cmshop_Installment_Repository
+	 */
+	public static function installments(): Cmshop_Installment_Repository {
+		return self::service(
+			'installments',
+			static function ( wpdb $db ) {
+				return new Cmshop_Installment_Repository(
+					$db,
+					Cmshop_Installer::table( 'installments' ),
+					Cmshop_Installer::table( 'sales' ),
+					Cmshop_Installer::table( 'payments' ),
+					new Cmshop_Query( array(), array( 'sale_id', 'customer_id' ), array( 'due_date' ), 'due_date' )
+				);
+			}
+		);
+	}
+
+	/**
+	 * Collecting dues.
+	 *
+	 * @return Cmshop_Dues_Service
+	 */
+	public static function dues(): Cmshop_Dues_Service {
+		return self::service(
+			'dues',
+			static function () {
+				return new Cmshop_Dues_Service( self::installments(), self::sales(), self::payments() );
 			}
 		);
 	}

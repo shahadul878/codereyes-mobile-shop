@@ -30,6 +30,7 @@ final class Cmshop_Actions {
 		'save_repair'     => 'save_repair',
 		'delete_repair'   => 'delete_repair',
 		'void_sale'       => 'void_sale',
+		'collect_due'     => 'collect_due',
 	);
 
 	/**
@@ -324,7 +325,37 @@ final class Cmshop_Actions {
 	}
 
 	/**
-	 * Void a sale and restock its items.
+	 * Record money received from a customer against their dues.
+	 */
+	private function collect_due(): void {
+		$posted   = $this->posted();
+		$customer = absint( $posted['customer_id'] ?? 0 );
+		$back     = array(
+			'action'   => 'collect',
+			'customer' => $customer,
+		);
+
+		try {
+			$parts = Cmshop_Plugin::dues()->collect(
+				$customer,
+				sanitize_text_field( (string) ( $posted['amount'] ?? '' ) ),
+				sanitize_key( (string) ( $posted['method'] ?? '' ) ),
+				sanitize_text_field( (string) ( $posted['reference'] ?? '' ) ),
+				get_current_user_id()
+			);
+		} catch ( InvalidArgumentException $error ) {
+			Cmshop_Form_State::save( 'due', $posted, array( 'amount' => $error->getMessage() ) );
+			$this->redirect( 'cmshop-dues', '', $back );
+		} catch ( RuntimeException $error ) {
+			$this->log( $error );
+			$this->redirect( 'cmshop-dues', 'db_error', $back );
+		}
+
+		$this->redirect( 'cmshop-dues', 'due_collected', array_merge( $back, array( 'sales' => count( $parts ) ) ) );
+	}
+
+	/**
+	 * Void a sale and put its stock back.
 	 */
 	private function void_sale(): void {
 		$id = $this->query_id();

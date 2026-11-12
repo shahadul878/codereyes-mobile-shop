@@ -204,6 +204,7 @@ final class Cmshop_Rest {
 					'amount_paid'    => $text( 'amount_paid' ),
 					'payment_method' => sanitize_key( $text( 'payment_method' ) ),
 					'payments'       => $this->payments( $request ),
+					'installments'   => $this->installments( $request ),
 					'notes'          => $text( 'notes' ),
 					'channel'        => Cmshop_Sale_Repository::CHANNEL_STORE,
 				),
@@ -252,6 +253,26 @@ final class Cmshop_Rest {
 				);
 			},
 			$rows
+		);
+	}
+
+	/**
+	 * Installment plan for what is still owed, if asked for.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return array
+	 */
+	private function installments( WP_REST_Request $request ): array {
+		$plan = $request->get_param( 'installments' );
+
+		if ( ! is_array( $plan ) ) {
+			return array();
+		}
+
+		return array(
+			'count'      => absint( $plan['count'] ?? 0 ),
+			'interval'   => 'week' === ( $plan['interval'] ?? '' ) ? 'week' : 'month',
+			'first_date' => sanitize_text_field( (string) ( $plan['first_date'] ?? '' ) ),
 		);
 	}
 

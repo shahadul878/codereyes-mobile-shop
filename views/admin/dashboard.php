@@ -82,7 +82,7 @@ foreach ( $cmshop['methods'] as $cmshop_segment ) {
 		</section>
 		<section class="cmshop-kpi<?php echo $cmshop['dues']['sales'] > 0 ? ' cmshop-kpi--alert' : ''; ?>">
 			<h2><span class="dashicons dashicons-clipboard" aria-hidden="true"></span><?php esc_html_e( 'Owed to you', 'codereyes-mobile-shop' ); ?></h2>
-			<p class="cmshop-kpi__value"><?php echo esc_html( Cmshop_Settings::money( $cmshop['dues']['amount'] ) ); ?></p>
+			<p class="cmshop-kpi__value"><a href="<?php echo esc_url( Cmshop_View::url( 'cmshop-dues' ) ); ?>"><?php echo esc_html( Cmshop_Settings::money( $cmshop['dues']['amount'] ) ); ?></a></p>
 			<p class="cmshop-kpi__meta">
 				<?php
 				/* translators: %d: sales not fully paid. */

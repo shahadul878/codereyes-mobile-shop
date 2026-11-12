@@ -244,6 +244,23 @@
 
 		ui.balance.textContent = text;
 		ui.balance.className = 'cmshop-pos-balance is-' + tone;
+		renderPlan( sums.due );
+	}
+
+	/**
+	 * Installment options, shown only while money is still owed.
+	 *
+	 * @param {number} due Amount owed in cents.
+	 */
+	function renderPlan( due ) {
+		const plan = find( '[data-plan]' );
+		const count = Number( find( '[data-plan-count]' ).value );
+
+		plan.hidden = 0 >= due;
+		find( '[data-plan-each]' ).textContent = 0 < count && 0 < due
+			/* translators: 1: number of installments, 2: amount of each. */
+			? sprintf( __( '%1$d payments of about %2$s', 'codereyes-mobile-shop' ), count, money( Math.floor( due / count ) ) )
+			: '';
 	}
 
 	/* ---------- Payments ---------- */
@@ -399,6 +416,7 @@
 		[ ui.phone, ui.name, ui.discount, ui.note ].forEach( ( input ) => {
 			input.value = '';
 		} );
+		find( '[data-plan-count]' ).value = '0';
 		ui.customerInfo.hidden = true;
 		showError( '' );
 		renderPayments();
@@ -472,6 +490,7 @@
 				discount: ui.discount.value,
 				notes: ui.note.value,
 				payments,
+				installments: 0 < sums.due ? { count: Number( find( '[data-plan-count]' ).value ), interval: find( '[data-plan-interval]' ).value, first_date: find( '[data-plan-first]' ).value } : null,
 			},
 		} ).then( ( response ) => {
 			const box = dialog( 'done' );
@@ -639,6 +658,7 @@
 	} );
 
 	ui.discount.addEventListener( 'input', renderTotals );
+	find( '[data-plan]' ).addEventListener( 'change', renderBalance );
 	ui.phone.addEventListener( 'input', () => {
 		window.clearTimeout( lookupTimer );
 		lookupTimer = window.setTimeout( lookupCustomer, SEARCH_DELAY );

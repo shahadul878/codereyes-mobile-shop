@@ -44,6 +44,7 @@ final class Cmshop_Admin {
 			'cmshop-sales'     => array( __( 'Sales', 'codereyes-mobile-shop' ), 'sales' ),
 			'cmshop-repairs'   => array( __( 'Repairs', 'codereyes-mobile-shop' ), 'repairs' ),
 			'cmshop-customers' => array( __( 'Customers', 'codereyes-mobile-shop' ), 'customers' ),
+			'cmshop-dues'      => array( __( 'Dues', 'codereyes-mobile-shop' ), 'dues' ),
 		);
 
 		foreach ( $pages as $slug => $page ) {
@@ -80,6 +81,7 @@ final class Cmshop_Admin {
 
 		wp_enqueue_style( 'cmshop-admin', CMSHOP_URL . 'assets/css/admin.css', array(), CMSHOP_VERSION );
 		wp_enqueue_style( 'cmshop-print', CMSHOP_URL . 'assets/css/print.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
+		wp_enqueue_style( 'cmshop-money', CMSHOP_URL . 'assets/css/admin-money.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
 
 		if ( 'toplevel_page_' . self::SLUG === $hook ) {
 			wp_enqueue_style( 'cmshop-dashboard', CMSHOP_URL . 'assets/css/dashboard.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
@@ -280,6 +282,36 @@ final class Cmshop_Admin {
 				'errors'   => $state['errors'] ?? array(),
 				'sales'    => $id > 0 ? Cmshop_Plugin::sales()->for_customer( $id ) : array(),
 				'repairs'  => $id > 0 ? Cmshop_Plugin::repairs()->for_customer( $id ) : array(),
+			)
+		);
+	}
+
+	/**
+	 * Dues: everyone who owes money, or one customer's account to collect from.
+	 */
+	public function dues(): void {
+		$customer_id = isset( $_GET['customer'] ) ? absint( $_GET['customer'] ) : 0;
+		$customer    = 'collect' === $this->action() && $customer_id > 0 ? Cmshop_Plugin::customers()->find( $customer_id ) : null;
+
+		if ( null === $customer ) {
+			$this->render( 'dues', array( 'debtors' => Cmshop_Plugin::dues()->debtors() ) );
+			return;
+		}
+
+		$state = Cmshop_Form_State::take( 'due' );
+
+		$this->render(
+			'dues-customer',
+			array(
+				'customer' => $customer,
+				'sales'    => array_map(
+					static function ( array $sale ): array {
+						return array_merge( $sale, array( 'schedule' => Cmshop_Plugin::dues()->schedule( $sale ) ) );
+					},
+					Cmshop_Plugin::installments()->unpaid_sales( $customer_id )
+				),
+				'values'   => $state['values'] ?? array(),
+				'errors'   => $state['errors'] ?? array(),
 			)
 		);
 	}

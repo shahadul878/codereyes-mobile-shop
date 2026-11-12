@@ -103,6 +103,32 @@ $cmshop_is_a4 = Cmshop_Invoice_Format::A4 === $cmshop_format;
 
 	<?php require __DIR__ . '/invoice/' . ( $cmshop_is_a4 ? 'a4' : 'thermal' ) . '.php'; ?>
 
+	<?php $cmshop_schedule = Cmshop_Plugin::dues()->schedule( $cmshop_sale ); ?>
+	<?php if ( $cmshop_balance > 0 && ! $cmshop_is_void ) : ?>
+		<section class="cmshop-card cmshop-no-print cmshop-due-panel">
+			<h2>
+				<?php
+				/* translators: %s: amount still owed. */
+				echo esc_html( sprintf( __( 'Still owed: %s', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_balance ) ) ) );
+				?>
+			</h2>
+			<?php if ( null !== $cmshop_schedule ) : ?>
+				<ol class="cmshop-plan">
+					<?php foreach ( $cmshop_schedule['rows'] as $cmshop_row ) : ?>
+						<li class="cmshop-plan__row is-<?php echo esc_attr( $cmshop_row['state'] . ( $cmshop_row['overdue'] ? ' is-overdue' : '' ) ); ?>">
+							<span><?php echo esc_html( (string) mysql2date( (string) get_option( 'date_format' ), $cmshop_row['due_date'] ) ); ?></span>
+							<span><?php echo esc_html( Cmshop_Settings::money( Cmshop_Money::from_cents( (int) $cmshop_row['amount'] ) ) ); ?></span>
+							<span class="cmshop-plan__state"><?php echo esc_html( $cmshop_row['overdue'] ? __( 'Overdue', 'codereyes-mobile-shop' ) : ( 'paid' === $cmshop_row['state'] ? __( 'Paid', 'codereyes-mobile-shop' ) : __( 'Due', 'codereyes-mobile-shop' ) ) ); ?></span>
+						</li>
+					<?php endforeach; ?>
+				</ol>
+			<?php endif; ?>
+			<?php if ( (int) $cmshop_sale['customer_id'] > 0 ) : ?>
+				<p><a class="button button-primary" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-dues', array( 'action' => 'collect', 'customer' => (int) $cmshop_sale['customer_id'] ) ) ); ?>"><?php esc_html_e( 'Collect payment', 'codereyes-mobile-shop' ); ?></a></p>
+			<?php endif; ?>
+		</section>
+	<?php endif; ?>
+
 	<p class="cmshop-no-print cmshop-profit">
 		<?php
 		/* translators: 1: cost, 2: profit. */

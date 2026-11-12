@@ -1,0 +1,117 @@
+/* Codereyes Mobile Shop — dues, installments, returns, shifts. Uses tokens from admin.css. */
+
+.cmshop-dues-summary {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+	margin: 12px 0 18px;
+}
+
+.cmshop-dues-summary .cmshop-card {
+	padding-top: 4px;
+	border-top: 3px solid var(--cmshop-accent);
+}
+
+.cmshop-dues-summary .cmshop-card.is-alert {
+	border-top-color: var(--cmshop-danger);
+}
+
+.cmshop-dues-summary h2 {
+	margin: 12px 0 4px;
+	padding: 0;
+	border: 0;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.cmshop-dues-summary p {
+	margin: 0 0 6px;
+	color: var(--cmshop-muted);
+}
+
+.cmshop-wrap .cmshop-dues-summary__value {
+	color: var(--cmshop-ink);
+	font-size: 26px;
+	font-weight: 700;
+}
+
+.cmshop-dues-owed {
+	margin: 0 0 14px;
+	color: var(--cmshop-warn);
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.cmshop-due-sale {
+	margin: 0 0 14px;
+	padding: 12px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+}
+
+.cmshop-due-sale__head {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 14px;
+	margin: 0;
+	color: var(--cmshop-muted);
+}
+
+.cmshop-plan {
+	margin: 10px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cmshop-plan__row {
+	display: grid;
+	grid-template-columns: 1fr auto 90px;
+	gap: 10px;
+	align-items: center;
+	margin: 0;
+	padding: 6px 8px;
+	border-radius: var(--cmshop-radius-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-plan__row:nth-child(odd) {
+	background: var(--cmshop-bg);
+}
+
+.cmshop-plan__state {
+	padding: 1px 8px;
+	border-radius: 999px;
+	background: var(--cmshop-bg);
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.cmshop-plan__row.is-paid .cmshop-plan__state {
+	background: var(--cmshop-accent-soft);
+	color: var(--cmshop-accent-ink);
+}
+
+.cmshop-plan__row.is-partial .cmshop-plan__state {
+	background: var(--cmshop-warn-soft);
+	color: var(--cmshop-warn);
+}
+
+.cmshop-plan__row.is-overdue .cmshop-plan__state {
+	background: var(--cmshop-danger-soft);
+	color: var(--cmshop-danger);
+}
+
+.cmshop-plan__row.is-paid span:first-child {
+	color: var(--cmshop-faint);
+	text-decoration: line-through;
+}
+
+@media (max-width: 600px) {
+	.cmshop-dues-summary {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

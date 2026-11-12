@@ -32,6 +32,13 @@ final class Cmshop_Sales_Service {
 	private $payments;
 
 	/**
+	 * Installment schedules.
+	 *
+	 * @var Cmshop_Installment_Repository
+	 */
+	private $installments;
+
+	/**
 	 * Items.
 	 *
 	 * @var Cmshop_Item_Repository
@@ -55,16 +62,18 @@ final class Cmshop_Sales_Service {
 	/**
 	 * Constructor.
 	 *
-	 * @param Cmshop_Item_Repository     $items     Items.
-	 * @param Cmshop_Sale_Repository     $sales     Sales.
-	 * @param Cmshop_Customer_Repository $customers Customers.
-	 * @param Cmshop_Payment_Repository  $payments  Payments ledger.
+	 * @param Cmshop_Item_Repository        $items     Items.
+	 * @param Cmshop_Sale_Repository        $sales     Sales.
+	 * @param Cmshop_Customer_Repository    $customers Customers.
+	 * @param Cmshop_Payment_Repository     $payments  Payments ledger.
+	 * @param Cmshop_Installment_Repository $installments Installment schedules.
 	 */
-	public function __construct( Cmshop_Item_Repository $items, Cmshop_Sale_Repository $sales, Cmshop_Customer_Repository $customers, Cmshop_Payment_Repository $payments ) {
-		$this->payments  = $payments;
-		$this->items     = $items;
-		$this->sales     = $sales;
-		$this->customers = $customers;
+	public function __construct( Cmshop_Item_Repository $items, Cmshop_Sale_Repository $sales, Cmshop_Customer_Repository $customers, Cmshop_Payment_Repository $payments, Cmshop_Installment_Repository $installments ) {
+		$this->installments = $installments;
+		$this->payments     = $payments;
+		$this->items        = $items;
+		$this->sales        = $sales;
+		$this->customers    = $customers;
 	}
 
 	/**
@@ -81,6 +90,7 @@ final class Cmshop_Sales_Service {
 	 *     @type string $amount_paid    Raw amount; empty = paid in full (single-method sales).
 	 *     @type string $payment_method Key from Cmshop_Settings::payment_methods() (single-method sales).
 	 *     @type array  $payments       Split payment rows [ method, amount, reference ]; overrides the two above.
+	 *     @type array  $installments   Optional plan for what is still owed [ count, interval, first_date ].
 	 *     @type string $notes          Notes.
 	 *     @type string $channel        store|online.
 	 *     @type int    $wc_order_id    WooCommerce order.
@@ -138,6 +148,16 @@ final class Cmshop_Sales_Service {
 						'created_by'  => $user_id,
 					)
 				);
+
+				$plan = (array) ( $order['installments'] ?? array() );
+
+				if ( $paid['due'] > 0 && (int) ( $plan['count'] ?? 0 ) > 0 ) {
+					$this->installments->save_plan(
+						$sale_id,
+						(int) ( $customer['id'] ?? 0 ),
+						Cmshop_Installments::plan( $paid['due'], (int) $plan['count'], (string) ( $plan['first_date'] ?? '' ), (string) ( $plan['interval'] ?? 'month' ) )
+					);
+				}
 
 				foreach ( $sale['lines'] as $line ) {
 					$this->items->adjust_quantity( $items[ $line['item_id'] ], -$line['quantity'] );
