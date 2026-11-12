@@ -89,6 +89,14 @@ final class Cmshop_Admin {
 		}
 		wp_enqueue_script( 'cmshop-admin', CMSHOP_URL . 'assets/js/admin.js', array(), CMSHOP_VERSION, true );
 
+		if ( false !== strpos( $hook, 'cmshop-items' ) && in_array( 'stickers', array( $this->action(), $this->query_key( 'action2' ) ), true ) ) {
+			$size = Cmshop_Stickers::sizes()[ self::sticker_size() ];
+			$page = 'a4' === self::sticker_size() ? 'size: A4; margin: 15.1mm 7.2mm;' : sprintf( 'size: %smm %smm; margin: 0;', $size[1], $size[2] );
+
+			wp_enqueue_style( 'cmshop-stickers', CMSHOP_URL . 'assets/css/stickers.css', array( 'cmshop-admin', 'cmshop-print' ), CMSHOP_VERSION );
+			wp_add_inline_style( 'cmshop-stickers', '@page cmshop-stickers { ' . $page . ' }' );
+		}
+
 		if ( false !== strpos( $hook, 'cmshop-items' ) && in_array( $this->action(), array( 'new', 'edit' ), true ) && current_user_can( 'upload_files' ) ) {
 			wp_enqueue_media();
 			wp_enqueue_script( 'cmshop-item-photos', CMSHOP_URL . 'assets/js/item-photos.js', array( 'media-editor', 'wp-i18n' ), CMSHOP_VERSION, true );
@@ -163,6 +171,11 @@ final class Cmshop_Admin {
 	public function items(): void {
 		$action = $this->action();
 
+		if ( 'stickers' === $action || 'stickers' === $this->query_key( 'action2' ) ) {
+			$this->stickers();
+			return;
+		}
+
 		if ( in_array( $action, array( 'new', 'edit' ), true ) ) {
 			$item = 'edit' === $action ? Cmshop_Plugin::items()->find( $this->id() ) : null;
 
@@ -190,6 +203,55 @@ final class Cmshop_Admin {
 		}
 
 		$this->list_page( new Cmshop_Items_Table( Cmshop_Plugin::items(), 'cmshop-items', 'items' ), 'items' );
+	}
+
+	/**
+	 * Price stickers for chosen items, or for stock that arrived recently.
+	 */
+	private function stickers(): void {
+		$ids    = isset( $_GET['item'] ) ? array_map( 'absint', (array) wp_unslash( $_GET['item'] ) ) : array();
+		$ranges = self::sticker_ranges();
+		$added  = array_key_exists( $this->query_key( 'added' ), $ranges ) ? $this->query_key( 'added' ) : 'today';
+		$copies = '' === $this->query_key( 'copies' ) ? '1' : $this->query_key( 'copies' );
+		$rows   = Cmshop_Plugin::items()->for_stickers( $ids, $ranges[ $added ][1] );
+
+		$this->render(
+			'stickers',
+			array(
+				'labels' => Cmshop_Stickers::sheet( $rows, $copies ),
+				'ids'    => array_values( array_filter( $ids ) ),
+				'added'  => $added,
+				'ranges' => $ranges,
+				'copies' => $copies,
+				'size'   => self::sticker_size(),
+				'price'  => '0' !== $this->query_key( 'price' ),
+				'shop'   => '0' !== $this->query_key( 'shop' ),
+			)
+		);
+	}
+
+	/**
+	 * "Arrived" ranges for the sticker page: key => [label, since].
+	 *
+	 * @return array<string, array{0: string, 1: string}>
+	 */
+	private static function sticker_ranges(): array {
+		$today = current_time( 'Y-m-d' ) . ' 00:00:00';
+
+		return array(
+			'today' => array( __( 'Added today', 'codereyes-mobile-shop' ), $today ),
+			'week'  => array( __( 'Added in the last 7 days', 'codereyes-mobile-shop' ), gmdate( 'Y-m-d H:i:s', strtotime( $today . ' -6 days' ) ) ),
+			'month' => array( __( 'Added in the last 30 days', 'codereyes-mobile-shop' ), gmdate( 'Y-m-d H:i:s', strtotime( $today . ' -29 days' ) ) ),
+		);
+	}
+
+	/**
+	 * Sticker size chosen on the page.
+	 *
+	 * @return string
+	 */
+	private static function sticker_size(): string {
+		return Cmshop_Stickers::size( isset( $_GET['size'] ) ? sanitize_key( wp_unslash( $_GET['size'] ) ) : '' );
 	}
 
 	/**

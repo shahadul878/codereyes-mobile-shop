@@ -24,6 +24,7 @@ list( $cmshop_title, $cmshop_slug, $cmshop_placeholder ) = $cmshop_pages[ $cmsho
 	<?php if ( 'items' === $cmshop_dataset ) : ?>
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'new', 'type' => 'phone' ) ) ); ?>"><?php esc_html_e( 'Add phone', 'codereyes-mobile-shop' ); ?></a>
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'new', 'type' => 'accessory' ) ) ); ?>"><?php esc_html_e( 'Add accessory', 'codereyes-mobile-shop' ); ?></a>
+		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'stickers' ) ) ); ?>"><?php esc_html_e( 'Price stickers', 'codereyes-mobile-shop' ); ?></a>
 	<?php elseif ( 'sales' === $cmshop_dataset ) : ?>
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-pos' ) ); ?>"><?php esc_html_e( 'New sale', 'codereyes-mobile-shop' ); ?></a>
 	<?php else : ?>

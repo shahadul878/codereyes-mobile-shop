@@ -9,6 +9,8 @@
 
 	const BENGALI_DIGITS = '০১২৩৪৫৬৭৮৯';
 	const IMEI_LENGTH = 15;
+	// Price stickers print CMS + item number when an item has no IMEI or SKU.
+	const ITEM_CODE = /^CMS(\d{1,10})$/i;
 	const ROUND_STEPS = [ 500, 1000, 5000 ];
 
 	/**
@@ -112,6 +114,11 @@
 	function findCode( tiles, code ) {
 		const clean = toAscii( code ).trim();
 		const digits = clean.replace( /\D/g, '' );
+		const itemCode = ITEM_CODE.exec( clean );
+
+		if ( itemCode ) {
+			return findItem( tiles, parseInt( itemCode[ 1 ], 10 ) );
+		}
 
 		for ( const tile of tiles ) {
 			if ( IMEI_LENGTH === digits.length ) {
@@ -130,6 +137,31 @@
 
 			if ( '' !== clean && tile.sku && tile.sku.toLowerCase() === clean.toLowerCase() ) {
 				return { tile, unit: null };
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Tile (or phone under a model tile) by stock item ID.
+	 *
+	 * @param {Array}  tiles Tiles.
+	 * @param {number} id    Item ID.
+	 * @return {Object|null} { tile, unit } or null.
+	 */
+	function findItem( tiles, id ) {
+		for ( const tile of tiles ) {
+			if ( 'item' === tile.kind && tile.id === id ) {
+				return { tile, unit: null };
+			}
+
+			for ( const option of tile.options || [] ) {
+				const unit = option.units.find( ( candidate ) => candidate.id === id );
+
+				if ( unit ) {
+					return { tile, unit: { ...unit, option } };
+				}
 			}
 		}
 

@@ -43,6 +43,8 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-installments.php',
 		'core/class-cmshop-returns.php',
 		'core/class-cmshop-shift-math.php',
+		'core/class-cmshop-code128.php',
+		'core/class-cmshop-stickers.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',

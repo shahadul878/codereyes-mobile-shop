@@ -283,6 +283,36 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Stock for price stickers: the chosen items, or what arrived since a date.
+	 *
+	 * @param int[]  $ids   Chosen item IDs (empty for "arrived since").
+	 * @param string $since MySQL datetime; in-stock items added on or after it.
+	 * @return array[] Oldest first, so stickers come out in the order stock was entered.
+	 */
+	public function for_stickers( array $ids, string $since ): array {
+		$ids = array_slice( array_values( array_unique( array_filter( array_map( 'absint', $ids ) ) ) ), 0, Cmshop_Stickers::MAX_LABELS );
+
+		if ( array() !== $ids ) {
+			$sql = $this->db->prepare(
+				'SELECT * FROM %i WHERE id IN (' . implode( ',', array_fill( 0, count( $ids ), '%d' ) ) . ') ORDER BY id ASC',
+				array_merge( array( $this->table ), $ids )
+			);
+		} else {
+			$sql = $this->db->prepare(
+				'SELECT * FROM %i WHERE status = %s AND quantity > 0 AND created_at >= %s ORDER BY id ASC LIMIT %d',
+				$this->table,
+				Cmshop_Item::STATUS_IN_STOCK,
+				$since,
+				Cmshop_Stickers::MAX_LABELS
+			);
+		}
+
+		$rows = $this->db->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Prepared above.
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Brand names used in stock, A to Z.
 	 *
 	 * @return string[]

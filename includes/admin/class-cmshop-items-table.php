@@ -21,6 +21,7 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 	 */
 	public function get_columns(): array {
 		return array(
+			'cb'         => '<input type="checkbox">',
 			'name'       => __( 'Item', 'codereyes-mobile-shop' ),
 			'imei1'      => __( 'IMEI / SKU', 'codereyes-mobile-shop' ),
 			'grade'      => __( 'Condition', 'codereyes-mobile-shop' ),
@@ -30,6 +31,30 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 			'status'     => __( 'Status', 'codereyes-mobile-shop' ),
 			'online'     => __( 'Online', 'codereyes-mobile-shop' ),
 			'created_at' => __( 'Added', 'codereyes-mobile-shop' ),
+		);
+	}
+
+	/**
+	 * Bulk actions: only printing, nothing destructive.
+	 *
+	 * @return array
+	 */
+	protected function get_bulk_actions(): array {
+		return array( 'stickers' => __( 'Print price stickers', 'codereyes-mobile-shop' ) );
+	}
+
+	/**
+	 * Row checkbox.
+	 *
+	 * @param array $item Row.
+	 * @return string
+	 */
+	protected function column_cb( $item ): string {
+		return sprintf(
+			'<label class="screen-reader-text" for="cmshop-item-%1$d">%2$s</label><input type="checkbox" id="cmshop-item-%1$d" name="item[]" value="%1$d">',
+			(int) $item['id'],
+			/* translators: %s: item name. */
+			esc_html( sprintf( __( 'Select %s', 'codereyes-mobile-shop' ), Cmshop_Item::display_name( $item ) ) )
 		);
 	}
 
@@ -69,7 +94,7 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 	protected function column_name( $item ): string {
 		$id      = (int) $item['id'];
 		$actions = array(
-			'edit'   => sprintf(
+			'edit'    => sprintf(
 				'<a href="%s">%s</a>',
 				esc_url(
 					Cmshop_View::url(
@@ -82,8 +107,21 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 				),
 				esc_html__( 'Edit', 'codereyes-mobile-shop' )
 			),
-			'sell'   => sprintf( '<a href="%s">%s</a>', esc_url( Cmshop_View::url( 'cmshop-pos', array( 'add' => $id ) ) ), esc_html__( 'Sell', 'codereyes-mobile-shop' ) ),
-			'delete' => sprintf(
+			'sell'    => sprintf( '<a href="%s">%s</a>', esc_url( Cmshop_View::url( 'cmshop-pos', array( 'add' => $id ) ) ), esc_html__( 'Sell', 'codereyes-mobile-shop' ) ),
+			'sticker' => sprintf(
+				'<a href="%s">%s</a>',
+				esc_url(
+					Cmshop_View::url(
+						'cmshop-items',
+						array(
+							'action' => 'stickers',
+							'item'   => array( $id ),
+						)
+					)
+				),
+				esc_html__( 'Sticker', 'codereyes-mobile-shop' )
+			),
+			'delete'  => sprintf(
 				'<a href="%s" class="cmshop-confirm" data-confirm="%s">%s</a>',
 				esc_url( Cmshop_View::action_url( 'delete_item', array( 'id' => $id ) ) ),
 				esc_attr__( 'Delete this stock item?', 'codereyes-mobile-shop' ),
@@ -92,7 +130,7 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 		);
 
 		if ( Cmshop_Item::STATUS_SOLD === $item['status'] ) {
-			unset( $actions['sell'] );
+			unset( $actions['sell'], $actions['sticker'] );
 		}
 
 		$type  = Cmshop_Item::label( Cmshop_Item::types(), (string) $item['item_type'] );

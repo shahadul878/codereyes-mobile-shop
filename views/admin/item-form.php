@@ -29,6 +29,7 @@ if ( null === $cmshop_item ) {
 		<?php echo wp_kses_post( Cmshop_View::badge( Cmshop_Item::label( Cmshop_Item::statuses(), (string) $cmshop_item['status'] ), (string) $cmshop_item['status'] ) ); ?>
 		<?php if ( ! $cmshop_is_sold ) : ?>
 			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-pos', array( 'add' => (int) $cmshop_item['id'] ) ) ); ?>"><?php esc_html_e( 'Sell this item', 'codereyes-mobile-shop' ); ?></a>
+			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'stickers', 'item' => array( (int) $cmshop_item['id'] ), 'copies' => 'stock' ) ) ); ?>"><?php esc_html_e( 'Print sticker', 'codereyes-mobile-shop' ); ?></a>
 		<?php endif; ?>
 		<?php if ( $cmshop_is_phone ) : ?>
 			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'new', 'copy' => (int) $cmshop_item['id'] ) ) ); ?>"><?php esc_html_e( 'Add another like this', 'codereyes-mobile-shop' ); ?></a>
