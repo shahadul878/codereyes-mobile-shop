@@ -14,6 +14,18 @@ defined( 'ABSPATH' ) || exit;
 		</a>
 		<h1 class="cmshop-pos-top__shop"><?php echo esc_html( (string) Cmshop_Settings::get( 'shop_name' ) ); ?></h1>
 		<div class="cmshop-pos-top__tools">
+			<?php $cmshop_shift = Cmshop_Plugin::shifts()->current( get_current_user_id() ); ?>
+			<a class="cmshop-pos-chip<?php echo null === $cmshop_shift ? ' is-warn' : ''; ?>" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-shifts' ) ); ?>">
+				<span class="dashicons dashicons-<?php echo null === $cmshop_shift ? 'warning' : 'clock'; ?>" aria-hidden="true"></span>
+				<?php
+				echo esc_html(
+					null === $cmshop_shift
+						? __( 'Open a shift', 'codereyes-mobile-shop' )
+						/* translators: %s: time the shift opened. */
+						: sprintf( __( 'Shift since %s', 'codereyes-mobile-shop' ), (string) mysql2date( (string) get_option( 'time_format' ), (string) $cmshop_shift['opened_at'] ) )
+				);
+				?>
+			</a>
 			<button type="button" class="cmshop-pos-chip" data-action="held-open">
 				<span class="dashicons dashicons-backup" aria-hidden="true"></span><?php esc_html_e( 'Held sales', 'codereyes-mobile-shop' ); ?>
 				<span class="cmshop-pos-count" data-held-count>0</span>

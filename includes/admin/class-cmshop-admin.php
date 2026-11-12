@@ -45,6 +45,7 @@ final class Cmshop_Admin {
 			'cmshop-repairs'   => array( __( 'Repairs', 'codereyes-mobile-shop' ), 'repairs' ),
 			'cmshop-customers' => array( __( 'Customers', 'codereyes-mobile-shop' ), 'customers' ),
 			'cmshop-dues'      => array( __( 'Dues', 'codereyes-mobile-shop' ), 'dues' ),
+			'cmshop-shifts'    => array( __( 'Cash register', 'codereyes-mobile-shop' ), 'shifts' ),
 		);
 
 		foreach ( $pages as $slug => $page ) {
@@ -336,6 +337,35 @@ final class Cmshop_Admin {
 				),
 				'values'   => $state['values'] ?? array(),
 				'errors'   => $state['errors'] ?? array(),
+			)
+		);
+	}
+
+	/**
+	 * Cash register: open/close a shift, petty cash, history and end-of-day reports.
+	 */
+	public function shifts(): void {
+		if ( 'report' === $this->action() ) {
+			$shift = Cmshop_Plugin::shift_history()->find( $this->id() );
+
+			if ( null === $shift ) {
+				$this->render( 'not-found', array() );
+				return;
+			}
+
+			$this->render( 'shift-report', array( 'shift' => Cmshop_Plugin::shifts()->with_summary( $shift ) ) );
+			return;
+		}
+
+		$state = Cmshop_Form_State::take( 'shift' );
+
+		$this->render(
+			'shifts',
+			array(
+				'current' => Cmshop_Plugin::shifts()->current( get_current_user_id() ),
+				'history' => Cmshop_Plugin::shift_history()->recent( 30 ),
+				'errors'  => $state['errors'] ?? array(),
+				'values'  => $state['values'] ?? array(),
 			)
 		);
 	}

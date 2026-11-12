@@ -98,6 +98,16 @@ body.cmshop-pos-screen {
 	cursor: pointer;
 }
 
+a.cmshop-pos-chip {
+	text-decoration: none;
+}
+
+.cmshop-pos-chip.is-warn {
+	border-color: #fbbf24;
+	background: rgba(251, 191, 36, 0.18);
+	color: #fde68a;
+}
+
 .cmshop-pos-chip:hover,
 .cmshop-pos-chip:focus-visible {
 	background: rgba(255, 255, 255, 0.18);

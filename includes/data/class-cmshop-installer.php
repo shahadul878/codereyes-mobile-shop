@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Installer {
 
-	public const DB_VERSION     = '1.4.0';
+	public const DB_VERSION     = '1.5.0';
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
@@ -27,7 +27,7 @@ final class Cmshop_Installer {
 	/**
 	 * Table suffixes.
 	 */
-	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments', 'installments' );
+	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments', 'installments', 'shifts' );
 
 	/**
 	 * Activation hook.
@@ -258,6 +258,19 @@ PRIMARY KEY  (id),
 KEY sale_id (sale_id),
 KEY customer_id (customer_id),
 KEY due_date (due_date)",
+			'shifts'       => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+user_id bigint(20) unsigned NOT NULL DEFAULT 0,
+opened_at datetime NOT NULL,
+opening_float decimal(12,2) NOT NULL DEFAULT '0.00',
+closed_at datetime NULL,
+expected_cash decimal(12,2) NULL,
+counted_cash decimal(12,2) NULL,
+note varchar(255) NOT NULL DEFAULT '',
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY user_open (user_id,closed_at),
+KEY opened_at (opened_at)",
 		);
 	}
 }

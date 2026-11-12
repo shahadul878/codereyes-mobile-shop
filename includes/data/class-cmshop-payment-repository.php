@@ -15,9 +15,11 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Payment_Repository extends Cmshop_Repository {
 
-	public const KIND_SALE   = 'sale';
-	public const KIND_DUE    = 'due';
-	public const KIND_REFUND = 'refund';
+	public const KIND_SALE     = 'sale';
+	public const KIND_DUE      = 'due';
+	public const KIND_REFUND   = 'refund';
+	public const KIND_CASH_IN  = 'cash_in';
+	public const KIND_CASH_OUT = 'cash_out';
 
 	/**
 	 * Record ledger entries. Call inside the sale transaction.
@@ -93,5 +95,28 @@ final class Cmshop_Payment_Repository extends Cmshop_Repository {
 		);
 
 		return array_column( is_array( $rows ) ? $rows : array(), 'amount', 'method' );
+	}
+
+	/**
+	 * Payments one staff member recorded in a time window (their shift).
+	 *
+	 * @param int    $user_id Staff member.
+	 * @param string $from    Start (inclusive).
+	 * @param string $to      End (exclusive).
+	 * @return array[] Rows of kind, method, amount, note, created_at.
+	 */
+	public function for_user_between( int $user_id, string $from, string $to ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT kind, method, amount, note, created_at FROM %i WHERE created_by = %d AND created_at >= %s AND created_at < %s ORDER BY id ASC',
+				$this->table,
+				$user_id,
+				$from,
+				$to
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
 	}
 }

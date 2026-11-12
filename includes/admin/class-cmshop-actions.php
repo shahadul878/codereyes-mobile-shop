@@ -32,6 +32,9 @@ final class Cmshop_Actions {
 		'void_sale'       => 'void_sale',
 		'collect_due'     => 'collect_due',
 		'return_items'    => 'return_items',
+		'open_shift'      => 'open_shift',
+		'petty_cash'      => 'petty_cash',
+		'close_shift'     => 'close_shift',
 	);
 
 	/**
@@ -323,6 +326,81 @@ final class Cmshop_Actions {
 	private function delete_repair(): void {
 		Cmshop_Plugin::repairs()->delete( $this->query_id() );
 		$this->redirect( 'cmshop-repairs', 'repair_deleted' );
+	}
+
+	/**
+	 * Open the cash register with the float in the drawer.
+	 */
+	private function open_shift(): void {
+		$posted = $this->posted();
+
+		$this->shift_step(
+			static function () use ( $posted ): void {
+				Cmshop_Plugin::shifts()->open( get_current_user_id(), sanitize_text_field( (string) ( $posted['opening_float'] ?? '' ) ) );
+			},
+			'shift_opened',
+			$posted
+		);
+	}
+
+	/**
+	 * Cash in or out of the drawer during a shift.
+	 */
+	private function petty_cash(): void {
+		$posted = $this->posted();
+
+		$this->shift_step(
+			static function () use ( $posted ): void {
+				Cmshop_Plugin::shifts()->petty( get_current_user_id(), sanitize_key( (string) ( $posted['direction'] ?? 'out' ) ), sanitize_text_field( (string) ( $posted['amount'] ?? '' ) ), sanitize_text_field( (string) ( $posted['reason'] ?? '' ) ) );
+			},
+			'petty_saved',
+			$posted
+		);
+	}
+
+	/**
+	 * Close the shift with the counted cash, then show its report.
+	 */
+	private function close_shift(): void {
+		$posted = $this->posted();
+		$counts = array_map( 'sanitize_text_field', array_map( 'strval', (array) ( $posted['notes'] ?? array() ) ) );
+
+		try {
+			$shift = Cmshop_Plugin::shifts()->close( get_current_user_id(), $counts, sanitize_text_field( (string) ( $posted['note'] ?? '' ) ) );
+		} catch ( InvalidArgumentException $error ) {
+			Cmshop_Form_State::save( 'shift', $posted, array( 'shift' => $error->getMessage() ) );
+			$this->redirect( 'cmshop-shifts', '' );
+		}
+
+		$this->redirect(
+			'cmshop-shifts',
+			'shift_closed',
+			array(
+				'action' => 'report',
+				'id'     => (int) $shift['id'],
+			)
+		);
+	}
+
+	/**
+	 * Run a shift change, then come back to the cash register.
+	 *
+	 * @param callable $step   The change.
+	 * @param string   $notice Notice on success.
+	 * @param array    $posted Submitted values (shown again on error).
+	 */
+	private function shift_step( callable $step, string $notice, array $posted ): void {
+		try {
+			$step();
+		} catch ( InvalidArgumentException $error ) {
+			Cmshop_Form_State::save( 'shift', $posted, array( 'shift' => $error->getMessage() ) );
+			$this->redirect( 'cmshop-shifts', '' );
+		} catch ( RuntimeException $error ) {
+			$this->log( $error );
+			$this->redirect( 'cmshop-shifts', 'db_error' );
+		}
+
+		$this->redirect( 'cmshop-shifts', $notice );
 	}
 
 	/**

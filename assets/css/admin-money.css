@@ -115,3 +115,103 @@
 		grid-template-columns: minmax(0, 1fr);
 	}
 }
+
+/* ---------- Cash register ---------- */
+
+.cmshop-shift-live {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+	gap: 16px;
+	margin: 12px 0 16px;
+}
+
+.cmshop-shift-expected {
+	border-top: 3px solid var(--cmshop-accent);
+}
+
+.cmshop-wrap .cmshop-shift-big {
+	margin: 4px 0;
+	color: var(--cmshop-ink);
+	font-size: 34px;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-shift-meta {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-shift-methods {
+	margin: 12px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cmshop-shift-methods li,
+.cmshop-shift-petty li {
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+	padding: 6px 0;
+	border-bottom: 1px solid var(--cmshop-line);
+}
+
+.cmshop-count {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 10px;
+	margin-bottom: 14px;
+}
+
+.cmshop-count__note {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 8px 10px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius-sm);
+	background: var(--cmshop-bg);
+	font-weight: 600;
+}
+
+.cmshop-wrap .cmshop-count__note input {
+	width: 100%;
+}
+
+.cmshop-count__total {
+	grid-column: 1 / -1;
+	margin: 4px 0 0;
+	font-size: 16px;
+}
+
+.cmshop-count__total strong {
+	font-size: 22px;
+}
+
+[data-count-diff].is-short {
+	margin-left: 10px;
+	color: var(--cmshop-danger);
+	font-weight: 700;
+}
+
+[data-count-diff].is-over {
+	margin-left: 10px;
+	color: var(--cmshop-warn);
+	font-weight: 700;
+}
+
+[data-count-diff].is-even {
+	margin-left: 10px;
+	color: var(--cmshop-accent-ink);
+	font-weight: 700;
+}
+
+@media (max-width: 960px) {
+	.cmshop-shift-live {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cmshop-count {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

@@ -145,7 +145,7 @@ final class Cmshop_Dashboard {
 		$tasks[] = array(
 			'icon' => 'lock',
 			'text' => __( 'Count the cash drawer before closing', 'codereyes-mobile-shop' ),
-			'url'  => Cmshop_View::url( 'cmshop-sales' ),
+			'url'  => Cmshop_View::url( 'cmshop-shifts' ),
 			'tone' => 'muted',
 		);
 

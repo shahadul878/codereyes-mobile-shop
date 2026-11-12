@@ -42,6 +42,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-pos-catalog.php',
 		'core/class-cmshop-installments.php',
 		'core/class-cmshop-returns.php',
+		'core/class-cmshop-shift-math.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -53,9 +54,11 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-migrations.php',
 		'data/class-cmshop-held-sales.php',
 		'data/class-cmshop-installment-repository.php',
+		'data/class-cmshop-shift-repository.php',
 		'services/class-cmshop-sales-service.php',
 		'services/class-cmshop-dues-service.php',
 		'services/class-cmshop-returns-service.php',
+		'services/class-cmshop-shift-service.php',
 		'class-cmshop-rest.php',
 		'frontend/class-cmshop-rate-limit.php',
 		'frontend/class-cmshop-repair-tracker.php',
@@ -314,6 +317,37 @@ final class Cmshop_Plugin {
 			'returns',
 			static function () {
 				return new Cmshop_Returns_Service( self::items(), self::sales(), self::customers(), self::payments() );
+			}
+		);
+	}
+
+	/**
+	 * Cash register shifts.
+	 *
+	 * @return Cmshop_Shift_Service
+	 */
+	public static function shifts(): Cmshop_Shift_Service {
+		return self::service(
+			'shifts',
+			static function ( wpdb $db ) {
+				return new Cmshop_Shift_Service(
+					new Cmshop_Shift_Repository( $db, Cmshop_Installer::table( 'shifts' ), new Cmshop_Query( array( 'note' ), array( 'user_id' ), array( 'opened_at' ), 'opened_at' ) ),
+					self::payments()
+				);
+			}
+		);
+	}
+
+	/**
+	 * Shift history (closed and open).
+	 *
+	 * @return Cmshop_Shift_Repository
+	 */
+	public static function shift_history(): Cmshop_Shift_Repository {
+		return self::service(
+			'shift_history',
+			static function ( wpdb $db ) {
+				return new Cmshop_Shift_Repository( $db, Cmshop_Installer::table( 'shifts' ), new Cmshop_Query( array( 'note' ), array( 'user_id' ), array( 'opened_at' ), 'opened_at' ) );
 			}
 		);
 	}
