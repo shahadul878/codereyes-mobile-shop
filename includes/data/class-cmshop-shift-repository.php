@@ -35,12 +35,13 @@ final class Cmshop_Shift_Repository extends Cmshop_Repository {
 	/**
 	 * Most recent shifts, newest first.
 	 *
-	 * @param int $limit How many.
+	 * @param int $limit   How many.
+	 * @param int $user_id Only this staff member's (0 for everyone).
 	 * @return array[]
 	 */
-	public function recent( int $limit ): array {
+	public function recent( int $limit, int $user_id = 0 ): array {
 		$rows = $this->db->get_results(
-			$this->db->prepare( 'SELECT * FROM %i ORDER BY id DESC LIMIT %d', $this->table, $limit ),
+			$this->db->prepare( 'SELECT * FROM %i WHERE ( %d = 0 OR user_id = %d ) ORDER BY id DESC LIMIT %d', $this->table, $user_id, $user_id, $limit ),
 			ARRAY_A
 		);
 

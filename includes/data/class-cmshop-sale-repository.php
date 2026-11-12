@@ -187,6 +187,33 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Completed sales per staff member, net of returns.
+	 *
+	 * @param string $from    Start (inclusive), Y-m-d H:i:s.
+	 * @param string $to      End (exclusive), Y-m-d H:i:s.
+	 * @param int    $user_id Only this staff member (0 for everyone).
+	 * @return array[] Rows of user_id, sales, total, profit.
+	 */
+	public function by_staff( string $from, string $to, int $user_id = 0 ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT created_by AS user_id, COUNT(*) AS sales, COALESCE( SUM( total - refunded ), 0 ) AS total, COALESCE( SUM( profit - refunded + refunded_cost ), 0 ) AS profit
+				FROM %i WHERE status = %s AND created_at >= %s AND created_at < %s AND ( %d = 0 OR created_by = %d )
+				GROUP BY created_by',
+				$this->table,
+				self::STATUS_COMPLETED,
+				$from,
+				$to,
+				$user_id,
+				$user_id
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Completed sales per day.
 	 *
 	 * @param string $from Start (inclusive).

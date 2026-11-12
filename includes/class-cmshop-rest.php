@@ -146,7 +146,7 @@ final class Cmshop_Rest {
 	 * @return bool
 	 */
 	public static function can_sell(): bool {
-		return current_user_can( Cmshop_Installer::CAPABILITY );
+		return Cmshop_Staff::can_sell();
 	}
 
 	/**

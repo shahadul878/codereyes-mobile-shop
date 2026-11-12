@@ -32,7 +32,9 @@ list( $cmshop_title, $cmshop_slug, $cmshop_placeholder ) = $cmshop_pages[ $cmsho
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( $cmshop_slug, array( 'action' => 'new' ) ) ); ?>"><?php esc_html_e( 'Add new', 'codereyes-mobile-shop' ); ?></a>
 	<?php endif; ?>
 
-	<a class="page-title-action" href="<?php echo esc_url( Cmshop_Export::url( $cmshop_dataset, $cmshop['args'] ) ); ?>"><?php esc_html_e( 'Export CSV', 'codereyes-mobile-shop' ); ?></a>
+	<?php if ( Cmshop_Staff::can_manage() ) : ?>
+		<a class="page-title-action" href="<?php echo esc_url( Cmshop_Export::url( $cmshop_dataset, $cmshop['args'] ) ); ?>"><?php esc_html_e( 'Export CSV', 'codereyes-mobile-shop' ); ?></a>
+	<?php endif; ?>
 	<hr class="wp-header-end">
 
 	<?php Cmshop_View::notice(); ?>

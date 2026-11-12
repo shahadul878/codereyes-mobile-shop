@@ -38,6 +38,11 @@ final class Cmshop_Actions extends Cmshop_Handler {
 	);
 
 	/**
+	 * Counter work a cashier may do. Stock, voids, refunds and deletions need a manager.
+	 */
+	protected const SELL_ACTIONS = array( 'save_customer', 'save_repair', 'collect_due', 'open_shift', 'petty_cash', 'close_shift' );
+
+	/**
 	 * Run one handler.
 	 *
 	 * @param string $method Handler method from ACTIONS.

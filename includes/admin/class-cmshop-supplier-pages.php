@@ -22,7 +22,7 @@ final class Cmshop_Supplier_Pages {
 	 * Menu callback.
 	 */
 	public function render(): void {
-		if ( ! current_user_can( Cmshop_Installer::CAPABILITY ) ) {
+		if ( ! Cmshop_Staff::can_manage() ) {
 			wp_die( esc_html__( 'You do not have permission to view this page.', 'codereyes-mobile-shop' ) );
 		}
 

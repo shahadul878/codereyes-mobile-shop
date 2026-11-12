@@ -103,6 +103,22 @@ $cmshop_name = static function ( string $key ): string {
 			</tr>
 		</table>
 
+		<h2><?php esc_html_e( 'Staff commission', 'codereyes-mobile-shop' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="cmshop-commission-rate"><?php esc_html_e( 'Commission', 'codereyes-mobile-shop' ); ?></label></th>
+				<td>
+					<input type="text" id="cmshop-commission-rate" class="small-text" inputmode="decimal" name="<?php echo esc_attr( $cmshop_name( 'commission_rate' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['commission_rate'] ); ?>"> %
+					<?php esc_html_e( 'of each staff member\'s', 'codereyes-mobile-shop' ); ?>
+					<select name="<?php echo esc_attr( $cmshop_name( 'commission_base' ) ); ?>" aria-label="<?php esc_attr_e( 'Commission is a share of', 'codereyes-mobile-shop' ); ?>">
+						<option value="<?php echo esc_attr( Cmshop_Commission::ON_SALES ); ?>" <?php selected( $cmshop_s['commission_base'], Cmshop_Commission::ON_SALES ); ?>><?php esc_html_e( 'sales', 'codereyes-mobile-shop' ); ?></option>
+						<option value="<?php echo esc_attr( Cmshop_Commission::ON_PROFIT ); ?>" <?php selected( $cmshop_s['commission_base'], Cmshop_Commission::ON_PROFIT ); ?>><?php esc_html_e( 'profit', 'codereyes-mobile-shop' ); ?></option>
+					</select>
+					<p class="description"><?php esc_html_e( 'After returns. 0 turns commission off. See it under Mobile Shop → Staff and commission; cashiers see their own on the dashboard.', 'codereyes-mobile-shop' ); ?></p>
+				</td>
+			</tr>
+		</table>
+
 		<h2><?php esc_html_e( 'Warranty', 'codereyes-mobile-shop' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>

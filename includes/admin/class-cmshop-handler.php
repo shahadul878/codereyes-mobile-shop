@@ -21,6 +21,11 @@ abstract class Cmshop_Handler {
 	protected const ACTIONS = array();
 
 	/**
+	 * Actions a cashier may take. Everything else needs a manager.
+	 */
+	protected const SELL_ACTIONS = array();
+
+	/**
 	 * Hook in.
 	 */
 	public function register(): void {
@@ -49,7 +54,9 @@ abstract class Cmshop_Handler {
 	 * @param string $action Action name.
 	 */
 	protected function guard( string $action ): void {
-		if ( ! current_user_can( Cmshop_Installer::CAPABILITY ) ) {
+		$allowed = in_array( $action, static::SELL_ACTIONS, true ) ? Cmshop_Staff::can_sell() : Cmshop_Staff::can_manage();
+
+		if ( ! $allowed ) {
 			wp_die( esc_html__( 'You do not have permission to do that.', 'codereyes-mobile-shop' ), 403 );
 		}
 

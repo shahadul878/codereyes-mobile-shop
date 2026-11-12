@@ -95,10 +95,10 @@ $cmshop_is_a4 = Cmshop_Invoice_Format::A4 === $cmshop_format;
 			?>
 		</h1>
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-pos' ) ); ?>"><?php esc_html_e( 'New sale', 'codereyes-mobile-shop' ); ?></a>
-		<?php if ( Cmshop_Sale_Repository::STATUS_COMPLETED === $cmshop_sale['status'] && $cmshop_balance <= 0 ) : ?>
+		<?php if ( Cmshop_Staff::can_manage() && Cmshop_Sale_Repository::STATUS_COMPLETED === $cmshop_sale['status'] && $cmshop_balance <= 0 ) : ?>
 			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-sales', array( 'action' => 'return', 'id' => (int) $cmshop_sale['id'] ) ) ); ?>"><?php esc_html_e( 'Return items', 'codereyes-mobile-shop' ); ?></a>
 		<?php endif; ?>
-		<?php if ( ! $cmshop_is_void ) : ?>
+		<?php if ( Cmshop_Staff::can_manage() && ! $cmshop_is_void ) : ?>
 			<a class="page-title-action cmshop-danger cmshop-confirm" data-confirm="<?php esc_attr_e( 'Void this sale and put its items back in stock?', 'codereyes-mobile-shop' ); ?>" href="<?php echo esc_url( Cmshop_View::action_url( 'void_sale', array( 'id' => (int) $cmshop_sale['id'] ) ) ); ?>"><?php esc_html_e( 'Void / return', 'codereyes-mobile-shop' ); ?></a>
 		<?php endif; ?>
 		<hr class="wp-header-end">
@@ -153,10 +153,12 @@ $cmshop_is_a4 = Cmshop_Invoice_Format::A4 === $cmshop_format;
 		</section>
 	<?php endif; ?>
 
-	<p class="cmshop-no-print cmshop-profit">
-		<?php
-		/* translators: 1: cost, 2: profit. */
-		echo esc_html( sprintf( __( 'Cost %1$s · Profit %2$s (not printed)', 'codereyes-mobile-shop' ), Cmshop_Settings::money( (string) $cmshop_sale['cost_total'] ), Cmshop_Settings::money( (string) $cmshop_sale['profit'] ) ) );
-		?>
-	</p>
+	<?php if ( Cmshop_Staff::sees_costs() ) : ?>
+		<p class="cmshop-no-print cmshop-profit">
+			<?php
+			/* translators: 1: cost, 2: profit. */
+			echo esc_html( sprintf( __( 'Cost %1$s · Profit %2$s (not printed)', 'codereyes-mobile-shop' ), Cmshop_Settings::money( (string) $cmshop_sale['cost_total'] ), Cmshop_Settings::money( (string) $cmshop_sale['profit'] ) ) );
+			?>
+		</p>
+	<?php endif; ?>
 </div>

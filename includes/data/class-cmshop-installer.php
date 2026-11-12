@@ -18,6 +18,9 @@ final class Cmshop_Installer {
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
+	public const CAP_SELL       = 'cmshop_sell';
+	public const CASHIER_ROLE   = 'cmshop_cashier';
+	public const SELL_OPTION    = 'cmshop_granted_sell_roles';
 
 	/**
 	 * Roles that get the capability.
@@ -69,20 +72,43 @@ final class Cmshop_Installer {
 	 * on purpose is not given it back.
 	 */
 	public static function ensure_capability(): void {
-		$granted = (array) get_option( self::GRANTED_OPTION, array() );
+		self::grant( self::CAPABILITY, self::GRANTED_OPTION );
+		self::grant( self::CAP_SELL, self::SELL_OPTION );
+
+		if ( null === get_role( self::CASHIER_ROLE ) ) {
+			add_role(
+				self::CASHIER_ROLE,
+				__( 'Shop Cashier', 'codereyes-mobile-shop' ),
+				array(
+					'read'         => true,
+					self::CAP_SELL => true,
+				)
+			);
+		}
+	}
+
+	/**
+	 * Give a capability to the owner roles once. A role the shop later takes
+	 * it away from is remembered and not given it again.
+	 *
+	 * @param string $cap    Capability.
+	 * @param string $option Option listing roles already granted.
+	 */
+	private static function grant( string $cap, string $option ): void {
+		$granted = (array) get_option( $option, array() );
 		$added   = array();
 
 		foreach ( array_diff( self::ROLES, $granted ) as $role_name ) {
 			$role = get_role( $role_name );
 
 			if ( null !== $role ) {
-				$role->add_cap( self::CAPABILITY );
+				$role->add_cap( $cap );
 				$added[] = $role_name;
 			}
 		}
 
 		if ( array() !== $added ) {
-			update_option( self::GRANTED_OPTION, array_values( array_merge( $granted, $added ) ), false );
+			update_option( $option, array_values( array_merge( $granted, $added ) ), false );
 		}
 	}
 
@@ -92,7 +118,10 @@ final class Cmshop_Installer {
 	public static function remove_capability(): void {
 		foreach ( wp_roles()->role_objects as $role ) {
 			$role->remove_cap( self::CAPABILITY );
+			$role->remove_cap( self::CAP_SELL );
 		}
+
+		remove_role( self::CASHIER_ROLE );
 	}
 
 	/**

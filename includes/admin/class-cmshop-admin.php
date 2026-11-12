@@ -16,6 +16,11 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Admin {
 
+	/**
+	 * Screens only managers may open: stock, costs, refunds, staff.
+	 */
+	private const MANAGER_VIEWS = array( 'item-form', 'stickers', 'sale-return', 'staff' );
+
 	public const SLUG = 'cmshop';
 
 	/**
@@ -33,26 +38,28 @@ final class Cmshop_Admin {
 	 * Menu and submenus.
 	 */
 	public function menu(): void {
-		$cap = Cmshop_Installer::CAPABILITY;
+		$sell   = Cmshop_Installer::CAP_SELL;
+		$manage = Cmshop_Installer::CAPABILITY;
 
-		add_menu_page( __( 'Mobile Shop', 'codereyes-mobile-shop' ), __( 'Mobile Shop', 'codereyes-mobile-shop' ), $cap, self::SLUG, array( $this, 'dashboard' ), 'dashicons-smartphone', 56 );
+		// Managers also hold the sell capability, so the menu shows for both.
+		add_menu_page( __( 'Mobile Shop', 'codereyes-mobile-shop' ), __( 'Mobile Shop', 'codereyes-mobile-shop' ), $sell, self::SLUG, array( $this, 'dashboard' ), 'dashicons-smartphone', 56 );
 
 		$pages = array(
-			self::SLUG         => array( __( 'Dashboard', 'codereyes-mobile-shop' ), 'dashboard' ),
-			'cmshop-pos'       => array( __( 'New sale (POS)', 'codereyes-mobile-shop' ), 'pos' ),
-			'cmshop-items'     => array( __( 'Stock', 'codereyes-mobile-shop' ), 'items' ),
-			'cmshop-sales'     => array( __( 'Sales', 'codereyes-mobile-shop' ), 'sales' ),
-			'cmshop-repairs'   => array( __( 'Repairs', 'codereyes-mobile-shop' ), 'repairs' ),
-			'cmshop-customers' => array( __( 'Customers', 'codereyes-mobile-shop' ), 'customers' ),
-			'cmshop-dues'      => array( __( 'Dues', 'codereyes-mobile-shop' ), 'dues' ),
-			'cmshop-shifts'    => array( __( 'Cash register', 'codereyes-mobile-shop' ), 'shifts' ),
+			self::SLUG         => array( __( 'Dashboard', 'codereyes-mobile-shop' ), 'dashboard', $sell ),
+			'cmshop-pos'       => array( __( 'New sale (POS)', 'codereyes-mobile-shop' ), 'pos', $sell ),
+			'cmshop-items'     => array( __( 'Stock', 'codereyes-mobile-shop' ), 'items', $manage ),
+			'cmshop-suppliers' => array( __( 'Suppliers', 'codereyes-mobile-shop' ), array( new Cmshop_Supplier_Pages(), 'render' ), $manage ),
+			'cmshop-sales'     => array( __( 'Sales', 'codereyes-mobile-shop' ), 'sales', $sell ),
+			'cmshop-repairs'   => array( __( 'Repairs', 'codereyes-mobile-shop' ), 'repairs', $sell ),
+			'cmshop-customers' => array( __( 'Customers', 'codereyes-mobile-shop' ), 'customers', $sell ),
+			'cmshop-dues'      => array( __( 'Dues', 'codereyes-mobile-shop' ), 'dues', $sell ),
+			'cmshop-shifts'    => array( __( 'Cash register', 'codereyes-mobile-shop' ), 'shifts', $sell ),
+			'cmshop-staff'     => array( __( 'Staff and commission', 'codereyes-mobile-shop' ), 'staff', $manage ),
 		);
 
 		foreach ( $pages as $slug => $page ) {
-			add_submenu_page( self::SLUG, $page[0], $page[0], $cap, $slug, array( $this, $page[1] ) );
+			add_submenu_page( self::SLUG, $page[0], $page[0], $page[2], $slug, is_array( $page[1] ) ? $page[1] : array( $this, $page[1] ) );
 		}
-
-		add_submenu_page( self::SLUG, __( 'Suppliers', 'codereyes-mobile-shop' ), __( 'Suppliers', 'codereyes-mobile-shop' ), $cap, Cmshop_Supplier_Pages::SLUG, array( new Cmshop_Supplier_Pages(), 'render' ) );
 
 		add_submenu_page( self::SLUG, __( 'Settings', 'codereyes-mobile-shop' ), __( 'Settings', 'codereyes-mobile-shop' ), 'manage_options', 'cmshop-settings', array( $this, 'settings' ) );
 	}
@@ -163,7 +170,41 @@ final class Cmshop_Admin {
 	 * Dashboard.
 	 */
 	public function dashboard(): void {
-		$this->render( 'dashboard', Cmshop_Dashboard::data() );
+		if ( Cmshop_Staff::can_manage() ) {
+			$this->render( 'dashboard', Cmshop_Dashboard::data() );
+			return;
+		}
+
+		// Cashiers get their own day and commission, never shop-wide money or profit.
+		$this->render( 'dashboard-staff', Cmshop_Dashboard::staff_data( get_current_user_id() ) );
+	}
+
+	/**
+	 * Sales and commission per staff member.
+	 */
+	public function staff(): void {
+		$periods = Cmshop_Dashboard::periods();
+		$period  = array_key_exists( $this->query_key( 'period' ), $periods ) ? $this->query_key( 'period' ) : 'month';
+		$range   = $periods[ $period ];
+
+		$this->render(
+			'staff',
+			array(
+				'period'   => $period,
+				'periods'  => $periods,
+				'report'   => Cmshop_Commission::report(
+					Cmshop_Plugin::sales()->by_staff( $range[1], $range[2] ),
+					Cmshop_Commission::rate( (string) Cmshop_Settings::get( 'commission_rate' ) ),
+					(string) Cmshop_Settings::get( 'commission_base' )
+				),
+				'cashiers' => get_users(
+					array(
+						'role'   => Cmshop_Installer::CASHIER_ROLE,
+						'fields' => array( 'ID', 'display_name' ),
+					)
+				),
+			)
+		);
 	}
 
 	/**
@@ -415,10 +456,13 @@ final class Cmshop_Admin {
 	 * Cash register: open/close a shift, petty cash, history and end-of-day reports.
 	 */
 	public function shifts(): void {
+		$own = Cmshop_Staff::can_manage() ? 0 : get_current_user_id();
+
 		if ( 'report' === $this->action() ) {
 			$shift = Cmshop_Plugin::shift_history()->find( $this->id() );
 
-			if ( null === $shift ) {
+			// Cashiers only see their own shifts.
+			if ( null === $shift || ( $own > 0 && (int) $shift['user_id'] !== $own ) ) {
 				$this->render( 'not-found', array() );
 				return;
 			}
@@ -433,7 +477,7 @@ final class Cmshop_Admin {
 			'shifts',
 			array(
 				'current' => Cmshop_Plugin::shifts()->current( get_current_user_id() ),
-				'history' => Cmshop_Plugin::shift_history()->recent( 30 ),
+				'history' => Cmshop_Plugin::shift_history()->recent( 30, $own ),
 				'errors'  => $state['errors'] ?? array(),
 				'values'  => $state['values'] ?? array(),
 			)
@@ -556,8 +600,16 @@ final class Cmshop_Admin {
 	 * @param array  $vars Variables.
 	 */
 	private function render( string $view, array $vars ): void {
-		if ( ! current_user_can( 'settings' === $view ? 'manage_options' : Cmshop_Installer::CAPABILITY ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'codereyes-mobile-shop' ) );
+		$allowed = Cmshop_Staff::can_sell();
+
+		if ( 'settings' === $view ) {
+			$allowed = current_user_can( 'manage_options' );
+		} elseif ( in_array( $view, self::MANAGER_VIEWS, true ) || ( 'list' === $view && 'items' === ( $vars['dataset'] ?? '' ) ) ) {
+			$allowed = Cmshop_Staff::can_manage();
+		}
+
+		if ( ! $allowed ) {
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'codereyes-mobile-shop' ), 403 );
 		}
 
 		$cmshop = $vars;

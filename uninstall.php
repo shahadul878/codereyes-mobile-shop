@@ -28,5 +28,6 @@ foreach ( Cmshop_Installer::TABLES as $cmshop_table ) {
 
 delete_option( Cmshop_Installer::OPTION );
 delete_option( Cmshop_Installer::GRANTED_OPTION );
+delete_option( Cmshop_Installer::SELL_OPTION );
 delete_option( 'cmshop_settings' );
 Cmshop_Installer::remove_capability();

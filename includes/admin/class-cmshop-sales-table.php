@@ -27,7 +27,7 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	 * @return array
 	 */
 	public function get_columns(): array {
-		return array(
+		$columns = array(
 			'invoice_no'     => __( 'Invoice', 'codereyes-mobile-shop' ),
 			'created_at'     => __( 'Date', 'codereyes-mobile-shop' ),
 			'customer_name'  => __( 'Customer', 'codereyes-mobile-shop' ),
@@ -37,6 +37,9 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 			'profit'         => __( 'Profit', 'codereyes-mobile-shop' ),
 			'status'         => __( 'Status', 'codereyes-mobile-shop' ),
 		);
+
+		// Cashiers never see profit.
+		return Cmshop_Staff::sees_costs() ? $columns : array_diff_key( $columns, array( 'profit' => true ) );
 	}
 
 	/**

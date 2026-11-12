@@ -79,6 +79,51 @@ final class Cmshop_Dashboard {
 	}
 
 	/**
+	 * A cashier's own day: their sales, commission, shift and the counter queue.
+	 *
+	 * @param int $user_id Staff member.
+	 * @return array
+	 */
+	public static function staff_data( int $user_id ): array {
+		$periods = self::periods();
+		$sales   = Cmshop_Plugin::sales();
+		$points  = Cmshop_Commission::rate( (string) Cmshop_Settings::get( 'commission_rate' ) );
+		$base    = (string) Cmshop_Settings::get( 'commission_base' );
+		$mine    = static function ( array $range ) use ( $sales, $user_id, $points, $base ): array {
+			return Cmshop_Commission::report( $sales->by_staff( $range[1], $range[2], $user_id ), $points, $base )['totals'];
+		};
+
+		return array(
+			'today'      => $mine( $periods['today'] ),
+			'month'      => $mine( $periods['month'] ),
+			'commission' => $points > 0,
+			'rate'       => Cmshop_Commission::rate_text( $points ),
+			'base'       => $base,
+			'shift'      => Cmshop_Plugin::shifts()->current( $user_id ),
+			'repairs'    => Cmshop_Plugin::repairs()->open_counts(),
+			'dues'       => $sales->dues_summary(),
+		);
+	}
+
+	/**
+	 * Report periods: key => [label, from, to) in site time.
+	 *
+	 * @return array<string, array{0: string, 1: string, 2: string}>
+	 */
+	public static function periods(): array {
+		$today    = current_time( 'Y-m-d' );
+		$tomorrow = self::shift( $today, 1 ) . ' 00:00:00';
+		$month    = substr( $today, 0, 8 ) . '01';
+
+		return array(
+			'today'      => array( __( 'Today', 'codereyes-mobile-shop' ), $today . ' 00:00:00', $tomorrow ),
+			'week'       => array( __( 'Last 7 days', 'codereyes-mobile-shop' ), self::shift( $today, -6 ) . ' 00:00:00', $tomorrow ),
+			'month'      => array( __( 'This month', 'codereyes-mobile-shop' ), $month . ' 00:00:00', $tomorrow ),
+			'last_month' => array( __( 'Last month', 'codereyes-mobile-shop' ), ( new DateTimeImmutable( $month ) )->modify( '-1 month' )->format( 'Y-m-d' ) . ' 00:00:00', $month . ' 00:00:00' ),
+		);
+	}
+
+	/**
 	 * Today's to-do list: only what needs doing.
 	 *
 	 * @param array<string,int> $repairs Open repairs by status.
