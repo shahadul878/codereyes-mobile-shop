@@ -1,0 +1,183 @@
+/* Codereyes Mobile Shop — POS dialogs and small screens (loaded after pos.css). */
+
+/* ---------- Dialogs ---------- */
+
+.cmshop-pos-dialog {
+	width: min(560px, calc(100vw - 32px));
+	padding: 20px;
+	border: 0;
+	border-radius: var(--cmshop-radius-lg);
+	box-shadow: var(--cmshop-shadow-md);
+}
+
+.cmshop-pos-dialog::backdrop {
+	background: rgba(20, 33, 61, 0.45);
+}
+
+.cmshop-pos-dialog header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 14px;
+}
+
+.cmshop-pos-dialog h2 {
+	margin: 0;
+	font-size: 18px;
+}
+
+.cmshop-pos-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 14px;
+}
+
+.cmshop-pos-option {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	padding: 8px 12px;
+	border: 1px solid var(--cmshop-line-strong);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-surface);
+	cursor: pointer;
+}
+
+.cmshop-pos-option small {
+	padding: 0 6px;
+	border-radius: 999px;
+	background: var(--cmshop-bg);
+	font-weight: 700;
+}
+
+.cmshop-pos-option.is-active {
+	border-color: var(--cmshop-accent-strong);
+	box-shadow: var(--cmshop-ring);
+}
+
+.cmshop-pos-units,
+.cmshop-pos-heldlist {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	max-height: 50vh;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+	list-style: none;
+}
+
+.cmshop-pos-unit {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-surface);
+	cursor: pointer;
+}
+
+.cmshop-pos-unit:hover {
+	border-color: var(--cmshop-accent);
+	background: var(--cmshop-accent-soft);
+}
+
+.cmshop-pos-heldrow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	gap: 8px;
+	align-items: center;
+	padding: 10px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+}
+
+.cmshop-pos-heldrow span {
+	display: block;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+}
+
+.cmshop-pos-dialog--done {
+	text-align: center;
+}
+
+.cmshop-pos-done-icon.dashicons {
+	width: 64px;
+	height: 64px;
+	color: var(--cmshop-accent);
+	font-size: 64px;
+}
+
+.cmshop-pos-done-change {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.cmshop-pos-done-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: center;
+}
+
+/* ---------- Smaller screens ---------- */
+
+@media (max-width: 960px) {
+	.cmshop-pos-app.wrap {
+		height: auto;
+		overflow: visible;
+	}
+
+	.cmshop-pos-body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cmshop-pos-grid {
+		max-height: 60vh;
+	}
+
+	.cmshop-pos-side {
+		border-top: 1px solid var(--cmshop-line);
+		border-left: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.cmshop-pos-top {
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 8px 12px;
+	}
+
+	.cmshop-pos-top__user {
+		display: none;
+	}
+
+	.cmshop-pos-catalog {
+		padding: 12px 12px 0;
+	}
+
+	.cmshop-pos-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.cmshop-pos-customer__fields,
+	.cmshop-pos-extra__fields {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-pos-tile {
+		transition: none;
+	}
+
+	.cmshop-pos-tile:hover,
+	.cmshop-pos-tile:active {
+		transform: none;
+	}
+}

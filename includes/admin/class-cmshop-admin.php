@@ -125,6 +125,7 @@ final class Cmshop_Admin {
 		$user = wp_get_current_user();
 
 		wp_enqueue_style( 'cmshop-pos', CMSHOP_URL . 'assets/css/pos.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
+		wp_enqueue_style( 'cmshop-pos-dialogs', CMSHOP_URL . 'assets/css/pos-dialogs.css', array( 'cmshop-pos' ), CMSHOP_VERSION );
 		wp_enqueue_script( 'cmshop-pos-core', CMSHOP_URL . 'assets/js/pos-core.js', array(), CMSHOP_VERSION, true );
 		wp_enqueue_script( 'cmshop-pos-dom', CMSHOP_URL . 'assets/js/pos-dom.js', array( 'wp-i18n' ), CMSHOP_VERSION, true );
 		wp_set_script_translations( 'cmshop-pos-dom', 'codereyes-mobile-shop' );

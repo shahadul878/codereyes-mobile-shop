@@ -1,0 +1,103 @@
+/* Codereyes Mobile Shop — product page, motion and small screens (loaded after frontend.css). */
+
+/* ---------- WooCommerce product page ---------- */
+
+.cmshop-condition {
+	font-weight: 600;
+}
+
+/* ---------- Motion and small screens ---------- */
+
+@keyframes cmshop-rise {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-ui *,
+	.cmshop-ui *::before,
+	.cmshop-ui *::after {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	.cmshop-stock__card:hover,
+	.cmshop-stock__card:hover .cmshop-stock__media img {
+		transform: none;
+	}
+}
+
+@media (max-width: 782px) {
+	.cmshop-stock--cols .cmshop-stock__grid {
+		grid-template-columns: repeat(min(var(--cmshop-columns), 2), minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 560px) {
+	.cmshop-lookup__form,
+	.cmshop-lookup__form--single,
+	.cmshop-booking__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.cmshop-lookup__form small {
+		position: static;
+	}
+
+	.cmshop-steps {
+		grid-auto-flow: row;
+		gap: 4px;
+	}
+
+	.cmshop-steps li {
+		padding: 4px 0 4px 40px;
+		text-align: left;
+	}
+
+	.cmshop-steps li::before {
+		top: 2px;
+		left: 13px;
+	}
+
+	.cmshop-steps li::after {
+		top: auto;
+		right: auto;
+		bottom: 50%;
+		left: 12px;
+		width: 2px;
+		height: 100%;
+	}
+
+	.cmshop-stock__grid,
+	.cmshop-stock--cols .cmshop-stock__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.cmshop-stock__body {
+		padding: 10px 12px 14px;
+	}
+
+	.cmshop-stock__foot {
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.cmshop-stock__filters {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.cmshop-chips {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+}

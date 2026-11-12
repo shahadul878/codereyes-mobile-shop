@@ -445,7 +445,9 @@ final class Cmshop_Plugin {
 	 * Register the website stylesheet early, so blocks and widgets can depend on it.
 	 */
 	public static function register_frontend_style(): void {
-		wp_register_style( 'cmshop-frontend', CMSHOP_URL . 'assets/css/frontend.css', array(), CMSHOP_VERSION );
+		// Two files in order; anything that depends on "cmshop-frontend" gets both.
+		wp_register_style( 'cmshop-frontend-base', CMSHOP_URL . 'assets/css/frontend.css', array(), CMSHOP_VERSION );
+		wp_register_style( 'cmshop-frontend', CMSHOP_URL . 'assets/css/frontend-media.css', array( 'cmshop-frontend-base' ), CMSHOP_VERSION );
 	}
 
 	/**

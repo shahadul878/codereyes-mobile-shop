@@ -4,11 +4,11 @@ Tags: mobile shop, pos, imei, phone repair, elementor
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Run a mobile phone shop in store and online: IMEI stock, point of sale, receipts, repair tickets with a status tracker, and WooCommerce stock sync.
+Run a phone shop in store and online: IMEI stock, POS, installments, trade-ins, repairs, suppliers, cashiers and WooCommerce sync.
 
 == Description ==
 
@@ -22,15 +22,39 @@ Codereyes Mobile Shop is a complete back office for mobile phone shops that sell
 * "Add another like this" copies a phone's model and prices, so adding five of the same model means scanning five IMEIs.
 * Cost price and selling price for every item, with stock value on the dashboard.
 * Photos for every item from your Media Library: a main photo and up to 12 more, shown in the stock list and on your website.
+* Price stickers with a scannable barcode (the IMEI for phones, the SKU or an item code for accessories) on 38 × 25 mm or 50 × 30 mm label rolls or A4 sheets of 21.
+
+**Suppliers and purchases**
+
+* Record a whole delivery at once: scan the IMEIs of every phone of a model (one per line) and add accessories by quantity, or restock one you already sell.
+* IMEIs are checked as you scan: wrong digits, the same phone scanned twice, or a phone already in stock are flagged before anything is saved.
+* Pay the supplier now or later. Each supplier's account shows what you owe; payments settle the oldest deliveries first.
+* Print price stickers for everything that came in, straight from the purchase.
 
 **Point of sale (in store)**
 
-* Scan an IMEI or barcode, or type a name, and press Enter to add it to the cart.
-* Change prices at the counter, add a discount, take part payments and see the change due.
-* Cash, card, mobile banking (bKash, Nagad, Rocket) and bank transfer.
-* Print a thermal receipt (80 mm or 58 mm roll) or a full A4 invoice for any sale, with your shop name, address and warranty note. Choose the default in Settings and switch on any sale.
-* Void a sale (returns) and its items go back into stock.
+* A full-screen till: a product grid with brand tabs, a colour and storage picker for each model, and scanning by IMEI, barcode or sticker.
+* Keyboard shortcuts (F2 search, F8 pay, F9 hold, Esc close) and held sales to serve the next customer.
+* Split one sale across cash, card, mobile banking (bKash, Nagad, Rocket) and bank transfer, with quick-cash buttons and the change worked out.
+* Trade-ins: take the customer's old phone as part payment. It is checked, valued and added to stock as a used phone.
+* Sell on credit or in installments (weekly or monthly). Dues shows who owes what, what is overdue, and lets you collect against the oldest sale first.
+* Returns and exchanges: refund in cash or as store credit, with stock put back.
+* Print a thermal receipt (80 mm or 58 mm roll) or a full A4 invoice for any sale, or send the receipt on WhatsApp.
 * Two tills can never sell the same phone: each sale locks its stock.
+
+**Cash register**
+
+* Each cashier opens a shift with the cash in the drawer, records petty cash in and out, and closes by counting notes. The plugin works out what should be there and shows any shortage, then prints an end-of-shift report.
+
+**WhatsApp**
+
+* One tap opens WhatsApp with the message already written: receipts, repair updates, "ready to collect" alerts and payment reminders. You check it and press send; no API account or fees.
+* Write the messages in Bangla or English in Settings. Local numbers get your country code (+880 by default).
+
+**Staff**
+
+* The "Shop Cashier" role sells, takes repairs, collects dues and runs their own cash register, but never sees cost prices, profit, suppliers or other people's takings, and cannot void, refund or change stock.
+* Staff commission as a percentage of sales or of profit, with a report per person and each cashier's own figure on their dashboard.
 
 **Repairs**
 
@@ -61,7 +85,7 @@ Every website part is available three ways: as a block in the block editor (in t
 **Customers and reports**
 
 * Customers are matched by phone number, with their full purchase and repair history.
-* Dashboard with today's and this month's sales and profit, stock count and value, low-stock accessories and the repair queue.
+* Dashboard with today's sales, profit and cash, a 30-day chart, how customers paid, best sellers, slow stock and a to-do list (repairs to call about, dues to collect, accessories to reorder, suppliers to pay).
 * Export stock, sales, repairs and customers to CSV (opens correctly in Excel, including Bengali text and long IMEI numbers).
 
 Bengali digits (০-৯) are accepted in IMEI, phone and price fields.
@@ -75,7 +99,7 @@ Bengali digits (০-৯) are accepted in IMEI, phone and price fields.
 5. Optional: install WooCommerce to sell online, then open a stock item and click **Publish to website**.
 6. Optional: add the shortcodes to pages: `[cmshop_stock]` (phones in stock), `[cmshop_warranty]` (warranty check), `[cmshop_repair_request]` (book a repair) and `[cmshop_repair_status]` (track a repair). **Mobile Shop → Settings** lists them all.
 
-Administrators and WooCommerce Shop Managers can use the shop screens. Only administrators can change settings.
+Administrators and WooCommerce Shop Managers can use every shop screen. Give counter staff the "Shop Cashier" role. Only administrators can change settings.
 
 == Frequently Asked Questions ==
 
@@ -103,6 +127,14 @@ New phones are grouped by brand and model. For example, three Galaxy A15 128GB B
 
 No. Photos are only sent when the stock item has them. A product whose stock item has no photo keeps the photos you added in WooCommerce.
 
+= Do cashiers see my cost prices and profit? =
+
+No. The Shop Cashier role never sees cost prices, profit, suppliers or the shop's total takings. Cashiers see their own sales and commission.
+
+= Does WhatsApp sending cost anything? =
+
+No. The buttons open WhatsApp (app or web) with the message written; you press send yourself. Nothing is sent without you.
+
 = Can customers see my cost prices or IMEIs? =
 
 No. Cost prices are only shown to shop staff, and IMEIs are never published to the website.
@@ -118,6 +150,19 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 7. Customer repair tracker on the website.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: full-screen point of sale with a product grid, model colour/storage picker, held sales, keyboard shortcuts, split payments and quick cash.
+* New: dashboard with today's KPIs, a 30-day sales and profit chart, payment split, best sellers, slow stock and a to-do list.
+* New: credit sales and weekly or monthly installment plans, with a Dues screen to collect payments.
+* New: trade-ins as part payment; the phone joins stock as a used phone.
+* New: returns and exchanges with refunds in cash or store credit.
+* New: cash register shifts with petty cash, note counting and an end-of-shift report.
+* New: price stickers with Code 128 barcodes for label rolls and A4 sheets.
+* New: WhatsApp receipts, repair updates and payment reminders with editable Bangla or English templates.
+* New: suppliers and bulk purchases with IMEI scanning, supplier dues and payments.
+* New: Shop Cashier role that never sees costs or profit, and a staff commission report.
+* Database update to 1.6.0 runs automatically.
 
 = 1.2.0 =
 * New: Gutenberg blocks for Phones in Stock, Warranty Check, Book a Repair and Repair Tracker, with live previews and colour, corner and column settings.
@@ -136,6 +181,9 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 * First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export, item photos and WooCommerce stock and brand sync with one product per model for new phones.
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+A new full-screen POS and dashboard, dues and installments, trade-ins, returns, cash register shifts, price stickers, WhatsApp messages, suppliers and a cashier role. The database updates automatically.
 
 = 1.2.0 =
 Adds blocks and Elementor widgets, and a modern design for your website and admin.
