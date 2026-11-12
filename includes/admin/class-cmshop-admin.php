@@ -22,6 +22,7 @@ final class Cmshop_Admin {
 	 * Hook in.
 	 */
 	public function register(): void {
+		add_filter( 'admin_body_class', array( $this, 'body_class' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
@@ -95,7 +96,11 @@ final class Cmshop_Admin {
 			return;
 		}
 
-		wp_enqueue_script( 'cmshop-pos', CMSHOP_URL . 'assets/js/pos.js', array( 'wp-api-fetch', 'wp-i18n' ), CMSHOP_VERSION, true );
+		$user = wp_get_current_user();
+
+		wp_enqueue_style( 'cmshop-pos', CMSHOP_URL . 'assets/css/pos.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
+		wp_enqueue_script( 'cmshop-pos-core', CMSHOP_URL . 'assets/js/pos-core.js', array(), CMSHOP_VERSION, true );
+		wp_enqueue_script( 'cmshop-pos', CMSHOP_URL . 'assets/js/pos.js', array( 'cmshop-pos-core', 'wp-api-fetch', 'wp-i18n' ), CMSHOP_VERSION, true );
 		wp_set_script_translations( 'cmshop-pos', 'codereyes-mobile-shop' );
 		wp_localize_script(
 			'cmshop-pos',
@@ -104,8 +109,21 @@ final class Cmshop_Admin {
 				'namespace' => Cmshop_Rest::NAMESPACE,
 				'symbol'    => Cmshop_Settings::currency_symbol(),
 				'preselect' => $this->preselected_item(),
+				'methods'   => Cmshop_Settings::payment_methods(),
+				'receipt'   => Cmshop_View::url( 'cmshop-sales', array( 'action' => 'view' ) ),
+				'cashier'   => $user->display_name,
 			)
 		);
+	}
+
+	/**
+	 * Full-screen point of sale: the admin menu and toolbar are hidden.
+	 *
+	 * @param string $classes Body classes.
+	 * @return string
+	 */
+	public function body_class( string $classes ): string {
+		return 'cmshop-pos' === $this->query_key( 'page' ) ? $classes . ' cmshop-pos-screen' : $classes;
 	}
 
 	/**

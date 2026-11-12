@@ -78,7 +78,7 @@ final class Cmshop_Rest {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'search_items' ),
-				'permission_callback' => array( $this, 'can_sell' ),
+				'permission_callback' => array( self::class, 'can_sell' ),
 				'args'                => $search_args,
 			)
 		);
@@ -89,7 +89,7 @@ final class Cmshop_Rest {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'search_customers' ),
-				'permission_callback' => array( $this, 'can_sell' ),
+				'permission_callback' => array( self::class, 'can_sell' ),
 				'args'                => $search_args,
 			)
 		);
@@ -100,9 +100,9 @@ final class Cmshop_Rest {
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'checkout' ),
-				'permission_callback' => array( $this, 'can_sell' ),
+				'permission_callback' => array( self::class, 'can_sell' ),
 				'args'                => array(
-					'lines' => array(
+					'lines'    => array(
 						'type'     => 'array',
 						'required' => true,
 						'maxItems' => Cmshop_Cart::MAX_LINES,
@@ -123,6 +123,18 @@ final class Cmshop_Rest {
 							),
 						),
 					),
+					'payments' => array(
+						'type'     => 'array',
+						'maxItems' => 5,
+						'items'    => array(
+							'type'       => 'object',
+							'properties' => array(
+								'method'    => array( 'type' => 'string' ),
+								'amount'    => array( 'type' => 'string' ),
+								'reference' => array( 'type' => 'string' ),
+							),
+						),
+					),
 				),
 			)
 		);
@@ -133,7 +145,7 @@ final class Cmshop_Rest {
 	 *
 	 * @return bool
 	 */
-	public function can_sell(): bool {
+	public static function can_sell(): bool {
 		return current_user_can( Cmshop_Installer::CAPABILITY );
 	}
 
@@ -147,14 +159,14 @@ final class Cmshop_Rest {
 		$term = $this->term( $request );
 
 		if ( null === $term ) {
-			return $this->envelope( array() );
+			return self::envelope( array() );
 		}
 
 		// A scanned IMEI may include separators; search by its digits.
 		$imei = Cmshop_Imei::normalize( $term );
 		$rows = $this->items->search_sellable( Cmshop_Imei::is_valid( $imei ) ? $imei : $term );
 
-		return $this->envelope( array_map( array( $this, 'item_json' ), $rows ) );
+		return self::envelope( array_map( array( $this, 'item_json' ), $rows ) );
 	}
 
 	/**
@@ -166,7 +178,7 @@ final class Cmshop_Rest {
 	public function search_customers( WP_REST_Request $request ): WP_REST_Response {
 		$term = $this->term( $request );
 
-		return $this->envelope( null === $term ? array() : $this->customers->search( $term ) );
+		return self::envelope( null === $term ? array() : $this->customers->search( $term ) );
 	}
 
 	/**
@@ -191,27 +203,55 @@ final class Cmshop_Rest {
 					'discount'       => $text( 'discount' ),
 					'amount_paid'    => $text( 'amount_paid' ),
 					'payment_method' => sanitize_key( $text( 'payment_method' ) ),
+					'payments'       => $this->payments( $request ),
 					'notes'          => $text( 'notes' ),
 					'channel'        => Cmshop_Sale_Repository::CHANNEL_STORE,
 				),
 				get_current_user_id()
 			);
 		} catch ( InvalidArgumentException $error ) {
-			return $this->envelope( null, $error->getMessage(), 422 );
+			return self::envelope( null, $error->getMessage(), 422 );
 		} catch ( RuntimeException $error ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log of a database failure.
 			error_log( 'Codereyes Mobile Shop checkout failed: ' . $error->getMessage() );
 
-			return $this->envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'codereyes-mobile-shop' ), 500 );
+			return self::envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'codereyes-mobile-shop' ), 500 );
 		}
 
-		return $this->envelope(
+		return self::envelope(
 			array(
 				'sale_id'     => $sale_id,
 				'receipt_url' => admin_url( 'admin.php?page=cmshop-sales&action=view&id=' . $sale_id ),
 			),
 			null,
 			201
+		);
+	}
+
+	/**
+	 * Split payment rows as plain strings, or null for a single-method sale.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return array[]|null
+	 */
+	private function payments( WP_REST_Request $request ): ?array {
+		$rows = $request->get_param( 'payments' );
+
+		if ( ! is_array( $rows ) ) {
+			return null;
+		}
+
+		return array_map(
+			static function ( $row ): array {
+				$row = is_array( $row ) ? $row : array();
+
+				return array(
+					'method'    => sanitize_key( (string) ( $row['method'] ?? '' ) ),
+					'amount'    => sanitize_text_field( (string) ( $row['amount'] ?? '' ) ),
+					'reference' => sanitize_text_field( (string) ( $row['reference'] ?? '' ) ),
+				);
+			},
+			$rows
 		);
 	}
 
@@ -256,7 +296,7 @@ final class Cmshop_Rest {
 	 * @param int         $status HTTP status.
 	 * @return WP_REST_Response
 	 */
-	private function envelope( $data, ?string $error = null, int $status = 200 ): WP_REST_Response {
+	public static function envelope( $data, ?string $error = null, int $status = 200 ): WP_REST_Response {
 		return new WP_REST_Response(
 			array(
 				'success' => null === $error,

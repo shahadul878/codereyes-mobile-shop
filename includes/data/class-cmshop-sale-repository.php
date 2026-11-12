@@ -252,6 +252,33 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * A customer's history at a glance: sales, money spent, last visit, money owed.
+	 *
+	 * @param int $customer_id Customer.
+	 * @return array{sales: int, spent: string, last: string, due: string}
+	 */
+	public function customer_stats( int $customer_id ): array {
+		$row = $this->db->get_row(
+			$this->db->prepare(
+				'SELECT COUNT(*) AS sales, COALESCE( SUM( total ), 0 ) AS spent, MAX( created_at ) AS last,
+					COALESCE( SUM( GREATEST( total - amount_paid, 0 ) ), 0 ) AS due
+				FROM %i WHERE customer_id = %d AND status = %s',
+				$this->table,
+				$customer_id,
+				self::STATUS_COMPLETED
+			),
+			ARRAY_A
+		);
+
+		return array(
+			'sales' => (int) ( $row['sales'] ?? 0 ),
+			'spent' => (string) ( $row['spent'] ?? '0.00' ),
+			'last'  => (string) ( $row['last'] ?? '' ),
+			'due'   => (string) ( $row['due'] ?? '0.00' ),
+		);
+	}
+
+	/**
 	 * Most recent sales.
 	 *
 	 * @param int $limit How many.

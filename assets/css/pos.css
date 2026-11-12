@@ -1,0 +1,826 @@
+/* Codereyes Mobile Shop — full-screen point of sale. Uses tokens from admin.css. */
+
+/* ---------- Full screen: hide WordPress chrome on the POS page ---------- */
+
+body.cmshop-pos-screen #adminmenumain,
+body.cmshop-pos-screen #wpadminbar,
+body.cmshop-pos-screen #wpfooter,
+body.cmshop-pos-screen .notice,
+body.cmshop-pos-screen .update-nag,
+body.cmshop-pos-screen #screen-meta-links {
+	display: none !important;
+}
+
+html.wp-toolbar:has(body.cmshop-pos-screen) {
+	padding-top: 0;
+}
+
+body.cmshop-pos-screen #wpcontent,
+body.cmshop-pos-screen #wpbody,
+body.cmshop-pos-screen #wpbody-content {
+	margin: 0;
+	padding: 0;
+}
+
+body.cmshop-pos-screen {
+	background: var(--cmshop-bg, #f5f7fa);
+}
+
+.cmshop-pos-app.wrap {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	margin: 0;
+	overflow: hidden;
+}
+
+.cmshop-pos-app kbd {
+	padding: 1px 6px;
+	border: 1px solid currentColor;
+	border-radius: 4px;
+	background: transparent;
+	font-size: 11px;
+	opacity: 0.65;
+}
+
+/* ---------- Top bar ---------- */
+
+.cmshop-pos-top {
+	display: flex;
+	flex: none;
+	gap: 14px;
+	align-items: center;
+	padding: 10px 18px;
+	background: var(--cmshop-ink);
+	color: #fff;
+}
+
+.cmshop-pos-top__exit {
+	display: inline-flex;
+	gap: 2px;
+	align-items: center;
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.cmshop-pos-top__exit:hover,
+.cmshop-pos-top__exit:focus {
+	color: #fff;
+}
+
+.cmshop-wrap .cmshop-pos-top__shop {
+	flex: 1;
+	margin: 0;
+	padding: 0;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.cmshop-pos-top__tools {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.cmshop-pos-chip {
+	display: inline-flex;
+	gap: 6px;
+	align-items: center;
+	min-height: 34px;
+	padding: 0 12px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	cursor: pointer;
+}
+
+.cmshop-pos-chip:hover,
+.cmshop-pos-chip:focus-visible {
+	background: rgba(255, 255, 255, 0.18);
+}
+
+.cmshop-pos-count {
+	min-width: 20px;
+	padding: 0 6px;
+	border-radius: 999px;
+	background: var(--cmshop-accent);
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.cmshop-pos-top__user {
+	display: inline-flex;
+	gap: 4px;
+	align-items: center;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+/* ---------- Body: grid | sale ---------- */
+
+.cmshop-pos-body {
+	display: grid;
+	flex: 1;
+	grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
+	min-height: 0;
+}
+
+.cmshop-pos-catalog {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	padding: 16px 18px 0;
+}
+
+.cmshop-pos-search {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	padding: 0 14px;
+	border: 2px solid var(--cmshop-line-strong);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-surface);
+	box-shadow: var(--cmshop-shadow-xs);
+}
+
+.cmshop-pos-search:focus-within {
+	border-color: var(--cmshop-accent);
+	box-shadow: var(--cmshop-ring);
+}
+
+.cmshop-pos-search .dashicons {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-wrap .cmshop-pos-search input {
+	flex: 1;
+	min-height: 48px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+	font-size: 16px;
+}
+
+.cmshop-pos-filters {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 12px 0;
+}
+
+.cmshop-pos-tabs {
+	display: flex;
+	gap: 6px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.cmshop-pos-tab {
+	flex: none;
+	padding: 6px 14px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: 999px;
+	background: var(--cmshop-surface);
+	color: var(--cmshop-text);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cmshop-pos-tabs--brands .cmshop-pos-tab {
+	padding: 4px 12px;
+	font-size: 12px;
+}
+
+.cmshop-pos-tab:hover {
+	border-color: var(--cmshop-accent);
+}
+
+.cmshop-pos-tab.is-active {
+	border-color: var(--cmshop-accent-strong);
+	background: var(--cmshop-accent-strong);
+	color: #fff;
+}
+
+/* ---------- Tiles ---------- */
+
+.cmshop-pos-grid {
+	display: grid;
+	flex: 1;
+	grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+	grid-auto-rows: min-content;
+	gap: 12px;
+	margin: 0;
+	padding: 2px 2px 18px;
+	overflow-y: auto;
+	list-style: none;
+}
+
+.cmshop-pos-grid li {
+	margin: 0;
+}
+
+.cmshop-pos-tile {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius-lg);
+	background: var(--cmshop-surface);
+	color: var(--cmshop-text);
+	text-align: left;
+	cursor: pointer;
+	transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.cmshop-pos-tile:hover {
+	box-shadow: var(--cmshop-shadow-md);
+	transform: translateY(-2px);
+}
+
+.cmshop-pos-tile:focus-visible {
+	box-shadow: var(--cmshop-focus);
+	outline: none;
+}
+
+.cmshop-pos-tile:active {
+	transform: scale(0.98);
+}
+
+.cmshop-pos-tile__media {
+	display: grid;
+	position: relative;
+	place-items: center;
+	height: 96px;
+	margin-bottom: 4px;
+	overflow: hidden;
+	border-radius: var(--cmshop-radius);
+	background: radial-gradient(circle at 50% 35%, #fff 0, #eef2f6 80%);
+	color: var(--cmshop-faint);
+}
+
+.cmshop-pos-tile__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.cmshop-pos-tile__media .dashicons {
+	width: 40px;
+	height: 40px;
+	font-size: 40px;
+}
+
+.cmshop-pos-tile__badge {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	padding: 1px 8px;
+	border-radius: 999px;
+	background: var(--cmshop-warn-soft);
+	color: var(--cmshop-warn);
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.cmshop-pos-tile__badge--new {
+	background: var(--cmshop-accent-soft);
+	color: var(--cmshop-accent-ink);
+}
+
+.cmshop-pos-tile__title {
+	color: var(--cmshop-ink);
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.cmshop-pos-tile__detail,
+.cmshop-pos-tile__stock {
+	color: var(--cmshop-muted);
+	font-size: 12px;
+}
+
+.cmshop-pos-tile__stock.is-low {
+	color: var(--cmshop-warn);
+	font-weight: 600;
+}
+
+.cmshop-pos-tile__foot {
+	display: flex;
+	gap: 6px;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: auto;
+}
+
+.cmshop-pos-tile__price {
+	color: var(--cmshop-ink);
+	font-size: 15px;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-pos-tile__swatches {
+	display: flex;
+	gap: 3px;
+}
+
+.cmshop-pos-tile__swatches i,
+.cmshop-pos-option i {
+	display: block;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #cbd5e1;
+	box-shadow: inset 0 0 0 1px rgba(20, 33, 61, 0.2);
+}
+
+.cmshop-pos-empty {
+	margin: 24px 0;
+	color: var(--cmshop-muted);
+	text-align: center;
+}
+
+/* ---------- Sale panel ---------- */
+
+.cmshop-pos-side {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	min-height: 0;
+	padding: 16px;
+	overflow-y: auto;
+	border-left: 1px solid var(--cmshop-line);
+	background: var(--cmshop-surface);
+}
+
+.cmshop-pos-customer__fields {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.cmshop-wrap .cmshop-pos-side input,
+.cmshop-wrap .cmshop-pos-side select {
+	width: 100%;
+	min-height: 38px;
+}
+
+.cmshop-pos-customer__info {
+	margin: 6px 0 0;
+	padding: 6px 10px;
+	border-radius: var(--cmshop-radius-sm);
+	background: var(--cmshop-bg);
+	color: var(--cmshop-muted);
+	font-size: 12px;
+}
+
+.cmshop-pos-customer__info.is-known {
+	background: var(--cmshop-accent-soft);
+	color: var(--cmshop-accent-ink);
+	font-weight: 600;
+}
+
+.cmshop-pos-customer__info.owes {
+	background: var(--cmshop-warn-soft);
+	color: var(--cmshop-warn);
+}
+
+.cmshop-pos-lines {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cmshop-pos-line {
+	display: grid;
+	grid-template-areas: "main main main x" "qty price total total";
+	grid-template-columns: auto minmax(0, 1fr) auto 24px;
+	gap: 6px 10px;
+	align-items: center;
+	margin: 0;
+	padding: 10px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+}
+
+.cmshop-pos-line__main {
+	grid-area: main;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.cmshop-pos-line__main strong {
+	color: var(--cmshop-ink);
+}
+
+.cmshop-pos-line__main span,
+.cmshop-pos-line__main code {
+	color: var(--cmshop-muted);
+	font-size: 11.5px;
+}
+
+.cmshop-pos-line__main code {
+	padding: 0;
+	background: none;
+}
+
+.cmshop-pos-line__qty {
+	grid-area: qty;
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.cmshop-pos-line__qty button {
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: 1px solid var(--cmshop-line-strong);
+	border-radius: 50%;
+	background: var(--cmshop-surface);
+	cursor: pointer;
+}
+
+.cmshop-wrap .cmshop-pos-line .cmshop-pos-line__price {
+	grid-area: price;
+	max-width: 120px;
+	min-height: 32px;
+	padding: 0 6px;
+	text-align: right;
+}
+
+.cmshop-pos-line__total {
+	grid-area: total;
+	min-width: 84px;
+	color: var(--cmshop-ink);
+	font-weight: 700;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.cmshop-pos-line .cmshop-pos-x {
+	grid-area: x;
+	align-self: start;
+}
+
+.cmshop-pos-x {
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--cmshop-danger);
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.cmshop-pos-x:hover {
+	background: var(--cmshop-danger-soft);
+}
+
+.cmshop-pos-extra summary {
+	color: var(--cmshop-muted);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cmshop-pos-extra__fields {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.cmshop-pos-extra__fields label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 12px;
+}
+
+.cmshop-pos-totals {
+	margin: 0;
+	padding: 12px 14px;
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-bg);
+}
+
+.cmshop-pos-totals div {
+	display: flex;
+	justify-content: space-between;
+	color: var(--cmshop-muted);
+}
+
+.cmshop-pos-totals dd {
+	margin: 0;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-pos-totals__total {
+	margin-top: 6px;
+	padding-top: 8px;
+	border-top: 1px solid var(--cmshop-line);
+}
+
+.cmshop-pos-totals .cmshop-pos-totals__total dt,
+.cmshop-pos-totals .cmshop-pos-totals__total dd {
+	color: var(--cmshop-ink);
+	font-size: 24px;
+	font-weight: 800;
+}
+
+.cmshop-pos-payrow {
+	display: grid;
+	grid-template-columns: 130px minmax(0, 1fr) auto;
+	gap: 6px;
+	align-items: center;
+	margin-bottom: 6px;
+}
+
+.cmshop-pos-payrow [data-reference] {
+	grid-column: 1 / 3;
+}
+
+.cmshop-pos-quick {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 6px 0;
+}
+
+.cmshop-pos-cash {
+	padding: 6px 12px;
+	border: 1px solid var(--cmshop-line-strong);
+	border-radius: var(--cmshop-radius-sm);
+	background: var(--cmshop-surface);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cmshop-pos-cash:hover {
+	border-color: var(--cmshop-accent);
+	background: var(--cmshop-accent-soft);
+}
+
+.cmshop-wrap .cmshop-pos-split {
+	display: inline-flex;
+	gap: 4px;
+	align-items: center;
+	color: var(--cmshop-accent-ink);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.cmshop-pos-balance {
+	margin: 8px 0 0;
+	padding: 8px 12px;
+	border-radius: var(--cmshop-radius-sm);
+	font-weight: 700;
+}
+
+.cmshop-pos-balance:empty {
+	display: none;
+}
+
+.cmshop-pos-balance.is-ok,
+.cmshop-pos-balance.is-change {
+	background: var(--cmshop-accent-soft);
+	color: var(--cmshop-accent-ink);
+}
+
+.cmshop-pos-balance.is-due {
+	background: var(--cmshop-warn-soft);
+	color: var(--cmshop-warn);
+}
+
+.cmshop-pos-error {
+	margin: 0;
+	padding: 8px 12px;
+	border-radius: var(--cmshop-radius-sm);
+	background: var(--cmshop-danger-soft);
+	color: var(--cmshop-danger);
+	font-weight: 600;
+}
+
+.cmshop-pos-actions {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 8px;
+	margin-top: auto;
+	padding-top: 6px;
+}
+
+.wp-core-ui .cmshop-wrap .cmshop-pos-actions .button {
+	display: inline-flex;
+	gap: 6px;
+	justify-content: center;
+	align-items: center;
+	min-height: 54px;
+	font-size: 15px;
+}
+
+.wp-core-ui .cmshop-wrap .cmshop-pos-payit {
+	font-size: 17px;
+	box-shadow: 0 10px 22px -10px var(--cmshop-accent-strong);
+}
+
+.cmshop-pos-app.is-busy .cmshop-pos-payit {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* ---------- Dialogs ---------- */
+
+.cmshop-pos-dialog {
+	width: min(560px, calc(100vw - 32px));
+	padding: 20px;
+	border: 0;
+	border-radius: var(--cmshop-radius-lg);
+	box-shadow: var(--cmshop-shadow-md);
+}
+
+.cmshop-pos-dialog::backdrop {
+	background: rgba(20, 33, 61, 0.45);
+}
+
+.cmshop-pos-dialog header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 14px;
+}
+
+.cmshop-pos-dialog h2 {
+	margin: 0;
+	font-size: 18px;
+}
+
+.cmshop-pos-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 14px;
+}
+
+.cmshop-pos-option {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	padding: 8px 12px;
+	border: 1px solid var(--cmshop-line-strong);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-surface);
+	cursor: pointer;
+}
+
+.cmshop-pos-option small {
+	padding: 0 6px;
+	border-radius: 999px;
+	background: var(--cmshop-bg);
+	font-weight: 700;
+}
+
+.cmshop-pos-option.is-active {
+	border-color: var(--cmshop-accent-strong);
+	box-shadow: var(--cmshop-ring);
+}
+
+.cmshop-pos-units,
+.cmshop-pos-heldlist {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	max-height: 50vh;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+	list-style: none;
+}
+
+.cmshop-pos-unit {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-surface);
+	cursor: pointer;
+}
+
+.cmshop-pos-unit:hover {
+	border-color: var(--cmshop-accent);
+	background: var(--cmshop-accent-soft);
+}
+
+.cmshop-pos-heldrow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	gap: 8px;
+	align-items: center;
+	padding: 10px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+}
+
+.cmshop-pos-heldrow span {
+	display: block;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+}
+
+.cmshop-pos-dialog--done {
+	text-align: center;
+}
+
+.cmshop-pos-done-icon.dashicons {
+	width: 64px;
+	height: 64px;
+	color: var(--cmshop-accent);
+	font-size: 64px;
+}
+
+.cmshop-pos-done-change {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.cmshop-pos-done-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: center;
+}
+
+/* ---------- Smaller screens ---------- */
+
+@media (max-width: 960px) {
+	.cmshop-pos-app.wrap {
+		height: auto;
+		overflow: visible;
+	}
+
+	.cmshop-pos-body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cmshop-pos-grid {
+		max-height: 60vh;
+	}
+
+	.cmshop-pos-side {
+		border-top: 1px solid var(--cmshop-line);
+		border-left: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.cmshop-pos-top {
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 8px 12px;
+	}
+
+	.cmshop-pos-top__user {
+		display: none;
+	}
+
+	.cmshop-pos-catalog {
+		padding: 12px 12px 0;
+	}
+
+	.cmshop-pos-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.cmshop-pos-customer__fields,
+	.cmshop-pos-extra__fields {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-pos-tile {
+		transition: none;
+	}
+
+	.cmshop-pos-tile:hover,
+	.cmshop-pos-tile:active {
+		transform: none;
+	}
+}

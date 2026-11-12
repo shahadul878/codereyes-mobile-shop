@@ -96,9 +96,14 @@ final class Cmshop_Sales_Service {
 
 		$result = $this->sales->transaction(
 			function () use ( $order, $lines, $buyer, $channel, $user_id ) {
-				$items    = $this->items->lock( array_column( $lines, 'item_id' ) );
-				$sale     = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), '' );
-				$paid     = Cmshop_Payments::allocate( $this->payment_rows( $order, $sale['total'] ), Cmshop_Money::to_cents( $sale['total'] ), array_keys( Cmshop_Settings::payment_methods() ) );
+				$items = $this->items->lock( array_column( $lines, 'item_id' ) );
+				$sale  = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), '' );
+				$paid  = Cmshop_Payments::allocate( $this->payment_rows( $order, $sale['total'] ), Cmshop_Money::to_cents( $sale['total'] ), array_keys( Cmshop_Settings::payment_methods() ) );
+
+				if ( $paid['due'] > 0 && ! isset( $buyer['phone'] ) ) {
+					throw new InvalidArgumentException( __( 'Add the customer\'s phone number to sell on credit.', 'codereyes-mobile-shop' ) );
+				}
+
 				$customer = isset( $buyer['phone'] ) ? $this->customers->find_or_create( $buyer['name'], $buyer['phone'], $buyer['email'] ) : $buyer;
 
 				$sale_id = $this->sales->insert_with_lines(

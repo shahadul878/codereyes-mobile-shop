@@ -1,95 +1,109 @@
 <?php
 /**
- * Point of sale. Behaviour lives in assets/js/pos.js.
+ * Full-screen point of sale. assets/js/pos.js fills the grid and the cart.
  *
  * @package CodereyesMobileShop
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="wrap cmshop-wrap cmshop-pos" id="cmshop-pos">
-	<h1><?php esc_html_e( 'New sale', 'codereyes-mobile-shop' ); ?></h1>
+<div class="wrap cmshop-wrap cmshop-pos-app" id="cmshop-pos">
+	<header class="cmshop-pos-top">
+		<a class="cmshop-pos-top__exit" href="<?php echo esc_url( Cmshop_View::url( 'cmshop' ) ); ?>">
+			<span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span><?php esc_html_e( 'Dashboard', 'codereyes-mobile-shop' ); ?>
+		</a>
+		<h1 class="cmshop-pos-top__shop"><?php echo esc_html( (string) Cmshop_Settings::get( 'shop_name' ) ); ?></h1>
+		<div class="cmshop-pos-top__tools">
+			<button type="button" class="cmshop-pos-chip" data-action="held-open">
+				<span class="dashicons dashicons-backup" aria-hidden="true"></span><?php esc_html_e( 'Held sales', 'codereyes-mobile-shop' ); ?>
+				<span class="cmshop-pos-count" data-held-count>0</span>
+			</button>
+			<button type="button" class="cmshop-pos-chip" data-action="fullscreen" aria-label="<?php esc_attr_e( 'Full screen', 'codereyes-mobile-shop' ); ?>">
+				<span class="dashicons dashicons-editor-expand" aria-hidden="true"></span>
+			</button>
+			<span class="cmshop-pos-top__user"><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span data-cashier></span></span>
+		</div>
+	</header>
 
-	<noscript><div class="notice notice-error"><p><?php esc_html_e( 'The point of sale needs JavaScript.', 'codereyes-mobile-shop' ); ?></p></div></noscript>
-
-	<div class="cmshop-pos__grid">
-		<section class="cmshop-pos__search cmshop-card" aria-labelledby="cmshop-pos-find">
-			<h2 id="cmshop-pos-find"><?php esc_html_e( 'Find item', 'codereyes-mobile-shop' ); ?></h2>
-			<label class="screen-reader-text" for="cmshop-pos-term"><?php esc_html_e( 'Scan IMEI or barcode, or type a name', 'codereyes-mobile-shop' ); ?></label>
-			<input type="search" id="cmshop-pos-term" class="cmshop-pos__term" autocomplete="off" autofocus placeholder="<?php esc_attr_e( 'Scan IMEI / barcode or type a name…', 'codereyes-mobile-shop' ); ?>">
-			<p class="description"><?php esc_html_e( 'Press Enter to add when there is exactly one match.', 'codereyes-mobile-shop' ); ?></p>
-			<ul class="cmshop-pos__results" id="cmshop-pos-results" aria-live="polite"></ul>
-		</section>
-
-		<section class="cmshop-pos__cart cmshop-card" aria-labelledby="cmshop-pos-cart-title">
-			<h2 id="cmshop-pos-cart-title"><?php esc_html_e( 'Cart', 'codereyes-mobile-shop' ); ?></h2>
-			<table class="cmshop-pos__lines">
-				<thead>
-					<tr>
-						<th><?php esc_html_e( 'Item', 'codereyes-mobile-shop' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Qty', 'codereyes-mobile-shop' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Price', 'codereyes-mobile-shop' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Total', 'codereyes-mobile-shop' ); ?></th>
-						<th><span class="screen-reader-text"><?php esc_html_e( 'Remove', 'codereyes-mobile-shop' ); ?></span></th>
-					</tr>
-				</thead>
-				<tbody id="cmshop-pos-lines">
-					<tr class="cmshop-pos__empty"><td colspan="5"><?php esc_html_e( 'The cart is empty. Scan or search for an item.', 'codereyes-mobile-shop' ); ?></td></tr>
-				</tbody>
-			</table>
-
-			<div class="cmshop-pos__checkout">
-				<fieldset class="cmshop-pos__customer">
-					<legend><?php esc_html_e( 'Customer (optional)', 'codereyes-mobile-shop' ); ?></legend>
-					<div class="cmshop-row">
-						<div class="cmshop-field">
-							<label for="cmshop-pos-phone"><?php esc_html_e( 'Phone', 'codereyes-mobile-shop' ); ?></label>
-							<input type="tel" id="cmshop-pos-phone" inputmode="tel" autocomplete="off" list="cmshop-pos-customers">
-							<datalist id="cmshop-pos-customers"></datalist>
-						</div>
-						<div class="cmshop-field">
-							<label for="cmshop-pos-name"><?php esc_html_e( 'Name', 'codereyes-mobile-shop' ); ?></label>
-							<input type="text" id="cmshop-pos-name" autocomplete="off" placeholder="<?php esc_attr_e( 'Walk-in customer', 'codereyes-mobile-shop' ); ?>">
-						</div>
-					</div>
-				</fieldset>
-
-				<div class="cmshop-row">
-					<div class="cmshop-field">
-						<label for="cmshop-pos-payment"><?php esc_html_e( 'Payment', 'codereyes-mobile-shop' ); ?></label>
-						<select id="cmshop-pos-payment">
-							<?php foreach ( Cmshop_Settings::payment_methods() as $cmshop_key => $cmshop_label ) : ?>
-								<?php if ( 'online' !== $cmshop_key ) : ?>
-									<option value="<?php echo esc_attr( $cmshop_key ); ?>"><?php echo esc_html( $cmshop_label ); ?></option>
-								<?php endif; ?>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<div class="cmshop-field">
-						<label for="cmshop-pos-discount"><?php esc_html_e( 'Discount', 'codereyes-mobile-shop' ); ?></label>
-						<input type="text" id="cmshop-pos-discount" inputmode="decimal" placeholder="0">
-					</div>
-					<div class="cmshop-field">
-						<label for="cmshop-pos-paid"><?php esc_html_e( 'Amount received', 'codereyes-mobile-shop' ); ?></label>
-						<input type="text" id="cmshop-pos-paid" inputmode="decimal" placeholder="<?php esc_attr_e( 'Full amount', 'codereyes-mobile-shop' ); ?>">
-					</div>
-				</div>
-
-				<div class="cmshop-field">
-					<label for="cmshop-pos-notes"><?php esc_html_e( 'Note on receipt', 'codereyes-mobile-shop' ); ?></label>
-					<input type="text" id="cmshop-pos-notes" maxlength="500" class="large-text">
-				</div>
-
-				<dl class="cmshop-pos__totals">
-					<dt><?php esc_html_e( 'Subtotal', 'codereyes-mobile-shop' ); ?></dt><dd id="cmshop-pos-subtotal">—</dd>
-					<dt><?php esc_html_e( 'Discount', 'codereyes-mobile-shop' ); ?></dt><dd id="cmshop-pos-discount-total">—</dd>
-					<dt class="cmshop-pos__grand"><?php esc_html_e( 'Total', 'codereyes-mobile-shop' ); ?></dt><dd class="cmshop-pos__grand" id="cmshop-pos-total">—</dd>
-					<dt id="cmshop-pos-balance-label"><?php esc_html_e( 'Change', 'codereyes-mobile-shop' ); ?></dt><dd id="cmshop-pos-balance">—</dd>
-				</dl>
-
-				<p class="cmshop-pos__error" id="cmshop-pos-error" role="alert" hidden></p>
-				<button type="button" class="button button-primary button-hero cmshop-pos__complete" id="cmshop-pos-complete" disabled><?php esc_html_e( 'Complete sale', 'codereyes-mobile-shop' ); ?></button>
+	<div class="cmshop-pos-body">
+		<section class="cmshop-pos-catalog" aria-label="<?php esc_attr_e( 'Products', 'codereyes-mobile-shop' ); ?>">
+			<div class="cmshop-pos-search">
+				<span class="dashicons dashicons-search" aria-hidden="true"></span>
+				<label class="screen-reader-text" for="cmshop-pos-search"><?php esc_html_e( 'Scan an IMEI or barcode, or type a name', 'codereyes-mobile-shop' ); ?></label>
+				<input type="search" id="cmshop-pos-search" autocomplete="off" placeholder="<?php esc_attr_e( 'Scan an IMEI or barcode, or type a name', 'codereyes-mobile-shop' ); ?>">
+				<kbd>F2</kbd>
 			</div>
+			<div class="cmshop-pos-filters">
+				<div class="cmshop-pos-tabs" role="group" aria-label="<?php esc_attr_e( 'Item type', 'codereyes-mobile-shop' ); ?>" data-types></div>
+				<div class="cmshop-pos-tabs cmshop-pos-tabs--brands" role="group" aria-label="<?php esc_attr_e( 'Brand', 'codereyes-mobile-shop' ); ?>" data-brands></div>
+			</div>
+			<ul class="cmshop-pos-grid" data-grid aria-live="polite"></ul>
+			<p class="cmshop-pos-empty" data-grid-empty hidden></p>
 		</section>
+
+		<aside class="cmshop-pos-side" aria-label="<?php esc_attr_e( 'Current sale', 'codereyes-mobile-shop' ); ?>">
+			<div class="cmshop-pos-customer">
+				<div class="cmshop-pos-customer__fields">
+					<label class="screen-reader-text" for="cmshop-pos-phone"><?php esc_html_e( 'Customer phone', 'codereyes-mobile-shop' ); ?></label>
+					<input type="tel" id="cmshop-pos-phone" inputmode="tel" autocomplete="off" placeholder="<?php esc_attr_e( 'Customer phone', 'codereyes-mobile-shop' ); ?>">
+					<label class="screen-reader-text" for="cmshop-pos-name"><?php esc_html_e( 'Customer name', 'codereyes-mobile-shop' ); ?></label>
+					<input type="text" id="cmshop-pos-name" autocomplete="off" placeholder="<?php esc_attr_e( 'Walk-in customer', 'codereyes-mobile-shop' ); ?>">
+				</div>
+				<p class="cmshop-pos-customer__info" data-customer-info hidden></p>
+			</div>
+
+			<ul class="cmshop-pos-lines" data-lines></ul>
+			<p class="cmshop-pos-empty cmshop-pos-empty--cart" data-cart-empty><?php esc_html_e( 'Scan or tap a product to start a sale.', 'codereyes-mobile-shop' ); ?></p>
+
+			<details class="cmshop-pos-extra">
+				<summary><?php esc_html_e( 'Discount and note', 'codereyes-mobile-shop' ); ?></summary>
+				<div class="cmshop-pos-extra__fields">
+					<label><?php esc_html_e( 'Discount', 'codereyes-mobile-shop' ); ?><input type="text" inputmode="decimal" data-discount placeholder="0"></label>
+					<label><?php esc_html_e( 'Note on receipt', 'codereyes-mobile-shop' ); ?><input type="text" data-note maxlength="200"></label>
+				</div>
+			</details>
+
+			<dl class="cmshop-pos-totals">
+				<div><dt><?php esc_html_e( 'Subtotal', 'codereyes-mobile-shop' ); ?></dt><dd data-subtotal></dd></div>
+				<div data-discount-row hidden><dt><?php esc_html_e( 'Discount', 'codereyes-mobile-shop' ); ?></dt><dd data-discount-text></dd></div>
+				<div class="cmshop-pos-totals__total"><dt><?php esc_html_e( 'Total', 'codereyes-mobile-shop' ); ?></dt><dd data-total></dd></div>
+			</dl>
+
+			<div class="cmshop-pos-pay">
+				<div data-payments></div>
+				<div class="cmshop-pos-quick" data-quick aria-label="<?php esc_attr_e( 'Cash received', 'codereyes-mobile-shop' ); ?>"></div>
+				<button type="button" class="button-link cmshop-pos-split" data-action="split"><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><?php esc_html_e( 'Split payment', 'codereyes-mobile-shop' ); ?></button>
+				<p class="cmshop-pos-balance" data-balance></p>
+			</div>
+
+			<p class="cmshop-pos-error" data-error role="alert" hidden></p>
+
+			<div class="cmshop-pos-actions">
+				<button type="button" class="button cmshop-pos-hold" data-action="hold"><span class="dashicons dashicons-controls-pause" aria-hidden="true"></span><?php esc_html_e( 'Hold', 'codereyes-mobile-shop' ); ?> <kbd>F9</kbd></button>
+				<button type="button" class="button button-primary cmshop-pos-payit" data-action="pay"><?php esc_html_e( 'Take payment', 'codereyes-mobile-shop' ); ?> <kbd>F8</kbd></button>
+			</div>
+		</aside>
 	</div>
+
+	<dialog class="cmshop-pos-dialog" data-dialog="variant" aria-labelledby="cmshop-pos-variant-title">
+		<header><h2 id="cmshop-pos-variant-title" data-variant-title></h2><button type="button" class="cmshop-pos-x" data-action="close" aria-label="<?php esc_attr_e( 'Close', 'codereyes-mobile-shop' ); ?>">&times;</button></header>
+		<div class="cmshop-pos-options" data-options></div>
+		<ul class="cmshop-pos-units" data-units></ul>
+	</dialog>
+
+	<dialog class="cmshop-pos-dialog" data-dialog="held" aria-labelledby="cmshop-pos-held-title">
+		<header><h2 id="cmshop-pos-held-title"><?php esc_html_e( 'Held sales', 'codereyes-mobile-shop' ); ?></h2><button type="button" class="cmshop-pos-x" data-action="close" aria-label="<?php esc_attr_e( 'Close', 'codereyes-mobile-shop' ); ?>">&times;</button></header>
+		<ul class="cmshop-pos-heldlist" data-held></ul>
+	</dialog>
+
+	<dialog class="cmshop-pos-dialog cmshop-pos-dialog--done" data-dialog="done" aria-labelledby="cmshop-pos-done-title">
+		<span class="cmshop-pos-done-icon dashicons dashicons-yes-alt" aria-hidden="true"></span>
+		<h2 id="cmshop-pos-done-title"><?php esc_html_e( 'Sale complete', 'codereyes-mobile-shop' ); ?></h2>
+		<p class="cmshop-pos-done-change" data-done-text></p>
+		<div class="cmshop-pos-done-actions">
+			<a class="button" data-receipt="thermal" target="_blank" rel="noopener"><?php esc_html_e( 'Print receipt', 'codereyes-mobile-shop' ); ?></a>
+			<a class="button" data-receipt="a4" target="_blank" rel="noopener"><?php esc_html_e( 'A4 invoice', 'codereyes-mobile-shop' ); ?></a>
+			<button type="button" class="button button-primary" data-action="new-sale"><?php esc_html_e( 'New sale', 'codereyes-mobile-shop' ); ?> <kbd>Enter</kbd></button>
+		</div>
+	</dialog>
 </div>

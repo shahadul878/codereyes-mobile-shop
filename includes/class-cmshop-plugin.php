@@ -39,6 +39,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-block-atts.php',
 		'core/class-cmshop-payments.php',
 		'core/class-cmshop-dashboard-math.php',
+		'core/class-cmshop-pos-catalog.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -48,6 +49,7 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-repair-repository.php',
 		'data/class-cmshop-payment-repository.php',
 		'data/class-cmshop-migrations.php',
+		'data/class-cmshop-held-sales.php',
 		'services/class-cmshop-sales-service.php',
 		'class-cmshop-rest.php',
 		'frontend/class-cmshop-rate-limit.php',
@@ -55,6 +57,7 @@ final class Cmshop_Plugin {
 		'frontend/class-cmshop-stock-shortcode.php',
 		'frontend/class-cmshop-warranty-check.php',
 		'frontend/class-cmshop-repair-request.php',
+		'class-cmshop-pos-rest.php',
 		'integrations/class-cmshop-blocks.php',
 		'integrations/class-cmshop-elementor.php',
 	);
@@ -99,6 +102,7 @@ final class Cmshop_Plugin {
 		Cmshop_Installer::maybe_upgrade();
 
 		( new Cmshop_Rest( self::items(), self::customers(), self::sales_service() ) )->register();
+		( new Cmshop_Pos_Rest( self::items(), self::customers(), self::sales() ) )->register();
 		add_action( 'init', array( self::class, 'register_frontend_style' ), 5 );
 
 		foreach ( self::website_parts() as $part ) {

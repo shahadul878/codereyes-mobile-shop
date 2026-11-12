@@ -263,6 +263,26 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Everything that can be sold at the counter (no cost prices), for the POS grid.
+	 *
+	 * @return array[]
+	 */
+	public function sellable(): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT id, item_type, name, brand, model, storage, color, grade, battery_health, status, quantity, sale_price, imei1, sku, image_id
+				FROM %i WHERE status = %s AND quantity > 0 ORDER BY id DESC LIMIT %d',
+				$this->table,
+				Cmshop_Item::STATUS_IN_STOCK,
+				self::PUBLIC_LIMIT
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Brand names used in stock, A to Z.
 	 *
 	 * @return string[]
