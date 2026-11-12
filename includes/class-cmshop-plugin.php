@@ -87,7 +87,7 @@ final class Cmshop_Plugin {
 		( new Cmshop_Repair_Tracker( self::repairs() ) )->register();
 
 		if ( class_exists( 'WooCommerce' ) ) {
-			self::load( array( 'woo/class-cmshop-woo-models.php', 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );
+			self::load( array( 'woo/class-cmshop-woo-brands.php', 'woo/class-cmshop-woo-models.php', 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );
 			self::woo_products()->register();
 			( new Cmshop_Woo_Orders( self::items(), self::sales(), self::sales_service(), self::woo_models() ) )->register();
 		}

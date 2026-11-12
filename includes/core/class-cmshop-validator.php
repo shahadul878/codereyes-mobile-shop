@@ -32,12 +32,14 @@ final class Cmshop_Validator {
 		$data = array_merge(
 			$data,
 			array(
-				'item_type'  => $type,
-				'cost_price' => $in->money( 'cost_price' ),
-				'sale_price' => $in->money( 'sale_price' ),
-				'supplier'   => $in->text( 'supplier', 150 ),
-				'notes'      => $in->textarea( 'notes', 2000 ),
-				'status'     => $in->choice(
+				'item_type'   => $type,
+				'cost_price'  => $in->money( 'cost_price' ),
+				'sale_price'  => $in->money( 'sale_price' ),
+				'supplier'    => $in->text( 'supplier', 150 ),
+				'notes'       => $in->textarea( 'notes', 2000 ),
+				'image_id'    => (int) $in->integer( 'image_id', 0, PHP_INT_MAX, 0 ),
+				'gallery_ids' => Cmshop_Item::gallery_csv( Cmshop_Item::gallery_ids( $in->text( 'gallery_ids', 255 ) ) ),
+				'status'      => $in->choice(
 					'status',
 					array( Cmshop_Item::STATUS_IN_STOCK, Cmshop_Item::STATUS_RESERVED ),
 					Cmshop_Item::STATUS_IN_STOCK

@@ -19,6 +19,8 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 
 	private const SEARCH_LIMIT = 20;
 
+	private const BRAND_LIMIT = 500;
+
 	/**
 	 * Unsold phones that already use one of these IMEIs.
 	 *
@@ -194,6 +196,19 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 		);
 
 		return array_map( 'intval', is_array( $ids ) ? $ids : array() );
+	}
+
+	/**
+	 * Brand names used in stock, A to Z.
+	 *
+	 * @return string[]
+	 */
+	public function brands(): array {
+		$names = $this->db->get_col(
+			$this->db->prepare( 'SELECT DISTINCT brand FROM %i WHERE brand <> %s ORDER BY brand ASC LIMIT %d', $this->table, '', self::BRAND_LIMIT )
+		);
+
+		return array_map( 'strval', is_array( $names ) ? $names : array() );
 	}
 
 	/**

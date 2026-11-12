@@ -72,7 +72,7 @@ final class Cmshop_Model_Listing {
 	 * or of the newest phone once the option is sold out.
 	 *
 	 * @param array[] $units Every grouped phone of the model, any status.
-	 * @return array<int, array{key: string, storage: string, color: string, stock: int, price: string}>
+	 * @return array<int, array{key: string, storage: string, color: string, stock: int, price: string, image_id: int}>
 	 */
 	public static function variants( array $units ): array {
 		$variants = array();
@@ -82,12 +82,17 @@ final class Cmshop_Model_Listing {
 
 			if ( ! isset( $variants[ $key ] ) ) {
 				$variants[ $key ] = array(
-					'key'     => $key,
-					'storage' => self::tidy( (string) ( $unit['storage'] ?? '' ) ),
-					'color'   => self::tidy( (string) ( $unit['color'] ?? '' ) ),
-					'stock'   => 0,
-					'price'   => '',
+					'key'      => $key,
+					'storage'  => self::tidy( (string) ( $unit['storage'] ?? '' ) ),
+					'color'    => self::tidy( (string) ( $unit['color'] ?? '' ) ),
+					'stock'    => 0,
+					'price'    => '',
+					'image_id' => 0,
 				);
+			}
+
+			if ( 0 === $variants[ $key ]['image_id'] && (int) ( $unit['image_id'] ?? 0 ) > 0 ) {
+				$variants[ $key ] = array_merge( $variants[ $key ], array( 'image_id' => (int) $unit['image_id'] ) );
 			}
 
 			$variants[ $key ] = self::add_unit( $variants[ $key ], $unit );
@@ -115,6 +120,31 @@ final class Cmshop_Model_Listing {
 		}
 
 		return array() === $used ? array( self::ATTRIBUTE_COLOR ) : $used;
+	}
+
+	/**
+	 * Photos for the model's product: the first option photo leads, then the
+	 * other options' photos and every phone's gallery, without repeats.
+	 *
+	 * @param array[] $units    Every grouped phone of the model.
+	 * @param array[] $variants From variants().
+	 * @return array{main: int, gallery: int[]}
+	 */
+	public static function images( array $units, array $variants ): array {
+		$option_images = array_values( array_filter( array_map( 'intval', array_column( $variants, 'image_id' ) ) ) );
+		$main          = $option_images[0] ?? 0;
+		$gallery       = array_slice( $option_images, 1 );
+
+		foreach ( self::oldest_first( $units ) as $unit ) {
+			$gallery = array_merge( $gallery, Cmshop_Item::gallery_ids( (string) ( $unit['gallery_ids'] ?? '' ) ) );
+		}
+
+		$gallery = array_values( array_diff( array_unique( $gallery ), array( $main ) ) );
+
+		return array(
+			'main'    => $main,
+			'gallery' => array_slice( $gallery, 0, Cmshop_Item::MAX_GALLERY ),
+		);
 	}
 
 	/**

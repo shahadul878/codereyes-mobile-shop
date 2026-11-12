@@ -165,4 +165,37 @@ final class ModelListingTest extends TestCase {
 		$this->assertSame( array( 1 ), Cmshop_Model_Listing::allocate( array( $this->unit( 1 ) ), $key, 3 ) );
 		$this->assertSame( array(), Cmshop_Model_Listing::allocate( array( $this->unit( 1 ) ), 'nope|nope', 1 ) );
 	}
+
+	public function test_each_option_takes_the_first_photo_of_its_phones(): void {
+		$variants = Cmshop_Model_Listing::variants(
+			array(
+				$this->unit( 1, array( 'image_id' => 0 ) ),
+				$this->unit( 2, array( 'image_id' => 50 ) ),
+				$this->unit( 3, array( 'image_id' => 51 ) ),
+				$this->unit( 4, array( 'color' => 'Blue', 'image_id' => 60 ) ),
+				$this->unit( 5, array( 'color' => 'Green' ) ),
+			)
+		);
+
+		$this->assertSame( array( 50, 60, 0 ), array_column( $variants, 'image_id' ) );
+	}
+
+	public function test_model_photos_use_the_first_option_photo_then_the_rest(): void {
+		$units    = array(
+			$this->unit( 1, array( 'image_id' => 50, 'gallery_ids' => '70,71' ) ),
+			$this->unit( 2, array( 'color' => 'Blue', 'image_id' => 60, 'gallery_ids' => '71,72' ) ),
+			$this->unit( 3, array( 'color' => 'Green', 'gallery_ids' => '50' ) ),
+		);
+		$images   = Cmshop_Model_Listing::images( $units, Cmshop_Model_Listing::variants( $units ) );
+
+		$this->assertSame( 50, $images['main'] );
+		$this->assertSame( array( 60, 70, 71, 72 ), $images['gallery'] );
+	}
+
+	public function test_model_without_photos_has_none(): void {
+		$units  = array( $this->unit( 1 ) );
+		$images = Cmshop_Model_Listing::images( $units, Cmshop_Model_Listing::variants( $units ) );
+
+		$this->assertSame( array( 'main' => 0, 'gallery' => array() ), $images );
+	}
 }

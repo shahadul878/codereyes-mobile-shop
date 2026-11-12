@@ -61,7 +61,7 @@ final class Cmshop_View {
 	public static function input( string $name, string $label, array $values, array $errors, array $opts = array() ): void {
 		self::field_open( $name, $label, $opts );
 		printf(
-			'<input type="%1$s" id="cmshop-%2$s" name="%2$s" value="%3$s" class="%4$s" placeholder="%5$s" inputmode="%6$s"%7$s%8$s>',
+			'<input type="%1$s" id="cmshop-%2$s" name="%2$s" value="%3$s" class="%4$s" placeholder="%5$s" inputmode="%6$s"%7$s%8$s%9$s>',
 			esc_attr( $opts['type'] ?? 'text' ),
 			esc_attr( $name ),
 			esc_attr( (string) ( $values[ $name ] ?? '' ) ),
@@ -69,9 +69,26 @@ final class Cmshop_View {
 			esc_attr( $opts['placeholder'] ?? '' ),
 			esc_attr( $opts['inputmode'] ?? 'text' ),
 			empty( $opts['required'] ) ? '' : ' required aria-required="true"',
-			isset( $errors[ $name ] ) ? ' aria-invalid="true" aria-describedby="cmshop-' . esc_attr( $name ) . '-error"' : ''
+			isset( $errors[ $name ] ) ? ' aria-invalid="true" aria-describedby="cmshop-' . esc_attr( $name ) . '-error"' : '',
+			isset( $opts['list'] ) ? ' list="' . esc_attr( $opts['list'] ) . '" autocomplete="off"' : ''
 		);
 		self::field_close( $name, $errors, $opts );
+	}
+
+	/**
+	 * A <datalist> of suggestions for an input's "list" option.
+	 *
+	 * @param string   $id      Datalist ID.
+	 * @param string[] $options Suggestions.
+	 */
+	public static function datalist( string $id, array $options ): void {
+		printf( '<datalist id="%s">', esc_attr( $id ) );
+
+		foreach ( $options as $option ) {
+			printf( '<option value="%s"></option>', esc_attr( $option ) );
+		}
+
+		echo '</datalist>';
 	}
 
 	/**

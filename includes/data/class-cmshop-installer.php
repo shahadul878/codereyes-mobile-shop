@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Installer {
 
-	public const DB_VERSION     = '1.0.0';
+	public const DB_VERSION     = '1.1.0';
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
@@ -135,6 +135,8 @@ sale_price decimal(12,2) NOT NULL DEFAULT '0.00',
 supplier varchar(150) NOT NULL DEFAULT '',
 notes text NULL,
 wc_product_id bigint(20) unsigned NOT NULL DEFAULT 0,
+image_id bigint(20) unsigned NOT NULL DEFAULT 0,
+gallery_ids varchar(255) NOT NULL DEFAULT '',
 created_by bigint(20) unsigned NOT NULL DEFAULT 0,
 created_at datetime NOT NULL,
 updated_at datetime NOT NULL,

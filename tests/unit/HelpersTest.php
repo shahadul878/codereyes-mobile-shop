@@ -126,4 +126,18 @@ final class HelpersTest extends TestCase {
 		$this->assertArrayNotHasKey( 'notes', $copy );
 		$this->assertArrayNotHasKey( 'id', $copy );
 	}
+
+	public function test_gallery_ids_are_cleaned(): void {
+		$this->assertSame( array( 12, 7, 30 ), Cmshop_Item::gallery_ids( '12, 7,abc,,0,-4,7,30' ) );
+		$this->assertSame( array(), Cmshop_Item::gallery_ids( '' ) );
+		$this->assertCount( 12, Cmshop_Item::gallery_ids( implode( ',', range( 1, 20 ) ) ) );
+		$this->assertSame( '12,7,30', Cmshop_Item::gallery_csv( array( 12, 7, 30 ) ) );
+	}
+
+	public function test_add_another_copies_photos(): void {
+		$copy = Cmshop_Item::copy_fields( array( 'model' => 'A15', 'image_id' => 44, 'gallery_ids' => '45,46' ) );
+
+		$this->assertSame( 44, $copy['image_id'] );
+		$this->assertSame( '45,46', $copy['gallery_ids'] );
+	}
 }

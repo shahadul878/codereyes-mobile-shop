@@ -95,9 +95,10 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 			unset( $actions['sell'] );
 		}
 
-		$type = Cmshop_Item::label( Cmshop_Item::types(), (string) $item['item_type'] );
+		$type  = Cmshop_Item::label( Cmshop_Item::types(), (string) $item['item_type'] );
+		$thumb = (int) ( $item['image_id'] ?? 0 ) > 0 ? wp_get_attachment_image( (int) $item['image_id'], array( 40, 40 ), false, array( 'alt' => '' ) ) : '';
 
-		return $this->link(
+		return ( '' === $thumb ? '' : '<span class="cmshop-thumb">' . $thumb . '</span>' ) . $this->link(
 			Cmshop_Item::display_name( $item ),
 			array(
 				'action' => 'edit',

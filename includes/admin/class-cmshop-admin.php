@@ -81,6 +81,12 @@ final class Cmshop_Admin {
 		wp_enqueue_style( 'cmshop-print', CMSHOP_URL . 'assets/css/print.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
 		wp_enqueue_script( 'cmshop-admin', CMSHOP_URL . 'assets/js/admin.js', array(), CMSHOP_VERSION, true );
 
+		if ( false !== strpos( $hook, 'cmshop-items' ) && in_array( $this->action(), array( 'new', 'edit' ), true ) && current_user_can( 'upload_files' ) ) {
+			wp_enqueue_media();
+			wp_enqueue_script( 'cmshop-item-photos', CMSHOP_URL . 'assets/js/item-photos.js', array( 'media-editor', 'wp-i18n' ), CMSHOP_VERSION, true );
+			wp_set_script_translations( 'cmshop-item-photos', 'codereyes-mobile-shop' );
+		}
+
 		if ( false === strpos( $hook, 'cmshop-pos' ) ) {
 			return;
 		}
@@ -162,6 +168,7 @@ final class Cmshop_Admin {
 					'errors'  => $state['errors'] ?? array(),
 					'sales'   => null === $item ? array() : Cmshop_Plugin::sales()->for_item( (int) $item['id'] ),
 					'listing' => null === $item || null === $woo ? null : $woo->website_listing( $item ),
+					'brands'  => $this->brand_suggestions(),
 				)
 			);
 			return;
@@ -315,6 +322,24 @@ final class Cmshop_Admin {
 			'sale_price' => (string) $item['sale_price'],
 			'price_text' => Cmshop_Settings::money( (string) $item['sale_price'] ),
 		);
+	}
+
+	/**
+	 * Brands to suggest: WooCommerce brands plus brands already in stock, ignoring case.
+	 *
+	 * @return string[]
+	 */
+	private function brand_suggestions(): array {
+		$woo   = class_exists( 'Cmshop_Woo_Brands' ) ? Cmshop_Woo_Brands::names() : array();
+		$names = array();
+
+		foreach ( array_merge( $woo, Cmshop_Plugin::items()->brands() ) as $name ) {
+			$names[ mb_strtolower( trim( $name ) ) ] = $names[ mb_strtolower( trim( $name ) ) ] ?? trim( $name );
+		}
+
+		natcasesort( $names );
+
+		return array_values( $names );
 	}
 
 	/**

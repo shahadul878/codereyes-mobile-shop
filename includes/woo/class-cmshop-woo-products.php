@@ -79,6 +79,7 @@ final class Cmshop_Woo_Products {
 		$product->set_attributes( $this->attributes( $item ) );
 		$product->set_category_ids( self::category_ids( (string) $item['item_type'] ) );
 		$this->set_sku( $product, $item );
+		self::set_photos( $product, (int) ( $item['image_id'] ?? 0 ), Cmshop_Item::gallery_ids( (string) ( $item['gallery_ids'] ?? '' ) ) );
 
 		if ( 0 === $product->get_id() ) {
 			$product->set_status( 'publish' );
@@ -90,6 +91,8 @@ final class Cmshop_Woo_Products {
 		if ( $product_id <= 0 ) {
 			throw new RuntimeException( 'Product could not be saved.' );
 		}
+
+		Cmshop_Woo_Brands::assign( $product_id, (string) $item['brand'] );
 
 		if ( (int) $item['wc_product_id'] !== $product_id ) {
 			$this->items->update( (int) $item['id'], array( 'wc_product_id' => $product_id ) );
@@ -371,7 +374,8 @@ final class Cmshop_Woo_Products {
 	 */
 	private function attributes( array $item ): array {
 		$values = array(
-			__( 'Brand', 'codereyes-mobile-shop' )     => (string) $item['brand'],
+			// With WooCommerce Brands the brand has its own place on the product page.
+			__( 'Brand', 'codereyes-mobile-shop' )     => Cmshop_Woo_Brands::is_available() ? '' : (string) $item['brand'],
 			__( 'Storage', 'codereyes-mobile-shop' )   => (string) $item['storage'],
 			__( 'Colour', 'codereyes-mobile-shop' )    => (string) $item['color'],
 			__( 'Condition', 'codereyes-mobile-shop' ) => Cmshop_Item::TYPE_PHONE === $item['item_type'] ? Cmshop_Item::label( Cmshop_Item::grades(), (string) $item['grade'] ) : '',
@@ -394,6 +398,24 @@ final class Cmshop_Woo_Products {
 		}
 
 		return $attributes;
+	}
+
+	/**
+	 * Set a product's photos from stock. Empty values leave photos added in
+	 * WooCommerce untouched.
+	 *
+	 * @param WC_Product $product  Product or variation.
+	 * @param int        $image_id Main photo.
+	 * @param int[]      $gallery  More photos.
+	 */
+	public static function set_photos( WC_Product $product, int $image_id, array $gallery ): void {
+		if ( $image_id > 0 ) {
+			$product->set_image_id( $image_id );
+		}
+
+		if ( array() !== $gallery ) {
+			$product->set_gallery_image_ids( $gallery );
+		}
 	}
 
 	/**

@@ -21,6 +21,7 @@ Codereyes Mobile Shop is a complete back office for mobile phone shops that sell
 * A phone that is already in stock cannot be added twice by mistake.
 * "Add another like this" copies a phone's model and prices, so adding five of the same model means scanning five IMEIs.
 * Cost price and selling price for every item, with stock value on the dashboard.
+* Photos for every item from your Media Library: a main photo and up to 12 more, shown in the stock list and on your website.
 
 **Point of sale (in store)**
 
@@ -43,6 +44,8 @@ Codereyes Mobile Shop is a complete back office for mobile phone shops that sell
 * Publish any stock item to your WooCommerce shop in one click. The IMEI is never published.
 * New phones of the same model become one product where customers choose storage and colour. Each option shows how many matching phones you have, and a paid order takes the phone of that colour that has been in stock longest (its IMEI is added to the order as a private note).
 * Used phones are listed one by one with their condition and battery health, because no two are the same.
+* Photos go to the website with the product. For a model, each colour's photo appears when the customer picks that colour.
+* Brands sync with WooCommerce Brands: each product is filed under its brand (created the first time it is used), and the stock form suggests the brands you already have.
 * When you sell a phone at the counter, it goes out of stock on the website straight away.
 * Paid website orders are recorded as online sales and taken off shop stock. Cancelled or refunded orders put the stock back.
 * Compatible with WooCommerce High-Performance Order Storage.
@@ -88,6 +91,10 @@ Your sales, stock and repair records are kept. To remove them, add `define( 'CMS
 
 New phones are grouped by brand and model. For example, three Galaxy A15 128GB Black and two Blue become one "Samsung Galaxy A15" product with a Colour choice: Black (3 in stock) and Blue (2 in stock). New phones you add later join the listing on their own. Used phones keep one product each.
 
+= Will publishing replace photos I added in WooCommerce? =
+
+No. Photos are only sent when the stock item has them. A product whose stock item has no photo keeps the photos you added in WooCommerce.
+
 = Can customers see my cost prices or IMEIs? =
 
 No. Cost prices are only shown to shop staff, and IMEIs are never published to the website.
@@ -105,7 +112,7 @@ No. Cost prices are only shown to shop staff, and IMEIs are never published to t
 == Changelog ==
 
 = 1.0.0 =
-* First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export and WooCommerce stock sync with one product per model for new phones.
+* First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export, item photos and WooCommerce stock and brand sync with one product per model for new phones.
 
 == Upgrade Notice ==
 

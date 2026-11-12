@@ -4,7 +4,7 @@
  *
  * @package CodereyesMobileShop
  *
- * @var array $cmshop { item: array|null, values: array, errors: array, sales: array[], listing: array|null }
+ * @var array $cmshop { item: array|null, values: array, errors: array, sales: array[], listing: array|null, brands: string[] }
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,6 +62,7 @@ if ( null === $cmshop_item ) {
 								'required'    => true,
 								'placeholder' => 'Samsung',
 								'class'       => '',
+								'list'        => 'cmshop-brands',
 							)
 						);
 						?>
@@ -164,7 +165,18 @@ if ( null === $cmshop_item ) {
 					);
 					?>
 					<div class="cmshop-row">
-						<?php Cmshop_View::input( 'brand', __( 'Brand', 'codereyes-mobile-shop' ), $cmshop_values, $cmshop_errors, array( 'class' => '' ) ); ?>
+						<?php
+						Cmshop_View::input(
+							'brand',
+							__( 'Brand', 'codereyes-mobile-shop' ),
+							$cmshop_values,
+							$cmshop_errors,
+							array(
+								'class' => '',
+								'list'  => 'cmshop-brands',
+							)
+						);
+						?>
 						<?php Cmshop_View::input( 'color', __( 'Colour', 'codereyes-mobile-shop' ), $cmshop_values, $cmshop_errors, array( 'class' => '' ) ); ?>
 					</div>
 					<div class="cmshop-row">
@@ -185,6 +197,9 @@ if ( null === $cmshop_item ) {
 						?>
 					</div>
 				<?php endif; ?>
+
+				<?php require __DIR__ . '/item-photos.php'; ?>
+				<?php Cmshop_View::datalist( 'cmshop-brands', $cmshop['brands'] ?? array() ); ?>
 			</section>
 
 			<section class="cmshop-card">

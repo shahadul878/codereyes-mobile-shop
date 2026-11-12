@@ -68,6 +68,9 @@ final class Cmshop_Woo_Models {
 		$parent->set_category_ids( Cmshop_Woo_Products::category_ids( Cmshop_Item::TYPE_PHONE ) );
 		$parent->update_meta_data( self::META_MODEL, Cmshop_Model_Listing::model_key( $item ) );
 
+		$images = Cmshop_Model_Listing::images( $units, $variants );
+		Cmshop_Woo_Products::set_photos( $parent, $images['main'], $images['gallery'] );
+
 		if ( 0 === $parent->get_id() ) {
 			$parent->set_status( 'publish' );
 		}
@@ -77,6 +80,8 @@ final class Cmshop_Woo_Models {
 		if ( $parent_id <= 0 ) {
 			throw new RuntimeException( 'Model product could not be saved.' );
 		}
+
+		Cmshop_Woo_Brands::assign( $parent_id, (string) $item['brand'] );
 
 		$this->save_variations( $parent_id, $variants, $used );
 		WC_Product_Variable::sync( $parent_id );
@@ -172,6 +177,7 @@ final class Cmshop_Woo_Models {
 			$variation->set_stock_quantity( $variant['stock'] );
 			$variation->set_status( 'publish' );
 			$variation->update_meta_data( self::META_VARIANT, $variant['key'] );
+			Cmshop_Woo_Products::set_photos( $variation, (int) $variant['image_id'], array() );
 			$variation->save();
 		}
 
@@ -212,7 +218,7 @@ final class Cmshop_Woo_Models {
 	 */
 	private function parent_attributes( array $item, array $variants, array $used ): array {
 		$attributes = array(
-			$this->attribute( __( 'Brand', 'codereyes-mobile-shop' ), array( trim( (string) $item['brand'] ) ), false, 0 ),
+			$this->attribute( __( 'Brand', 'codereyes-mobile-shop' ), array( Cmshop_Woo_Brands::is_available() ? '' : trim( (string) $item['brand'] ) ), false, 0 ),
 			$this->attribute( __( 'Condition', 'codereyes-mobile-shop' ), array( Cmshop_Item::label( Cmshop_Item::grades(), 'new' ) ), false, 1 ),
 		);
 		$position   = 2;

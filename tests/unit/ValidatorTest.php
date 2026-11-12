@@ -130,4 +130,27 @@ final class ValidatorTest extends TestCase {
 		$this->assertSame( 'first', $result->errors()['imei1'] );
 		$this->assertFalse( $result->is_valid() );
 	}
+
+	public function test_item_photos_are_validated(): void {
+		$result = Cmshop_Validator::item(
+			array(
+				'item_type'   => 'accessory',
+				'name'        => 'Charger',
+				'quantity'    => '2',
+				'image_id'    => '44',
+				'gallery_ids' => '45, 46, x, 45',
+			)
+		);
+
+		$this->assertTrue( $result->is_valid() );
+		$this->assertSame( 44, $result->data()['image_id'] );
+		$this->assertSame( '45,46', $result->data()['gallery_ids'] );
+	}
+
+	public function test_item_without_photos_defaults_to_none(): void {
+		$data = Cmshop_Validator::item( array( 'item_type' => 'accessory', 'name' => 'Case' ) )->data();
+
+		$this->assertSame( 0, $data['image_id'] );
+		$this->assertSame( '', $data['gallery_ids'] );
+	}
 }

@@ -55,7 +55,7 @@ final class Cmshop_Actions {
 		$items  = Cmshop_Plugin::items();
 		$item   = $id > 0 ? $items->find( $id ) : null;
 		$result = Cmshop_Validator::item( $this->posted() );
-		$data   = $result->data();
+		$data   = $this->checked_photos( $result->data(), $item );
 
 		if ( $id > 0 && null === $item ) {
 			$this->redirect( 'cmshop-items', 'not_found' );
@@ -373,6 +373,39 @@ final class Cmshop_Actions {
 		$message = sprintf( __( 'This IMEI is already in stock: %1$s (item #%2$d).', 'codereyes-mobile-shop' ), Cmshop_Item::display_name( $other ), (int) $other['id'] );
 
 		return $result->with_error( in_array( $data['imei1'], array( $other['imei1'], $other['imei2'] ), true ) ? 'imei1' : 'imei2', $message );
+	}
+
+	/**
+	 * Keep only photos that are images in the Media Library.
+	 *
+	 * Someone who cannot upload files never sees the photo picker, so their
+	 * edit keeps the item's existing photos.
+	 *
+	 * @param array      $data Validated item.
+	 * @param array|null $item Item before the edit.
+	 * @return array
+	 */
+	private function checked_photos( array $data, ?array $item ): array {
+		if ( ! current_user_can( 'upload_files' ) ) {
+			return array_merge(
+				$data,
+				array(
+					'image_id'    => (int) ( $item['image_id'] ?? 0 ),
+					'gallery_ids' => (string) ( $item['gallery_ids'] ?? '' ),
+				)
+			);
+		}
+
+		$image   = (int) $data['image_id'];
+		$gallery = array_filter( Cmshop_Item::gallery_ids( (string) $data['gallery_ids'] ), 'wp_attachment_is_image' );
+
+		return array_merge(
+			$data,
+			array(
+				'image_id'    => $image > 0 && wp_attachment_is_image( $image ) ? $image : 0,
+				'gallery_ids' => Cmshop_Item::gallery_csv( $gallery ),
+			)
+		);
 	}
 
 	/**
