@@ -66,7 +66,8 @@ final class Cmshop_Dashboard {
 				'profit' => array_sum( array_column( $series, 'profit' ) ),
 				'sales'  => array_sum( array_column( $series, 'sales' ) ),
 			),
-			'methods'   => Cmshop_Dashboard_Math::donut( $payments->totals_by_method( $start . ' 00:00:00', $tomorrow . ' 00:00:00' ) ),
+			// How customers paid: sales, dues and refunds only (no petty cash or supplier payments).
+			'methods'   => Cmshop_Dashboard_Math::donut( $payments->totals_by_method( $start . ' 00:00:00', $tomorrow . ' 00:00:00', array( Cmshop_Payment_Repository::KIND_SALE, Cmshop_Payment_Repository::KIND_DUE, Cmshop_Payment_Repository::KIND_REFUND ) ) ),
 			'top'       => $sales->top_sellers( $start . ' 00:00:00', $tomorrow . ' 00:00:00', Cmshop_Installer::table( 'items' ), self::TOP ),
 			'slow'      => $slow,
 			'slow_days' => self::SLOW_DAYS,
@@ -127,7 +128,7 @@ final class Cmshop_Dashboard {
 				'icon' => 'cart',
 				/* translators: %d: accessories running low. */
 				'text' => sprintf( _n( 'Reorder %d accessory that is running low', 'Reorder %d accessories that are running low', $low, 'codereyes-mobile-shop' ), $low ),
-				'url'  => Cmshop_View::url( 'cmshop-items', array( 'item_type' => 'accessory' ) ),
+				'url'  => Cmshop_View::url( 'cmshop-suppliers', array( 'action' => 'purchase' ) ),
 				'tone' => 'warn',
 			);
 		}
@@ -139,6 +140,18 @@ final class Cmshop_Dashboard {
 				'text' => sprintf( _n( 'Collect %1$s owed on %2$d sale', 'Collect %1$s owed on %2$d sales', $dues['sales'], 'codereyes-mobile-shop' ), Cmshop_Settings::money( $dues['amount'] ), $dues['sales'] ),
 				'url'  => Cmshop_View::url( 'cmshop-dues' ),
 				'tone' => 'warn',
+			);
+		}
+
+		$suppliers = Cmshop_Plugin::purchases()->owed_total();
+
+		if ( $suppliers > 0 ) {
+			$tasks[] = array(
+				'icon' => 'store',
+				/* translators: %s: amount owed to suppliers. */
+				'text' => sprintf( __( 'You owe suppliers %s', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $suppliers ) ) ),
+				'url'  => Cmshop_View::url( 'cmshop-suppliers' ),
+				'tone' => 'muted',
 			);
 		}
 

@@ -15,12 +15,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Form and link actions in wp-admin.
  */
-final class Cmshop_Actions {
+final class Cmshop_Actions extends Cmshop_Handler {
 
 	/**
 	 * Action name => method.
 	 */
-	private const ACTIONS = array(
+	protected const ACTIONS = array(
 		'save_item'       => 'save_item',
 		'delete_item'     => 'delete_item',
 		'publish_item'    => 'publish_item',
@@ -38,18 +38,12 @@ final class Cmshop_Actions {
 	);
 
 	/**
-	 * Hook in.
+	 * Run one handler.
+	 *
+	 * @param string $method Handler method from ACTIONS.
 	 */
-	public function register(): void {
-		foreach ( self::ACTIONS as $action => $method ) {
-			add_action(
-				'admin_post_cmshop_' . $action,
-				function () use ( $action, $method ) {
-					$this->guard( $action );
-					$this->$method();
-				}
-			);
-		}
+	protected function handle( string $method ): void {
+		$this->$method();
 	}
 
 	/**
@@ -583,76 +577,5 @@ final class Cmshop_Actions {
 		} catch ( Exception $error ) {
 			$this->log( $error );
 		}
-	}
-
-	/**
-	 * Stop unless the user may act and the nonce is valid.
-	 *
-	 * @param string $action Action name.
-	 */
-	private function guard( string $action ): void {
-		if ( ! current_user_can( Cmshop_Installer::CAPABILITY ) ) {
-			wp_die( esc_html__( 'You do not have permission to do that.', 'codereyes-mobile-shop' ), 403 );
-		}
-
-		check_admin_referer( 'cmshop_' . $action );
-	}
-
-	/**
-	 * Submitted form fields, unslashed.
-	 *
-	 * @return array
-	 */
-	private function posted(): array {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce checked in guard(); every field is sanitised by Cmshop_Input.
-		$posted = wp_unslash( $_POST );
-
-		unset( $posted['_wpnonce'], $posted['_wp_http_referer'], $posted['action'] );
-
-		return is_array( $posted ) ? $posted : array();
-	}
-
-	/**
-	 * ID from the form.
-	 *
-	 * @return int
-	 */
-	private function posted_id(): int {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce checked in guard().
-		return isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
-	}
-
-	/**
-	 * ID from a link.
-	 *
-	 * @return int
-	 */
-	private function query_id(): int {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce checked in guard().
-		return isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
-	}
-
-	/**
-	 * Server-side log of an unexpected failure.
-	 *
-	 * @param Throwable $error Error.
-	 */
-	private function log( Throwable $error ): void {
-		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log; users see a generic notice.
-		error_log( 'Codereyes Mobile Shop: ' . $error->getMessage() );
-	}
-
-	/**
-	 * Redirect to a plugin page and stop.
-	 *
-	 * @param string $page   Page slug.
-	 * @param string $notice Notice code ('' for none).
-	 * @param array  $args   Extra query args.
-	 */
-	private function redirect( string $page, string $notice, array $args = array() ): void {
-		$args = '' === $notice ? $args : array_merge( $args, array( 'cmshop_notice' => $notice ) );
-
-		wp_safe_redirect( Cmshop_View::url( $page, $args ) );
-		exit;
 	}
 }

@@ -52,6 +52,8 @@ final class Cmshop_Admin {
 			add_submenu_page( self::SLUG, $page[0], $page[0], $cap, $slug, array( $this, $page[1] ) );
 		}
 
+		add_submenu_page( self::SLUG, __( 'Suppliers', 'codereyes-mobile-shop' ), __( 'Suppliers', 'codereyes-mobile-shop' ), $cap, Cmshop_Supplier_Pages::SLUG, array( new Cmshop_Supplier_Pages(), 'render' ) );
+
 		add_submenu_page( self::SLUG, __( 'Settings', 'codereyes-mobile-shop' ), __( 'Settings', 'codereyes-mobile-shop' ), 'manage_options', 'cmshop-settings', array( $this, 'settings' ) );
 	}
 
@@ -101,6 +103,12 @@ final class Cmshop_Admin {
 			wp_enqueue_media();
 			wp_enqueue_script( 'cmshop-item-photos', CMSHOP_URL . 'assets/js/item-photos.js', array( 'media-editor', 'wp-i18n' ), CMSHOP_VERSION, true );
 			wp_set_script_translations( 'cmshop-item-photos', 'codereyes-mobile-shop' );
+		}
+
+		if ( false !== strpos( $hook, Cmshop_Supplier_Pages::SLUG ) && 'purchase' === $this->action() ) {
+			wp_enqueue_script( 'cmshop-purchase', CMSHOP_URL . 'assets/js/purchase.js', array( 'wp-i18n' ), CMSHOP_VERSION, true );
+			wp_set_script_translations( 'cmshop-purchase', 'codereyes-mobile-shop' );
+			wp_localize_script( 'cmshop-purchase', 'cmshopPurchase', array( 'symbol' => Cmshop_Settings::currency_symbol() ) );
 		}
 
 		if ( false === strpos( $hook, 'cmshop-pos' ) ) {

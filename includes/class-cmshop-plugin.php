@@ -46,6 +46,8 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-code128.php',
 		'core/class-cmshop-stickers.php',
 		'core/class-cmshop-whatsapp.php',
+		'core/class-cmshop-purchase-lines.php',
+		'core/class-cmshop-form-errors.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -58,11 +60,14 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-held-sales.php',
 		'data/class-cmshop-installment-repository.php',
 		'data/class-cmshop-shift-repository.php',
+		'data/class-cmshop-supplier-repository.php',
+		'data/class-cmshop-purchase-repository.php',
 		'services/class-cmshop-sales-service.php',
 		'services/class-cmshop-dues-service.php',
 		'services/class-cmshop-returns-service.php',
 		'services/class-cmshop-shift-service.php',
 		'services/class-cmshop-messages.php',
+		'services/class-cmshop-purchase-service.php',
 		'class-cmshop-rest.php',
 		'frontend/class-cmshop-rate-limit.php',
 		'frontend/class-cmshop-repair-tracker.php',
@@ -80,6 +85,9 @@ final class Cmshop_Plugin {
 	private const ADMIN_FILES = array(
 		'admin/class-cmshop-view.php',
 		'admin/class-cmshop-form-state.php',
+		'admin/class-cmshop-handler.php',
+		'admin/class-cmshop-supplier-pages.php',
+		'admin/class-cmshop-supplier-actions.php',
 		'admin/class-cmshop-list-table.php',
 		'admin/class-cmshop-items-table.php',
 		'admin/class-cmshop-sales-table.php',
@@ -135,6 +143,7 @@ final class Cmshop_Plugin {
 			add_action( 'admin_init', array( 'Cmshop_Installer', 'ensure_capability' ) );
 			( new Cmshop_Admin() )->register();
 			( new Cmshop_Actions() )->register();
+			( new Cmshop_Supplier_Actions() )->register();
 			( new Cmshop_Export() )->register();
 		}
 	}
@@ -271,7 +280,7 @@ final class Cmshop_Plugin {
 				return new Cmshop_Payment_Repository(
 					$db,
 					Cmshop_Installer::table( 'payments' ),
-					new Cmshop_Query( array( 'reference', 'note' ), array( 'kind', 'method', 'sale_id', 'customer_id', 'shift_id' ), array( 'created_at', 'amount' ), 'created_at' )
+					new Cmshop_Query( array( 'reference', 'note' ), array( 'kind', 'method', 'sale_id', 'customer_id', 'shift_id', 'supplier_id' ), array( 'created_at', 'amount' ), 'created_at' )
 				);
 			}
 		);
@@ -338,6 +347,48 @@ final class Cmshop_Plugin {
 					new Cmshop_Shift_Repository( $db, Cmshop_Installer::table( 'shifts' ), new Cmshop_Query( array( 'note' ), array( 'user_id' ), array( 'opened_at' ), 'opened_at' ) ),
 					self::payments()
 				);
+			}
+		);
+	}
+
+	/**
+	 * Suppliers.
+	 *
+	 * @return Cmshop_Supplier_Repository
+	 */
+	public static function suppliers(): Cmshop_Supplier_Repository {
+		return self::service(
+			'suppliers',
+			static function ( wpdb $db ) {
+				return new Cmshop_Supplier_Repository( $db, Cmshop_Installer::table( 'suppliers' ), new Cmshop_Query( array( 'name', 'phone' ), array(), array( 'name', 'created_at' ), 'name' ) );
+			}
+		);
+	}
+
+	/**
+	 * Stock purchases.
+	 *
+	 * @return Cmshop_Purchase_Repository
+	 */
+	public static function purchases(): Cmshop_Purchase_Repository {
+		return self::service(
+			'purchases',
+			static function ( wpdb $db ) {
+				return new Cmshop_Purchase_Repository( $db, Cmshop_Installer::table( 'purchases' ), new Cmshop_Query( array( 'ref_no', 'note' ), array( 'supplier_id' ), array( 'purchased_on', 'total' ), 'purchased_on' ) );
+			}
+		);
+	}
+
+	/**
+	 * Buying stock and paying suppliers.
+	 *
+	 * @return Cmshop_Purchase_Service
+	 */
+	public static function purchasing(): Cmshop_Purchase_Service {
+		return self::service(
+			'purchasing',
+			static function () {
+				return new Cmshop_Purchase_Service( self::purchases(), self::suppliers(), self::items(), self::payments() );
 			}
 		);
 	}

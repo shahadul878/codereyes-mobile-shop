@@ -247,3 +247,129 @@
 .cmshop-row-buttons .button + .button {
 	margin-left: 6px;
 }
+
+/* ---------- Suppliers and purchases ---------- */
+
+.cmshop-wrap .cmshop-narrow {
+	max-width: 760px;
+}
+
+.cmshop-wrap .cmshop-field.has-error :is(input, select, textarea) {
+	border-color: var(--cmshop-danger);
+}
+
+.cmshop-plines {
+	display: grid;
+	gap: 14px;
+	margin-top: 14px;
+}
+
+.cmshop-wrap .cmshop-pline {
+	margin: 0;
+	border-left: 4px solid var(--cmshop-accent);
+}
+
+.cmshop-wrap .cmshop-pline--accessory {
+	border-left-color: var(--cmshop-info);
+}
+
+.cmshop-pline__head {
+	display: flex;
+	gap: 12px;
+	align-items: baseline;
+	margin-bottom: 10px;
+}
+
+.cmshop-wrap .cmshop-pline__head h2 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.cmshop-pline__total {
+	margin-left: auto;
+	color: var(--cmshop-ink);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-pline__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 10px 14px;
+}
+
+.cmshop-wrap .cmshop-pline__grid :is(input, select) {
+	width: 100%;
+}
+
+.cmshop-wrap .cmshop-imei-box {
+	width: 100%;
+	font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+	font-size: 15px;
+	letter-spacing: 0.04em;
+}
+
+.cmshop-imei-count {
+	margin: 4px 0 0;
+	color: var(--cmshop-accent-ink);
+	font-weight: 600;
+}
+
+.cmshop-imei-count.is-bad {
+	color: var(--cmshop-danger);
+}
+
+.cmshop-plines__add {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 14px 0;
+}
+
+.cmshop-plines__add .dashicons {
+	margin-top: 4px;
+}
+
+.cmshop-purchase__bar {
+	position: sticky;
+	bottom: 0;
+	z-index: 5;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 24px;
+	align-items: center;
+	margin-top: 14px;
+	padding: 10px 16px;
+	border-top: 3px solid var(--cmshop-accent);
+	border-radius: var(--cmshop-radius) var(--cmshop-radius) 0 0;
+	background: var(--cmshop-surface);
+	box-shadow: var(--cmshop-shadow-md);
+	color: var(--cmshop-muted);
+}
+
+.cmshop-purchase__bar strong {
+	color: var(--cmshop-ink);
+	font-size: 18px;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-wrap .cmshop-purchase__total {
+	font-size: 24px;
+}
+
+.cmshop-purchase__bar .button {
+	margin-left: auto;
+}
+
+.cmshop-purchase__quick {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.cmshop-purchase__owe {
+	color: var(--cmshop-warn);
+	font-weight: 600;
+}

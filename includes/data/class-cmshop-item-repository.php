@@ -313,6 +313,40 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Items that came in with a purchase, in the order they were added.
+	 *
+	 * @param int $purchase_id Purchase.
+	 * @return array[]
+	 */
+	public function for_purchase( int $purchase_id ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare( 'SELECT * FROM %i WHERE purchase_id = %d ORDER BY id ASC LIMIT %d', $this->table, $purchase_id, Cmshop_Purchase_Lines::MAX_UNITS ),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Accessories that can be restocked, including sold-out ones, A to Z.
+	 *
+	 * @return array[] Rows of id, name, sku, quantity, cost_price, sale_price.
+	 */
+	public function restock_choices(): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT id, name, sku, quantity, cost_price, sale_price FROM %i WHERE item_type = %s ORDER BY name ASC LIMIT %d',
+				$this->table,
+				Cmshop_Item::TYPE_ACCESSORY,
+				self::PUBLIC_LIMIT
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Brand names used in stock, A to Z.
 	 *
 	 * @return string[]

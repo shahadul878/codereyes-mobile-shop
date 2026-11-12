@@ -42,16 +42,17 @@ final class Cmshop_Shift_Math {
 	 *
 	 * @param array[] $payments Ledger rows (kind, method, amount) made during the shift.
 	 * @param int     $opening  Opening float (cents).
-	 * @return array{by_method: array<string,int>, cash_net: int, expected: int, refunds: int, cash_in: int, cash_out: int, dues: int, sales: int}
+	 * @return array{by_method: array<string,int>, cash_net: int, expected: int, refunds: int, cash_in: int, cash_out: int, dues: int, sales: int, suppliers: int}
 	 */
 	public static function summary( array $payments, int $opening ): array {
 		$by_method = array();
 		$totals    = array(
-			'refunds'  => 0,
-			'cash_in'  => 0,
-			'cash_out' => 0,
-			'dues'     => 0,
-			'sales'    => 0,
+			'refunds'   => 0,
+			'cash_in'   => 0,
+			'cash_out'  => 0,
+			'dues'      => 0,
+			'sales'     => 0,
+			'suppliers' => 0,
 		);
 
 		foreach ( $payments as $payment ) {
@@ -69,6 +70,8 @@ final class Cmshop_Shift_Math {
 				$totals['cash_out'] -= $cents;
 			} elseif ( 'due' === $kind ) {
 				$totals['dues'] += $cents;
+			} elseif ( 'supplier' === $kind ) {
+				$totals['suppliers'] -= $cents;
 			} else {
 				$totals['sales'] += $cents;
 			}

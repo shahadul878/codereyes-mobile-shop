@@ -56,6 +56,9 @@ $cmshop_diff   = $cmshop_closed ? Cmshop_Shift_Math::difference( Cmshop_Money::t
 				<tr><th><?php esc_html_e( 'Sales payments', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['sales'] ) ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Dues collected', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['dues'] ) ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Refunds', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['refunds'] ) ); ?></td></tr>
+				<?php if ( $cmshop_sum['suppliers'] > 0 ) : ?>
+					<tr><th><?php esc_html_e( 'Paid to suppliers', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['suppliers'] ) ); ?></td></tr>
+				<?php endif; ?>
 				<tr><th><?php esc_html_e( 'Petty cash out', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['cash_out'] ) ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Petty cash in', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['cash_in'] ) ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Opening float', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( Cmshop_Settings::money( (string) $cmshop_shift['opening_float'] ) ); ?></td></tr>

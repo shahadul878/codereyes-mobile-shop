@@ -21,6 +21,10 @@ function sanitize_textarea_field( $str ) {
 	return trim( strip_tags( (string) $str ) );
 }
 
+function absint( $maybeint ) {
+	return abs( (int) $maybeint );
+}
+
 function sanitize_key( $key ) {
 	return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $key ) );
 }

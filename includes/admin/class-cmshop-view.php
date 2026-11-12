@@ -250,6 +250,9 @@ final class Cmshop_View {
 			'shift_closed'     => array( 'success', __( 'Shift closed. Here is the end-of-day report.', 'codereyes-mobile-shop' ) ),
 			'items_returned'   => array( 'success', __( 'Return recorded. Stock and money are updated.', 'codereyes-mobile-shop' ) ),
 			'due_collected'    => array( 'success', __( 'Payment received and added to the customer\'s account.', 'codereyes-mobile-shop' ) ),
+			'supplier_saved'   => array( 'success', __( 'Supplier saved.', 'codereyes-mobile-shop' ) ),
+			'purchase_saved'   => array( 'success', __( 'Purchase recorded. Everything below is now in stock.', 'codereyes-mobile-shop' ) ),
+			'supplier_paid'    => array( 'success', __( 'Payment to the supplier recorded.', 'codereyes-mobile-shop' ) ),
 			'db_error'         => array( 'error', __( 'Something went wrong while saving. Nothing was changed. Please try again.', 'codereyes-mobile-shop' ) ),
 		);
 	}

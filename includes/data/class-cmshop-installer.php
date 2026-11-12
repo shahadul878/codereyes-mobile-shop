@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Installer {
 
-	public const DB_VERSION     = '1.5.0';
+	public const DB_VERSION     = '1.6.0';
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
@@ -27,7 +27,7 @@ final class Cmshop_Installer {
 	/**
 	 * Table suffixes.
 	 */
-	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments', 'installments', 'shifts' );
+	public const TABLES = array( 'items', 'customers', 'sales', 'sale_items', 'repairs', 'payments', 'installments', 'shifts', 'suppliers', 'purchases' );
 
 	/**
 	 * Activation hook.
@@ -139,6 +139,7 @@ status varchar(20) NOT NULL DEFAULT 'in_stock',
 cost_price decimal(12,2) NOT NULL DEFAULT '0.00',
 sale_price decimal(12,2) NOT NULL DEFAULT '0.00',
 supplier varchar(150) NOT NULL DEFAULT '',
+purchase_id bigint(20) unsigned NOT NULL DEFAULT 0,
 notes text NULL,
 wc_product_id bigint(20) unsigned NOT NULL DEFAULT 0,
 image_id bigint(20) unsigned NOT NULL DEFAULT 0,
@@ -152,6 +153,7 @@ KEY status (status),
 KEY imei1 (imei1),
 KEY imei2 (imei2),
 KEY sku (sku),
+KEY purchase_id (purchase_id),
 KEY wc_product_id (wc_product_id)",
 			'customers'    => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 name varchar(150) NOT NULL DEFAULT '',
@@ -233,6 +235,7 @@ KEY imei (imei)",
 sale_id bigint(20) unsigned NOT NULL DEFAULT 0,
 customer_id bigint(20) unsigned NOT NULL DEFAULT 0,
 shift_id bigint(20) unsigned NOT NULL DEFAULT 0,
+supplier_id bigint(20) unsigned NOT NULL DEFAULT 0,
 kind varchar(20) NOT NULL DEFAULT 'sale',
 method varchar(30) NOT NULL DEFAULT 'cash',
 amount decimal(12,2) NOT NULL DEFAULT '0.00',
@@ -245,6 +248,7 @@ PRIMARY KEY  (id),
 KEY sale_id (sale_id),
 KEY customer_id (customer_id),
 KEY shift_id (shift_id),
+KEY supplier_id (supplier_id),
 KEY created_at (created_at)",
 			'installments' => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 sale_id bigint(20) unsigned NOT NULL,
@@ -271,6 +275,30 @@ updated_at datetime NOT NULL,
 PRIMARY KEY  (id),
 KEY user_open (user_id,closed_at),
 KEY opened_at (opened_at)",
+			'suppliers'    => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+name varchar(150) NOT NULL DEFAULT '',
+phone varchar(20) NOT NULL DEFAULT '',
+address text NULL,
+notes text NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY name (name),
+KEY phone (phone)",
+			'purchases'    => "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+supplier_id bigint(20) unsigned NOT NULL DEFAULT 0,
+ref_no varchar(60) NOT NULL DEFAULT '',
+purchased_on date NOT NULL,
+total decimal(12,2) NOT NULL DEFAULT '0.00',
+paid decimal(12,2) NOT NULL DEFAULT '0.00',
+units int(11) NOT NULL DEFAULT 0,
+note varchar(255) NOT NULL DEFAULT '',
+created_by bigint(20) unsigned NOT NULL DEFAULT 0,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY supplier_id (supplier_id),
+KEY purchased_on (purchased_on)",
 		);
 	}
 }
