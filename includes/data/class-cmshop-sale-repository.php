@@ -172,6 +172,86 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Completed sales per day.
+	 *
+	 * @param string $from Start (inclusive).
+	 * @param string $to   End (exclusive).
+	 * @return array[] Rows of day, total, profit, sales.
+	 */
+	public function daily_totals( string $from, string $to ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT DATE( created_at ) AS day, SUM( total ) AS total, SUM( profit ) AS profit, COUNT(*) AS sales
+				FROM %i WHERE status = %s AND created_at >= %s AND created_at < %s GROUP BY DATE( created_at )',
+				$this->table,
+				self::STATUS_COMPLETED,
+				$from,
+				$to
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Best sellers: phones by brand and model, other items by name.
+	 *
+	 * @param string $from  Start (inclusive).
+	 * @param string $to    End (exclusive).
+	 * @param string $items Items table.
+	 * @param int    $limit How many.
+	 * @return array[] Rows of label, quantity, amount.
+	 */
+	public function top_sellers( string $from, string $to, string $items, int $limit ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				"SELECT CASE WHEN i.item_type = %s AND i.model <> '' THEN CONCAT_WS( ' ', i.brand, i.model ) ELSE l.description END AS label,
+					SUM( l.quantity ) AS quantity, SUM( l.line_total ) AS amount
+				FROM %i l
+				INNER JOIN %i s ON s.id = l.sale_id
+				LEFT JOIN %i i ON i.id = l.item_id
+				WHERE s.status = %s AND s.created_at >= %s AND s.created_at < %s
+				GROUP BY label ORDER BY quantity DESC, amount DESC LIMIT %d",
+				Cmshop_Item::TYPE_PHONE,
+				$this->lines_table,
+				$this->table,
+				$items,
+				self::STATUS_COMPLETED,
+				$from,
+				$to,
+				$limit
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Money customers still owe on completed sales.
+	 *
+	 * @return array{amount: string, sales: int, customers: int}
+	 */
+	public function dues_summary(): array {
+		$row = $this->db->get_row(
+			$this->db->prepare(
+				'SELECT COALESCE( SUM( total - amount_paid ), 0 ) AS amount, COUNT(*) AS sales, COUNT( DISTINCT customer_id ) AS customers
+				FROM %i WHERE status = %s AND amount_paid < total',
+				$this->table,
+				self::STATUS_COMPLETED
+			),
+			ARRAY_A
+		);
+
+		return array(
+			'amount'    => (string) ( $row['amount'] ?? '0.00' ),
+			'sales'     => (int) ( $row['sales'] ?? 0 ),
+			'customers' => (int) ( $row['customers'] ?? 0 ),
+		);
+	}
+
+	/**
 	 * Most recent sales.
 	 *
 	 * @param int $limit How many.

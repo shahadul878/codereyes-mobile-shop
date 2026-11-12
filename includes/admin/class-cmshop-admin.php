@@ -79,6 +79,10 @@ final class Cmshop_Admin {
 
 		wp_enqueue_style( 'cmshop-admin', CMSHOP_URL . 'assets/css/admin.css', array(), CMSHOP_VERSION );
 		wp_enqueue_style( 'cmshop-print', CMSHOP_URL . 'assets/css/print.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
+
+		if ( 'toplevel_page_' . self::SLUG === $hook ) {
+			wp_enqueue_style( 'cmshop-dashboard', CMSHOP_URL . 'assets/css/dashboard.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
+		}
 		wp_enqueue_script( 'cmshop-admin', CMSHOP_URL . 'assets/js/admin.js', array(), CMSHOP_VERSION, true );
 
 		if ( false !== strpos( $hook, 'cmshop-items' ) && in_array( $this->action(), array( 'new', 'edit' ), true ) && current_user_can( 'upload_files' ) ) {
@@ -120,19 +124,7 @@ final class Cmshop_Admin {
 	 * Dashboard.
 	 */
 	public function dashboard(): void {
-		$today = current_time( 'Y-m-d' );
-		$month = current_time( 'Y-m' ) . '-01';
-
-		$this->render(
-			'dashboard',
-			array(
-				'stock'   => Cmshop_Plugin::items()->stock_summary( (int) Cmshop_Settings::get( 'low_stock' ) ),
-				'today'   => Cmshop_Plugin::sales()->totals( $today . ' 00:00:00', gmdate( 'Y-m-d', strtotime( $today . ' +1 day' ) ) . ' 00:00:00' ),
-				'month'   => Cmshop_Plugin::sales()->totals( $month . ' 00:00:00', gmdate( 'Y-m-d', strtotime( $month . ' +1 month' ) ) . ' 00:00:00' ),
-				'repairs' => Cmshop_Plugin::repairs()->open_counts(),
-				'recent'  => Cmshop_Plugin::sales()->recent( 8 ),
-			)
-		);
+		$this->render( 'dashboard', Cmshop_Dashboard::data() );
 	}
 
 	/**

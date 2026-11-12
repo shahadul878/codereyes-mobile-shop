@@ -1,0 +1,431 @@
+/* Codereyes Mobile Shop — dashboard (KPIs, charts, lists). Uses tokens from admin.css. */
+
+.cmshop-dashboard .cmshop-hero {
+	margin-bottom: 18px;
+}
+
+/* ---------- KPI cards ---------- */
+
+.cmshop-kpis {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 14px;
+	margin-bottom: 16px;
+}
+
+.cmshop-kpi {
+	position: relative;
+	padding: 16px 18px;
+	overflow: hidden;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius-lg);
+	background: var(--cmshop-surface);
+	box-shadow: var(--cmshop-shadow-sm);
+}
+
+.cmshop-kpi::before {
+	position: absolute;
+	inset: 0 0 auto;
+	height: 3px;
+	background: var(--cmshop-accent);
+	content: "";
+}
+
+.cmshop-kpi--alert::before {
+	background: var(--cmshop-warn);
+}
+
+.cmshop-kpi h2 {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	margin: 0 0 6px;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.cmshop-kpi h2 .dashicons {
+	width: 16px;
+	height: 16px;
+	color: var(--cmshop-accent);
+	font-size: 16px;
+}
+
+.cmshop-kpi--alert h2 .dashicons {
+	color: var(--cmshop-warn);
+}
+
+.cmshop-kpi__value {
+	margin: 0;
+	color: var(--cmshop-ink);
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-kpi__meta {
+	margin: 6px 0 0;
+	color: var(--cmshop-muted);
+	font-size: 12.5px;
+}
+
+.cmshop-delta {
+	display: inline-flex;
+	gap: 2px;
+	align-items: center;
+	padding: 1px 8px 1px 4px;
+	border-radius: 999px;
+	font-weight: 600;
+}
+
+.cmshop-delta .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+.cmshop-delta--up {
+	background: var(--cmshop-accent-soft);
+	color: var(--cmshop-accent-ink);
+}
+
+.cmshop-delta--down {
+	background: var(--cmshop-danger-soft);
+	color: var(--cmshop-danger);
+}
+
+/* ---------- Panels ---------- */
+
+.cmshop-dash-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.cmshop-dash-grid--three {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cmshop-dashboard .cmshop-panel {
+	margin: 0;
+}
+
+.cmshop-panel__head {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 12px;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-bottom: 14px;
+}
+
+.cmshop-panel__head h2 {
+	margin: 0;
+	font-size: 14px;
+}
+
+.cmshop-panel__head p {
+	margin: 0;
+	color: var(--cmshop-muted);
+	font-size: 12.5px;
+}
+
+/* ---------- 30-day bar chart ---------- */
+
+.cmshop-bars {
+	display: grid;
+	grid-template-columns: repeat(30, minmax(0, 1fr));
+	gap: 4px;
+	align-items: end;
+	height: 190px;
+	margin: 0 0 26px;
+	padding: 0 0 0;
+	border-bottom: 1px solid var(--cmshop-line);
+	background: repeating-linear-gradient(to top, transparent 0, transparent 47px, var(--cmshop-line) 47px, var(--cmshop-line) 48px);
+	list-style: none;
+}
+
+.cmshop-bars li {
+	position: relative;
+	height: 100%;
+	margin: 0;
+}
+
+.cmshop-bars__total,
+.cmshop-bars__profit {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	min-height: 0;
+	border-radius: 4px 4px 0 0;
+}
+
+.cmshop-bars__total {
+	background: #9fe1cb;
+	transition: opacity 150ms ease;
+}
+
+.cmshop-bars__profit {
+	right: 22%;
+	left: 22%;
+	background: var(--cmshop-accent-strong);
+}
+
+.cmshop-bars li:hover .cmshop-bars__total {
+	opacity: 0.75;
+}
+
+.cmshop-bars__label {
+	position: absolute;
+	bottom: -22px;
+	left: 50%;
+	color: var(--cmshop-faint);
+	font-size: 11px;
+	white-space: nowrap;
+	transform: translateX(-50%);
+}
+
+.cmshop-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 16px;
+	margin: 0;
+	padding: 0;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	list-style: none;
+}
+
+.cmshop-legend__dot {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-right: 6px;
+	border-radius: 3px;
+	vertical-align: -1px;
+}
+
+.cmshop-legend__dot--total {
+	background: #9fe1cb;
+}
+
+.cmshop-legend__dot--profit {
+	background: var(--cmshop-accent-strong);
+}
+
+/* ---------- Payment donut ---------- */
+
+.cmshop-donut {
+	display: grid;
+	place-items: center;
+	width: 150px;
+	height: 150px;
+	margin: 4px auto 18px;
+	border-radius: 50%;
+}
+
+.cmshop-donut span {
+	display: grid;
+	place-items: center;
+	width: 96px;
+	height: 96px;
+	border-radius: 50%;
+	background: var(--cmshop-surface);
+	color: var(--cmshop-ink);
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.cmshop-donut small {
+	display: block;
+	margin-top: 4px;
+	color: var(--cmshop-muted);
+	font-size: 11px;
+	font-weight: 500;
+}
+
+.cmshop-legend--list {
+	flex-direction: column;
+}
+
+.cmshop-legend--list li {
+	display: flex;
+	align-items: center;
+	margin: 0;
+}
+
+.cmshop-legend--list strong {
+	margin-left: auto;
+	color: var(--cmshop-ink);
+}
+
+/* ---------- Lists ---------- */
+
+.cmshop-rank,
+.cmshop-list,
+.cmshop-tasks {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cmshop-rank {
+	counter-reset: cmshop-rank;
+}
+
+.cmshop-rank li {
+	display: grid;
+	position: relative;
+	grid-template-columns: 22px minmax(0, 1fr) auto;
+	gap: 8px;
+	align-items: center;
+	margin: 0 0 10px;
+	padding-bottom: 8px;
+	counter-increment: cmshop-rank;
+}
+
+.cmshop-rank li::before {
+	color: var(--cmshop-faint);
+	font-weight: 700;
+	content: counter(cmshop-rank);
+}
+
+.cmshop-rank__name {
+	overflow: hidden;
+	color: var(--cmshop-ink);
+	font-weight: 600;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cmshop-rank__qty {
+	color: var(--cmshop-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-rank__bar {
+	position: absolute;
+	bottom: 0;
+	left: 30px;
+	max-width: calc(100% - 30px);
+	height: 4px;
+	border-radius: 4px;
+	background: var(--cmshop-accent);
+	opacity: 0.55;
+}
+
+.cmshop-list li {
+	display: flex;
+	gap: 8px;
+	justify-content: space-between;
+	margin: 0;
+	padding: 9px 0;
+	border-bottom: 1px solid var(--cmshop-line);
+}
+
+.cmshop-list li:last-child {
+	border-bottom: 0;
+}
+
+.cmshop-list span {
+	color: var(--cmshop-muted);
+	white-space: nowrap;
+}
+
+.cmshop-tasks__item {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	margin: 0 0 8px;
+	padding: 10px 12px;
+	border-radius: var(--cmshop-radius-sm);
+	background: var(--cmshop-bg);
+}
+
+.cmshop-tasks__item .dashicons {
+	flex: none;
+	color: var(--cmshop-muted);
+}
+
+.cmshop-tasks__item a {
+	color: var(--cmshop-ink);
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.cmshop-tasks__item a:hover {
+	text-decoration: underline;
+}
+
+.cmshop-tasks__item--good {
+	background: var(--cmshop-accent-soft);
+}
+
+.cmshop-tasks__item--good .dashicons {
+	color: var(--cmshop-accent-ink);
+}
+
+.cmshop-tasks__item--info {
+	background: #f3e8ff;
+}
+
+.cmshop-tasks__item--info .dashicons {
+	color: #6d28d9;
+}
+
+.cmshop-tasks__item--warn {
+	background: var(--cmshop-warn-soft);
+}
+
+.cmshop-tasks__item--warn .dashicons {
+	color: var(--cmshop-warn);
+}
+
+.cmshop-dashboard .cmshop-queue li.has-jobs span {
+	background: var(--cmshop-accent-strong);
+	color: #fff;
+}
+
+.cmshop-dashboard .widefat {
+	box-shadow: none;
+}
+
+@media (max-width: 1280px) {
+	.cmshop-kpis {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.cmshop-dash-grid,
+	.cmshop-dash-grid--three {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.cmshop-kpis {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cmshop-bars {
+		gap: 2px;
+		height: 150px;
+	}
+
+	.cmshop-bars__label {
+		font-size: 10px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-bars__total {
+		transition: none;
+	}
+}

@@ -239,6 +239,30 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Phones in stock since before a date, oldest first.
+	 *
+	 * @param string $before Y-m-d H:i:s.
+	 * @param int    $limit  How many.
+	 * @return array{rows: array[], count: int}
+	 */
+	public function slow_movers( string $before, int $limit ): array {
+		$where = 'item_type = %s AND status = %s AND quantity > 0 AND created_at < %s';
+		$args  = array( $this->table, Cmshop_Item::TYPE_PHONE, Cmshop_Item::STATUS_IN_STOCK, $before );
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where holds fixed placeholders only.
+		$rows  = $this->db->get_results(
+			$this->db->prepare( 'SELECT id, name, sale_price, cost_price, created_at FROM %i WHERE ' . $where . ' ORDER BY created_at ASC LIMIT %d', array_merge( $args, array( $limit ) ) ),
+			ARRAY_A
+		);
+		$count = (int) $this->db->get_var( $this->db->prepare( 'SELECT COUNT(*) FROM %i WHERE ' . $where, $args ) );
+		// phpcs:enable
+
+		return array(
+			'rows'  => is_array( $rows ) ? $rows : array(),
+			'count' => $count,
+		);
+	}
+
+	/**
 	 * Brand names used in stock, A to Z.
 	 *
 	 * @return string[]

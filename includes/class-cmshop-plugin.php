@@ -38,6 +38,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-style.php',
 		'core/class-cmshop-block-atts.php',
 		'core/class-cmshop-payments.php',
+		'core/class-cmshop-dashboard-math.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -72,6 +73,7 @@ final class Cmshop_Plugin {
 		'admin/class-cmshop-admin.php',
 		'admin/class-cmshop-actions.php',
 		'admin/class-cmshop-export.php',
+		'admin/class-cmshop-dashboard.php',
 	);
 
 	/**

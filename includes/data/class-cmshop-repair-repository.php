@@ -81,6 +81,24 @@ final class Cmshop_Repair_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Open repairs whose promised date has passed.
+	 *
+	 * @param string $today Y-m-d.
+	 * @return int
+	 */
+	public function overdue_count( string $today ): int {
+		$open = array_diff( Cmshop_Repair_Status::open(), array( Cmshop_Repair_Status::READY, Cmshop_Repair_Status::REQUESTED ) );
+		$in   = implode( ', ', array_fill( 0, count( $open ), '%s' ) );
+
+		return (int) $this->db->get_var(
+			$this->db->prepare(
+				"SELECT COUNT(*) FROM %i WHERE due_date IS NOT NULL AND due_date < %s AND status IN ( {$in} )",
+				array_merge( array( $this->table, $today ), array_values( $open ) )
+			)
+		);
+	}
+
+	/**
 	 * Repairs for a customer, newest first.
 	 *
 	 * @param int $customer_id Customer ID.
