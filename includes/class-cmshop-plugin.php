@@ -41,6 +41,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-dashboard-math.php',
 		'core/class-cmshop-pos-catalog.php',
 		'core/class-cmshop-installments.php',
+		'core/class-cmshop-returns.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -54,6 +55,7 @@ final class Cmshop_Plugin {
 		'data/class-cmshop-installment-repository.php',
 		'services/class-cmshop-sales-service.php',
 		'services/class-cmshop-dues-service.php',
+		'services/class-cmshop-returns-service.php',
 		'class-cmshop-rest.php',
 		'frontend/class-cmshop-rate-limit.php',
 		'frontend/class-cmshop-repair-tracker.php',
@@ -298,6 +300,20 @@ final class Cmshop_Plugin {
 			'dues',
 			static function () {
 				return new Cmshop_Dues_Service( self::installments(), self::sales(), self::payments() );
+			}
+		);
+	}
+
+	/**
+	 * Returns and store credit.
+	 *
+	 * @return Cmshop_Returns_Service
+	 */
+	public static function returns(): Cmshop_Returns_Service {
+		return self::service(
+			'returns',
+			static function () {
+				return new Cmshop_Returns_Service( self::items(), self::sales(), self::customers(), self::payments() );
 			}
 		);
 	}

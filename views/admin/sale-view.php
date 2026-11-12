@@ -13,6 +13,20 @@ $cmshop_sale     = $cmshop['sale'];
 $cmshop_format   = $cmshop['format'];
 $cmshop_settings = Cmshop_Settings::all();
 $cmshop_is_void  = 'void' === $cmshop_sale['status'];
+$cmshop_refunded = Cmshop_Money::to_cents( (string) ( $cmshop_sale['refunded'] ?? '0.00' ) );
+
+// Lines show how many came back.
+$cmshop['lines'] = array_map(
+	static function ( array $line ): array {
+		if ( (int) ( $line['returned_qty'] ?? 0 ) <= 0 ) {
+			return $line;
+		}
+
+		/* translators: 1: item, 2: quantity returned. */
+		return array_merge( $line, array( 'description' => sprintf( __( '%1$s (returned: %2$d)', 'codereyes-mobile-shop' ), $line['description'], (int) $line['returned_qty'] ) ) );
+	},
+	$cmshop['lines']
+);
 $cmshop_balance  = Cmshop_Money::to_cents( (string) $cmshop_sale['total'] ) - Cmshop_Money::to_cents( (string) $cmshop_sale['amount_paid'] );
 $cmshop_payment  = Cmshop_Item::label( Cmshop_Settings::payment_labels(), (string) $cmshop_sale['payment_method'] );
 $cmshop_order    = null;
@@ -60,6 +74,10 @@ if ( count( $cmshop_paid_in ) > 1 ) {
 	$cmshop_totals[] = array( __( 'Paid', 'codereyes-mobile-shop' ), Cmshop_Settings::money( (string) $cmshop_sale['amount_paid'] ), '' );
 }
 
+if ( $cmshop_refunded > 0 ) {
+	$cmshop_totals[] = array( __( 'Refunded', 'codereyes-mobile-shop' ), '-' . Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_refunded ) ), 'is-due' );
+}
+
 if ( $cmshop_balance > 0 ) {
 	$cmshop_totals[] = array( __( 'Balance due', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_balance ) ), 'is-due' );
 } elseif ( $cmshop_balance < 0 ) {
@@ -77,6 +95,9 @@ $cmshop_is_a4 = Cmshop_Invoice_Format::A4 === $cmshop_format;
 			?>
 		</h1>
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-pos' ) ); ?>"><?php esc_html_e( 'New sale', 'codereyes-mobile-shop' ); ?></a>
+		<?php if ( Cmshop_Sale_Repository::STATUS_COMPLETED === $cmshop_sale['status'] && $cmshop_balance <= 0 ) : ?>
+			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-sales', array( 'action' => 'return', 'id' => (int) $cmshop_sale['id'] ) ) ); ?>"><?php esc_html_e( 'Return items', 'codereyes-mobile-shop' ); ?></a>
+		<?php endif; ?>
 		<?php if ( ! $cmshop_is_void ) : ?>
 			<a class="page-title-action cmshop-danger cmshop-confirm" data-confirm="<?php esc_attr_e( 'Void this sale and put its items back in stock?', 'codereyes-mobile-shop' ); ?>" href="<?php echo esc_url( Cmshop_View::action_url( 'void_sale', array( 'id' => (int) $cmshop_sale['id'] ) ) ); ?>"><?php esc_html_e( 'Void / return', 'codereyes-mobile-shop' ); ?></a>
 		<?php endif; ?>

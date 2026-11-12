@@ -72,6 +72,7 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 				array(
 					Cmshop_Sale_Repository::STATUS_COMPLETED => __( 'Completed', 'codereyes-mobile-shop' ),
 					Cmshop_Sale_Repository::STATUS_VOID => __( 'Void', 'codereyes-mobile-shop' ),
+					Cmshop_Sale_Repository::STATUS_RETURNED => __( 'Returned', 'codereyes-mobile-shop' ),
 				),
 			),
 		);
@@ -171,8 +172,13 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	 * @return string
 	 */
 	protected function column_status( $item ): string {
-		$void = Cmshop_Sale_Repository::STATUS_VOID === $item['status'];
+		$labels = array(
+			Cmshop_Sale_Repository::STATUS_VOID     => __( 'Void', 'codereyes-mobile-shop' ),
+			Cmshop_Sale_Repository::STATUS_RETURNED => __( 'Returned', 'codereyes-mobile-shop' ),
+		);
 
-		return Cmshop_View::badge( $void ? __( 'Void', 'codereyes-mobile-shop' ) : __( 'Completed', 'codereyes-mobile-shop' ), (string) $item['status'] );
+		$label = $labels[ $item['status'] ] ?? ( Cmshop_Money::to_cents( (string) $item['refunded'] ) > 0 ? __( 'Part returned', 'codereyes-mobile-shop' ) : __( 'Completed', 'codereyes-mobile-shop' ) );
+
+		return Cmshop_View::badge( $label, (string) $item['status'] );
 	}
 }

@@ -19,6 +19,32 @@ final class Cmshop_Customer_Repository extends Cmshop_Repository {
 	private const SEARCH_LIMIT = 10;
 
 	/**
+	 * Lock a customer row for the rest of the transaction.
+	 *
+	 * @param int $id Customer ID.
+	 * @return array|null
+	 */
+	public function lock( int $id ): ?array {
+		$row = $this->db->get_row(
+			$this->db->prepare( 'SELECT * FROM %i WHERE id = %d FOR UPDATE', $this->table, $id ),
+			ARRAY_A
+		);
+
+		return is_array( $row ) ? $row : null;
+	}
+
+	/**
+	 * Add to (or, negative, take from) a customer's store credit. Call inside a transaction.
+	 *
+	 * @param array $customer Locked customer row.
+	 * @param int   $delta    Change in cents.
+	 * @throws RuntimeException When the update fails.
+	 */
+	public function adjust_credit( array $customer, int $delta ): void {
+		$this->update( (int) $customer['id'], array( 'credit' => Cmshop_Money::from_cents( max( 0, Cmshop_Money::to_cents( (string) $customer['credit'] ) + $delta ) ) ) );
+	}
+
+	/**
 	 * Customer with this phone number.
 	 *
 	 * @param string $phone Normalised phone number.

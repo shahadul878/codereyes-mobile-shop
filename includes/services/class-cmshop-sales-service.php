@@ -112,7 +112,7 @@ final class Cmshop_Sales_Service {
 				$items   = $this->items->lock( array_column( $lines, 'item_id' ) );
 				$sale    = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), '' );
 				$credit  = (int) array_sum( array_map( 'Cmshop_Money::to_cents', array_column( $trades, 'value' ) ) );
-				$methods = array_merge( array_keys( Cmshop_Settings::payment_methods() ), array( Cmshop_Payments::TRADE_IN ) );
+				$methods = array_merge( array_keys( Cmshop_Settings::payment_methods() ), array( Cmshop_Payments::TRADE_IN ), isset( $buyer['phone'] ) ? array( Cmshop_Returns_Service::STORE_CREDIT ) : array() );
 				$paid    = Cmshop_Payments::allocate( array_merge( $this->payment_rows( $order, $sale['total'], $credit ), $this->trade_rows( $trades ) ), Cmshop_Money::to_cents( $sale['total'] ), $methods );
 
 				if ( $paid['due'] > 0 && ! isset( $buyer['phone'] ) ) {
@@ -120,6 +120,8 @@ final class Cmshop_Sales_Service {
 				}
 
 				$customer = isset( $buyer['phone'] ) ? $this->customers->find_or_create( $buyer['name'], $buyer['phone'], $buyer['email'] ) : $buyer;
+
+				$this->spend_credit( $paid['entries'], $customer );
 
 				$sale_id = $this->sales->insert_with_lines(
 					array(
@@ -278,6 +280,35 @@ final class Cmshop_Sales_Service {
 				'amount' => '' === $amount ? Cmshop_Money::from_cents( max( 0, Cmshop_Money::to_cents( $total ) - $credit ) ) : $amount,
 			),
 		);
+	}
+
+	/**
+	 * Take store credit used on this sale off the customer's balance.
+	 *
+	 * @param array[] $entries  Ledger entries for the sale.
+	 * @param array   $customer Customer (with id when known).
+	 * @throws InvalidArgumentException When the customer doesn't have that much credit.
+	 */
+	private function spend_credit( array $entries, array $customer ): void {
+		$used = 0;
+
+		foreach ( $entries as $entry ) {
+			if ( Cmshop_Returns_Service::STORE_CREDIT === $entry['method'] ) {
+				$used += Cmshop_Money::to_cents( (string) $entry['amount'] );
+			}
+		}
+
+		if ( 0 === $used ) {
+			return;
+		}
+
+		$locked = isset( $customer['id'] ) ? $this->customers->lock( (int) $customer['id'] ) : null;
+
+		if ( null === $locked || Cmshop_Money::to_cents( (string) $locked['credit'] ) < $used ) {
+			throw new InvalidArgumentException( __( 'The customer doesn\'t have that much store credit.', 'codereyes-mobile-shop' ) );
+		}
+
+		$this->customers->adjust_credit( $locked, -$used );
 	}
 
 	/**

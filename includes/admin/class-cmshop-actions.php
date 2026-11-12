@@ -31,6 +31,7 @@ final class Cmshop_Actions {
 		'delete_repair'   => 'delete_repair',
 		'void_sale'       => 'void_sale',
 		'collect_due'     => 'collect_due',
+		'return_items'    => 'return_items',
 	);
 
 	/**
@@ -322,6 +323,52 @@ final class Cmshop_Actions {
 	private function delete_repair(): void {
 		Cmshop_Plugin::repairs()->delete( $this->query_id() );
 		$this->redirect( 'cmshop-repairs', 'repair_deleted' );
+	}
+
+	/**
+	 * Return items from a sale: stock back, money or store credit back.
+	 */
+	private function return_items(): void {
+		$posted  = $this->posted();
+		$sale_id = absint( $posted['sale_id'] ?? 0 );
+		$wanted  = array();
+
+		foreach ( (array) ( $posted['qty'] ?? array() ) as $line_id => $quantity ) {
+			$wanted[ absint( $line_id ) ] = absint( $quantity );
+		}
+
+		try {
+			$result = Cmshop_Plugin::returns()->process(
+				$sale_id,
+				$wanted,
+				array_map( 'absint', (array) ( $posted['restock'] ?? array() ) ),
+				sanitize_key( (string) ( $posted['method'] ?? '' ) ),
+				sanitize_text_field( (string) ( $posted['reason'] ?? '' ) ),
+				get_current_user_id()
+			);
+		} catch ( InvalidArgumentException $error ) {
+			Cmshop_Form_State::save( 'return', $posted, array( 'qty' => $error->getMessage() ) );
+			$this->redirect(
+				'cmshop-sales',
+				'',
+				array(
+					'action' => 'return',
+					'id'     => $sale_id,
+				)
+			);
+		} catch ( RuntimeException $error ) {
+			$this->log( $error );
+			$this->redirect( 'cmshop-sales', 'db_error' );
+		}
+
+		$this->redirect(
+			'cmshop-sales',
+			'items_returned',
+			array(
+				'action' => 'view',
+				'id'     => $sale_id,
+			)
+		);
 	}
 
 	/**

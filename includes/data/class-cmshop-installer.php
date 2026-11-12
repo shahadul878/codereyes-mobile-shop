@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Installer {
 
-	public const DB_VERSION     = '1.3.0';
+	public const DB_VERSION     = '1.4.0';
 	public const OPTION         = 'cmshop_db_version';
 	public const GRANTED_OPTION = 'cmshop_granted_roles';
 	public const CAPABILITY     = 'manage_cmshop';
@@ -159,6 +159,7 @@ phone varchar(20) NOT NULL DEFAULT '',
 email varchar(100) NOT NULL DEFAULT '',
 address text NULL,
 notes text NULL,
+credit decimal(12,2) NOT NULL DEFAULT '0.00',
 created_at datetime NOT NULL,
 updated_at datetime NOT NULL,
 PRIMARY KEY  (id),
@@ -177,6 +178,8 @@ total decimal(12,2) NOT NULL DEFAULT '0.00',
 amount_paid decimal(12,2) NOT NULL DEFAULT '0.00',
 cost_total decimal(12,2) NOT NULL DEFAULT '0.00',
 profit decimal(12,2) NOT NULL DEFAULT '0.00',
+refunded decimal(12,2) NOT NULL DEFAULT '0.00',
+refunded_cost decimal(12,2) NOT NULL DEFAULT '0.00',
 wc_order_id bigint(20) unsigned NOT NULL DEFAULT 0,
 notes text NULL,
 created_by bigint(20) unsigned NOT NULL DEFAULT 0,
@@ -197,6 +200,7 @@ quantity int(11) NOT NULL DEFAULT 1,
 unit_price decimal(12,2) NOT NULL DEFAULT '0.00',
 unit_cost decimal(12,2) NOT NULL DEFAULT '0.00',
 line_total decimal(12,2) NOT NULL DEFAULT '0.00',
+returned_qty int(11) NOT NULL DEFAULT 0,
 PRIMARY KEY  (id),
 KEY sale_id (sale_id),
 KEY item_id (item_id)",

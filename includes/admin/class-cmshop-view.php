@@ -228,6 +228,7 @@ final class Cmshop_View {
 			'sale_voided'      => array( 'success', __( 'Sale voided. Its items are back in stock.', 'codereyes-mobile-shop' ) ),
 			'sale_not_voided'  => array( 'error', __( 'Only completed sales can be voided.', 'codereyes-mobile-shop' ) ),
 			'not_found'        => array( 'error', __( 'That record no longer exists.', 'codereyes-mobile-shop' ) ),
+			'items_returned'   => array( 'success', __( 'Return recorded. Stock and money are updated.', 'codereyes-mobile-shop' ) ),
 			'due_collected'    => array( 'success', __( 'Payment received and added to the customer\'s account.', 'codereyes-mobile-shop' ) ),
 			'db_error'         => array( 'error', __( 'Something went wrong while saving. Nothing was changed. Please try again.', 'codereyes-mobile-shop' ) ),
 		);

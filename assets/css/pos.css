@@ -388,6 +388,16 @@ body.cmshop-pos-screen {
 	font-weight: 600;
 }
 
+.cmshop-pos-credit {
+	padding: 2px 10px;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--cmshop-accent-ink);
+	font-weight: 700;
+	cursor: pointer;
+}
+
 .cmshop-pos-customer__info.owes {
 	background: var(--cmshop-warn-soft);
 	color: var(--cmshop-warn);

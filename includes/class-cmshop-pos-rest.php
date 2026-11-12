@@ -164,14 +164,16 @@ final class Cmshop_Pos_Rest {
 
 		return Cmshop_Rest::envelope(
 			array(
-				'id'         => (int) $customer['id'],
-				'name'       => (string) $customer['name'],
-				'phone'      => (string) $customer['phone'],
-				'sales'      => $stats['sales'],
-				'spent_text' => Cmshop_Settings::money( $stats['spent'] ),
-				'last_text'  => '' === $stats['last'] ? '' : (string) mysql2date( (string) get_option( 'date_format' ), $stats['last'] ),
-				'due'        => $stats['due'],
-				'due_text'   => Cmshop_Settings::money( $stats['due'] ),
+				'id'          => (int) $customer['id'],
+				'name'        => (string) $customer['name'],
+				'phone'       => (string) $customer['phone'],
+				'sales'       => $stats['sales'],
+				'spent_text'  => Cmshop_Settings::money( $stats['spent'] ),
+				'last_text'   => '' === $stats['last'] ? '' : (string) mysql2date( (string) get_option( 'date_format' ), $stats['last'] ),
+				'due'         => $stats['due'],
+				'due_text'    => Cmshop_Settings::money( $stats['due'] ),
+				'credit'      => (string) $customer['credit'],
+				'credit_text' => Cmshop_Settings::money( (string) $customer['credit'] ),
 			)
 		);
 	}

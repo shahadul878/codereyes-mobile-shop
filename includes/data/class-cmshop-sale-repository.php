@@ -18,6 +18,7 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 
 	public const STATUS_COMPLETED = 'completed';
 	public const STATUS_VOID      = 'void';
+	public const STATUS_RETURNED  = 'returned';
 
 	public const CHANNEL_STORE  = 'store';
 	public const CHANNEL_ONLINE = 'online';
@@ -81,6 +82,20 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Change one sale line (e.g. how many were returned). Call inside a transaction.
+	 *
+	 * @param int   $line_id Line ID.
+	 * @param array $data    Columns.
+	 * @throws RuntimeException When the update fails.
+	 */
+	public function update_line( int $line_id, array $data ): void {
+		if ( false === $this->db->update( $this->lines_table, $data, array( 'id' => $line_id ) ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Logged, never displayed.
+			throw new RuntimeException( 'Line update failed: ' . $this->db->last_error );
+		}
+	}
+
+	/**
 	 * Sale recorded for a WooCommerce order, if any.
 	 *
 	 * @param int $order_id Order ID.
@@ -111,7 +126,7 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 				FROM %i l
 				INNER JOIN %i s ON s.id = l.sale_id
 				LEFT JOIN %i i ON i.id = l.item_id
-				WHERE s.status = %s AND l.item_type = %s AND ( l.imei = %s OR i.imei1 = %s OR i.imei2 = %s )
+				WHERE s.status = %s AND l.item_type = %s AND l.returned_qty < l.quantity AND ( l.imei = %s OR i.imei1 = %s OR i.imei2 = %s )
 				ORDER BY s.id DESC LIMIT 1',
 				'good',
 				$this->lines_table,
@@ -154,7 +169,7 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	public function totals( string $from, string $to ): array {
 		$row = $this->db->get_row(
 			$this->db->prepare(
-				'SELECT COUNT(*) AS sales, COALESCE( SUM( total ), 0 ) AS total, COALESCE( SUM( profit ), 0 ) AS profit
+				'SELECT COUNT(*) AS sales, COALESCE( SUM( total - refunded ), 0 ) AS total, COALESCE( SUM( profit - refunded + refunded_cost ), 0 ) AS profit
 				FROM %i WHERE status = %s AND created_at >= %s AND created_at < %s',
 				$this->table,
 				self::STATUS_COMPLETED,
@@ -181,7 +196,7 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 	public function daily_totals( string $from, string $to ): array {
 		$rows = $this->db->get_results(
 			$this->db->prepare(
-				'SELECT DATE( created_at ) AS day, SUM( total ) AS total, SUM( profit ) AS profit, COUNT(*) AS sales
+				'SELECT DATE( created_at ) AS day, SUM( total - refunded ) AS total, SUM( profit - refunded + refunded_cost ) AS profit, COUNT(*) AS sales
 				FROM %i WHERE status = %s AND created_at >= %s AND created_at < %s GROUP BY DATE( created_at )',
 				$this->table,
 				self::STATUS_COMPLETED,
@@ -207,11 +222,11 @@ final class Cmshop_Sale_Repository extends Cmshop_Repository {
 		$rows = $this->db->get_results(
 			$this->db->prepare(
 				"SELECT CASE WHEN i.item_type = %s AND i.model <> '' THEN CONCAT_WS( ' ', i.brand, i.model ) ELSE l.description END AS label,
-					SUM( l.quantity ) AS quantity, SUM( l.line_total ) AS amount
+					SUM( l.quantity - l.returned_qty ) AS quantity, SUM( l.line_total * ( l.quantity - l.returned_qty ) / l.quantity ) AS amount
 				FROM %i l
 				INNER JOIN %i s ON s.id = l.sale_id
 				LEFT JOIN %i i ON i.id = l.item_id
-				WHERE s.status = %s AND s.created_at >= %s AND s.created_at < %s
+				WHERE s.status = %s AND s.created_at >= %s AND s.created_at < %s AND l.returned_qty < l.quantity
 				GROUP BY label ORDER BY quantity DESC, amount DESC LIMIT %d",
 				Cmshop_Item::TYPE_PHONE,
 				$this->lines_table,

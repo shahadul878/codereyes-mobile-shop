@@ -230,13 +230,13 @@
 
 	function renderPayments() {
 		ui.payments.replaceChildren( ...state.payments.map( ( row, index ) => el( 'div', { className: 'cmshop-pos-payrow', 'data-pay': String( index ) }, [
-			el( 'select', { 'aria-label': __( 'Payment method', 'codereyes-mobile-shop' ), 'data-method': '' }, METHODS.map( ( [ key, label ] ) => {
+			el( 'select', { 'aria-label': __( 'Payment method', 'codereyes-mobile-shop' ), 'data-method': '' }, METHODS.concat( 'store_credit' === row.method ? [ [ 'store_credit', __( 'Store credit', 'codereyes-mobile-shop' ) ] ] : [] ).map( ( [ key, label ] ) => {
 				const option = el( 'option', { value: key, text: label } );
 				option.selected = key === row.method;
 				return option;
 			} ) ),
 			el( 'input', { type: 'text', inputmode: 'decimal', value: row.amount, 'aria-label': __( 'Amount', 'codereyes-mobile-shop' ), 'data-amount': '' } ),
-			'cash' !== row.method ? el( 'input', { type: 'text', value: row.reference, placeholder: __( 'Transaction ID', 'codereyes-mobile-shop' ), 'aria-label': __( 'Transaction ID', 'codereyes-mobile-shop' ), 'data-reference': '' } ) : null,
+			'cash' !== row.method && 'store_credit' !== row.method ? el( 'input', { type: 'text', value: row.reference, placeholder: __( 'Transaction ID', 'codereyes-mobile-shop' ), 'aria-label': __( 'Transaction ID', 'codereyes-mobile-shop' ), 'data-reference': '' } ) : null,
 			0 < index ? el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-unpay': '', 'aria-label': __( 'Remove payment', 'codereyes-mobile-shop' ), text: '×' } ) : null,
 		] ) ) );
 		renderTotals();
@@ -293,6 +293,11 @@
 			/* translators: %s: amount the customer owes. */
 			ui.customerInfo.textContent = parts.filter( Boolean ).join( ' · ' ) + ( owes ? ' · ' + sprintf( __( 'owes %s', 'codereyes-mobile-shop' ), customer.due_text ) : '' );
 			ui.customerInfo.className = 'cmshop-pos-customer__info is-known' + ( owes ? ' owes' : '' );
+
+			if ( 0 < core.cents( customer.credit || '' ) ) {
+				/* translators: %s: store credit balance. */
+				ui.customerInfo.append( ' ', el( 'button', { type: 'button', className: 'cmshop-pos-credit', 'data-use-credit': String( core.cents( customer.credit ) ), text: sprintf( __( 'Use store credit %s', 'codereyes-mobile-shop' ), customer.credit_text ) } ) );
+			}
 		} ).catch( () => {
 			ui.customerInfo.hidden = true;
 		} );
@@ -588,6 +593,13 @@
 		} else if ( target.closest( '[data-cash]' ) ) {
 			const index = Math.max( 0, state.payments.findIndex( ( row ) => 'cash' === row.method ) );
 			updatePayment( index, { method: 'cash', amount: core.amount( Number( target.closest( '[data-cash]' ).dataset.cash ) ) } );
+			renderPayments();
+		} else if ( target.closest( '[data-use-credit]' ) ) {
+			const total = core.totals( state.lines, ui.discount.value ).total;
+			const use = Math.min( Number( target.closest( '[data-use-credit]' ).dataset.useCredit ), Math.max( 0, total - credit() ) );
+			const others = state.payments.filter( ( row ) => 'store_credit' !== row.method && ( '' !== String( row.amount ).trim() || 'cash' !== row.method ) );
+
+			state = { ...state, payments: [ { method: 'store_credit', amount: core.amount( use ), reference: '' } ].concat( others.length ? others : [ { method: 'cash', amount: core.amount( Math.max( 0, total - credit() - use ) ), reference: '' } ] ) };
 			renderPayments();
 		} else if ( target.closest( '[data-untrade]' ) ) {
 			const index = Number( target.closest( '[data-trade]' ).dataset.trade );

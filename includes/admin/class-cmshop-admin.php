@@ -195,6 +195,28 @@ final class Cmshop_Admin {
 	 * Sales list and receipt.
 	 */
 	public function sales(): void {
+		if ( 'return' === $this->action() ) {
+			$sale = Cmshop_Plugin::sales()->find( $this->id() );
+
+			if ( null === $sale ) {
+				$this->render( 'not-found', array() );
+				return;
+			}
+
+			$state = Cmshop_Form_State::take( 'return' );
+
+			$this->render(
+				'sale-return',
+				array(
+					'sale'    => $sale,
+					'lines'   => Cmshop_Plugin::sales()->lines( (int) $sale['id'] ),
+					'methods' => Cmshop_Returns_Service::refund_methods( (int) $sale['customer_id'] > 0 ),
+					'errors'  => $state['errors'] ?? array(),
+				)
+			);
+			return;
+		}
+
 		if ( 'view' === $this->action() ) {
 			$sale = Cmshop_Plugin::sales()->find( $this->id() );
 

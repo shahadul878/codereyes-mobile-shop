@@ -31,6 +31,7 @@ final class Cmshop_Dashboard {
 		'bank_transfer'  => '#d97706',
 		'online'         => '#2563eb',
 		'trade_in'       => '#64748b',
+		'store_credit'   => '#0891b2',
 	);
 
 	/**

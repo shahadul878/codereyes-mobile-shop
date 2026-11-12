@@ -69,6 +69,7 @@ final class Cmshop_Settings {
 			array(
 				Cmshop_Payments::SPLIT    => __( 'Split payment', 'codereyes-mobile-shop' ),
 				Cmshop_Payments::TRADE_IN => __( 'Trade-in', 'codereyes-mobile-shop' ),
+				'store_credit'            => __( 'Store credit', 'codereyes-mobile-shop' ),
 			)
 		);
 	}
