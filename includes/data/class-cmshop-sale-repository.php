@@ -1,0 +1,189 @@
+<?php
+/**
+ * Sales and their lines.
+ *
+ * phpcs:disable WordPress.DB.DirectDatabaseQuery -- Custom tables; nothing to cache across requests.
+ *
+ * @package CodereyesMobileShop
+ */
+
+declare(strict_types=1);
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Reads and writes the sales and sale_items tables.
+ */
+final class Cmshop_Sale_Repository extends Cmshop_Repository {
+
+	public const STATUS_COMPLETED = 'completed';
+	public const STATUS_VOID      = 'void';
+
+	public const CHANNEL_STORE  = 'store';
+	public const CHANNEL_ONLINE = 'online';
+
+	/**
+	 * Lines table name.
+	 *
+	 * @var string
+	 */
+	private $lines_table;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param wpdb         $db          Database handle.
+	 * @param string       $table       Sales table.
+	 * @param string       $lines_table Sale lines table.
+	 * @param Cmshop_Query $query       Query builder.
+	 */
+	public function __construct( wpdb $db, string $table, string $lines_table, Cmshop_Query $query ) {
+		parent::__construct( $db, $table, $query );
+		$this->lines_table = $lines_table;
+	}
+
+	/**
+	 * Insert a sale and its lines. Call inside a transaction.
+	 *
+	 * @param array $sale  Sale columns.
+	 * @param array $lines Priced lines from Cmshop_Cart.
+	 * @return int Sale ID.
+	 * @throws RuntimeException When a write fails.
+	 */
+	public function insert_with_lines( array $sale, array $lines ): int {
+		$sale_id = $this->insert( $sale );
+
+		foreach ( $lines as $line ) {
+			$row = array_merge( $line, array( 'sale_id' => $sale_id ) );
+
+			if ( false === $this->db->insert( $this->lines_table, $row ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Logged, never displayed.
+				throw new RuntimeException( 'Sale line insert failed: ' . $this->db->last_error );
+			}
+		}
+
+		return $sale_id;
+	}
+
+	/**
+	 * Lines of a sale.
+	 *
+	 * @param int $sale_id Sale ID.
+	 * @return array[]
+	 */
+	public function lines( int $sale_id ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare( 'SELECT * FROM %i WHERE sale_id = %d ORDER BY id ASC', $this->lines_table, $sale_id ),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Sale recorded for a WooCommerce order, if any.
+	 *
+	 * @param int $order_id Order ID.
+	 * @return array|null
+	 */
+	public function find_by_order( int $order_id ): ?array {
+		$row = $this->db->get_row(
+			$this->db->prepare( 'SELECT * FROM %i WHERE wc_order_id = %d ORDER BY id DESC LIMIT 1', $this->table, $order_id ),
+			ARRAY_A
+		);
+
+		return is_array( $row ) ? $row : null;
+	}
+
+	/**
+	 * Lock a sale row for the rest of the transaction.
+	 *
+	 * @param int $sale_id Sale ID.
+	 * @return array|null
+	 */
+	public function lock_sale( int $sale_id ): ?array {
+		$row = $this->db->get_row(
+			$this->db->prepare( 'SELECT * FROM %i WHERE id = %d FOR UPDATE', $this->table, $sale_id ),
+			ARRAY_A
+		);
+
+		return is_array( $row ) ? $row : null;
+	}
+
+	/**
+	 * Completed-sale totals between two local datetimes.
+	 *
+	 * @param string $from Start (inclusive), "Y-m-d H:i:s".
+	 * @param string $to   End (exclusive), "Y-m-d H:i:s".
+	 * @return array{count: int, total: string, profit: string}
+	 */
+	public function totals( string $from, string $to ): array {
+		$row = $this->db->get_row(
+			$this->db->prepare(
+				'SELECT COUNT(*) AS sales, COALESCE( SUM( total ), 0 ) AS total, COALESCE( SUM( profit ), 0 ) AS profit
+				FROM %i WHERE status = %s AND created_at >= %s AND created_at < %s',
+				$this->table,
+				self::STATUS_COMPLETED,
+				$from,
+				$to
+			),
+			ARRAY_A
+		);
+
+		return array(
+			'count'  => (int) ( $row['sales'] ?? 0 ),
+			'total'  => (string) ( $row['total'] ?? '0.00' ),
+			'profit' => (string) ( $row['profit'] ?? '0.00' ),
+		);
+	}
+
+	/**
+	 * Most recent sales.
+	 *
+	 * @param int $limit How many.
+	 * @return array[]
+	 */
+	public function recent( int $limit ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare( 'SELECT * FROM %i ORDER BY id DESC LIMIT %d', $this->table, $limit ),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Sales for a customer, newest first.
+	 *
+	 * @param int $customer_id Customer ID.
+	 * @return array[]
+	 */
+	public function for_customer( int $customer_id ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare( 'SELECT * FROM %i WHERE customer_id = %d ORDER BY id DESC LIMIT 100', $this->table, $customer_id ),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Sales that included a stock item, newest first.
+	 *
+	 * @param int $item_id Item ID.
+	 * @return array[]
+	 */
+	public function for_item( int $item_id ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT s.* FROM %i s INNER JOIN %i l ON l.sale_id = s.id WHERE l.item_id = %d GROUP BY s.id ORDER BY s.id DESC LIMIT 50',
+				$this->table,
+				$this->lines_table,
+				$item_id
+			),
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+}

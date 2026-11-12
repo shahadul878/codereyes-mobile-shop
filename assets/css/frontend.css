@@ -1,0 +1,136 @@
+/* Codereyes Mobile Shop — repair tracker and product badge. Inherits the theme's fonts. */
+
+.cmshop-tracker {
+	--cmshop-accent: #0f9d8a;
+	--cmshop-accent-soft: #e3f5f2;
+	--cmshop-danger: #b42318;
+	--cmshop-line: rgba(0, 0, 0, 0.12);
+
+	max-width: 560px;
+}
+
+.cmshop-tracker__form {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+	align-items: end;
+}
+
+.cmshop-tracker__form p {
+	margin: 0;
+}
+
+.cmshop-tracker__form p:last-child {
+	grid-column: 1 / -1;
+}
+
+.cmshop-tracker label {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+
+.cmshop-tracker input {
+	box-sizing: border-box;
+	width: 100%;
+	letter-spacing: 0.08em;
+}
+
+.cmshop-tracker button {
+	cursor: pointer;
+}
+
+.cmshop-tracker__error {
+	margin-top: 16px;
+	padding: 10px 14px;
+	border-left: 4px solid var(--cmshop-danger);
+	color: var(--cmshop-danger);
+}
+
+.cmshop-tracker__result {
+	margin-top: 24px;
+	padding: 20px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: 10px;
+}
+
+.cmshop-tracker__result h3 {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	margin-top: 0;
+}
+
+.cmshop-tracker__badge {
+	padding: 2px 12px;
+	border-radius: 999px;
+	background: var(--cmshop-accent-soft);
+	color: #0b6e61;
+	font-size: 0.8em;
+}
+
+.cmshop-tracker__badge--ready {
+	background: var(--cmshop-accent);
+	color: #fff;
+}
+
+.cmshop-tracker__badge--cancelled {
+	background: #eee;
+	color: #555;
+}
+
+.cmshop-tracker__steps {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 4px;
+	margin: 16px 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: cmshop-step;
+}
+
+.cmshop-tracker__steps li {
+	position: relative;
+	padding-top: 14px;
+	border-top: 4px solid var(--cmshop-line);
+	font-size: 0.8em;
+	text-align: center;
+}
+
+.cmshop-tracker__steps li.is-done {
+	border-top-color: var(--cmshop-accent);
+	font-weight: 600;
+}
+
+.cmshop-tracker__note {
+	padding: 10px 14px;
+	border-radius: 8px;
+	background: var(--cmshop-accent-soft);
+}
+
+.cmshop-tracker dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 4px 16px;
+	margin: 0;
+}
+
+.cmshop-tracker dd {
+	margin: 0;
+}
+
+.cmshop-condition {
+	font-weight: 600;
+}
+
+@media (max-width: 480px) {
+	.cmshop-tracker__form {
+		grid-template-columns: 1fr;
+	}
+
+	.cmshop-tracker__steps {
+		grid-template-columns: 1fr;
+		text-align: left;
+	}
+}

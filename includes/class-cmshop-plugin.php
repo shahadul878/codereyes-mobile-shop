@@ -1,0 +1,248 @@
+<?php
+/**
+ * Loads the plugin and builds its services.
+ *
+ * @package CodereyesMobileShop
+ */
+
+declare(strict_types=1);
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Service container and boot sequence.
+ */
+final class Cmshop_Plugin {
+
+	/**
+	 * Files loaded on every request, relative to includes/.
+	 */
+	private const CORE_FILES = array(
+		'core/class-cmshop-digits.php',
+		'core/class-cmshop-imei.php',
+		'core/class-cmshop-money.php',
+		'core/class-cmshop-phone-number.php',
+		'core/class-cmshop-code.php',
+		'core/class-cmshop-item.php',
+		'core/class-cmshop-repair-status.php',
+		'core/class-cmshop-validation-result.php',
+		'core/class-cmshop-input.php',
+		'core/class-cmshop-validator.php',
+		'core/class-cmshop-cart.php',
+		'core/class-cmshop-csv.php',
+		'core/class-cmshop-query.php',
+		'data/class-cmshop-installer.php',
+		'data/class-cmshop-settings.php',
+		'data/class-cmshop-repository.php',
+		'data/class-cmshop-item-repository.php',
+		'data/class-cmshop-customer-repository.php',
+		'data/class-cmshop-sale-repository.php',
+		'data/class-cmshop-repair-repository.php',
+		'services/class-cmshop-sales-service.php',
+		'class-cmshop-rest.php',
+		'frontend/class-cmshop-repair-tracker.php',
+	);
+
+	/**
+	 * Files loaded in wp-admin only.
+	 */
+	private const ADMIN_FILES = array(
+		'admin/class-cmshop-view.php',
+		'admin/class-cmshop-form-state.php',
+		'admin/class-cmshop-list-table.php',
+		'admin/class-cmshop-items-table.php',
+		'admin/class-cmshop-sales-table.php',
+		'admin/class-cmshop-repairs-table.php',
+		'admin/class-cmshop-customers-table.php',
+		'admin/class-cmshop-admin.php',
+		'admin/class-cmshop-actions.php',
+		'admin/class-cmshop-export.php',
+	);
+
+	/**
+	 * Built services, by name.
+	 *
+	 * @var array<string,object>
+	 */
+	private static $services = array();
+
+	/**
+	 * Activation hook.
+	 */
+	public static function activate(): void {
+		self::load( self::CORE_FILES );
+		Cmshop_Installer::activate();
+	}
+
+	/**
+	 * Boot on plugins_loaded.
+	 */
+	public static function boot(): void {
+		self::load( self::CORE_FILES );
+		Cmshop_Installer::maybe_upgrade();
+
+		( new Cmshop_Rest( self::items(), self::customers(), self::sales_service() ) )->register();
+		( new Cmshop_Repair_Tracker( self::repairs() ) )->register();
+
+		if ( class_exists( 'WooCommerce' ) ) {
+			self::load( array( 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );
+			self::woo_products()->register();
+			( new Cmshop_Woo_Orders( self::items(), self::sales(), self::sales_service() ) )->register();
+		}
+
+		if ( is_admin() ) {
+			self::load( self::ADMIN_FILES );
+			add_action( 'admin_init', array( 'Cmshop_Installer', 'ensure_capability' ) );
+			( new Cmshop_Admin() )->register();
+			( new Cmshop_Actions() )->register();
+			( new Cmshop_Export() )->register();
+		}
+	}
+
+	/**
+	 * Stock items.
+	 *
+	 * @return Cmshop_Item_Repository
+	 */
+	public static function items(): Cmshop_Item_Repository {
+		return self::service(
+			'items',
+			static function ( wpdb $db ) {
+				return new Cmshop_Item_Repository(
+					$db,
+					Cmshop_Installer::table( 'items' ),
+					new Cmshop_Query(
+						array( 'name', 'imei1', 'imei2', 'sku', 'serial', 'supplier' ),
+						array( 'item_type', 'status', 'grade', 'brand' ),
+						array( 'name', 'quantity', 'cost_price', 'sale_price', 'created_at', 'status' ),
+						'created_at'
+					)
+				);
+			}
+		);
+	}
+
+	/**
+	 * Customers.
+	 *
+	 * @return Cmshop_Customer_Repository
+	 */
+	public static function customers(): Cmshop_Customer_Repository {
+		return self::service(
+			'customers',
+			static function ( wpdb $db ) {
+				return new Cmshop_Customer_Repository(
+					$db,
+					Cmshop_Installer::table( 'customers' ),
+					new Cmshop_Query( array( 'name', 'phone', 'email' ), array(), array( 'name', 'created_at' ), 'created_at' )
+				);
+			}
+		);
+	}
+
+	/**
+	 * Sales.
+	 *
+	 * @return Cmshop_Sale_Repository
+	 */
+	public static function sales(): Cmshop_Sale_Repository {
+		return self::service(
+			'sales',
+			static function ( wpdb $db ) {
+				return new Cmshop_Sale_Repository(
+					$db,
+					Cmshop_Installer::table( 'sales' ),
+					Cmshop_Installer::table( 'sale_items' ),
+					new Cmshop_Query(
+						array( 'invoice_no', 'customer_name', 'customer_phone' ),
+						array( 'channel', 'status', 'payment_method', 'customer_id' ),
+						array( 'created_at', 'total', 'profit' ),
+						'created_at'
+					)
+				);
+			}
+		);
+	}
+
+	/**
+	 * Repairs.
+	 *
+	 * @return Cmshop_Repair_Repository
+	 */
+	public static function repairs(): Cmshop_Repair_Repository {
+		return self::service(
+			'repairs',
+			static function ( wpdb $db ) {
+				return new Cmshop_Repair_Repository(
+					$db,
+					Cmshop_Installer::table( 'repairs' ),
+					new Cmshop_Query(
+						array( 'ticket_code', 'customer_name', 'customer_phone', 'device', 'imei' ),
+						array( 'status', 'customer_id' ),
+						array( 'created_at', 'due_date', 'status' ),
+						'created_at'
+					)
+				);
+			}
+		);
+	}
+
+	/**
+	 * Sales service.
+	 *
+	 * @return Cmshop_Sales_Service
+	 */
+	public static function sales_service(): Cmshop_Sales_Service {
+		return self::service(
+			'sales_service',
+			static function () {
+				return new Cmshop_Sales_Service( self::items(), self::sales(), self::customers() );
+			}
+		);
+	}
+
+	/**
+	 * WooCommerce product sync, or null without WooCommerce.
+	 *
+	 * @return Cmshop_Woo_Products|null
+	 */
+	public static function woo_products(): ?Cmshop_Woo_Products {
+		if ( ! class_exists( 'Cmshop_Woo_Products' ) ) {
+			return null;
+		}
+
+		return self::service(
+			'woo_products',
+			static function () {
+				return new Cmshop_Woo_Products( self::items() );
+			}
+		);
+	}
+
+	/**
+	 * Build a service once.
+	 *
+	 * @param string   $name    Service name.
+	 * @param callable $factory Receives $wpdb.
+	 * @return object
+	 */
+	private static function service( string $name, callable $factory ) {
+		if ( ! isset( self::$services[ $name ] ) ) {
+			global $wpdb;
+			self::$services[ $name ] = $factory( $wpdb );
+		}
+
+		return self::$services[ $name ];
+	}
+
+	/**
+	 * Require files from includes/.
+	 *
+	 * @param string[] $files Relative paths.
+	 */
+	private static function load( array $files ): void {
+		foreach ( $files as $file ) {
+			require_once CMSHOP_DIR . 'includes/' . $file;
+		}
+	}
+}

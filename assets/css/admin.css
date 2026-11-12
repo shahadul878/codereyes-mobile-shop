@@ -1,0 +1,837 @@
+/* Codereyes Mobile Shop — admin */
+
+.cmshop-wrap {
+	--cmshop-ink: #14213d;
+	--cmshop-ink-soft: #3a4a6b;
+	--cmshop-accent: #0f9d8a;
+	--cmshop-accent-soft: #e3f5f2;
+	--cmshop-warn: #b45309;
+	--cmshop-warn-soft: #fef3c7;
+	--cmshop-danger: #b42318;
+	--cmshop-danger-soft: #fdecea;
+	--cmshop-line: #dfe3ea;
+	--cmshop-paper: #fff;
+	--cmshop-muted: #646970;
+	--cmshop-radius: 10px;
+	--cmshop-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+	--cmshop-fast: 150ms;
+}
+
+.cmshop-mono,
+.cmshop-wrap code {
+	font-family: var(--cmshop-mono);
+	letter-spacing: 0.02em;
+}
+
+/* ---------- Dashboard ---------- */
+
+.cmshop-hero {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin: 16px 0 24px;
+	padding: 28px 28px 24px;
+	border-radius: var(--cmshop-radius);
+	background: linear-gradient(135deg, var(--cmshop-ink) 0%, #1f3563 100%);
+	color: #fff;
+	box-shadow: 0 10px 30px -18px rgba(20, 33, 61, 0.8);
+}
+
+.cmshop-hero h1 {
+	margin: 0;
+	padding: 0;
+	color: #fff;
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.cmshop-hero__date {
+	margin: 6px 0 0;
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 13px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.cmshop-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.cmshop-hero .button-hero {
+	border-color: rgba(255, 255, 255, 0.35);
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	transition: background var(--cmshop-fast) ease, transform var(--cmshop-fast) ease;
+}
+
+.cmshop-hero .button-hero:hover,
+.cmshop-hero .button-hero:focus {
+	border-color: #fff;
+	background: rgba(255, 255, 255, 0.18);
+	color: #fff;
+	transform: translateY(-1px);
+}
+
+.cmshop-hero .button-primary.button-hero {
+	border-color: var(--cmshop-accent);
+	background: var(--cmshop-accent);
+}
+
+.cmshop-hero .button-primary.button-hero:hover,
+.cmshop-hero .button-primary.button-hero:focus {
+	border-color: #12b59e;
+	background: #12b59e;
+}
+
+.cmshop-stats {
+	display: grid;
+	grid-template-columns: 1.4fr repeat(3, 1fr);
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.cmshop-stat {
+	padding: 18px 20px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-paper);
+}
+
+.cmshop-stat h2 {
+	margin: 0 0 8px;
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.cmshop-stat__value {
+	margin: 0;
+	color: var(--cmshop-ink);
+	font-size: 26px;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: 1.15;
+}
+
+.cmshop-stat--lead {
+	border-color: var(--cmshop-accent);
+	background: var(--cmshop-accent-soft);
+}
+
+.cmshop-stat--lead .cmshop-stat__value {
+	font-size: 34px;
+}
+
+.cmshop-stat--alert {
+	border-color: var(--cmshop-warn);
+	background: var(--cmshop-warn-soft);
+}
+
+.cmshop-stat__meta {
+	margin: 6px 0 0;
+	color: var(--cmshop-ink-soft);
+}
+
+.cmshop-columns {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 16px;
+	align-items: start;
+}
+
+.cmshop-panel {
+	padding: 4px 20px 16px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-paper);
+}
+
+.cmshop-panel h2 {
+	margin: 16px 0 10px;
+	font-size: 15px;
+}
+
+.cmshop-panel .widefat {
+	border: 0;
+	box-shadow: none;
+}
+
+.cmshop-empty {
+	color: var(--cmshop-muted);
+	font-style: italic;
+}
+
+.cmshop-low,
+.cmshop-queue,
+.cmshop-history {
+	margin: 0;
+}
+
+.cmshop-low li,
+.cmshop-queue li,
+.cmshop-history li {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	padding: 8px 0;
+	border-bottom: 1px solid var(--cmshop-line);
+}
+
+.cmshop-low li:last-child,
+.cmshop-queue li:last-child,
+.cmshop-history li:last-child {
+	border-bottom: 0;
+}
+
+.cmshop-low__qty {
+	min-width: 28px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: var(--cmshop-warn-soft);
+	color: var(--cmshop-warn);
+	font-weight: 700;
+	text-align: center;
+}
+
+.cmshop-low__qty.is-out {
+	background: var(--cmshop-danger-soft);
+	color: var(--cmshop-danger);
+}
+
+.cmshop-void td {
+	color: var(--cmshop-muted);
+	text-decoration: line-through;
+}
+
+.num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Badges ---------- */
+
+.cmshop-badge {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 2px 10px;
+	border-radius: 999px;
+	background: #eef0f4;
+	color: var(--cmshop-ink-soft);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.6;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.cmshop-badge--in_stock,
+.cmshop-badge--completed,
+.cmshop-badge--collected {
+	background: var(--cmshop-accent-soft);
+	color: #0b6e61;
+}
+
+.cmshop-badge--reserved,
+.cmshop-badge--waiting_parts,
+.cmshop-badge--diagnosing {
+	background: var(--cmshop-warn-soft);
+	color: var(--cmshop-warn);
+}
+
+.cmshop-badge--ready {
+	background: var(--cmshop-accent);
+	color: #fff;
+}
+
+.cmshop-badge--repairing,
+.cmshop-badge--online {
+	background: #e0e9ff;
+	color: #1d4ed8;
+}
+
+.cmshop-badge--sold,
+.cmshop-badge--void,
+.cmshop-badge--cancelled {
+	background: #eceef1;
+	color: var(--cmshop-muted);
+}
+
+.cmshop-overdue {
+	color: var(--cmshop-danger);
+}
+
+/* ---------- Forms ---------- */
+
+.cmshop-form-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	align-items: start;
+	margin-top: 12px;
+}
+
+.cmshop-card {
+	padding: 6px 20px 16px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+	background: var(--cmshop-paper);
+}
+
+.cmshop-card h2 {
+	margin: 14px 0 12px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--cmshop-line);
+	font-size: 15px;
+}
+
+.cmshop-row {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.cmshop-row--3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cmshop-field {
+	margin-bottom: 14px;
+}
+
+.cmshop-field label {
+	display: block;
+	margin-bottom: 4px;
+	color: var(--cmshop-ink);
+	font-weight: 600;
+}
+
+.cmshop-field input:not([type="checkbox"]):not(.small-text),
+.cmshop-field select,
+.cmshop-field textarea {
+	width: 100%;
+	max-width: 100%;
+	min-height: 36px;
+}
+
+.cmshop-field input:focus,
+.cmshop-field select:focus,
+.cmshop-field textarea:focus {
+	border-color: var(--cmshop-accent);
+	box-shadow: 0 0 0 1px var(--cmshop-accent);
+}
+
+.cmshop-field input[aria-invalid="true"],
+.cmshop-field textarea[aria-invalid="true"] {
+	border-color: var(--cmshop-danger);
+}
+
+.cmshop-required {
+	color: var(--cmshop-danger);
+}
+
+.cmshop-field-error {
+	margin: 4px 0 0;
+	color: var(--cmshop-danger);
+	font-weight: 600;
+}
+
+.cmshop-error-summary ul {
+	margin: 0 0 8px 18px;
+	list-style: disc;
+}
+
+.cmshop-online {
+	margin-top: 8px;
+	padding: 12px 14px;
+	border-radius: 8px;
+	background: #f4f6fa;
+}
+
+.cmshop-online h3 {
+	margin: 0 0 6px;
+	font-size: 13px;
+}
+
+.cmshop-balance {
+	padding: 10px 12px;
+	border-radius: 8px;
+	background: var(--cmshop-accent-soft);
+	color: #0b6e61;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.cmshop-danger.page-title-action {
+	border-color: var(--cmshop-danger);
+	color: var(--cmshop-danger);
+}
+
+.cmshop-date-range {
+	float: left;
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	margin: 0;
+}
+
+.cmshop-profit {
+	color: var(--cmshop-muted);
+}
+
+/* ---------- POS ---------- */
+
+.cmshop-pos__grid {
+	display: grid;
+	grid-template-columns: minmax(280px, 2fr) 3fr;
+	gap: 16px;
+	align-items: start;
+}
+
+.cmshop-pos__search {
+	position: sticky;
+	top: 46px;
+}
+
+.cmshop-pos__term {
+	width: 100%;
+	min-height: 48px;
+	padding: 8px 14px;
+	border: 2px solid var(--cmshop-ink);
+	border-radius: 8px;
+	font-family: var(--cmshop-mono);
+	font-size: 17px;
+}
+
+.cmshop-pos__term:focus {
+	border-color: var(--cmshop-accent);
+	box-shadow: 0 0 0 3px var(--cmshop-accent-soft);
+	outline: none;
+}
+
+.cmshop-pos__results {
+	max-height: 60vh;
+	margin: 12px 0 0;
+	overflow-y: auto;
+}
+
+.cmshop-pos__results li {
+	margin: 0 0 6px;
+}
+
+.cmshop-pos__result {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 2px 12px;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: 8px;
+	background: var(--cmshop-paper);
+	color: var(--cmshop-ink);
+	text-align: left;
+	cursor: pointer;
+	transition: border-color var(--cmshop-fast) ease, transform var(--cmshop-fast) ease, box-shadow var(--cmshop-fast) ease;
+}
+
+.cmshop-pos__result:hover,
+.cmshop-pos__result:focus {
+	border-color: var(--cmshop-accent);
+	box-shadow: 0 4px 14px -8px rgba(15, 157, 138, 0.7);
+	outline: none;
+	transform: translateY(-1px);
+}
+
+.cmshop-pos__result:active {
+	transform: translateY(0);
+}
+
+.cmshop-pos__meta {
+	grid-column: 1;
+	color: var(--cmshop-muted);
+	font-family: var(--cmshop-mono);
+	font-size: 12px;
+}
+
+.cmshop-pos__price {
+	grid-row: 1 / span 2;
+	grid-column: 2;
+	align-self: center;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-pos__none {
+	color: var(--cmshop-muted);
+	font-style: italic;
+}
+
+.cmshop-pos__lines {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cmshop-pos__lines th {
+	padding: 6px 8px;
+	border-bottom: 2px solid var(--cmshop-ink);
+	color: var(--cmshop-muted);
+	font-size: 12px;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+.cmshop-pos__lines th.num {
+	text-align: right;
+}
+
+.cmshop-pos__lines td {
+	padding: 10px 8px;
+	border-bottom: 1px solid var(--cmshop-line);
+	vertical-align: middle;
+}
+
+.cmshop-pos__lines small {
+	color: var(--cmshop-muted);
+	font-family: var(--cmshop-mono);
+}
+
+.cmshop-pos__empty td {
+	padding: 28px 8px;
+	color: var(--cmshop-muted);
+	text-align: center;
+}
+
+.cmshop-pos__price-input {
+	width: 110px;
+	text-align: right;
+}
+
+.cmshop-pos__remove {
+	color: var(--cmshop-danger) !important;
+	font-size: 20px;
+	line-height: 1;
+	text-decoration: none !important;
+}
+
+.cmshop-pos__checkout {
+	margin-top: 16px;
+}
+
+.cmshop-pos__customer {
+	margin: 0 0 4px;
+	padding: 0;
+	border: 0;
+}
+
+.cmshop-pos__customer legend {
+	margin-bottom: 8px;
+	font-weight: 600;
+}
+
+.cmshop-pos__checkout .cmshop-row {
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.cmshop-pos__totals {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 6px 16px;
+	margin: 16px 0;
+	padding: 16px;
+	border-radius: 8px;
+	background: #f4f6fa;
+	font-variant-numeric: tabular-nums;
+}
+
+.cmshop-pos__totals dt,
+.cmshop-pos__totals dd {
+	margin: 0;
+}
+
+.cmshop-pos__totals dd {
+	text-align: right;
+}
+
+.cmshop-pos__grand {
+	padding-top: 8px;
+	border-top: 1px solid var(--cmshop-line);
+	color: var(--cmshop-ink);
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.cmshop-pos__totals .is-due {
+	color: var(--cmshop-danger);
+	font-weight: 700;
+}
+
+.cmshop-pos__error {
+	padding: 10px 12px;
+	border-left: 4px solid var(--cmshop-danger);
+	background: var(--cmshop-danger-soft);
+	color: var(--cmshop-danger);
+	font-weight: 600;
+}
+
+.wp-core-ui .cmshop-pos__complete {
+	width: 100%;
+	border-color: var(--cmshop-accent);
+	background: var(--cmshop-accent);
+	font-size: 18px;
+}
+
+.wp-core-ui .cmshop-pos__complete:hover,
+.wp-core-ui .cmshop-pos__complete:focus {
+	border-color: #0b7d6e;
+	background: #0b7d6e;
+}
+
+/* ---------- Receipt and job ticket ---------- */
+
+.cmshop-receipt {
+	position: relative;
+	max-width: 380px;
+	margin: 20px 0;
+	padding: 24px 22px;
+	border: 1px solid var(--cmshop-line);
+	background: var(--cmshop-paper);
+	box-shadow: 0 12px 28px -20px rgba(20, 33, 61, 0.6);
+	font-family: var(--cmshop-mono);
+	font-size: 13px;
+}
+
+.cmshop-receipt::after {
+	position: absolute;
+	right: 0;
+	bottom: -8px;
+	left: 0;
+	height: 8px;
+	background: linear-gradient(-45deg, transparent 6px, var(--cmshop-paper) 0) 0 0 / 12px 8px repeat-x, linear-gradient(45deg, transparent 6px, var(--cmshop-paper) 0) 0 0 / 12px 8px repeat-x;
+	content: "";
+}
+
+.cmshop-receipt__head {
+	margin-bottom: 12px;
+	padding-bottom: 12px;
+	border-bottom: 1px dashed #999;
+	text-align: center;
+}
+
+.cmshop-receipt__head h2 {
+	margin: 0 0 4px;
+	font-family: inherit;
+	font-size: 17px;
+	text-transform: uppercase;
+}
+
+.cmshop-receipt__head p {
+	margin: 2px 0;
+}
+
+.cmshop-receipt__meta {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 2px 10px;
+	margin: 0 0 12px;
+}
+
+.cmshop-receipt__meta dt {
+	color: var(--cmshop-muted);
+}
+
+.cmshop-receipt__meta dd {
+	margin: 0;
+	word-break: break-word;
+}
+
+.cmshop-receipt__lines {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cmshop-receipt__lines th,
+.cmshop-receipt__lines td {
+	padding: 4px 0;
+	vertical-align: top;
+	text-align: left;
+}
+
+.cmshop-receipt__lines .num {
+	padding-left: 8px;
+	text-align: right;
+}
+
+.cmshop-receipt__lines thead th {
+	border-bottom: 1px dashed #999;
+}
+
+.cmshop-receipt__lines tfoot tr:first-child th,
+.cmshop-receipt__lines tfoot tr:first-child td {
+	padding-top: 8px;
+	border-top: 1px dashed #999;
+}
+
+.cmshop-receipt__lines tfoot th {
+	font-weight: 400;
+	text-align: right;
+}
+
+.cmshop-receipt__total th,
+.cmshop-receipt__total td {
+	font-size: 16px;
+	font-weight: 700 !important;
+}
+
+.cmshop-receipt__due td,
+.cmshop-receipt__due th {
+	font-weight: 700 !important;
+}
+
+.cmshop-receipt__foot {
+	margin-top: 14px;
+	padding-top: 10px;
+	border-top: 1px dashed #999;
+	text-align: center;
+}
+
+.cmshop-receipt__void {
+	margin: 8px 0;
+	border: 3px double var(--cmshop-danger);
+	color: var(--cmshop-danger);
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 0.3em;
+	text-align: center;
+}
+
+.cmshop-receipt.is-void .cmshop-receipt__lines {
+	opacity: 0.6;
+}
+
+.cmshop-ticket__copy {
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.cmshop-ticket__code {
+	margin: 4px 0 14px;
+	padding: 10px;
+	border: 2px solid var(--cmshop-ink);
+	font-size: 26px;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-align: center;
+}
+
+.cmshop-ticket__track {
+	font-weight: 700;
+}
+
+.cmshop-ticket__sign {
+	margin-top: 40px;
+	padding-top: 6px;
+	border-top: 1px solid #333;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+	.cmshop-stats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.cmshop-columns,
+	.cmshop-pos__grid,
+	.cmshop-form-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cmshop-pos__search {
+		position: static;
+	}
+}
+
+@media (max-width: 600px) {
+	.cmshop-stats,
+	.cmshop-row,
+	.cmshop-row--3 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.cmshop-hero {
+		padding: 20px;
+	}
+
+	.cmshop-pos__lines th,
+	.cmshop-pos__lines td {
+		padding-right: 4px;
+		padding-left: 4px;
+	}
+
+	.cmshop-pos__price-input {
+		width: 80px;
+	}
+
+	.cmshop-pos__lines .small-text {
+		width: 52px;
+	}
+
+	.cmshop-date-range {
+		float: none;
+		flex-wrap: wrap;
+		margin-bottom: 8px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cmshop-wrap *,
+	.cmshop-wrap *::before,
+	.cmshop-wrap *::after {
+		transition: none !important;
+	}
+}
+
+/* ---------- Print: only the receipt / ticket ---------- */
+
+@media print {
+	#adminmenumain,
+	#wpadminbar,
+	#wpfooter,
+	.cmshop-no-print,
+	.notice,
+	#screen-meta,
+	#screen-meta-links {
+		display: none !important;
+	}
+
+	#wpcontent,
+	#wpbody-content {
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	html.wp-toolbar {
+		padding-top: 0 !important;
+	}
+
+	.cmshop-receipt {
+		max-width: 80mm;
+		margin: 0 0 12mm;
+		border: 0;
+		box-shadow: none;
+		break-inside: avoid;
+	}
+
+	.cmshop-receipt::after {
+		display: none;
+	}
+}

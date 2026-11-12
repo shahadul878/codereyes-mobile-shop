@@ -1,0 +1,35 @@
+# Version control and editors
+.git
+.github
+.gitignore
+.gitattributes
+.claude
+.cursor
+.idea
+.DS_Store
+Thumbs.db
+
+# WordPress.org assets (deployed separately to SVN assets/)
+.wordpress-org
+
+# Build and dev config
+.distignore
+composer.json
+composer.lock
+phpcs.xml
+phpcs.xml.dist
+phpunit.xml
+phpunit.xml.dist
+.phpunit.result.cache
+
+# Dev directories
+vendor
+tests
+docs
+node_modules
+
+# Docs (readme.txt is the WordPress.org readme)
+*.md
+
+# Archives
+*.zip
