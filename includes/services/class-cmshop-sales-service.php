@@ -24,6 +24,8 @@ final class Cmshop_Sales_Service {
 	 */
 	public const STOCK_CHANGED = 'cmshop_stock_changed';
 
+	private const MAX_TRADE_INS = 3;
+
 	/**
 	 * Payments ledger.
 	 *
@@ -103,12 +105,15 @@ final class Cmshop_Sales_Service {
 		$channel = Cmshop_Sale_Repository::CHANNEL_ONLINE === ( $order['channel'] ?? '' ) ? Cmshop_Sale_Repository::CHANNEL_ONLINE : Cmshop_Sale_Repository::CHANNEL_STORE;
 		$buyer   = $this->buyer( $order );
 		$lines   = (array) ( $order['lines'] ?? array() );
+		$trades  = $this->trade_ins( (array) ( $order['trade_ins'] ?? array() ) );
 
 		$result = $this->sales->transaction(
-			function () use ( $order, $lines, $buyer, $channel, $user_id ) {
-				$items = $this->items->lock( array_column( $lines, 'item_id' ) );
-				$sale  = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), '' );
-				$paid  = Cmshop_Payments::allocate( $this->payment_rows( $order, $sale['total'] ), Cmshop_Money::to_cents( $sale['total'] ), array_keys( Cmshop_Settings::payment_methods() ) );
+			function () use ( $order, $lines, $buyer, $channel, $user_id, $trades ) {
+				$items   = $this->items->lock( array_column( $lines, 'item_id' ) );
+				$sale    = Cmshop_Cart::price( $lines, $items, (string) ( $order['discount'] ?? '' ), '' );
+				$credit  = (int) array_sum( array_map( 'Cmshop_Money::to_cents', array_column( $trades, 'value' ) ) );
+				$methods = array_merge( array_keys( Cmshop_Settings::payment_methods() ), array( Cmshop_Payments::TRADE_IN ) );
+				$paid    = Cmshop_Payments::allocate( array_merge( $this->payment_rows( $order, $sale['total'], $credit ), $this->trade_rows( $trades ) ), Cmshop_Money::to_cents( $sale['total'] ), $methods );
 
 				if ( $paid['due'] > 0 && ! isset( $buyer['phone'] ) ) {
 					throw new InvalidArgumentException( __( 'Add the customer\'s phone number to sell on credit.', 'codereyes-mobile-shop' ) );
@@ -138,7 +143,9 @@ final class Cmshop_Sales_Service {
 					$sale['lines']
 				);
 
-				$this->sales->update( $sale_id, array( 'invoice_no' => Cmshop_Code::invoice( (string) Cmshop_Settings::get( 'invoice_prefix' ), $sale_id ) ) );
+				$invoice = Cmshop_Code::invoice( (string) Cmshop_Settings::get( 'invoice_prefix' ), $sale_id );
+				$this->sales->update( $sale_id, array( 'invoice_no' => $invoice ) );
+				$this->stock_trade_ins( $trades, $invoice, (string) ( $customer['name'] ?? '' ), $user_id );
 				$this->payments->record(
 					$paid['entries'],
 					array(
@@ -246,13 +253,21 @@ final class Cmshop_Sales_Service {
 	/**
 	 * Payment rows from the order: split rows, or one row for a single method.
 	 *
-	 * @param array  $order Order.
-	 * @param string $total Sale total.
+	 * @param array  $order  Order.
+	 * @param string $total  Sale total.
+	 * @param int    $credit Trade-in value in cents (a single unfilled method pays the rest).
 	 * @return array[]
 	 */
-	private function payment_rows( array $order, string $total ): array {
+	private function payment_rows( array $order, string $total, int $credit ): array {
 		if ( isset( $order['payments'] ) && is_array( $order['payments'] ) ) {
-			return array_values( array_filter( $order['payments'], 'is_array' ) );
+			return array_values(
+				array_filter(
+					$order['payments'],
+					static function ( $row ): bool {
+						return is_array( $row ) && Cmshop_Payments::TRADE_IN !== ( $row['method'] ?? '' );
+					}
+				)
+			);
 		}
 
 		$amount = trim( (string) ( $order['amount_paid'] ?? '' ) );
@@ -260,9 +275,104 @@ final class Cmshop_Sales_Service {
 		return array(
 			array(
 				'method' => $this->payment_method( (string) ( $order['payment_method'] ?? '' ) ),
-				'amount' => '' === $amount ? $total : $amount,
+				'amount' => '' === $amount ? Cmshop_Money::from_cents( max( 0, Cmshop_Money::to_cents( $total ) - $credit ) ) : $amount,
 			),
 		);
+	}
+
+	/**
+	 * Validate the phones a customer trades in (at most 3).
+	 *
+	 * @param array[] $raw Trade-in forms.
+	 * @return array[] Validated trade-ins (item, value, checks).
+	 * @throws InvalidArgumentException With the first problem, for the cashier.
+	 */
+	private function trade_ins( array $raw ): array {
+		if ( count( $raw ) > self::MAX_TRADE_INS ) {
+			throw new InvalidArgumentException( __( 'Take at most 3 phones in trade on one sale.', 'codereyes-mobile-shop' ) );
+		}
+
+		$trades = array();
+		$imeis  = array();
+
+		foreach ( $raw as $form ) {
+			$result = Cmshop_Validator::trade_in( is_array( $form ) ? $form : array() );
+
+			if ( ! $result->is_valid() ) {
+				/* translators: %s: what is wrong with the traded-in phone. */
+				throw new InvalidArgumentException( sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop' ), (string) current( $result->errors() ) ) );
+			}
+
+			$trades[] = $result->data();
+			$imeis[]  = $result->data()['item']['imei1'];
+		}
+
+		if ( count( $imeis ) !== count( array_unique( $imeis ) ) ) {
+			throw new InvalidArgumentException( __( 'Trade-in: the same IMEI was entered twice.', 'codereyes-mobile-shop' ) );
+		}
+
+		return $trades;
+	}
+
+	/**
+	 * Ledger rows for trade-ins: they pay like cash, labelled with the phone.
+	 *
+	 * @param array[] $trades Validated trade-ins.
+	 * @return array[]
+	 */
+	private function trade_rows( array $trades ): array {
+		return array_map(
+			static function ( array $trade ): array {
+				return array(
+					'method'    => Cmshop_Payments::TRADE_IN,
+					'amount'    => $trade['value'],
+					'reference' => mb_substr( $trade['item']['name'] . ' · IMEI ' . $trade['item']['imei1'], 0, 100 ),
+				);
+			},
+			$trades
+		);
+	}
+
+	/**
+	 * Put traded-in phones into stock as used phones. Call inside the sale transaction.
+	 *
+	 * @param array[] $trades   Validated trade-ins.
+	 * @param string  $invoice  Sale invoice number.
+	 * @param string  $customer Customer name.
+	 * @param int     $user_id  Cashier.
+	 * @throws InvalidArgumentException When a phone is already in stock.
+	 */
+	private function stock_trade_ins( array $trades, string $invoice, string $customer, int $user_id ): void {
+		$labels = Cmshop_Validator::trade_in_checks();
+
+		foreach ( $trades as $trade ) {
+			$item = $trade['item'];
+
+			if ( array() !== $this->items->find_unsold_by_imeis( array_filter( array( $item['imei1'], $item['imei2'] ) ) ) ) {
+				/* translators: %s: IMEI. */
+				throw new InvalidArgumentException( sprintf( __( 'Trade-in: IMEI %s is already in your stock.', 'codereyes-mobile-shop' ), $item['imei1'] ) );
+			}
+
+			$checks = array_map(
+				static function ( string $key ) use ( $labels ): string {
+					return $labels[ $key ];
+				},
+				$trade['checks']
+			);
+
+			$this->items->insert(
+				array_merge(
+					$item,
+					array(
+						/* translators: %s: customer name. */
+						'supplier'   => mb_substr( sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop' ), $customer ), 0, 150 ),
+						/* translators: 1: invoice number, 2: checks done. */
+						'notes'      => sprintf( __( 'Taken in trade on %1$s. Checked: %2$s', 'codereyes-mobile-shop' ), $invoice, array() === $checks ? '—' : implode( ', ', $checks ) ),
+						'created_by' => $user_id,
+					)
+				)
+			);
+		}
 	}
 
 	/**

@@ -30,6 +30,7 @@ final class Cmshop_Dashboard {
 		'card'           => '#7c3aed',
 		'bank_transfer'  => '#d97706',
 		'online'         => '#2563eb',
+		'trade_in'       => '#64748b',
 	);
 
 	/**

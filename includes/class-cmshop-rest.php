@@ -205,6 +205,7 @@ final class Cmshop_Rest {
 					'payment_method' => sanitize_key( $text( 'payment_method' ) ),
 					'payments'       => $this->payments( $request ),
 					'installments'   => $this->installments( $request ),
+					'trade_ins'      => array_values( array_filter( (array) $request->get_param( 'trade_ins' ), 'is_array' ) ),
 					'notes'          => $text( 'notes' ),
 					'channel'        => Cmshop_Sale_Repository::CHANNEL_STORE,
 				),

@@ -39,6 +39,7 @@
 		name: find( '#cmshop-pos-name' ),
 		customerInfo: find( '[data-customer-info]' ),
 		lines: find( '[data-lines]' ),
+		trades: find( '[data-trades]' ),
 		cartEmpty: find( '[data-cart-empty]' ),
 		discount: find( '[data-discount]' ),
 		note: find( '[data-note]' ),
@@ -54,47 +55,13 @@
 		brands: [],
 		filter: { type: 'all', brand: '', query: '' },
 		lines: [],
+		trades: [],
 		payments: [ { method: 'cash', amount: '', reference: '' } ],
 		held: [],
 		busy: false,
 	};
 
-	/* ---------- DOM helpers ---------- */
-
-	/**
-	 * Element with class, text and attributes.
-	 *
-	 * @param {string} tag   Tag name.
-	 * @param {Object} props className, text, and any attribute.
-	 * @param {Array}  kids  Child nodes.
-	 * @return {HTMLElement} Element.
-	 */
-	function el( tag, props = {}, kids = [] ) {
-		const node = document.createElement( tag );
-
-		Object.entries( props ).forEach( ( [ key, value ] ) => {
-			if ( 'className' === key ) {
-				node.className = value;
-			} else if ( 'text' === key ) {
-				node.textContent = value;
-			} else if ( null !== value && undefined !== value && false !== value ) {
-				node.setAttribute( key, true === value ? '' : value );
-			}
-		} );
-		kids.filter( Boolean ).forEach( ( kid ) => node.append( kid ) );
-
-		return node;
-	}
-
-	/**
-	 * Dashicon span.
-	 *
-	 * @param {string} name Icon name.
-	 * @return {HTMLElement} Icon.
-	 */
-	function icon( name ) {
-		return el( 'span', { className: 'dashicons dashicons-' + name, 'aria-hidden': 'true' } );
-	}
+	const { el, icon } = window.cmshopPosDom;
 
 	/**
 	 * Show or clear the error line.
@@ -126,42 +93,10 @@
 		);
 	}
 
-	/**
-	 * One product tile.
-	 *
-	 * @param {Object} tile Catalog tile.
-	 * @return {HTMLElement} Tile.
-	 */
-	function tileNode( tile ) {
-		const badge = 'new' === tile.condition ? __( 'New', 'codereyes-mobile-shop' ) : tile.grade;
-		const detail = 'model' === tile.kind
-			/* translators: %d: number of colour/storage options. */
-			? sprintf( _n( '%d option', '%d options', tile.options.length, 'codereyes-mobile-shop' ), tile.options.length )
-			: [ tile.detail, null !== tile.battery && undefined !== tile.battery ? sprintf( /* translators: %d: battery health. */ __( 'Battery %d%%', 'codereyes-mobile-shop' ), tile.battery ) : '' ].filter( Boolean ).join( ' · ' );
-		const swatches = 'model' === tile.kind ? el( 'span', { className: 'cmshop-pos-tile__swatches' }, tile.options.slice( 0, 5 ).map( ( option ) => el( 'i', { style: option.swatch ? 'background:' + option.swatch : null, title: option.color } ) ) ) : null;
-		const stock = 1 === tile.stock ? __( 'Last one', 'codereyes-mobile-shop' ) : sprintf( /* translators: %d: number in stock. */ __( '%d in stock', 'codereyes-mobile-shop' ), tile.stock );
-
-		return el( 'li', {}, [
-			el( 'button', { type: 'button', className: 'cmshop-pos-tile', 'data-tile': tile.key }, [
-				el( 'span', { className: 'cmshop-pos-tile__media' }, [
-					tile.image ? el( 'img', { src: tile.image, alt: '', loading: 'lazy' } ) : icon( 'accessory' === tile.type ? 'admin-plugins' : 'smartphone' ),
-					badge ? el( 'span', { className: 'cmshop-pos-tile__badge cmshop-pos-tile__badge--' + ( tile.condition || 'item' ), text: badge } ) : null,
-				] ),
-				el( 'span', { className: 'cmshop-pos-tile__title', text: tile.title } ),
-				detail ? el( 'span', { className: 'cmshop-pos-tile__detail', text: detail } ) : null,
-				el( 'span', { className: 'cmshop-pos-tile__foot' }, [
-					el( 'span', { className: 'cmshop-pos-tile__price', text: tile.price_text } ),
-					swatches,
-				] ),
-				el( 'span', { className: 'cmshop-pos-tile__stock' + ( 1 === tile.stock ? ' is-low' : '' ), text: stock } ),
-			] ),
-		] );
-	}
-
 	function renderGrid() {
 		const tiles = state.tiles.filter( ( tile ) => core.matches( tile, state.filter ) );
 
-		ui.grid.replaceChildren( ...tiles.map( tileNode ) );
+		ui.grid.replaceChildren( ...tiles.map( ( tile ) => window.cmshopPosDom.tile( tile, money ) ) );
 		ui.gridEmpty.hidden = 0 < tiles.length;
 		ui.gridEmpty.textContent = 0 === state.tiles.length ? __( 'Nothing in stock yet. Add phones and accessories under Stock.', 'codereyes-mobile-shop' ) : __( 'Nothing matches. Try another tab or search.', 'codereyes-mobile-shop' );
 	}
@@ -210,23 +145,51 @@
 		renderTotals();
 	}
 
+	/**
+	 * Trade-in value in cents.
+	 *
+	 * @return {number} Credit.
+	 */
+	function credit() {
+		return state.trades.reduce( ( sum, trade ) => sum + core.cents( trade.value ), 0 );
+	}
+
+	function renderTrades() {
+		ui.trades.replaceChildren( ...state.trades.map( ( trade, index ) => el( 'li', { className: 'cmshop-pos-line', 'data-trade': String( index ) }, [
+			el( 'div', { className: 'cmshop-pos-line__main' }, [
+				/* translators: %s: phone taken in trade. */
+				el( 'strong', { text: sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop' ), [ trade.brand, trade.model, trade.storage ].filter( Boolean ).join( ' ' ) ) } ),
+				el( 'code', { text: 'IMEI ' + trade.imei1 } ),
+			] ),
+			el( 'span', { className: 'cmshop-pos-line__total', text: '-' + money( core.cents( trade.value ) ) } ),
+			el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-untrade': '', 'aria-label': __( 'Remove trade-in', 'codereyes-mobile-shop' ), text: '×' } ),
+		] ) ) );
+		renderTotals();
+	}
+
 	function renderTotals() {
 		const sums = core.totals( state.lines, ui.discount.value );
+		const trade = credit();
+		const toPay = Math.max( 0, sums.total - trade );
 
 		find( '[data-subtotal]' ).textContent = money( sums.subtotal );
 		find( '[data-discount-row]' ).hidden = 0 === sums.discount;
 		find( '[data-discount-text]' ).textContent = '-' + money( sums.discount );
 		find( '[data-total]' ).textContent = money( sums.total );
+		find( '[data-trade-row]' ).hidden = 0 === trade;
+		find( '[data-trade-text]' ).textContent = '-' + money( trade );
+		find( '[data-topay-row]' ).hidden = 0 === trade;
+		find( '[data-topay]' ).textContent = money( toPay );
 		ui.payments.querySelectorAll( '[data-amount]' ).forEach( ( input, index ) => {
-			input.placeholder = 0 === index ? core.amount( sums.total ) : '0';
+			input.placeholder = 0 === index ? core.amount( toPay ) : '0';
 		} );
-		ui.quick.replaceChildren( ...core.quickCash( sums.total ).map( ( value, index ) => el( 'button', { type: 'button', className: 'cmshop-pos-cash', 'data-cash': String( value ), text: 0 === index ? __( 'Exact', 'codereyes-mobile-shop' ) : money( value ) } ) ) );
+		ui.quick.replaceChildren( ...core.quickCash( toPay ).map( ( value, index ) => el( 'button', { type: 'button', className: 'cmshop-pos-cash', 'data-cash': String( value ), text: 0 === index ? __( 'Exact', 'codereyes-mobile-shop' ) : money( value ) } ) ) );
 		renderBalance();
 	}
 
 	function renderBalance() {
 		const total = core.totals( state.lines, ui.discount.value ).total;
-		const sums = core.balance( state.payments, total );
+		const sums = core.balance( state.payments, total, credit() );
 		let text = __( 'Paid in full', 'codereyes-mobile-shop' );
 		let tone = 'ok';
 
@@ -412,7 +375,7 @@
 	/* ---------- Sale actions ---------- */
 
 	function reset() {
-		state = { ...state, lines: [], payments: [ { method: 'cash', amount: '', reference: '' } ] };
+		state = { ...state, lines: [], trades: [], payments: [ { method: 'cash', amount: '', reference: '' } ] };
 		[ ui.phone, ui.name, ui.discount, ui.note ].forEach( ( input ) => {
 			input.value = '';
 		} );
@@ -420,8 +383,51 @@
 		ui.customerInfo.hidden = true;
 		showError( '' );
 		renderPayments();
+		renderTrades();
 		renderCart();
 		ui.search.focus();
+	}
+
+	/**
+	 * Read and check the trade-in form, then add the phone as credit.
+	 *
+	 * @param {HTMLFormElement} form Trade-in form.
+	 */
+	function addTrade( form ) {
+		const data = new window.FormData( form );
+		const trade = {
+			brand: String( data.get( 'brand' ) || '' ).trim(),
+			model: String( data.get( 'model' ) || '' ).trim(),
+			storage: String( data.get( 'storage' ) || '' ).trim(),
+			color: String( data.get( 'color' ) || '' ).trim(),
+			grade: String( data.get( 'grade' ) || 'good' ),
+			battery_health: String( data.get( 'battery_health' ) || '' ).trim(),
+			imei1: core.toAscii( data.get( 'imei1' ) || '' ).replace( /\D/g, '' ),
+			value: String( data.get( 'value' ) || '' ).trim(),
+			checks: data.getAll( 'checks' ).map( String ),
+		};
+		const error = form.querySelector( '[data-trade-error]' );
+		let problem = '';
+
+		if ( '' === trade.brand || '' === trade.model ) {
+			problem = __( 'Enter the brand and model.', 'codereyes-mobile-shop' );
+		} else if ( 15 !== trade.imei1.length ) {
+			problem = __( 'Enter the 15-digit IMEI (dial *#06#).', 'codereyes-mobile-shop' );
+		} else if ( 0 >= core.cents( trade.value ) ) {
+			problem = __( 'Enter what you are giving for the phone.', 'codereyes-mobile-shop' );
+		} else if ( state.trades.some( ( other ) => other.imei1 === trade.imei1 ) || 3 <= state.trades.length ) {
+			problem = __( 'This phone is already added, or you have 3 trade-ins.', 'codereyes-mobile-shop' );
+		}
+
+		error.textContent = problem;
+		error.hidden = '' === problem;
+
+		if ( '' === problem ) {
+			state = { ...state, trades: state.trades.concat( [ trade ] ) };
+			form.reset();
+			dialog( 'trade' ).close();
+			renderTrades();
+		}
 	}
 
 	function hold() {
@@ -432,7 +438,7 @@
 
 		const label = ui.name.value.trim() || ui.phone.value.trim() || sprintf( /* translators: %s: time. */ __( 'Sale at %s', 'codereyes-mobile-shop' ), new Date().toTimeString().slice( 0, 5 ) );
 
-		api( '/pos/held', { method: 'POST', data: { label, cart: { lines: state.lines, phone: ui.phone.value, name: ui.name.value, discount: ui.discount.value, note: ui.note.value } } } )
+		api( '/pos/held', { method: 'POST', data: { label, cart: { lines: state.lines, trades: state.trades, phone: ui.phone.value, name: ui.name.value, discount: ui.discount.value, note: ui.note.value } } } )
 			.then( () => refreshHeld() )
 			.then( reset )
 			.catch( ( failure ) => showError( failureText( failure ) ) );
@@ -449,11 +455,12 @@
 
 		api( '/pos/held/' + entry.id, { method: 'DELETE' } ).then( refreshHeld );
 		reset();
-		state = { ...state, lines };
+		state = { ...state, lines, trades: Array.isArray( entry.cart.trades ) ? entry.cart.trades : [] };
 		ui.phone.value = entry.cart.phone || '';
 		ui.name.value = entry.cart.name || '';
 		ui.discount.value = entry.cart.discount || '';
 		ui.note.value = entry.cart.note || '';
+		renderTrades();
 		renderCart();
 		lookupCustomer();
 		showError( lines.length < ( entry.cart.lines || [] ).length ? __( 'Some items were sold meanwhile and were left out.', 'codereyes-mobile-shop' ) : '' );
@@ -461,7 +468,7 @@
 
 	function pay() {
 		const total = core.totals( state.lines, ui.discount.value ).total;
-		const sums = core.balance( state.payments, total );
+		const sums = core.balance( state.payments, total, credit() );
 
 		if ( state.busy || 0 === state.lines.length ) {
 			showError( 0 === state.lines.length ? __( 'Add items to the sale first.', 'codereyes-mobile-shop' ) : '' );
@@ -475,7 +482,7 @@
 		}
 
 		const single = 1 === state.payments.length && '' === String( state.payments[ 0 ].amount ).trim();
-		const payments = single ? [ { ...state.payments[ 0 ], amount: core.amount( total ) } ] : state.payments;
+		const payments = single ? [ { ...state.payments[ 0 ], amount: core.amount( sums.toPay ) } ] : state.payments;
 
 		state = { ...state, busy: true };
 		root.classList.add( 'is-busy' );
@@ -490,6 +497,7 @@
 				discount: ui.discount.value,
 				notes: ui.note.value,
 				payments,
+				trade_ins: state.trades,
 				installments: 0 < sums.due ? { count: Number( find( '[data-plan-count]' ).value ), interval: find( '[data-plan-interval]' ).value, first_date: find( '[data-plan-first]' ).value } : null,
 			},
 		} ).then( ( response ) => {
@@ -581,6 +589,10 @@
 			const index = Math.max( 0, state.payments.findIndex( ( row ) => 'cash' === row.method ) );
 			updatePayment( index, { method: 'cash', amount: core.amount( Number( target.closest( '[data-cash]' ).dataset.cash ) ) } );
 			renderPayments();
+		} else if ( target.closest( '[data-untrade]' ) ) {
+			const index = Number( target.closest( '[data-trade]' ).dataset.trade );
+			state = { ...state, trades: state.trades.filter( ( trade, i ) => i !== index ) };
+			renderTrades();
 		} else if ( target.closest( '[data-unpay]' ) ) {
 			const index = Number( target.closest( '[data-pay]' ).dataset.pay );
 			state = { ...state, payments: state.payments.filter( ( row, i ) => i !== index ) };
@@ -620,6 +632,9 @@
 				state = { ...state, payments: state.payments.concat( [ { method: next[ 0 ], amount: '', reference: '' } ] ) };
 				renderPayments();
 			}
+		} else if ( 'trade-open' === name ) {
+			find( '#cmshop-pos-brands' ).replaceChildren( ...state.brands.map( ( brand ) => el( 'option', { value: brand } ) ) );
+			dialog( 'trade' ).showModal();
 		} else if ( 'hold' === name ) {
 			hold();
 		} else if ( 'pay' === name ) {
@@ -658,6 +673,10 @@
 	} );
 
 	ui.discount.addEventListener( 'input', renderTotals );
+	find( '[data-trade-form]' ).addEventListener( 'submit', ( event ) => {
+		event.preventDefault();
+		addTrade( event.target );
+	} );
 	find( '[data-plan]' ).addEventListener( 'change', renderBalance );
 	ui.phone.addEventListener( 'input', () => {
 		window.clearTimeout( lookupTimer );

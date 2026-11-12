@@ -135,4 +135,42 @@ final class PaymentsTest extends TestCase {
 		$this->assertSame( 'split', Cmshop_Payments::summary_method( array( array( 'method' => 'card' ), array( 'method' => 'cash' ) ), 'cash' ) );
 		$this->assertSame( 'cash', Cmshop_Payments::summary_method( array(), 'cash' ) );
 	}
+
+	public function test_trade_in_pays_like_cash(): void {
+		$result = Cmshop_Payments::allocate(
+			array(
+				array(
+					'method'    => 'trade_in',
+					'amount'    => '12000',
+					'reference' => 'iPhone 11',
+				),
+				array(
+					'method' => 'cash',
+					'amount' => '7000',
+				),
+			),
+			1850000,
+			array_merge( self::METHODS, array( 'trade_in' ) )
+		);
+
+		$this->assertSame( array( 'trade_in:12000.00', 'cash:6500.00' ), array_map( function ( $e ) { return $e['method'] . ':' . $e['amount']; }, $result['entries'] ) );
+		$this->assertSame( 50000, $result['change'] );
+	}
+
+	public function test_trade_in_worth_more_than_the_sale_pays_out_cash(): void {
+		$result = Cmshop_Payments::allocate(
+			array(
+				array(
+					'method' => 'trade_in',
+					'amount' => '20000',
+				),
+			),
+			1500000,
+			array_merge( self::METHODS, array( 'trade_in' ) )
+		);
+
+		$this->assertSame( 500000, $result['change'] );
+		$this->assertSame( array( 'trade_in:20000.00', 'cash:-5000.00' ), array_map( function ( $e ) { return $e['method'] . ':' . $e['amount']; }, $result['entries'] ) );
+		$this->assertSame( 1500000, $result['paid'] );
+	}
 }

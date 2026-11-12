@@ -203,4 +203,43 @@ final class ValidatorTest extends TestCase {
 		$this->assertSame( 'requested', array_keys( Cmshop_Repair_Status::all() )[0] );
 		$this->assertContains( 'requested', Cmshop_Repair_Status::open() );
 	}
+
+	public function test_trade_in_becomes_used_stock_with_its_value_as_cost(): void {
+		$result = Cmshop_Validator::trade_in(
+			array(
+				'brand'          => 'Apple',
+				'model'          => 'iPhone 11',
+				'storage'        => '64GB',
+				'color'          => 'Black',
+				'grade'          => 'good',
+				'battery_health' => '81',
+				'imei1'          => '490154203237518',
+				'value'          => '২২,০০০',
+				'checks'         => array( 'screen', 'unlocked', 'bogus' ),
+			)
+		);
+		$data   = $result->data();
+
+		$this->assertTrue( $result->is_valid(), (string) json_encode( $result->errors() ) );
+		$this->assertSame( 'phone', $data['item']['item_type'] );
+		$this->assertSame( '22000.00', $data['item']['cost_price'] );
+		$this->assertSame( '22000.00', $data['value'] );
+		$this->assertSame( array( 'screen', 'unlocked' ), $data['checks'] );
+		$this->assertSame( 1, $data['item']['quantity'] );
+	}
+
+	public function test_trade_in_must_be_used_with_imei_and_value(): void {
+		$errors = Cmshop_Validator::trade_in(
+			array(
+				'brand' => 'Apple',
+				'model' => 'iPhone 11',
+				'grade' => 'new',
+				'value' => '0',
+			)
+		)->errors();
+
+		$this->assertArrayHasKey( 'imei1', $errors );
+		$this->assertArrayHasKey( 'value', $errors );
+		$this->assertArrayHasKey( 'grade', $errors );
+	}
 }

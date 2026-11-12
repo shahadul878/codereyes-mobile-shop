@@ -53,6 +53,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<ul class="cmshop-pos-lines" data-lines></ul>
+			<ul class="cmshop-pos-lines cmshop-pos-trades" data-trades></ul>
 			<p class="cmshop-pos-empty cmshop-pos-empty--cart" data-cart-empty><?php esc_html_e( 'Scan or tap a product to start a sale.', 'codereyes-mobile-shop' ); ?></p>
 
 			<details class="cmshop-pos-extra">
@@ -67,12 +68,17 @@ defined( 'ABSPATH' ) || exit;
 				<div><dt><?php esc_html_e( 'Subtotal', 'codereyes-mobile-shop' ); ?></dt><dd data-subtotal></dd></div>
 				<div data-discount-row hidden><dt><?php esc_html_e( 'Discount', 'codereyes-mobile-shop' ); ?></dt><dd data-discount-text></dd></div>
 				<div class="cmshop-pos-totals__total"><dt><?php esc_html_e( 'Total', 'codereyes-mobile-shop' ); ?></dt><dd data-total></dd></div>
+				<div data-trade-row hidden><dt><?php esc_html_e( 'Trade-in', 'codereyes-mobile-shop' ); ?></dt><dd data-trade-text></dd></div>
+				<div class="cmshop-pos-totals__topay" data-topay-row hidden><dt><?php esc_html_e( 'To pay', 'codereyes-mobile-shop' ); ?></dt><dd data-topay></dd></div>
 			</dl>
 
 			<div class="cmshop-pos-pay">
 				<div data-payments></div>
 				<div class="cmshop-pos-quick" data-quick aria-label="<?php esc_attr_e( 'Cash received', 'codereyes-mobile-shop' ); ?>"></div>
-				<button type="button" class="button-link cmshop-pos-split" data-action="split"><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><?php esc_html_e( 'Split payment', 'codereyes-mobile-shop' ); ?></button>
+				<div class="cmshop-pos-links">
+					<button type="button" class="button-link cmshop-pos-split" data-action="split"><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><?php esc_html_e( 'Split payment', 'codereyes-mobile-shop' ); ?></button>
+					<button type="button" class="button-link cmshop-pos-split" data-action="trade-open"><span class="dashicons dashicons-randomize" aria-hidden="true"></span><?php esc_html_e( 'Trade-in', 'codereyes-mobile-shop' ); ?></button>
+				</div>
 				<p class="cmshop-pos-balance" data-balance></p>
 				<div class="cmshop-pos-plan" data-plan hidden>
 					<label><?php esc_html_e( 'Installments', 'codereyes-mobile-shop' ); ?>
@@ -114,6 +120,37 @@ defined( 'ABSPATH' ) || exit;
 	<dialog class="cmshop-pos-dialog" data-dialog="held" aria-labelledby="cmshop-pos-held-title">
 		<header><h2 id="cmshop-pos-held-title"><?php esc_html_e( 'Held sales', 'codereyes-mobile-shop' ); ?></h2><button type="button" class="cmshop-pos-x" data-action="close" aria-label="<?php esc_attr_e( 'Close', 'codereyes-mobile-shop' ); ?>">&times;</button></header>
 		<ul class="cmshop-pos-heldlist" data-held></ul>
+	</dialog>
+
+	<dialog class="cmshop-pos-dialog" data-dialog="trade" aria-labelledby="cmshop-pos-trade-title">
+		<header><h2 id="cmshop-pos-trade-title"><?php esc_html_e( 'Take a phone in trade', 'codereyes-mobile-shop' ); ?></h2><button type="button" class="cmshop-pos-x" data-action="close" aria-label="<?php esc_attr_e( 'Close', 'codereyes-mobile-shop' ); ?>">&times;</button></header>
+		<form class="cmshop-pos-trade" data-trade-form novalidate>
+			<label><?php esc_html_e( 'Brand', 'codereyes-mobile-shop' ); ?><input type="text" name="brand" required list="cmshop-pos-brands"></label>
+			<label><?php esc_html_e( 'Model', 'codereyes-mobile-shop' ); ?><input type="text" name="model" required placeholder="iPhone 11"></label>
+			<label><?php esc_html_e( 'Storage', 'codereyes-mobile-shop' ); ?><input type="text" name="storage" placeholder="64GB"></label>
+			<label><?php esc_html_e( 'Colour', 'codereyes-mobile-shop' ); ?><input type="text" name="color"></label>
+			<label><?php esc_html_e( 'Condition', 'codereyes-mobile-shop' ); ?>
+				<select name="grade">
+					<?php foreach ( Cmshop_Item::grades() as $cmshop_key => $cmshop_label ) : ?>
+						<?php if ( 'new' !== $cmshop_key ) : ?>
+							<option value="<?php echo esc_attr( $cmshop_key ); ?>" <?php selected( 'good', $cmshop_key ); ?>><?php echo esc_html( $cmshop_label ); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</select>
+			</label>
+			<label><?php esc_html_e( 'Battery health %', 'codereyes-mobile-shop' ); ?><input type="text" name="battery_health" inputmode="numeric" maxlength="3"></label>
+			<label class="cmshop-pos-trade__wide"><?php esc_html_e( 'IMEI (dial *#06#)', 'codereyes-mobile-shop' ); ?><input type="text" name="imei1" required inputmode="numeric" class="cmshop-mono"></label>
+			<label class="cmshop-pos-trade__wide"><?php esc_html_e( 'Value you give', 'codereyes-mobile-shop' ); ?><input type="text" name="value" required inputmode="decimal"></label>
+			<fieldset class="cmshop-pos-trade__wide">
+				<legend><?php esc_html_e( 'Checked', 'codereyes-mobile-shop' ); ?></legend>
+				<?php foreach ( Cmshop_Validator::trade_in_checks() as $cmshop_key => $cmshop_label ) : ?>
+					<label class="cmshop-pos-check"><input type="checkbox" name="checks" value="<?php echo esc_attr( $cmshop_key ); ?>"> <?php echo esc_html( $cmshop_label ); ?></label>
+				<?php endforeach; ?>
+			</fieldset>
+			<p class="cmshop-pos-error cmshop-pos-trade__wide" data-trade-error hidden></p>
+			<button type="submit" class="button button-primary cmshop-pos-trade__wide"><?php esc_html_e( 'Add trade-in', 'codereyes-mobile-shop' ); ?></button>
+		</form>
+		<datalist id="cmshop-pos-brands"></datalist>
 	</dialog>
 
 	<dialog class="cmshop-pos-dialog cmshop-pos-dialog--done" data-dialog="done" aria-labelledby="cmshop-pos-done-title">

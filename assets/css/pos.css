@@ -607,6 +607,82 @@ body.cmshop-pos-screen {
 	color: var(--cmshop-warn);
 }
 
+.cmshop-pos-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 16px;
+}
+
+.cmshop-pos-trades .cmshop-pos-line {
+	border-style: dashed;
+	border-color: var(--cmshop-warn);
+	background: var(--cmshop-warn-soft);
+}
+
+.cmshop-pos-trades .cmshop-pos-line__total {
+	color: var(--cmshop-warn);
+}
+
+.cmshop-pos-totals__total + div {
+	margin-top: 8px;
+}
+
+.cmshop-pos-totals__topay {
+	margin-top: 4px;
+}
+
+.cmshop-pos-totals .cmshop-pos-totals__topay dt,
+.cmshop-pos-totals .cmshop-pos-totals__topay dd {
+	color: var(--cmshop-ink);
+	font-weight: 700;
+}
+
+.cmshop-pos-trade {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.cmshop-pos-trade label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.cmshop-wrap .cmshop-pos-trade input[type="text"],
+.cmshop-wrap .cmshop-pos-trade select {
+	width: 100%;
+	min-height: 38px;
+}
+
+.cmshop-pos-trade__wide {
+	grid-column: 1 / -1;
+}
+
+.cmshop-pos-trade fieldset {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4px 10px;
+	margin: 0;
+	padding: 8px 10px;
+	border: 1px solid var(--cmshop-line);
+	border-radius: var(--cmshop-radius);
+}
+
+.cmshop-pos-trade legend {
+	padding: 0 4px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.cmshop-pos-trade .cmshop-pos-check {
+	flex-direction: row;
+	align-items: center;
+	font-weight: 400;
+}
+
 .cmshop-pos-plan {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));

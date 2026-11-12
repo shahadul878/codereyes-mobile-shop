@@ -102,7 +102,9 @@ final class Cmshop_Admin {
 
 		wp_enqueue_style( 'cmshop-pos', CMSHOP_URL . 'assets/css/pos.css', array( 'cmshop-admin' ), CMSHOP_VERSION );
 		wp_enqueue_script( 'cmshop-pos-core', CMSHOP_URL . 'assets/js/pos-core.js', array(), CMSHOP_VERSION, true );
-		wp_enqueue_script( 'cmshop-pos', CMSHOP_URL . 'assets/js/pos.js', array( 'cmshop-pos-core', 'wp-api-fetch', 'wp-i18n' ), CMSHOP_VERSION, true );
+		wp_enqueue_script( 'cmshop-pos-dom', CMSHOP_URL . 'assets/js/pos-dom.js', array( 'wp-i18n' ), CMSHOP_VERSION, true );
+		wp_set_script_translations( 'cmshop-pos-dom', 'codereyes-mobile-shop' );
+		wp_enqueue_script( 'cmshop-pos', CMSHOP_URL . 'assets/js/pos.js', array( 'cmshop-pos-core', 'cmshop-pos-dom', 'wp-api-fetch', 'wp-i18n' ), CMSHOP_VERSION, true );
 		wp_set_script_translations( 'cmshop-pos', 'codereyes-mobile-shop' );
 		wp_localize_script(
 			'cmshop-pos',

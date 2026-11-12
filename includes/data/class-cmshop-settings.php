@@ -64,7 +64,13 @@ final class Cmshop_Settings {
 	 * @return array<string,string>
 	 */
 	public static function payment_labels(): array {
-		return array_merge( self::payment_methods(), array( Cmshop_Payments::SPLIT => __( 'Split payment', 'codereyes-mobile-shop' ) ) );
+		return array_merge(
+			self::payment_methods(),
+			array(
+				Cmshop_Payments::SPLIT    => __( 'Split payment', 'codereyes-mobile-shop' ),
+				Cmshop_Payments::TRADE_IN => __( 'Trade-in', 'codereyes-mobile-shop' ),
+			)
+		);
 	}
 
 	/**

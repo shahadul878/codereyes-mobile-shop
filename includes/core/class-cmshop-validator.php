@@ -102,6 +102,63 @@ final class Cmshop_Validator {
 	}
 
 	/**
+	 * Checks staff tick when taking a phone in trade, keyed for storage.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function trade_in_checks(): array {
+		return array(
+			'screen'   => __( 'Screen and touch work', 'codereyes-mobile-shop' ),
+			'body'     => __( 'No cracks or bends', 'codereyes-mobile-shop' ),
+			'camera'   => __( 'Cameras and speakers work', 'codereyes-mobile-shop' ),
+			'unlocked' => __( 'iCloud / Google account removed', 'codereyes-mobile-shop' ),
+			'id'       => __( 'Seller showed ID', 'codereyes-mobile-shop' ),
+		);
+	}
+
+	/**
+	 * A phone the customer trades in: a used stock item plus the value given for it.
+	 *
+	 * @param array $raw brand, model, storage, color, grade, battery_health, imei1, imei2, value, checks[].
+	 * @return Cmshop_Validation_Result Data: item (stock row), value, checks.
+	 */
+	public static function trade_in( array $raw ): Cmshop_Validation_Result {
+		$item  = self::item(
+			array_merge(
+				$raw,
+				array(
+					'item_type'  => Cmshop_Item::TYPE_PHONE,
+					'cost_price' => (string) ( $raw['value'] ?? '' ),
+					'sale_price' => (string) ( $raw['value'] ?? '' ),
+				)
+			)
+		);
+		$in    = new Cmshop_Input( $raw );
+		$value = $in->money( 'value' );
+		$valid = array_keys( self::trade_in_checks() );
+
+		foreach ( $item->errors() as $field => $message ) {
+			$in->error( $field, $message );
+		}
+
+		if ( 'new' === ( $raw['grade'] ?? '' ) ) {
+			$in->error( 'grade', __( 'A traded-in phone is used: choose its condition.', 'codereyes-mobile-shop' ) );
+		}
+
+		if ( Cmshop_Money::to_cents( $value ) <= 0 ) {
+			$in->error( 'value', __( 'Enter what you are giving for the phone.', 'codereyes-mobile-shop' ) );
+		}
+
+		return $in->result(
+			array(
+				'item'   => $item->data(),
+				'value'  => $value,
+				'checks' => array_values( array_intersect( array_map( 'strval', (array) ( $raw['checks'] ?? array() ) ), $valid ) ),
+			)
+		);
+	}
+
+	/**
 	 * Repair booked by a customer on the website. It starts as "Booked online"
 	 * with no estimate; staff price it when the phone is brought in.
 	 *

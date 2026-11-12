@@ -219,18 +219,23 @@
 	}
 
 	/**
-	 * What the payment rows add up to. A single empty row means "paid in full".
+	 * What the payment rows add up to. A single empty row means "pay the rest".
+	 * Trade-in credit counts as paid; if it is worth more than the sale, the
+	 * difference is change the shop gives back.
 	 *
-	 * @param {Object[]} rows  Payment rows { method, amount, reference }.
-	 * @param {number}   total Sale total in cents.
-	 * @return {{paid: number, change: number, due: number}} Balance.
+	 * @param {Object[]} rows   Payment rows { method, amount, reference }.
+	 * @param {number}   total  Sale total in cents.
+	 * @param {number}   credit Trade-in value in cents.
+	 * @return {{paid: number, change: number, due: number, toPay: number}} Balance.
 	 */
-	function balance( rows, total ) {
-		const paid = 1 === rows.length && '' === String( rows[ 0 ].amount ).trim()
-			? total
+	function balance( rows, total, credit = 0 ) {
+		const toPay = Math.max( 0, total - credit );
+		const typed = 1 === rows.length && '' === String( rows[ 0 ].amount ).trim()
+			? toPay
 			: rows.reduce( ( sum, row ) => sum + cents( row.amount ), 0 );
+		const paid = credit + typed;
 
-		return { paid, change: Math.max( 0, paid - total ), due: Math.max( 0, total - paid ) };
+		return { paid, change: Math.max( 0, paid - total ), due: Math.max( 0, total - paid ), toPay };
 	}
 
 	/**

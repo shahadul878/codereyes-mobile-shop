@@ -17,11 +17,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * Change is only given in cash: the cash entry is reduced by it, so the
  * ledger records what stayed in the drawer. Card, mobile banking and bank
- * payments can't be more than the total.
+ * payments can't be more than the total. A trade-in (the customer's old
+ * phone) pays like cash; when it is worth more than the sale, the shop pays
+ * the difference out of the drawer (a negative cash entry).
  */
 final class Cmshop_Payments {
 
-	public const SPLIT = 'split';
+	public const SPLIT    = 'split';
+	public const TRADE_IN = 'trade_in';
 
 	private const MAX_ROWS = 5;
 	private const MAX_REF  = 100;
@@ -44,20 +47,24 @@ final class Cmshop_Payments {
 		$merged = self::merge( $rows, $methods );
 		$sum    = array_sum( array_column( $merged, 'cents' ) );
 		$cash   = (int) ( $merged[ self::CASH ]['cents'] ?? 0 );
+		$trade  = (int) ( $merged[ self::TRADE_IN ]['cents'] ?? 0 );
 		$change = max( 0, $sum - $total );
 
-		if ( $change > $cash ) {
+		if ( $change > $cash + $trade ) {
 			throw new InvalidArgumentException( __( 'Card, mobile banking and bank payments can\'t be more than the total. Give change in cash only.', 'codereyes-mobile-shop' ) );
 		}
 
 		if ( $change > 0 ) {
-			$merged[ self::CASH ]['cents'] = $cash - $change;
+			$merged[ self::CASH ] = array(
+				'cents'     => $cash - $change,
+				'reference' => (string) ( $merged[ self::CASH ]['reference'] ?? '' ),
+			);
 		}
 
 		$entries = array();
 
 		foreach ( $merged as $method => $row ) {
-			if ( $row['cents'] > 0 ) {
+			if ( 0 !== $row['cents'] ) {
 				$entries[] = array(
 					'method'    => $method,
 					'amount'    => Cmshop_Money::from_cents( $row['cents'] ),
