@@ -200,6 +200,8 @@ final class Cmshop_View {
 			'item_has_sales'   => array( 'error', __( 'This item has sales, so it cannot be deleted. Its sales history is kept.', 'codereyes-mobile-shop' ) ),
 			'published'        => array( 'success', __( 'Item published to your online shop.', 'codereyes-mobile-shop' ) ),
 			'unpublished'      => array( 'success', __( 'Item removed from your online shop.', 'codereyes-mobile-shop' ) ),
+			'model_published'  => array( 'success', __( 'Model published: customers choose storage and colour, and stock follows your shop.', 'codereyes-mobile-shop' ) ),
+			'model_removed'    => array( 'success', __( 'Model removed from your online shop. Its phones are still in stock.', 'codereyes-mobile-shop' ) ),
 			'publish_failed'   => array( 'error', __( 'The item could not be published. Check that WooCommerce is active.', 'codereyes-mobile-shop' ) ),
 			'customer_saved'   => array( 'success', __( 'Customer saved.', 'codereyes-mobile-shop' ) ),
 			'customer_deleted' => array( 'success', __( 'Customer deleted.', 'codereyes-mobile-shop' ) ),

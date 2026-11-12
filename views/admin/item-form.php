@@ -4,7 +4,7 @@
  *
  * @package CodereyesMobileShop
  *
- * @var array $cmshop { item: array|null, values: array, errors: array, sales: array[] }
+ * @var array $cmshop { item: array|null, values: array, errors: array, sales: array[], listing: array|null }
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ $cmshop_errors   = $cmshop['errors'];
 $cmshop_is_phone = Cmshop_Item::TYPE_ACCESSORY !== ( $cmshop_values['item_type'] ?? 'phone' );
 $cmshop_is_sold  = null !== $cmshop_item && Cmshop_Item::STATUS_SOLD === $cmshop_item['status'];
 $cmshop_woo      = class_exists( 'WooCommerce' ) && Cmshop_Settings::woo_enabled();
+$cmshop_listing  = $cmshop['listing'] ?? null;
 
 if ( null === $cmshop_item ) {
 	$cmshop_title = $cmshop_is_phone ? __( 'Add phone', 'codereyes-mobile-shop' ) : __( 'Add accessory', 'codereyes-mobile-shop' );
@@ -29,11 +30,17 @@ if ( null === $cmshop_item ) {
 		<?php if ( ! $cmshop_is_sold ) : ?>
 			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-pos', array( 'add' => (int) $cmshop_item['id'] ) ) ); ?>"><?php esc_html_e( 'Sell this item', 'codereyes-mobile-shop' ); ?></a>
 		<?php endif; ?>
+		<?php if ( $cmshop_is_phone ) : ?>
+			<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'new', 'copy' => (int) $cmshop_item['id'] ) ) ); ?>"><?php esc_html_e( 'Add another like this', 'codereyes-mobile-shop' ); ?></a>
+		<?php endif; ?>
 	<?php endif; ?>
 	<hr class="wp-header-end">
 
 	<?php Cmshop_View::notice(); ?>
 	<?php Cmshop_View::error_summary( $cmshop_errors ); ?>
+	<?php if ( null === $cmshop_item && isset( $cmshop_values['model'] ) && '' === (string) ( $cmshop_values['imei1'] ?? '' ) && array() === $cmshop_errors ) : ?>
+		<div class="notice notice-info inline"><p><?php esc_html_e( 'Details copied from the last phone. Scan the new IMEI and check the colour, then add it to stock.', 'codereyes-mobile-shop' ); ?></p></div>
+	<?php endif; ?>
 
 	<?php Cmshop_View::form_open( 'save_item' ); ?>
 		<input type="hidden" name="id" value="<?php echo esc_attr( (string) (int) ( $cmshop_item['id'] ?? 0 ) ); ?>">
@@ -229,17 +236,7 @@ if ( null === $cmshop_item ) {
 				<?php if ( null !== $cmshop_item && $cmshop_woo ) : ?>
 					<div class="cmshop-online">
 						<h3><?php esc_html_e( 'Online shop', 'codereyes-mobile-shop' ); ?></h3>
-						<?php if ( (int) $cmshop_item['wc_product_id'] > 0 ) : ?>
-							<p>
-								<?php esc_html_e( 'Listed on your website. Stock and price update automatically.', 'codereyes-mobile-shop' ); ?>
-								<a href="<?php echo esc_url( (string) get_permalink( (int) $cmshop_item['wc_product_id'] ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View', 'codereyes-mobile-shop' ); ?></a> ·
-								<a href="<?php echo esc_url( (string) get_edit_post_link( (int) $cmshop_item['wc_product_id'] ) ); ?>"><?php esc_html_e( 'Add photos', 'codereyes-mobile-shop' ); ?></a>
-							</p>
-							<a class="button" href="<?php echo esc_url( Cmshop_View::action_url( 'unpublish_item', array( 'id' => (int) $cmshop_item['id'] ) ) ); ?>"><?php esc_html_e( 'Remove from website', 'codereyes-mobile-shop' ); ?></a>
-						<?php elseif ( ! $cmshop_is_sold ) : ?>
-							<p><?php esc_html_e( 'Not on your website yet. Publishing creates a WooCommerce product with this price and stock. The IMEI stays private.', 'codereyes-mobile-shop' ); ?></p>
-							<a class="button" href="<?php echo esc_url( Cmshop_View::action_url( 'publish_item', array( 'id' => (int) $cmshop_item['id'] ) ) ); ?>"><?php esc_html_e( 'Publish to website', 'codereyes-mobile-shop' ); ?></a>
-						<?php endif; ?>
+						<?php require __DIR__ . '/item-website.php'; ?>
 					</div>
 				<?php endif; ?>
 			</section>

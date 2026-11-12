@@ -94,4 +94,36 @@ final class HelpersTest extends TestCase {
 		$this->assertSame( '0.00', Cmshop_Repair_Status::balance_due( array( 'estimate' => '100.00', 'final_cost' => '200.00', 'deposit' => '500.00' ) ) );
 		$this->assertSame( '150.00', Cmshop_Repair_Status::balance_due( array( 'estimate' => '100.00', 'final_cost' => '200.00', 'deposit' => '50.00' ) ) );
 	}
+
+	public function test_add_another_copies_model_and_prices_but_not_the_phone_itself(): void {
+		$copy = Cmshop_Item::copy_fields(
+			array(
+				'id'             => 9,
+				'item_type'      => 'phone',
+				'brand'          => 'Samsung',
+				'model'          => 'Galaxy A15',
+				'storage'        => '128GB',
+				'color'          => 'Black',
+				'grade'          => 'new',
+				'cost_price'     => '15000.00',
+				'sale_price'     => '18500.00',
+				'supplier'       => 'Dhaka Mobile Traders',
+				'imei1'          => '490154203237518',
+				'imei2'          => '356938035643809',
+				'serial'         => 'R58X',
+				'battery_health' => 100,
+				'status'         => 'sold',
+				'notes'          => 'Box damaged',
+			)
+		);
+
+		$this->assertSame( 'Galaxy A15', $copy['model'] );
+		$this->assertSame( '18500.00', $copy['sale_price'] );
+		$this->assertSame( 'Black', $copy['color'] );
+		$this->assertArrayNotHasKey( 'imei1', $copy );
+		$this->assertArrayNotHasKey( 'serial', $copy );
+		$this->assertArrayNotHasKey( 'status', $copy );
+		$this->assertArrayNotHasKey( 'notes', $copy );
+		$this->assertArrayNotHasKey( 'id', $copy );
+	}
 }

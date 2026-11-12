@@ -98,7 +98,7 @@ final class Cmshop_Actions {
 				$id = $items->insert( array_merge( $data, array( 'created_by' => get_current_user_id() ) ) );
 			}
 
-			$this->refresh_product( $id );
+			$this->refresh_product( $item, $id );
 		} catch ( RuntimeException $error ) {
 			$this->log( $error );
 			$this->redirect( 'cmshop-items', 'db_error' );
@@ -128,13 +128,18 @@ final class Cmshop_Actions {
 			$this->redirect( 'cmshop-items', 'item_has_sales' );
 		}
 
+		Cmshop_Plugin::items()->delete( (int) $item['id'] );
+
 		$woo = Cmshop_Plugin::woo_products();
 
-		if ( null !== $woo && (int) $item['wc_product_id'] > 0 ) {
-			$woo->unpublish( $item );
+		try {
+			if ( null !== $woo ) {
+				$woo->item_deleted( $item );
+			}
+		} catch ( Exception $error ) {
+			$this->log( $error );
 		}
 
-		Cmshop_Plugin::items()->delete( (int) $item['id'] );
 		$this->redirect( 'cmshop-items', 'item_deleted' );
 	}
 
@@ -158,6 +163,8 @@ final class Cmshop_Actions {
 			$this->redirect( 'cmshop-items', 'publish_failed', $back );
 		}
 
+		$listing = $woo->website_listing( $item );
+
 		try {
 			$woo->publish( $item );
 		} catch ( Exception $error ) {
@@ -165,7 +172,7 @@ final class Cmshop_Actions {
 			$this->redirect( 'cmshop-items', 'publish_failed', $back );
 		}
 
-		$this->redirect( 'cmshop-items', 'published', $back );
+		$this->redirect( 'cmshop-items', 'model_unlisted' === ( $listing['kind'] ?? '' ) ? 'model_published' : 'published', $back );
 	}
 
 	/**
@@ -179,13 +186,15 @@ final class Cmshop_Actions {
 			$this->redirect( 'cmshop-items', 'not_found' );
 		}
 
+		$listing = null === $woo ? null : $woo->website_listing( $item );
+
 		if ( null !== $woo ) {
 			$woo->unpublish( $item );
 		}
 
 		$this->redirect(
 			'cmshop-items',
-			'unpublished',
+			'model' === ( $listing['kind'] ?? '' ) ? 'model_removed' : 'unpublished',
 			array(
 				'action' => 'edit',
 				'id'     => (int) $item['id'],
@@ -367,20 +376,21 @@ final class Cmshop_Actions {
 	}
 
 	/**
-	 * Update the linked WooCommerce product after an edit.
+	 * Update the website after an item is added or edited.
 	 *
-	 * @param int $id Item ID.
+	 * @param array|null $before Row before the edit (null when added).
+	 * @param int        $id     Item ID.
 	 */
-	private function refresh_product( int $id ): void {
-		$woo  = Cmshop_Plugin::woo_products();
-		$item = Cmshop_Plugin::items()->find( $id );
+	private function refresh_product( ?array $before, int $id ): void {
+		$woo   = Cmshop_Plugin::woo_products();
+		$after = Cmshop_Plugin::items()->find( $id );
 
-		if ( null === $woo || null === $item || (int) $item['wc_product_id'] <= 0 || ! Cmshop_Settings::woo_enabled() ) {
+		if ( null === $woo || null === $after ) {
 			return;
 		}
 
 		try {
-			$woo->publish( $item );
+			$woo->item_saved( $before, $after );
 		} catch ( Exception $error ) {
 			$this->log( $error );
 		}

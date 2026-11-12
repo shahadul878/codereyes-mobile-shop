@@ -152,14 +152,16 @@ final class Cmshop_Admin {
 
 			$state = Cmshop_Form_State::take( 'item' );
 			$type  = isset( $_GET['type'] ) && Cmshop_Item::TYPE_ACCESSORY === $_GET['type'] ? Cmshop_Item::TYPE_ACCESSORY : Cmshop_Item::TYPE_PHONE;
+			$woo   = Cmshop_Settings::woo_enabled() ? Cmshop_Plugin::woo_products() : null;
 
 			$this->render(
 				'item-form',
 				array(
-					'item'   => $item,
-					'values' => $state['values'] ?? ( $item ?? array( 'item_type' => $type ) ),
-					'errors' => $state['errors'] ?? array(),
-					'sales'  => null === $item ? array() : Cmshop_Plugin::sales()->for_item( (int) $item['id'] ),
+					'item'    => $item,
+					'values'  => $state['values'] ?? ( $item ?? $this->new_item_values( $type ) ),
+					'errors'  => $state['errors'] ?? array(),
+					'sales'   => null === $item ? array() : Cmshop_Plugin::sales()->for_item( (int) $item['id'] ),
+					'listing' => null === $item || null === $woo ? null : $woo->website_listing( $item ),
 				)
 			);
 			return;
@@ -313,6 +315,19 @@ final class Cmshop_Admin {
 			'sale_price' => (string) $item['sale_price'],
 			'price_text' => Cmshop_Settings::money( (string) $item['sale_price'] ),
 		);
+	}
+
+	/**
+	 * Starting values for a new item: blank, or copied from ?copy= ("Add another like this").
+	 *
+	 * @param string $type Item type.
+	 * @return array
+	 */
+	private function new_item_values( string $type ): array {
+		$copy   = isset( $_GET['copy'] ) ? absint( $_GET['copy'] ) : 0;
+		$source = $copy > 0 ? Cmshop_Plugin::items()->find( $copy ) : null;
+
+		return null === $source ? array( 'item_type' => $type ) : Cmshop_Item::copy_fields( $source );
 	}
 
 	/**

@@ -130,7 +130,7 @@ final class Cmshop_Sales_Service {
 	 * Void a completed sale and put its stock back.
 	 *
 	 * @param int    $sale_id Sale ID.
-	 * @param string $source  store|online (online skips pushing stock to WooCommerce, which restocks itself).
+	 * @param string $source  store|online (online skips pushing stock to WooCommerce).
 	 * @return bool False when the sale was not completed.
 	 */
 	public function void( int $sale_id, string $source = Cmshop_Sale_Repository::CHANNEL_STORE ): bool {

@@ -142,6 +142,61 @@ final class Cmshop_Item_Repository extends Cmshop_Repository {
 	}
 
 	/**
+	 * Every new phone of the same model as $item (any status), oldest first.
+	 *
+	 * @param array $item Any phone of the model.
+	 * @return array[]
+	 */
+	public function model_units( array $item ): array {
+		$rows = $this->db->get_results(
+			$this->db->prepare(
+				'SELECT * FROM %i WHERE item_type = %s AND grade = %s AND brand = %s ORDER BY id ASC',
+				$this->table,
+				Cmshop_Item::TYPE_PHONE,
+				'new',
+				trim( (string) $item['brand'] )
+			),
+			ARRAY_A
+		);
+		$key  = Cmshop_Model_Listing::model_key( $item );
+
+		return array_values(
+			array_filter(
+				is_array( $rows ) ? $rows : array(),
+				static function ( array $row ) use ( $key ): bool {
+					return Cmshop_Model_Listing::is_grouped( $row ) && Cmshop_Model_Listing::model_key( $row ) === $key;
+				}
+			)
+		);
+	}
+
+	/**
+	 * Point items at a WooCommerce product.
+	 *
+	 * @param int[] $ids        Item IDs.
+	 * @param int   $product_id Product ID (0 to unlink).
+	 */
+	public function link_product( array $ids, int $product_id ): void {
+		foreach ( array_unique( array_map( 'intval', $ids ) ) as $id ) {
+			$this->update( $id, array( 'wc_product_id' => $product_id ) );
+		}
+	}
+
+	/**
+	 * IDs of the items linked to a product.
+	 *
+	 * @param int $product_id Product ID.
+	 * @return int[]
+	 */
+	public function ids_for_product( int $product_id ): array {
+		$ids = $this->db->get_col(
+			$this->db->prepare( 'SELECT id FROM %i WHERE wc_product_id = %d', $this->table, $product_id )
+		);
+
+		return array_map( 'intval', is_array( $ids ) ? $ids : array() );
+	}
+
+	/**
 	 * Stock figures for the dashboard.
 	 *
 	 * @param int $low_stock Accessory quantity at or below which stock is low.

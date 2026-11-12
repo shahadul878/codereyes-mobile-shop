@@ -46,16 +46,25 @@ final class Cmshop_Woo_Orders {
 	private $service;
 
 	/**
+	 * Model listings (choose the phone for a colour/storage order).
+	 *
+	 * @var Cmshop_Woo_Models
+	 */
+	private $models;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Cmshop_Item_Repository $items   Items.
 	 * @param Cmshop_Sale_Repository $sales   Sales.
 	 * @param Cmshop_Sales_Service   $service Sales service.
+	 * @param Cmshop_Woo_Models      $models  Model listings.
 	 */
-	public function __construct( Cmshop_Item_Repository $items, Cmshop_Sale_Repository $sales, Cmshop_Sales_Service $service ) {
+	public function __construct( Cmshop_Item_Repository $items, Cmshop_Sale_Repository $sales, Cmshop_Sales_Service $service, Cmshop_Woo_Models $models ) {
 		$this->items   = $items;
 		$this->sales   = $sales;
 		$this->service = $service;
+		$this->models  = $models;
 	}
 
 	/**
@@ -104,13 +113,13 @@ final class Cmshop_Woo_Orders {
 			return;
 		}
 
-		$lines = $this->lines( $order );
-
-		if ( array() === $lines ) {
-			return;
-		}
-
 		try {
+			$lines = $this->lines( $order );
+
+			if ( array() === $lines ) {
+				return;
+			}
+
 			$sale_id = $this->service->checkout(
 				array(
 					'lines'          => $lines,
@@ -127,7 +136,8 @@ final class Cmshop_Woo_Orders {
 			);
 			$sale    = $this->sales->find( $sale_id );
 			/* translators: %s: invoice number. */
-			$order->add_order_note( sprintf( __( 'Mobile Shop: recorded as sale %s and removed from shop stock.', 'codereyes-mobile-shop' ), (string) ( $sale['invoice_no'] ?? $sale_id ) ) );
+			$note = sprintf( __( 'Mobile Shop: recorded as sale %s and removed from shop stock.', 'codereyes-mobile-shop' ), (string) ( $sale['invoice_no'] ?? $sale_id ) );
+			$order->add_order_note( $note . $this->imei_note( $sale_id ) );
 		} catch ( InvalidArgumentException $error ) {
 			// Usually: the phone was sold at the counter before the website stock updated.
 			/* translators: %s: reason. */
@@ -147,7 +157,10 @@ final class Cmshop_Woo_Orders {
 	private function undo( WC_Order $order ): void {
 		$sale = $this->sales->find_by_order( (int) $order->get_id() );
 
-		if ( null !== $sale && $this->service->void( (int) $sale['id'], Cmshop_Sale_Repository::CHANNEL_ONLINE ) ) {
+		// Push shop stock back to the website: WooCommerce restocks a cancelled
+		// order itself but not a refunded or failed one. Stock is set to the
+		// shop's count, so a cancelled order is not counted twice.
+		if ( null !== $sale && $this->service->void( (int) $sale['id'], Cmshop_Sale_Repository::CHANNEL_STORE ) ) {
 			$order->add_order_note( __( 'Mobile Shop: sale voided and items returned to shop stock.', 'codereyes-mobile-shop' ) );
 		}
 	}
@@ -157,30 +170,83 @@ final class Cmshop_Woo_Orders {
 	 *
 	 * @param WC_Order $order Order.
 	 * @return array[]
+	 * @throws InvalidArgumentException When a colour/storage option has too few phones in the shop.
 	 */
 	private function lines( WC_Order $order ): array {
 		$lines = array();
 
 		foreach ( $order->get_items() as $order_item ) {
-			if ( ! $order_item instanceof WC_Order_Item_Product ) {
+			$quantity = $order_item instanceof WC_Order_Item_Product ? (int) $order_item->get_quantity() : 0;
+
+			if ( $quantity < 1 ) {
 				continue;
 			}
 
-			$item     = $this->items->find_by_product( (int) $order_item->get_product_id() );
-			$quantity = (int) $order_item->get_quantity();
+			$unit_price = Cmshop_Money::from_cents( intdiv( max( 0, (int) round( (float) $order_item->get_total() * 100 ) ), $quantity ) );
+			$model_ids  = $this->model_phones( $order_item, $quantity );
 
-			if ( null === $item || $quantity < 1 ) {
+			if ( null !== $model_ids ) {
+				foreach ( $model_ids as $item_id ) {
+					$lines[] = array(
+						'item_id'    => $item_id,
+						'quantity'   => 1,
+						'unit_price' => $unit_price,
+					);
+				}
 				continue;
 			}
 
-			$paid_cents = (int) round( (float) $order_item->get_total() * 100 );
-			$lines[]    = array(
-				'item_id'    => (int) $item['id'],
-				'quantity'   => $quantity,
-				'unit_price' => Cmshop_Money::from_cents( intdiv( max( 0, $paid_cents ), $quantity ) ),
-			);
+			$item = $this->items->find_by_product( (int) $order_item->get_product_id() );
+
+			if ( null !== $item ) {
+				$lines[] = array(
+					'item_id'    => (int) $item['id'],
+					'quantity'   => $quantity,
+					'unit_price' => $unit_price,
+				);
+			}
 		}
 
 		return $lines;
+	}
+
+	/**
+	 * Phones for a colour/storage option of a model listing.
+	 *
+	 * @param WC_Order_Item_Product $order_item Order line.
+	 * @param int                   $quantity   Phones ordered.
+	 * @return int[]|null Item IDs, or null when the line is not a model option.
+	 * @throws InvalidArgumentException When the shop has too few of that option.
+	 */
+	private function model_phones( WC_Order_Item_Product $order_item, int $quantity ): ?array {
+		$variation = $order_item->get_variation_id() > 0 ? wc_get_product( (int) $order_item->get_variation_id() ) : null;
+		$ids       = $variation instanceof WC_Product ? $this->models->allocate( $variation, $quantity ) : null;
+
+		if ( null !== $ids && count( $ids ) < $quantity ) {
+			throw new InvalidArgumentException(
+				esc_html(
+					sprintf(
+						/* translators: 1: phones in stock, 2: product and option, e.g. "Galaxy A15 - Black, 128GB". */
+						__( 'only %1$d of %2$s left in the shop.', 'codereyes-mobile-shop' ),
+						count( $ids ),
+						$order_item->get_name()
+					)
+				)
+			);
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * " IMEI: …" listing the phones a sale took, for the private order note.
+	 *
+	 * @param int $sale_id Sale.
+	 * @return string
+	 */
+	private function imei_note( int $sale_id ): string {
+		$imeis = array_filter( array_map( 'strval', array_column( $this->sales->lines( $sale_id ), 'imei' ) ), 'strlen' );
+
+		return array() === $imeis ? '' : ' IMEI: ' . implode( ', ', $imeis );
 	}
 }

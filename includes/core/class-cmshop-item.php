@@ -103,4 +103,18 @@ final class Cmshop_Item {
 	public static function label( array $labels, string $key ): string {
 		return $labels[ $key ] ?? $key;
 	}
+
+	/**
+	 * Details to pre-fill "Add another like this": the model and prices, not
+	 * what identifies one phone (IMEI, serial, battery) or its stock status.
+	 *
+	 * @param array $item Item row.
+	 * @return array
+	 */
+	public static function copy_fields( array $item ): array {
+		return array_intersect_key(
+			$item,
+			array_flip( array( 'item_type', 'brand', 'model', 'storage', 'color', 'grade', 'cost_price', 'sale_price', 'supplier' ) )
+		);
+	}
 }

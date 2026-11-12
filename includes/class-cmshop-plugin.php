@@ -32,6 +32,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-csv.php',
 		'core/class-cmshop-query.php',
 		'core/class-cmshop-invoice-format.php',
+		'core/class-cmshop-model-listing.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',
@@ -86,9 +87,9 @@ final class Cmshop_Plugin {
 		( new Cmshop_Repair_Tracker( self::repairs() ) )->register();
 
 		if ( class_exists( 'WooCommerce' ) ) {
-			self::load( array( 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );
+			self::load( array( 'woo/class-cmshop-woo-models.php', 'woo/class-cmshop-woo-products.php', 'woo/class-cmshop-woo-orders.php' ) );
 			self::woo_products()->register();
-			( new Cmshop_Woo_Orders( self::items(), self::sales(), self::sales_service() ) )->register();
+			( new Cmshop_Woo_Orders( self::items(), self::sales(), self::sales_service(), self::woo_models() ) )->register();
 		}
 
 		if ( is_admin() ) {
@@ -215,7 +216,25 @@ final class Cmshop_Plugin {
 		return self::service(
 			'woo_products',
 			static function () {
-				return new Cmshop_Woo_Products( self::items() );
+				return new Cmshop_Woo_Products( self::items(), self::woo_models() );
+			}
+		);
+	}
+
+	/**
+	 * WooCommerce model listings (new phones), or null without WooCommerce.
+	 *
+	 * @return Cmshop_Woo_Models|null
+	 */
+	public static function woo_models(): ?Cmshop_Woo_Models {
+		if ( ! class_exists( 'Cmshop_Woo_Models' ) ) {
+			return null;
+		}
+
+		return self::service(
+			'woo_models',
+			static function () {
+				return new Cmshop_Woo_Models( self::items() );
 			}
 		);
 	}
