@@ -116,6 +116,27 @@ $cmshop_name = static function ( string $key ): string {
 			</tr>
 		</table>
 
+		<h2><?php esc_html_e( 'WhatsApp messages', 'codereyes-mobile-shop' ); ?></h2>
+		<p><?php esc_html_e( 'Buttons on receipts, repairs and dues open WhatsApp with these messages already written. You check the text and press send: no API account or fees. Write them in Bangla or English; {words} in braces are filled in for you. Clear a box to go back to the default wording.', 'codereyes-mobile-shop' ); ?></p>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="cmshop-wa-country"><?php esc_html_e( 'Country calling code', 'codereyes-mobile-shop' ); ?></label></th>
+				<td>
+					+<input type="text" id="cmshop-wa-country" class="small-text" inputmode="numeric" maxlength="4" name="<?php echo esc_attr( $cmshop_name( 'wa_country' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['wa_country'] ); ?>">
+					<p class="description"><?php esc_html_e( 'Added to local numbers, so 01712-345678 is sent to +880 1712-345678.', 'codereyes-mobile-shop' ); ?></p>
+				</td>
+			</tr>
+			<?php foreach ( Cmshop_Messages::templates() as $cmshop_key => $cmshop_template ) : ?>
+				<tr>
+					<th scope="row"><label for="cmshop-<?php echo esc_attr( $cmshop_key ); ?>"><?php echo esc_html( $cmshop_template[0] ); ?></label></th>
+					<td>
+						<textarea id="cmshop-<?php echo esc_attr( $cmshop_key ); ?>" class="large-text code" rows="6" name="<?php echo esc_attr( $cmshop_name( $cmshop_key ) ); ?>"><?php echo esc_textarea( Cmshop_Messages::template( $cmshop_key ) ); ?></textarea>
+						<p class="description"><?php echo esc_html( $cmshop_template[2] ); ?></p>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
+
 		<h2><?php esc_html_e( 'Website shortcodes', 'codereyes-mobile-shop' ); ?></h2>
 		<p><?php esc_html_e( 'Add these to any page with the "Mobile Shop" blocks in the block editor, the "Mobile Shop" widgets in Elementor, or the shortcodes below. Every one also accepts accent="#0d9488" and radius="16".', 'codereyes-mobile-shop' ); ?></p>
 		<table class="widefat striped cmshop-shortcodes">

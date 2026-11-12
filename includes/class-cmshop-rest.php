@@ -220,10 +220,13 @@ final class Cmshop_Rest {
 			return self::envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'codereyes-mobile-shop' ), 500 );
 		}
 
+		$sale = (array) Cmshop_Plugin::sales()->find( $sale_id );
+
 		return self::envelope(
 			array(
 				'sale_id'     => $sale_id,
 				'receipt_url' => admin_url( 'admin.php?page=cmshop-sales&action=view&id=' . $sale_id ),
+				'whatsapp'    => Cmshop_Messages::receipt( $sale, Cmshop_Plugin::sales()->lines( $sale_id ), $text( 'customer_name' ), $text( 'customer_phone' ) ),
 			),
 			null,
 			201

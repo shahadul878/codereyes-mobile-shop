@@ -1,4 +1,4 @@
-/* Codereyes Mobile Shop — dues, installments, returns, shifts. Uses tokens from admin.css. */
+/* Codereyes Mobile Shop — dues, installments, returns, shifts, WhatsApp buttons. Uses tokens from admin.css. */
 
 .cmshop-dues-summary {
 	display: grid;
@@ -214,4 +214,36 @@
 	.cmshop-count {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
+}
+
+/* ---------- WhatsApp buttons ---------- */
+
+.wp-core-ui .cmshop-wrap .cmshop-wa {
+	display: inline-flex;
+	gap: 6px;
+	align-items: center;
+	border-color: var(--cmshop-wa);
+	background: var(--cmshop-wa);
+	color: #fff;
+}
+
+.wp-core-ui .cmshop-wrap .cmshop-wa:hover,
+.wp-core-ui .cmshop-wrap .cmshop-wa:focus {
+	border-color: var(--cmshop-wa-strong);
+	background: var(--cmshop-wa-strong);
+	color: #fff;
+}
+
+.cmshop-wa .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+.cmshop-row-buttons {
+	white-space: nowrap;
+}
+
+.cmshop-row-buttons .button + .button {
+	margin-left: 6px;
 }

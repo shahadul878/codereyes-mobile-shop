@@ -145,27 +145,34 @@ final class Cmshop_Dues_Service {
 	public function debtors(): array {
 		return array_map(
 			function ( array $row ): array {
-				$overdue = 0;
-				$next    = '';
-
-				foreach ( $this->installments->unpaid_sales( (int) $row['customer_id'] ) as $sale ) {
-					$schedule = $this->schedule( $sale );
-
-					if ( null !== $schedule ) {
-						$overdue += $schedule['summary']['overdue'];
-						$next     = '' === $next || ( '' !== $schedule['summary']['next_date'] && $schedule['summary']['next_date'] < $next ) ? $schedule['summary']['next_date'] : $next;
-					}
-				}
-
-				return array_merge(
-					$row,
-					array(
-						'overdue'   => $overdue,
-						'next_date' => $next,
-					)
-				);
+				return array_merge( $row, $this->standing( (int) $row['customer_id'] ) );
 			},
 			$this->installments->debtors( Cmshop_Installer::table( 'customers' ) )
+		);
+	}
+
+	/**
+	 * What a customer has overdue and when their next installment falls.
+	 *
+	 * @param int $customer_id Customer.
+	 * @return array{overdue: int, next_date: string} Overdue in cents; next date Y-m-d or ''.
+	 */
+	public function standing( int $customer_id ): array {
+		$overdue = 0;
+		$next    = '';
+
+		foreach ( $this->installments->unpaid_sales( $customer_id ) as $sale ) {
+			$schedule = $this->schedule( $sale );
+
+			if ( null !== $schedule ) {
+				$overdue += $schedule['summary']['overdue'];
+				$next     = '' === $next || ( '' !== $schedule['summary']['next_date'] && $schedule['summary']['next_date'] < $next ) ? $schedule['summary']['next_date'] : $next;
+			}
+		}
+
+		return array(
+			'overdue'   => $overdue,
+			'next_date' => $next,
 		);
 	}
 }

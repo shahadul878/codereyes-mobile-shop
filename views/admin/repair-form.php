@@ -27,6 +27,9 @@ $cmshop_errors = $cmshop['errors'];
 	<?php if ( null !== $cmshop_repair ) : ?>
 		<?php echo wp_kses_post( Cmshop_View::badge( Cmshop_Repair_Status::label( (string) $cmshop_repair['status'] ), (string) $cmshop_repair['status'] ) ); ?>
 		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-repairs', array( 'action' => 'ticket', 'id' => (int) $cmshop_repair['id'] ) ) ); ?>"><?php esc_html_e( 'Print job ticket', 'codereyes-mobile-shop' ); ?></a>
+		<?php if ( ! in_array( $cmshop_repair['status'], array( Cmshop_Repair_Status::COLLECTED, Cmshop_Repair_Status::CANCELLED ), true ) ) : ?>
+			<?php Cmshop_View::whatsapp( Cmshop_Messages::repair( $cmshop_repair ), Cmshop_Repair_Status::READY === $cmshop_repair['status'] ? __( 'Tell customer it is ready', 'codereyes-mobile-shop' ) : __( 'Send update on WhatsApp', 'codereyes-mobile-shop' ), 'page-title-action' ); ?>
+		<?php endif; ?>
 	<?php endif; ?>
 	<hr class="wp-header-end">
 

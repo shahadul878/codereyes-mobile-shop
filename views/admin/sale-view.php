@@ -119,6 +119,9 @@ $cmshop_is_a4 = Cmshop_Invoice_Format::A4 === $cmshop_format;
 			<button type="button" class="button button-primary cmshop-print">
 				<?php $cmshop_is_a4 ? esc_html_e( 'Print invoice', 'codereyes-mobile-shop' ) : esc_html_e( 'Print receipt', 'codereyes-mobile-shop' ); ?>
 			</button>
+			<?php if ( ! $cmshop_is_void ) : ?>
+				<?php Cmshop_View::whatsapp( Cmshop_Messages::receipt( $cmshop_sale, $cmshop['lines'], (string) ( $cmshop['customer']['name'] ?? '' ), (string) ( $cmshop['customer']['phone'] ?? '' ) ), __( 'Send on WhatsApp', 'codereyes-mobile-shop' ) ); ?>
+			<?php endif; ?>
 		</div>
 	</div>
 

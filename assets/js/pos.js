@@ -511,6 +511,7 @@
 
 			box.querySelector( '[data-receipt="thermal"]' ).href = url + '&format=thermal&print=1';
 			box.querySelector( '[data-receipt="a4"]' ).href = url + '&format=a4&print=1';
+			box.querySelector( '[data-receipt="whatsapp"]' ).href = response.data.whatsapp;
 			box.querySelector( '[data-done-text]' ).textContent = 0 < sums.change
 				? sprintf( /* translators: %s: change. */ __( 'Give change: %s', 'codereyes-mobile-shop' ), money( sums.change ) )
 				: ( 0 < sums.due ? sprintf( /* translators: %s: amount owed. */ __( '%s added to the customer\'s account', 'codereyes-mobile-shop' ), money( sums.due ) ) : __( 'Paid in full', 'codereyes-mobile-shop' ) );

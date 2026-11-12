@@ -172,6 +172,7 @@ defined( 'ABSPATH' ) || exit;
 		<div class="cmshop-pos-done-actions">
 			<a class="button" data-receipt="thermal" target="_blank" rel="noopener"><?php esc_html_e( 'Print receipt', 'codereyes-mobile-shop' ); ?></a>
 			<a class="button" data-receipt="a4" target="_blank" rel="noopener"><?php esc_html_e( 'A4 invoice', 'codereyes-mobile-shop' ); ?></a>
+			<a class="button cmshop-wa" data-receipt="whatsapp" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Send on WhatsApp', 'codereyes-mobile-shop' ); ?></a>
 			<button type="button" class="button button-primary" data-action="new-sale"><?php esc_html_e( 'New sale', 'codereyes-mobile-shop' ); ?> <kbd>Enter</kbd></button>
 		</div>
 	</dialog>

@@ -161,6 +161,23 @@ final class Cmshop_View {
 	}
 
 	/**
+	 * Button that opens WhatsApp with a ready-written message.
+	 *
+	 * @param string $url   wa.me link.
+	 * @param string $label Button text.
+	 * @param string $classes Button classes (e.g. page-title-action).
+	 */
+	public static function whatsapp( string $url, string $label, string $classes = 'button' ): void {
+		printf(
+			'<a class="%1$s cmshop-wa" href="%2$s" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-format-chat" aria-hidden="true"></span>%3$s<span class="screen-reader-text"> %4$s</span></a>',
+			esc_attr( $classes ),
+			esc_url( $url, array( 'https' ) ),
+			esc_html( $label ),
+			esc_html__( '(opens WhatsApp in a new tab)', 'codereyes-mobile-shop' )
+		);
+	}
+
+	/**
 	 * Coloured status badge.
 	 *
 	 * @param string $text     Label.

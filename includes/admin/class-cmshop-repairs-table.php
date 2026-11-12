@@ -96,6 +96,14 @@ final class Cmshop_Repairs_Table extends Cmshop_List_Table {
 			),
 		);
 
+		if ( in_array( $item['status'], Cmshop_Repair_Status::open(), true ) && '' !== (string) $item['customer_phone'] ) {
+			$actions['whatsapp'] = sprintf(
+				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+				esc_url( Cmshop_Messages::repair( $item ), array( 'https' ) ),
+				Cmshop_Repair_Status::READY === $item['status'] ? esc_html__( 'WhatsApp: ready', 'codereyes-mobile-shop' ) : esc_html__( 'WhatsApp update', 'codereyes-mobile-shop' )
+			);
+		}
+
 		return $this->link(
 			(string) $item['ticket_code'],
 			array(

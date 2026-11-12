@@ -31,6 +31,24 @@ $cmshop_states = array(
 		?>
 	</h1>
 	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-dues' ) ); ?>"><?php esc_html_e( 'All dues', 'codereyes-mobile-shop' ); ?></a>
+	<?php if ( $cmshop_owed > 0 ) : ?>
+		<?php
+		Cmshop_View::whatsapp(
+			Cmshop_Messages::due(
+				array_merge(
+					array(
+						'name'  => (string) $cmshop_customer['name'],
+						'phone' => (string) $cmshop_customer['phone'],
+						'owed'  => Cmshop_Money::from_cents( $cmshop_owed ),
+					),
+					Cmshop_Plugin::dues()->standing( (int) $cmshop_customer['id'] )
+				)
+			),
+			__( 'Send reminder', 'codereyes-mobile-shop' ),
+			'page-title-action'
+		);
+		?>
+	<?php endif; ?>
 	<hr class="wp-header-end">
 	<?php Cmshop_View::notice(); ?>
 	<?php Cmshop_View::error_summary( $cmshop['errors'] ); ?>

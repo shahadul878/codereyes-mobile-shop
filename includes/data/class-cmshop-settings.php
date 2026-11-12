@@ -40,6 +40,12 @@ final class Cmshop_Settings {
 			'warranty_new'    => 365,
 			'warranty_used'   => 30,
 			'woo_sync'        => 1,
+			'wa_country'      => Cmshop_Whatsapp::DEFAULT_COUNTRY,
+			// Empty templates use the built-in (translated) wording.
+			'wa_receipt'      => '',
+			'wa_repair'       => '',
+			'wa_ready'        => '',
+			'wa_due'          => '',
 		);
 	}
 
@@ -157,6 +163,25 @@ final class Cmshop_Settings {
 			'warranty_new'    => min( self::MAX_WARRANTY_DAYS, absint( $input['warranty_new'] ?? $defaults['warranty_new'] ) ),
 			'warranty_used'   => min( self::MAX_WARRANTY_DAYS, absint( $input['warranty_used'] ?? $defaults['warranty_used'] ) ),
 			'woo_sync'        => empty( $input['woo_sync'] ) ? 0 : 1,
+			'wa_country'      => Cmshop_Whatsapp::country( $text( 'wa_country', 6 ) ),
+			'wa_receipt'      => self::template( $area( 'wa_receipt' ), Cmshop_Messages::RECEIPT ),
+			'wa_repair'       => self::template( $area( 'wa_repair' ), Cmshop_Messages::REPAIR ),
+			'wa_ready'        => self::template( $area( 'wa_ready' ), Cmshop_Messages::READY ),
+			'wa_due'          => self::template( $area( 'wa_due' ), Cmshop_Messages::DUE ),
 		);
+	}
+
+	/**
+	 * A message template, stored empty when it matches the default so the
+	 * shop keeps getting translated wording until they change it.
+	 *
+	 * @param string $text Submitted text.
+	 * @param string $key  Template key.
+	 * @return string
+	 */
+	private static function template( string $text, string $key ): string {
+		$default = Cmshop_Messages::templates()[ $key ][1];
+
+		return trim( str_replace( "\r\n", "\n", $text ) ) === trim( $default ) ? '' : $text;
 	}
 }

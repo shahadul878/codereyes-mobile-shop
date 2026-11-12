@@ -74,7 +74,10 @@ $cmshop_format  = (string) get_option( 'date_format' );
 						</td>
 						<td><?php echo esc_html( '' === $cmshop_row['next_date'] ? '—' : (string) mysql2date( $cmshop_format, $cmshop_row['next_date'] ) ); ?></td>
 						<td><?php echo esc_html( Cmshop_View::date( (string) $cmshop_row['oldest'], false ) ); ?></td>
-						<td><a class="button button-primary" href="<?php echo esc_url( $cmshop_url ); ?>"><?php esc_html_e( 'Collect', 'codereyes-mobile-shop' ); ?></a></td>
+						<td class="cmshop-row-buttons">
+							<a class="button button-primary" href="<?php echo esc_url( $cmshop_url ); ?>"><?php esc_html_e( 'Collect', 'codereyes-mobile-shop' ); ?></a>
+							<?php Cmshop_View::whatsapp( Cmshop_Messages::due( $cmshop_row ), __( 'Remind', 'codereyes-mobile-shop' ) ); ?>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
