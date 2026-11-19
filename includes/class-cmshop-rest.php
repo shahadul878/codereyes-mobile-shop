@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Rest {
 
-	public const NAMESPACE = 'cmshop/v1';
+	public const ROUTE_NAMESPACE = 'cmshop/v1';
 
 	private const MIN_SEARCH = 2;
 	private const MAX_SEARCH = 64;
@@ -73,7 +73,7 @@ final class Cmshop_Rest {
 		);
 
 		register_rest_route(
-			self::NAMESPACE,
+			self::ROUTE_NAMESPACE,
 			'/pos/items',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -84,7 +84,7 @@ final class Cmshop_Rest {
 		);
 
 		register_rest_route(
-			self::NAMESPACE,
+			self::ROUTE_NAMESPACE,
 			'/pos/customers',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -95,7 +95,7 @@ final class Cmshop_Rest {
 		);
 
 		register_rest_route(
-			self::NAMESPACE,
+			self::ROUTE_NAMESPACE,
 			'/pos/checkout',
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,

@@ -135,7 +135,7 @@ final class Cmshop_Admin {
 			'cmshop-pos',
 			'cmshopPos',
 			array(
-				'namespace' => Cmshop_Rest::NAMESPACE,
+				'namespace' => Cmshop_Rest::ROUTE_NAMESPACE,
 				'symbol'    => Cmshop_Settings::currency_symbol(),
 				'preselect' => $this->preselected_item(),
 				'methods'   => Cmshop_Settings::payment_methods(),

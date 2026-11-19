@@ -66,7 +66,7 @@ final class Cmshop_Pos_Rest {
 		$sell = array( Cmshop_Rest::class, 'can_sell' );
 
 		register_rest_route(
-			Cmshop_Rest::NAMESPACE,
+			Cmshop_Rest::ROUTE_NAMESPACE,
 			'/pos/catalog',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -76,7 +76,7 @@ final class Cmshop_Pos_Rest {
 		);
 
 		register_rest_route(
-			Cmshop_Rest::NAMESPACE,
+			Cmshop_Rest::ROUTE_NAMESPACE,
 			'/pos/customer',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -93,7 +93,7 @@ final class Cmshop_Pos_Rest {
 		);
 
 		register_rest_route(
-			Cmshop_Rest::NAMESPACE,
+			Cmshop_Rest::ROUTE_NAMESPACE,
 			'/pos/held',
 			array(
 				array(
@@ -120,7 +120,7 @@ final class Cmshop_Pos_Rest {
 		);
 
 		register_rest_route(
-			Cmshop_Rest::NAMESPACE,
+			Cmshop_Rest::ROUTE_NAMESPACE,
 			'/pos/held/(?P<id>[A-Za-z0-9]{12})',
 			array(
 				'methods'             => WP_REST_Server::DELETABLE,

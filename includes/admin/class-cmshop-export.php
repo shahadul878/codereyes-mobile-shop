@@ -17,6 +17,12 @@ final class Cmshop_Export {
 	public const ACTION = 'cmshop_export';
 
 	/**
+	 * CSV escape character, passed explicitly (PHP 8.4 deprecates relying on the default).
+	 * Same as PHP's default, so exported files are unchanged.
+	 */
+	private const CSV_ESCAPE = '\\';
+
+	/**
 	 * Filters accepted per dataset.
 	 */
 	private const FILTERS = array(
@@ -95,12 +101,12 @@ final class Cmshop_Export {
 
 		// UTF-8 byte order mark so Excel shows ৳ and Bengali names correctly.
 		fwrite( $out, "\xEF\xBB\xBF" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Streaming to php://output.
-		fputcsv( $out, array_values( $columns ) );
+		fputcsv( $out, array_values( $columns ), ',', '"', self::CSV_ESCAPE );
 
 		$repository->each(
 			$args,
 			static function ( array $row ) use ( $out, $columns ) {
-				fputcsv( $out, Cmshop_Csv::row( $row, $columns ) );
+				fputcsv( $out, Cmshop_Csv::row( $row, $columns ), ',', '"', self::CSV_ESCAPE );
 			}
 		);
 
