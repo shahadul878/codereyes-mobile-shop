@@ -1,5 +1,6 @@
 # Updates readme.txt and the banner, icon and screenshots on WordPress.org
-# without a new release. Needs the same SVN_USERNAME and SVN_PASSWORD secrets.
+# without a new release. Needs the same SVN_USERNAME and SVN_PASSWORD secrets
+# and the repository variable WPORG_DEPLOY set to true.
 name: Update WordPress.org readme and assets
 
 on:
@@ -14,6 +15,8 @@ permissions:
 
 jobs:
   assets:
+    # Skipped until the SVN secrets are added (after WordPress.org approves the plugin).
+    if: ${{ vars.WPORG_DEPLOY == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

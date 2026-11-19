@@ -1,5 +1,6 @@
 # Publishes a GitHub release to the WordPress.org plugin directory (SVN trunk + tag).
-# Needs repository secrets SVN_USERNAME and SVN_PASSWORD (your WordPress.org login).
+# Needs repository secrets SVN_USERNAME and SVN_PASSWORD (your WordPress.org login)
+# and the repository variable WPORG_DEPLOY set to true.
 name: Deploy to WordPress.org
 
 on:
@@ -11,6 +12,8 @@ permissions:
 
 jobs:
   deploy:
+    # Skipped until the SVN secrets are added (after WordPress.org approves the plugin).
+    if: ${{ vars.WPORG_DEPLOY == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
