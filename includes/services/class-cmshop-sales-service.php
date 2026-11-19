@@ -330,7 +330,7 @@ final class Cmshop_Sales_Service {
 			$result = Cmshop_Validator::trade_in( is_array( $form ) ? $form : array() );
 
 			if ( ! $result->is_valid() ) {
-				/* translators: %s: what is wrong with the traded-in phone. */
+				/* translators: %s: the phone traded in, the customer it came from, or what is wrong with it. */
 				throw new InvalidArgumentException( sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop' ), (string) current( $result->errors() ) ) );
 			}
 
@@ -395,7 +395,7 @@ final class Cmshop_Sales_Service {
 				array_merge(
 					$item,
 					array(
-						/* translators: %s: customer name. */
+						/* translators: %s: the phone traded in, the customer it came from, or what is wrong with it. */
 						'supplier'   => mb_substr( sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop' ), $customer ), 0, 150 ),
 						/* translators: 1: invoice number, 2: checks done. */
 						'notes'      => sprintf( __( 'Taken in trade on %1$s. Checked: %2$s', 'codereyes-mobile-shop' ), $invoice, array() === $checks ? '—' : implode( ', ', $checks ) ),

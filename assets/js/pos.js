@@ -157,7 +157,7 @@
 	function renderTrades() {
 		ui.trades.replaceChildren( ...state.trades.map( ( trade, index ) => el( 'li', { className: 'cmshop-pos-line', 'data-trade': String( index ) }, [
 			el( 'div', { className: 'cmshop-pos-line__main' }, [
-				/* translators: %s: phone taken in trade. */
+				/* translators: %s: the phone traded in, the customer it came from, or what is wrong with it. */
 				el( 'strong', { text: sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop' ), [ trade.brand, trade.model, trade.storage ].filter( Boolean ).join( ' ' ) ) } ),
 				el( 'code', { text: 'IMEI ' + trade.imei1 } ),
 			] ),
@@ -221,8 +221,7 @@
 
 		plan.hidden = 0 >= due;
 		find( '[data-plan-each]' ).textContent = 0 < count && 0 < due
-			/* translators: 1: number of installments, 2: amount of each. */
-			? sprintf( __( '%1$d payments of about %2$s', 'codereyes-mobile-shop' ), count, money( Math.floor( due / count ) ) )
+			? sprintf( /* translators: 1: number of installments, 2: amount of each. */ __( '%1$d payments of about %2$s', 'codereyes-mobile-shop' ), count, money( Math.floor( due / count ) ) )
 			: '';
 	}
 

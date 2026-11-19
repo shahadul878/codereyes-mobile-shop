@@ -1,0 +1,3933 @@
+# Copyright (C) 2026 H M Shahadul Islam
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Codereyes Mobile Shop 1.3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/codereyes-mobile-shop\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-12T18:17:32+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: codereyes-mobile-shop\n"
+
+#. Plugin Name of the plugin
+#: codereyes-mobile-shop.php
+msgid "Codereyes Mobile Shop"
+msgstr ""
+
+#. Description of the plugin
+#: codereyes-mobile-shop.php
+msgid "Run a mobile phone shop in store and online: IMEI stock, full-screen POS, installments, trade-ins, repairs, suppliers, cashiers and WooCommerce sync."
+msgstr ""
+
+#. Author of the plugin
+#: codereyes-mobile-shop.php
+msgid "H M Shahadul Islam"
+msgstr ""
+
+#. Author URI of the plugin
+#: codereyes-mobile-shop.php
+msgid "https://github.com/shahadul878"
+msgstr ""
+
+#: includes/admin/class-cmshop-actions.php:221
+msgid "Another customer already has this phone number."
+msgstr ""
+
+#. translators: 1: phone name, 2: stock item ID.
+#: includes/admin/class-cmshop-actions.php:528
+#, php-format
+msgid "This IMEI is already in stock: %1$s (item #%2$d)."
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:45
+#: includes/integrations/class-cmshop-blocks.php:80
+#: includes/integrations/class-cmshop-elementor.php:45
+msgid "Mobile Shop"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:48
+#: views/admin/pos.php:13
+msgid "Dashboard"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:49
+msgid "New sale (POS)"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:50
+#: views/admin/list.php:14
+#: views/admin/stickers.php:42
+msgid "Stock"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:51
+#: views/admin/purchase-form.php:99
+#: views/admin/suppliers.php:15
+msgid "Suppliers"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:52
+#: views/admin/dashboard.php:126
+#: views/admin/list.php:15
+#: views/admin/staff.php:40
+msgid "Sales"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:53
+#: views/admin/customer-form.php:83
+#: views/admin/list.php:16
+msgid "Repairs"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:54
+#: views/admin/list.php:17
+msgid "Customers"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:55
+#: views/admin/dues.php:18
+msgid "Dues"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:56
+#: views/admin/shift-report.php:29
+#: views/admin/shifts.php:19
+msgid "Cash register"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:57
+#: views/admin/staff.php:20
+msgid "Staff and commission"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:64
+#: includes/admin/class-cmshop-admin.php:165
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:292
+msgid "Added today"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:293
+msgid "Added in the last 7 days"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:294
+msgid "Added in the last 30 days"
+msgstr ""
+
+#: includes/admin/class-cmshop-admin.php:613
+#: includes/admin/class-cmshop-supplier-pages.php:26
+msgid "You do not have permission to view this page."
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:24
+#: views/admin/customer-form.php:27
+#: views/admin/item-form.php:159
+#: views/admin/supplier-form.php:25
+msgid "Name"
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:25
+#: includes/core/class-cmshop-item.php:33
+#: views/admin/customer-form.php:32
+#: views/admin/item-form.php:52
+#: views/admin/settings.php:35
+#: views/admin/supplier-form.php:28
+msgid "Phone"
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:26
+#: views/admin/customer-form.php:46
+#: views/frontend/repair-request.php:82
+msgid "Email"
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:27
+#: includes/admin/class-cmshop-items-table.php:33
+msgid "Added"
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:63
+msgid "Edit & history"
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:68
+msgid "Delete this customer?"
+msgstr ""
+
+#: includes/admin/class-cmshop-customers-table.php:69
+#: includes/admin/class-cmshop-items-table.php:128
+#: includes/admin/class-cmshop-repairs-table.php:95
+msgid "Delete"
+msgstr ""
+
+#: includes/admin/class-cmshop-dashboard.php:119
+msgid "Today"
+msgstr ""
+
+#: includes/admin/class-cmshop-dashboard.php:120
+msgid "Last 7 days"
+msgstr ""
+
+#: includes/admin/class-cmshop-dashboard.php:121
+msgid "This month"
+msgstr ""
+
+#: includes/admin/class-cmshop-dashboard.php:122
+msgid "Last month"
+msgstr ""
+
+#. translators: %d: repairs ready to collect.
+#: includes/admin/class-cmshop-dashboard.php:145
+#, php-format
+msgid "%d repair is ready: call the customer"
+msgid_plural "%d repairs are ready: call the customers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: repairs booked on the website.
+#: includes/admin/class-cmshop-dashboard.php:155
+#, php-format
+msgid "%d repair booked online: confirm with the customer"
+msgid_plural "%d repairs booked online: confirm with the customers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: overdue repairs.
+#: includes/admin/class-cmshop-dashboard.php:165
+#, php-format
+msgid "%d repair is past its promised date"
+msgid_plural "%d repairs are past their promised date"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: accessories running low.
+#: includes/admin/class-cmshop-dashboard.php:175
+#, php-format
+msgid "Reorder %d accessory that is running low"
+msgid_plural "Reorder %d accessories that are running low"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: amount owed, 2: number of unpaid sales.
+#: includes/admin/class-cmshop-dashboard.php:185
+#, php-format
+msgid "Collect %1$s owed on %2$d sale"
+msgid_plural "Collect %1$s owed on %2$d sales"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount owed to suppliers.
+#: includes/admin/class-cmshop-dashboard.php:197
+#, php-format
+msgid "You owe suppliers %s"
+msgstr ""
+
+#: includes/admin/class-cmshop-dashboard.php:205
+msgid "Count the cash drawer before closing"
+msgstr ""
+
+#: includes/admin/class-cmshop-export.php:71
+msgid "You do not have permission to export."
+msgstr ""
+
+#: includes/admin/class-cmshop-export.php:81
+msgid "Unknown export."
+msgstr ""
+
+#: includes/admin/class-cmshop-export.php:93
+msgid "The export could not be started."
+msgstr ""
+
+#: includes/admin/class-cmshop-handler.php:60
+msgid "You do not have permission to do that."
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:25
+#: views/admin/invoice/thermal.php:45
+#: views/admin/purchase-form.php:84
+#: views/admin/purchase-view.php:74
+#: views/admin/sale-return.php:39
+msgid "Item"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:26
+#: views/admin/purchase-view.php:75
+msgid "IMEI / SKU"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:27
+#: includes/admin/class-cmshop-items-table.php:84
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:93
+#: includes/woo/class-cmshop-woo-models.php:222
+#: includes/woo/class-cmshop-woo-products.php:381
+#: views/admin/item-form.php:139
+#: views/admin/pos.php:144
+#: views/admin/purchase-form.php:62
+#: assets/js/blocks.js:84
+msgid "Condition"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:28
+#: views/admin/invoice/a4.php:78
+msgid "Qty"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:29
+#: views/admin/purchase-view.php:77
+msgid "Cost"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:30
+#: views/admin/item-form.php:207
+#: views/admin/purchase-view.php:78
+#: views/admin/stickers.php:72
+#: assets/js/pos.js:141
+msgid "Price"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:31
+#: includes/admin/class-cmshop-items-table.php:83
+#: includes/admin/class-cmshop-repairs-table.php:27
+#: includes/admin/class-cmshop-repairs-table.php:53
+#: includes/admin/class-cmshop-sales-table.php:38
+#: includes/admin/class-cmshop-sales-table.php:74
+#: views/admin/repair-form.php:108
+msgid "Status"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:32
+#: includes/admin/class-cmshop-sales-table.php:69
+#: includes/admin/class-cmshop-sales-table.php:138
+#: views/admin/dashboard.php:227
+msgid "Online"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:43
+#: views/admin/purchase-view.php:25
+msgid "Print price stickers"
+msgstr ""
+
+#. translators: %s: item name.
+#: includes/admin/class-cmshop-items-table.php:57
+#, php-format
+msgid "Select %s"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:82
+msgid "Type"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:108
+#: includes/admin/class-cmshop-repairs-table.php:76
+#: views/admin/supplier-view.php:20
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:110
+msgid "Sell"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:122
+msgid "Sticker"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:127
+msgid "Delete this stock item?"
+msgstr ""
+
+#: includes/admin/class-cmshop-items-table.php:220
+msgid "Product"
+msgstr ""
+
+#. translators: %s: filter name, e.g. Status.
+#: includes/admin/class-cmshop-list-table.php:153
+#, php-format
+msgid "All: %s"
+msgstr ""
+
+#: includes/admin/class-cmshop-list-table.php:162
+msgid "Filter"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:24
+#: views/frontend/repair-status.php:78
+msgid "Ticket"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:25
+#: views/admin/repair-form.php:78
+#: views/admin/repair-ticket.php:42
+msgid "Device"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:26
+#: includes/admin/class-cmshop-sales-table.php:33
+#: views/admin/dues.php:46
+#: views/admin/invoice/thermal.php:34
+#: views/admin/repair-ticket.php:41
+msgid "Customer"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:28
+#: views/admin/repair-form.php:126
+#: views/admin/repair-ticket.php:53
+msgid "Estimate"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:29
+#: views/admin/dues-customer.php:23
+#: views/admin/sale-view.php:145
+msgid "Due"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:30
+#: views/admin/repair-ticket.php:40
+#: views/frontend/repair-status.php:82
+msgid "Booked in"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:89
+msgid "Print ticket"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:94
+msgid "Delete this repair job?"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:103
+msgid "WhatsApp: ready"
+msgstr ""
+
+#: includes/admin/class-cmshop-repairs-table.php:103
+msgid "WhatsApp update"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:31
+#: views/admin/invoice/a4.php:35
+#: views/admin/invoice/thermal.php:32
+msgid "Invoice"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:32
+#: views/admin/invoice/a4.php:55
+#: views/admin/invoice/thermal.php:33
+#: views/admin/supplier-view.php:92
+msgid "Date"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:34
+#: includes/admin/class-cmshop-sales-table.php:66
+msgid "Channel"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:35
+#: includes/admin/class-cmshop-sales-table.php:72
+#: views/admin/invoice/a4.php:57
+#: views/admin/invoice/thermal.php:35
+msgid "Payment"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:36
+#: views/admin/invoice/thermal.php:46
+#: views/admin/pos.php:82
+#: views/admin/purchase-form.php:148
+#: views/admin/purchase-view.php:49
+#: views/admin/sale-view.php:48
+#: views/admin/staff.php:59
+#: views/admin/supplier-view.php:95
+msgid "Total"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:37
+#: views/admin/dashboard.php:127
+#: views/admin/staff.php:42
+msgid "Profit"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:68
+#: includes/admin/class-cmshop-sales-table.php:138
+#: views/admin/dashboard.php:227
+#: views/admin/invoice/a4.php:20
+msgid "In store"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:76
+#: includes/admin/class-cmshop-sales-table.php:183
+msgid "Completed"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:77
+#: includes/admin/class-cmshop-sales-table.php:179
+#: views/admin/item-form.php:275
+msgid "Void"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:78
+#: includes/admin/class-cmshop-sales-table.php:180
+#: views/admin/sale-return.php:75
+msgid "Returned"
+msgstr ""
+
+#: includes/admin/class-cmshop-sales-table.php:183
+msgid "Part returned"
+msgstr ""
+
+#: includes/admin/class-cmshop-supplier-actions.php:45
+msgid "Enter the supplier name."
+msgstr ""
+
+#: includes/admin/class-cmshop-supplier-actions.php:59
+msgid "A supplier with this name already exists."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:153
+msgid "Please fix the highlighted fields."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:176
+msgid "(opens WhatsApp in a new tab)"
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:232
+msgid "Stock item saved."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:233
+msgid "Stock item deleted."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:234
+msgid "This item has sales, so it cannot be deleted. Its sales history is kept."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:235
+msgid "Item published to your online shop."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:236
+msgid "Item removed from your online shop."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:237
+msgid "Model published: customers choose storage and colour, and stock follows your shop."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:238
+msgid "Model removed from your online shop. Its phones are still in stock."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:239
+msgid "The item could not be published. Check that WooCommerce is active."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:240
+msgid "Customer saved."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:241
+msgid "Customer deleted."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:242
+msgid "This customer has sales or repairs, so they cannot be deleted."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:243
+msgid "Repair job saved."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:244
+msgid "Repair job deleted."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:245
+msgid "Sale voided. Its items are back in stock."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:246
+msgid "Only completed sales can be voided."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:247
+msgid "That record no longer exists."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:248
+msgid "Shift opened. Good selling!"
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:249
+msgid "Cash movement recorded."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:250
+msgid "Shift closed. Here is the end-of-day report."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:251
+msgid "Return recorded. Stock and money are updated."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:252
+msgid "Payment received and added to the customer's account."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:253
+msgid "Supplier saved."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:254
+msgid "Purchase recorded. Everything below is now in stock."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:255
+msgid "Payment to the supplier recorded."
+msgstr ""
+
+#: includes/admin/class-cmshop-view.php:256
+msgid "Something went wrong while saving. Nothing was changed. Please try again."
+msgstr ""
+
+#: includes/class-cmshop-pos-rest.php:215
+msgid "That held sale was not found."
+msgstr ""
+
+#. translators: %s: lowest price.
+#: includes/class-cmshop-pos-rest.php:234
+#, php-format
+msgid "From %s"
+msgstr ""
+
+#: includes/class-cmshop-rest.php:220
+msgid "The sale could not be saved. Nothing was charged to stock. Please try again."
+msgstr ""
+
+#: includes/class-cmshop-staff.php:56
+msgid "Website orders"
+msgstr ""
+
+#: includes/class-cmshop-staff.php:59
+msgid "Former staff"
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:36
+msgid "Add at least one item to the sale."
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:40
+msgid "A sale can have at most 100 lines."
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:46
+msgid "The discount is not a valid amount."
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:49
+msgid "The discount is larger than the sale."
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:53
+msgid "The amount paid is not a valid amount."
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:84
+msgid "The same item is listed twice. Change its quantity instead."
+msgstr ""
+
+#: includes/core/class-cmshop-cart.php:104
+msgid "An item in the sale no longer exists. Remove it and try again."
+msgstr ""
+
+#. translators: 1: item name, 2: quantity in stock.
+#: includes/core/class-cmshop-cart.php:113
+#, php-format
+msgid "%1$s: only %2$d in stock."
+msgstr ""
+
+#. translators: %s: item name.
+#: includes/core/class-cmshop-cart.php:120
+#, php-format
+msgid "%s: the price is not a valid amount."
+msgstr ""
+
+#: includes/core/class-cmshop-code128.php:60
+msgid "A barcode needs 1 to 48 plain letters, digits or symbols."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:95
+msgid "Choose one of the listed options."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:112
+msgid "Enter an amount such as 12500 or 12,500.50."
+msgstr ""
+
+#. translators: 1: minimum, 2: maximum.
+#: includes/core/class-cmshop-input.php:147
+#, php-format
+msgid "Enter a whole number from %1$d to %2$d."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:166
+msgid "Enter the 15-digit IMEI (dial *#06# on the phone)."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:172
+msgid "This is not a valid IMEI. Check the 15 digits."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:190
+msgid "Enter a phone number."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:196
+msgid "Enter a phone number of 6 to 15 digits."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:212
+msgid "Enter a valid email address."
+msgstr ""
+
+#: includes/core/class-cmshop-input.php:234
+msgid "Enter a date as YYYY-MM-DD."
+msgstr ""
+
+#. translators: %d: maximum number of characters.
+#: includes/core/class-cmshop-input.php:279
+#, php-format
+msgid "Keep this under %d characters."
+msgstr ""
+
+#: includes/core/class-cmshop-installments.php:39
+msgid "Choose 2 to 12 weekly or monthly installments."
+msgstr ""
+
+#: includes/core/class-cmshop-installments.php:43
+msgid "Enter the first installment date as YYYY-MM-DD."
+msgstr ""
+
+#: includes/core/class-cmshop-installments.php:134
+#: includes/services/class-cmshop-dues-service.php:69
+msgid "Enter the amount received."
+msgstr ""
+
+#: includes/core/class-cmshop-installments.php:138
+msgid "That is more than the customer owes."
+msgstr ""
+
+#: includes/core/class-cmshop-invoice-format.php:29
+msgid "Thermal receipt"
+msgstr ""
+
+#: includes/core/class-cmshop-invoice-format.php:30
+#: views/admin/pos.php:174
+msgid "A4 invoice"
+msgstr ""
+
+#: includes/core/class-cmshop-invoice-format.php:41
+msgid "80 mm (standard)"
+msgstr ""
+
+#: includes/core/class-cmshop-invoice-format.php:42
+msgid "58 mm (small)"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:34
+#: views/admin/item-form.php:52
+msgid "Accessory"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:45
+#: views/admin/item-form.php:242
+msgid "In stock"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:46
+msgid "Reserved"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:47
+#: views/admin/invoice/a4.php:59
+msgid "Sold"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:58
+msgid "New (sealed)"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:59
+msgid "Like new"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:60
+msgid "Good"
+msgstr ""
+
+#: includes/core/class-cmshop-item.php:61
+msgid "Fair"
+msgstr ""
+
+#: includes/core/class-cmshop-model-listing.php:157
+#: assets/js/pos.js:341
+msgid "Standard"
+msgstr ""
+
+#: includes/core/class-cmshop-payments.php:44
+msgid "Use at most 5 payment methods in one sale."
+msgstr ""
+
+#: includes/core/class-cmshop-payments.php:54
+msgid "Card, mobile banking and bank payments can't be more than the total. Give change in cash only."
+msgstr ""
+
+#: includes/core/class-cmshop-payments.php:125
+msgid "A payment amount is not valid."
+msgstr ""
+
+#: includes/core/class-cmshop-payments.php:129
+msgid "Choose a payment method for each amount."
+msgstr ""
+
+#: includes/core/class-cmshop-purchase-lines.php:54
+msgid "Add at least one phone or accessory."
+msgstr ""
+
+#. translators: 1: maximum lines, 2: maximum units.
+#: includes/core/class-cmshop-purchase-lines.php:57
+#, php-format
+msgid "Split this into smaller purchases: up to %1$d lines and %2$d units each."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/core/class-cmshop-purchase-lines.php:85
+#, php-format
+msgid "Line %d: enter the brand."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/core/class-cmshop-purchase-lines.php:85
+#, php-format
+msgid "Line %d: enter the model."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/core/class-cmshop-purchase-lines.php:134
+#, php-format
+msgid "Line %d: enter the accessory name or pick one from stock."
+msgstr ""
+
+#. translators: 1: line number, 2: maximum quantity.
+#: includes/core/class-cmshop-purchase-lines.php:139
+#, php-format
+msgid "Line %1$d: enter how many, from 1 to %2$d."
+msgstr ""
+
+#. translators: 1: line number, 2: list of IMEIs.
+#: includes/core/class-cmshop-purchase-lines.php:195
+#, php-format
+msgid "Line %1$d: not valid IMEIs: %2$s. Check the 15 digits."
+msgstr ""
+
+#. translators: 1: line number, 2: list of IMEIs.
+#: includes/core/class-cmshop-purchase-lines.php:200
+#, php-format
+msgid "Line %1$d: scanned twice: %2$s."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/core/class-cmshop-purchase-lines.php:205
+#, php-format
+msgid "Line %d: scan or type at least one IMEI, one per line."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/core/class-cmshop-purchase-lines.php:227
+#, php-format
+msgid "Line %d: enter what you paid for each, e.g. 15000."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/core/class-cmshop-purchase-lines.php:227
+#, php-format
+msgid "Line %d: enter the selling price, e.g. 18500."
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:34
+msgid "Booked online"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:35
+msgid "Received"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:36
+msgid "Diagnosing"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:37
+msgid "Waiting for parts"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:38
+msgid "Repairing"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:39
+msgid "Ready to collect"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:40
+msgid "Collected"
+msgstr ""
+
+#: includes/core/class-cmshop-repair-status.php:41
+msgid "Cancelled"
+msgstr ""
+
+#: includes/core/class-cmshop-returns.php:37
+msgid "Choose at least one item to return."
+msgstr ""
+
+#: includes/core/class-cmshop-returns.php:44
+msgid "That item is not on this sale."
+msgstr ""
+
+#. translators: %d: quantity that can still be returned.
+#: includes/core/class-cmshop-returns.php:51
+#, php-format
+msgid "Only %d of that item can still be returned."
+msgstr ""
+
+#: includes/core/class-cmshop-stickers.php:35
+msgid "Label roll 38 × 25 mm"
+msgstr ""
+
+#: includes/core/class-cmshop-stickers.php:36
+msgid "Label roll 50 × 30 mm"
+msgstr ""
+
+#: includes/core/class-cmshop-stickers.php:37
+msgid "A4 sheet, 21 labels (63.5 × 38.1 mm)"
+msgstr ""
+
+#. translators: %d: battery health percentage.
+#: includes/core/class-cmshop-stickers.php:139
+#: views/frontend/stock.php:104
+#: assets/js/pos-dom.js:56
+#, php-format,js-format
+msgid "Battery %d%%"
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:67
+#: includes/core/class-cmshop-validator.php:86
+msgid "Enter the customer name."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:88
+#: includes/core/class-cmshop-validator.php:176
+msgid "Enter the phone brand and model."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:90
+msgid "Describe the fault."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:111
+msgid "Screen and touch work"
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:112
+msgid "No cracks or bends"
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:113
+msgid "Cameras and speakers work"
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:114
+msgid "iCloud / Google account removed"
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:115
+msgid "Seller showed ID"
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:145
+msgid "A traded-in phone is used: choose its condition."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:149
+#: assets/js/pos.js:421
+msgid "Enter what you are giving for the phone."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:173
+msgid "Enter your name."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:178
+msgid "Tell us what is wrong with the phone."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:196
+msgid "Enter the brand, e.g. Samsung."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:197
+msgid "Enter the model, e.g. Galaxy A15."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:205
+msgid "IMEI 2 must be different from IMEI 1."
+msgstr ""
+
+#: includes/core/class-cmshop-validator.php:228
+msgid "Enter the accessory name, e.g. 20W USB-C charger."
+msgstr ""
+
+#: includes/data/class-cmshop-held-sales.php:51
+msgid "You can hold up to 10 sales. Finish or remove one first."
+msgstr ""
+
+#: includes/data/class-cmshop-held-sales.php:55
+msgid "This sale is too large to hold."
+msgstr ""
+
+#: includes/data/class-cmshop-installer.php:81
+msgid "Shop Cashier"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:35
+msgid "Thank you for shopping with us."
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:38
+msgid "Devices not collected within 60 days may be disposed of. We are not responsible for data loss."
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:62
+#: views/admin/shifts.php:74
+msgid "Cash"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:63
+msgid "Card"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:64
+msgid "Mobile banking (bKash, Nagad, Rocket)"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:65
+msgid "Bank transfer"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:66
+msgid "Online (website order)"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:79
+#: views/admin/pos.php:91
+msgid "Split payment"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:80
+#: views/admin/pos.php:83
+#: views/admin/pos.php:92
+msgid "Trade-in"
+msgstr ""
+
+#: includes/data/class-cmshop-settings.php:81
+#: assets/js/pos.js:232
+msgid "Store credit"
+msgstr ""
+
+#: includes/frontend/class-cmshop-repair-request.php:81
+#: includes/frontend/class-cmshop-repair-tracker.php:81
+#: includes/frontend/class-cmshop-warranty-check.php:92
+msgid "This page has expired. Please reload it and try again."
+msgstr ""
+
+#: includes/frontend/class-cmshop-repair-request.php:110
+msgid "Too many bookings from this connection. Please call us instead."
+msgstr ""
+
+#: includes/frontend/class-cmshop-repair-request.php:125
+msgid "Sorry, we could not save your booking. Please try again or call us."
+msgstr ""
+
+#: includes/frontend/class-cmshop-repair-request.php:174
+msgid "Booked on the website."
+msgstr ""
+
+#. translators: %s: date the customer plans to bring the phone.
+#: includes/frontend/class-cmshop-repair-request.php:178
+#, php-format
+msgid "Preferred drop-off: %s."
+msgstr ""
+
+#. translators: %s: customer email.
+#: includes/frontend/class-cmshop-repair-request.php:183
+#, php-format
+msgid "Email: %s"
+msgstr ""
+
+#. translators: %s: ticket code.
+#: includes/frontend/class-cmshop-repair-request.php:226
+#, php-format
+msgid "Ticket: %s"
+msgstr ""
+
+#. translators: 1: name, 2: phone.
+#: includes/frontend/class-cmshop-repair-request.php:228
+#, php-format
+msgid "Customer: %1$s, %2$s"
+msgstr ""
+
+#. translators: %s: phone model.
+#: includes/frontend/class-cmshop-repair-request.php:230
+#, php-format
+msgid "Device: %s"
+msgstr ""
+
+#. translators: %s: fault description.
+#: includes/frontend/class-cmshop-repair-request.php:232
+#, php-format
+msgid "Fault: %s"
+msgstr ""
+
+#. translators: 1: shop name, 2: ticket code.
+#: includes/frontend/class-cmshop-repair-request.php:248
+#, php-format
+msgid "[%1$s] New repair booking %2$s"
+msgstr ""
+
+#. translators: 1: shop name, 2: ticket code.
+#: includes/frontend/class-cmshop-repair-request.php:259
+#, php-format
+msgid "Your repair booking with %1$s: %2$s"
+msgstr ""
+
+#. translators: %s: customer name.
+#: includes/frontend/class-cmshop-repair-request.php:264
+#, php-format
+msgid "Hello %s,"
+msgstr ""
+
+#. translators: %s: phone model.
+#: includes/frontend/class-cmshop-repair-request.php:267
+#, php-format
+msgid "We have your repair booking for your %s."
+msgstr ""
+
+#. translators: %s: ticket code.
+#: includes/frontend/class-cmshop-repair-request.php:269
+#, php-format
+msgid "Your ticket number is %s. Bring the phone to the shop and quote this number. You can check progress on our website with the ticket number and the last 4 digits of your phone number."
+msgstr ""
+
+#: includes/frontend/class-cmshop-repair-tracker.php:90
+msgid "Too many lookups. Please wait 15 minutes and try again."
+msgstr ""
+
+#: includes/frontend/class-cmshop-repair-tracker.php:96
+msgid "We could not find a repair with that ticket number and phone number."
+msgstr ""
+
+#: includes/frontend/class-cmshop-warranty-check.php:99
+msgid "That is not a valid IMEI. Dial *#06# on the phone to see it (15 digits)."
+msgstr ""
+
+#: includes/frontend/class-cmshop-warranty-check.php:103
+msgid "Too many checks. Please wait 15 minutes and try again."
+msgstr ""
+
+#: includes/frontend/class-cmshop-warranty-check.php:109
+msgid "We have no sale for this IMEI. Only phones bought from our shop can be checked here."
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-repair-request.php:32
+msgid "Book a Repair"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-repair-status.php:32
+msgid "Repair Tracker"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:34
+msgid "Phones in Stock"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:71
+#: assets/js/blocks.js:72
+msgid "What to show"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:79
+#: assets/js/blocks.js:74
+msgid "Items"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:83
+#: includes/woo/class-cmshop-woo-products.php:428
+#: views/admin/purchase-form.php:46
+#: assets/js/blocks.js:77
+msgid "Phones"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:84
+#: includes/woo/class-cmshop-woo-products.php:428
+#: views/admin/purchase-form.php:46
+#: assets/js/blocks.js:78
+#: assets/js/pos.js:28
+msgid "Accessories"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:85
+#: assets/js/blocks.js:79
+msgid "Phones and accessories"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:97
+#: assets/js/blocks.js:87
+msgid "New and used"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:98
+#: assets/js/blocks.js:88
+msgid "New only"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:99
+#: assets/js/blocks.js:89
+msgid "Used only"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:107
+#: assets/js/blocks.js:94
+msgid "Only this brand"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:110
+#: assets/js/blocks.js:95
+msgid "Leave empty to show every brand."
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:117
+#: assets/js/blocks.js:100
+msgid "Columns"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:122
+#: assets/js/blocks.js:101
+msgid "0 fits as many as the page allows."
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:129
+#: assets/js/blocks.js:108
+msgid "Items per page"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-stock.php:140
+msgid "Brand and condition filters"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-warranty.php:32
+msgid "Warranty Check"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:72
+msgid "Content"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:81
+msgid "This form works as it is. Change its look in the Style tab, and shop details under Mobile Shop → Settings."
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:116
+msgid "Colours and shape"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:124
+#: assets/js/blocks.js:42
+msgid "Accent colour"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:133
+msgid "Text on accent"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:142
+msgid "Card background"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:151
+msgid "Card text"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:160
+#: assets/js/blocks.js:51
+msgid "Corner radius"
+msgstr ""
+
+#: includes/integrations/elementor/class-cmshop-elementor-widget.php:177
+msgid "Headings"
+msgstr ""
+
+#: includes/services/class-cmshop-dues-service.php:73
+msgid "Choose how the customer paid."
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:31
+msgid "Receipt after a sale"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:32
+msgid ""
+"Hi {name}, thank you for shopping at {shop}!\n"
+"Invoice {invoice} · {date}\n"
+"{items}\n"
+"Total: *{total}*\n"
+"Paid: {paid}\n"
+"{due_line}\n"
+"{warranty_line}\n"
+"{footer}"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:36
+msgid "Repair status update"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:37
+msgid ""
+"Hi {name}, an update from {shop} on your {device}:\n"
+"Ticket {ticket} is now *{status}*.\n"
+"{note}\n"
+"{shop_phone}"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:41
+msgid "Repair ready to collect"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:42
+msgid ""
+"Hi {name}, good news! Your {device} is repaired and ready to collect from {shop}.\n"
+"Ticket: {ticket}\n"
+"{balance_line}\n"
+"{address}\n"
+"{shop_phone}"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:46
+msgid "Payment reminder"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:47
+msgid ""
+"Hi {name}, a friendly reminder from {shop}.\n"
+"You have *{owed}* still to pay.\n"
+"{overdue_line}\n"
+"{next_line}\n"
+"Thank you! {shop_phone}"
+msgstr ""
+
+#. translators: %s: amount still owed.
+#: includes/services/class-cmshop-messages.php:96
+#, php-format
+msgid "Still to pay: %s"
+msgstr ""
+
+#. translators: %s: amount to pay on collection.
+#: includes/services/class-cmshop-messages.php:124
+#, php-format
+msgid "Amount to pay: %s"
+msgstr ""
+
+#. translators: %s: overdue amount.
+#: includes/services/class-cmshop-messages.php:144
+#, php-format
+msgid "Overdue now: %s"
+msgstr ""
+
+#. translators: %s: date of the next installment.
+#: includes/services/class-cmshop-messages.php:146
+#, php-format
+msgid "Next installment due: %s"
+msgstr ""
+
+#. translators: %s: warranty end date.
+#: includes/services/class-cmshop-messages.php:188
+#, php-format
+msgid "Warranty until %s"
+msgstr ""
+
+#: includes/services/class-cmshop-messages.php:198
+msgid "there"
+msgstr ""
+
+#: includes/services/class-cmshop-purchase-service.php:144
+msgid "That supplier no longer exists."
+msgstr ""
+
+#: includes/services/class-cmshop-purchase-service.php:148
+msgid "Enter the amount you paid."
+msgstr ""
+
+#. translators: %s: amount owed to the supplier.
+#: includes/services/class-cmshop-purchase-service.php:169
+#, php-format
+msgid "That is more than you owe this supplier (%s)."
+msgstr ""
+
+#: includes/services/class-cmshop-purchase-service.php:216
+msgid "That supplier no longer exists. Pick another."
+msgstr ""
+
+#: includes/services/class-cmshop-purchase-service.php:234
+msgid "Pick a supplier or type a new supplier name."
+msgstr ""
+
+#: includes/services/class-cmshop-purchase-service.php:259
+msgid "Paid now must be between 0 and the purchase total."
+msgstr ""
+
+#: includes/services/class-cmshop-purchase-service.php:263
+msgid "Choose how you paid the supplier."
+msgstr ""
+
+#. translators: 1: line number, 2: IMEIs.
+#: includes/services/class-cmshop-purchase-service.php:283
+#, php-format
+msgid "Line %1$d: already in stock: %2$s."
+msgstr ""
+
+#. translators: %d: line number.
+#: includes/services/class-cmshop-purchase-service.php:308
+#, php-format
+msgid "Line %d: that accessory is no longer in stock records. Pick it again."
+msgstr ""
+
+#. translators: %s: purchase numbers.
+#: includes/services/class-cmshop-purchase-service.php:411
+#, php-format
+msgid "Supplier payment for purchase %s"
+msgstr ""
+
+#: includes/services/class-cmshop-returns-service.php:76
+msgid "Store credit (for an exchange)"
+msgstr ""
+
+#: includes/services/class-cmshop-returns-service.php:97
+msgid "Only completed sales can have returns."
+msgstr ""
+
+#: includes/services/class-cmshop-returns-service.php:101
+msgid "This sale is not fully paid. Collect the balance first, or void the sale."
+msgstr ""
+
+#: includes/services/class-cmshop-returns-service.php:105
+msgid "Choose how to give the money back."
+msgstr ""
+
+#: includes/services/class-cmshop-returns-service.php:142
+msgid "Store credit needs a customer on the sale."
+msgstr ""
+
+#: includes/services/class-cmshop-sales-service.php:119
+#: assets/js/pos.js:483
+msgid "Add the customer's phone number to sell on credit."
+msgstr ""
+
+#: includes/services/class-cmshop-sales-service.php:241
+#: views/admin/invoice/a4.php:43
+#: views/admin/pos.php:62
+msgid "Walk-in customer"
+msgstr ""
+
+#: includes/services/class-cmshop-sales-service.php:245
+msgid "The customer phone number should have 6 to 15 digits."
+msgstr ""
+
+#: includes/services/class-cmshop-sales-service.php:308
+msgid "The customer doesn't have that much store credit."
+msgstr ""
+
+#: includes/services/class-cmshop-sales-service.php:323
+msgid "Take at most 3 phones in trade on one sale."
+msgstr ""
+
+#. translators: %s: the phone traded in, the customer it came from, or what is wrong with it.
+#: includes/services/class-cmshop-sales-service.php:334
+#: includes/services/class-cmshop-sales-service.php:399
+#: assets/js/pos.js:161
+#, php-format,js-format
+msgid "Trade-in: %s"
+msgstr ""
+
+#: includes/services/class-cmshop-sales-service.php:342
+msgid "Trade-in: the same IMEI was entered twice."
+msgstr ""
+
+#. translators: %s: IMEI.
+#: includes/services/class-cmshop-sales-service.php:384
+#, php-format
+msgid "Trade-in: IMEI %s is already in your stock."
+msgstr ""
+
+#. translators: 1: invoice number, 2: checks done.
+#: includes/services/class-cmshop-sales-service.php:401
+#, php-format
+msgid "Taken in trade on %1$s. Checked: %2$s"
+msgstr ""
+
+#: includes/services/class-cmshop-shift-service.php:98
+msgid "Enter the cash in the drawer, e.g. 2000."
+msgstr ""
+
+#: includes/services/class-cmshop-shift-service.php:102
+msgid "You already have an open shift. Close it first."
+msgstr ""
+
+#: includes/services/class-cmshop-shift-service.php:128
+msgid "Open a shift first."
+msgstr ""
+
+#: includes/services/class-cmshop-shift-service.php:132
+msgid "Enter the amount."
+msgstr ""
+
+#: includes/services/class-cmshop-shift-service.php:136
+msgid "Say what the cash was for."
+msgstr ""
+
+#: includes/services/class-cmshop-shift-service.php:169
+msgid "There is no open shift to close."
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-models.php:221
+#: includes/woo/class-cmshop-woo-products.php:378
+#: views/admin/item-form.php:59
+#: views/admin/item-form.php:172
+#: views/admin/pos.php:50
+#: views/admin/pos.php:140
+#: views/admin/purchase-form.php:54
+msgid "Brand"
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-models.php:307
+#: includes/woo/class-cmshop-woo-products.php:379
+#: views/admin/item-form.php:88
+#: views/admin/pos.php:142
+#: views/admin/purchase-form.php:56
+msgid "Storage"
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-models.php:307
+#: includes/woo/class-cmshop-woo-products.php:380
+#: views/admin/item-form.php:100
+#: views/admin/item-form.php:181
+#: views/admin/pos.php:143
+#: views/admin/purchase-form.php:57
+msgid "Colour"
+msgstr ""
+
+#. translators: %d: WooCommerce order number.
+#: includes/woo/class-cmshop-woo-orders.php:133
+#, php-format
+msgid "Website order #%d"
+msgstr ""
+
+#. translators: %s: invoice number.
+#: includes/woo/class-cmshop-woo-orders.php:139
+#, php-format
+msgid "Mobile Shop: recorded as sale %s and removed from shop stock."
+msgstr ""
+
+#. translators: %s: reason.
+#: includes/woo/class-cmshop-woo-orders.php:144
+#, php-format
+msgid "Mobile Shop: could not take this order from shop stock — %s Check the stock before shipping."
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-orders.php:148
+msgid "Mobile Shop: a database error stopped this order being recorded. Record it at the counter."
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-orders.php:164
+msgid "Mobile Shop: sale voided and items returned to shop stock."
+msgstr ""
+
+#. translators: 1: phones in stock, 2: product and option, e.g. "Galaxy A15 - Black, 128GB".
+#: includes/woo/class-cmshop-woo-orders.php:230
+#, php-format
+msgid "only %1$d of %2$s left in the shop."
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-products.php:275
+#: includes/woo/class-cmshop-woo-products.php:293
+msgid "IMEI checked"
+msgstr ""
+
+#. translators: %d: battery health percentage.
+#: includes/woo/class-cmshop-woo-products.php:290
+#, php-format
+msgid "Battery health %d%%"
+msgstr ""
+
+#: includes/woo/class-cmshop-woo-products.php:385
+msgid "Battery health"
+msgstr ""
+
+#: views/admin/customer-form.php:17
+msgid "Add customer"
+msgstr ""
+
+#: views/admin/customer-form.php:57
+#: views/admin/settings.php:31
+#: views/admin/supplier-form.php:38
+msgid "Address"
+msgstr ""
+
+#: views/admin/customer-form.php:58
+msgid "Notes"
+msgstr ""
+
+#: views/admin/customer-form.php:60
+msgid "Save customer"
+msgstr ""
+
+#: views/admin/customer-form.php:61
+#: views/admin/item-form.php:263
+#: views/admin/repair-form.php:176
+msgid "Cancel"
+msgstr ""
+
+#: views/admin/customer-form.php:68
+msgid "Purchases"
+msgstr ""
+
+#: views/admin/customer-form.php:70
+msgid "No purchases yet."
+msgstr ""
+
+#: views/admin/customer-form.php:85
+msgid "No repairs yet."
+msgstr ""
+
+#. translators: %s: staff member's name.
+#: views/admin/dashboard-staff.php:26
+#, php-format
+msgid "Hello, %s"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:32
+#: views/admin/dashboard.php:32
+#: views/admin/list.php:30
+#: views/admin/pos.php:176
+#: views/admin/sale-view.php:97
+msgid "New sale"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:33
+#: views/admin/dashboard.php:33
+msgid "Book in repair"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:39
+msgid "My sales today"
+msgstr ""
+
+#. translators: %d: number of sales.
+#: views/admin/dashboard-staff.php:44
+#: views/admin/dashboard-staff.php:54
+#: views/admin/dashboard.php:50
+#: views/admin/dues.php:63
+#, php-format
+msgid "%d sale"
+msgid_plural "%d sales"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/dashboard-staff.php:49
+msgid "My sales this month"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:60
+msgid "My commission this month"
+msgstr ""
+
+#. translators: %s: commission percentage.
+#: views/admin/dashboard-staff.php:67
+#, php-format
+msgid "%s%% of the profit on your sales"
+msgstr ""
+
+#. translators: %s: commission percentage.
+#: views/admin/dashboard-staff.php:69
+#, php-format
+msgid "%s%% of your sales"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:76
+msgid "My cash register"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:79
+#: views/admin/shifts.php:42
+msgid "Open shift"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:82
+msgid "Count the float before your first sale."
+msgstr ""
+
+#: views/admin/dashboard-staff.php:82
+msgid "Cash that should be in your drawer"
+msgstr ""
+
+#: views/admin/dashboard-staff.php:87
+msgid "At the counter"
+msgstr ""
+
+#. translators: %d: repairs ready to collect.
+#: views/admin/dashboard-staff.php:95
+#, php-format
+msgid "%d repair ready to collect: tell the customer"
+msgid_plural "%d repairs ready to collect: tell the customers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: customers who owe money.
+#: views/admin/dashboard-staff.php:106
+#, php-format
+msgid "%d customer owes money: remind or collect"
+msgid_plural "%d customers owe money: remind or collect"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/dashboard-staff.php:113
+msgid "Count the cash drawer before you leave"
+msgstr ""
+
+#: views/admin/dashboard.php:34
+#: views/admin/item-form.php:21
+#: views/admin/list.php:25
+msgid "Add phone"
+msgstr ""
+
+#: views/admin/dashboard.php:39
+msgid "Install WooCommerce to sell your stock online. Counter sales, repairs and stock work without it."
+msgstr ""
+
+#: views/admin/dashboard.php:44
+msgid "Sales today"
+msgstr ""
+
+#. translators: %d: percent change from yesterday.
+#: views/admin/dashboard.php:57
+#, php-format
+msgid "%d%% vs yesterday"
+msgstr ""
+
+#: views/admin/dashboard.php:64
+msgid "Profit today"
+msgstr ""
+
+#. translators: %d: profit margin percent.
+#: views/admin/dashboard.php:69
+#, php-format
+msgid "%d%% margin"
+msgstr ""
+
+#: views/admin/dashboard.php:74
+msgid "Cash taken today"
+msgstr ""
+
+#. translators: %s: amount received by mobile banking today.
+#: views/admin/dashboard.php:79
+#, php-format
+msgid "Mobile banking %s"
+msgstr ""
+
+#: views/admin/dashboard.php:84
+#: views/admin/dues.php:24
+msgid "Owed to you"
+msgstr ""
+
+#. translators: %d: sales not fully paid.
+#: views/admin/dashboard.php:89
+#, php-format
+msgid "%d unpaid sale"
+msgid_plural "%d unpaid sales"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/dashboard.php:98
+msgid "Sales and profit, last 30 days"
+msgstr ""
+
+#. translators: 1: total sales, 2: total profit.
+#: views/admin/dashboard.php:102
+#, php-format
+msgid "%1$s sales · %2$s profit"
+msgstr ""
+
+#: views/admin/dashboard.php:107
+msgid "Your first sales will show here as a daily chart."
+msgstr ""
+
+#: views/admin/dashboard.php:109
+msgid "Daily sales and profit"
+msgstr ""
+
+#. translators: 1: date, 2: sales, 3: profit.
+#: views/admin/dashboard.php:113
+#, php-format
+msgid "%1$s: %2$s sales, %3$s profit"
+msgstr ""
+
+#: views/admin/dashboard.php:133
+msgid "How customers paid"
+msgstr ""
+
+#: views/admin/dashboard.php:135
+msgid "No payments in the last 30 days."
+msgstr ""
+
+#: views/admin/dashboard.php:137
+msgid "Share of payments by method"
+msgstr ""
+
+#: views/admin/dashboard.php:138
+#: views/admin/settings.php:114
+msgid "sales"
+msgstr ""
+
+#: views/admin/dashboard.php:155
+msgid "Best sellers, 30 days"
+msgstr ""
+
+#: views/admin/dashboard.php:157
+msgid "Nothing sold yet."
+msgstr ""
+
+#. translators: %d: days in stock.
+#: views/admin/dashboard.php:177
+#, php-format
+msgid "In stock over %d days"
+msgstr ""
+
+#: views/admin/dashboard.php:185
+msgid "Every phone is moving. Nothing has sat on the shelf too long."
+msgstr ""
+
+#: views/admin/dashboard.php:195
+msgid "Tip: a small price cut or a website listing often moves these."
+msgstr ""
+
+#: views/admin/dashboard.php:200
+msgid "To do today"
+msgstr ""
+
+#: views/admin/dashboard.php:215
+msgid "Recent sales"
+msgstr ""
+
+#: views/admin/dashboard.php:216
+msgid "All sales"
+msgstr ""
+
+#: views/admin/dashboard.php:219
+msgid "No sales yet. Add your stock, then open New sale to ring up the first one."
+msgstr ""
+
+#: views/admin/dashboard.php:238
+msgid "Repair queue"
+msgstr ""
+
+#: views/admin/dues-customer.php:21
+#: views/admin/sale-return.php:40
+#: views/admin/sale-view.php:74
+#: views/admin/sale-view.php:145
+#: views/admin/supplier-view.php:96
+#: views/admin/supplier-view.php:118
+msgid "Paid"
+msgstr ""
+
+#: views/admin/dues-customer.php:22
+msgid "Part paid"
+msgstr ""
+
+#. translators: %s: customer name.
+#: views/admin/dues-customer.php:30
+#, php-format
+msgid "Dues: %s"
+msgstr ""
+
+#: views/admin/dues-customer.php:33
+msgid "All dues"
+msgstr ""
+
+#: views/admin/dues-customer.php:47
+msgid "Send reminder"
+msgstr ""
+
+#: views/admin/dues-customer.php:58
+msgid "Receive a payment"
+msgstr ""
+
+#. translators: 1: phone, 2: amount owed.
+#: views/admin/dues-customer.php:62
+#, php-format
+msgid "%1$s owes %2$s"
+msgstr ""
+
+#: views/admin/dues-customer.php:72
+msgid "Amount received"
+msgstr ""
+
+#: views/admin/dues-customer.php:84
+#: views/admin/purchase-form.php:136
+#: views/admin/supplier-view.php:50
+msgid "Paid by"
+msgstr ""
+
+#: views/admin/dues-customer.php:87
+msgid "Transaction ID (bKash, card, bank)"
+msgstr ""
+
+#: views/admin/dues-customer.php:88
+msgid "The payment goes to the oldest unpaid sale first."
+msgstr ""
+
+#: views/admin/dues-customer.php:89
+#: views/admin/supplier-view.php:55
+msgid "Record payment"
+msgstr ""
+
+#: views/admin/dues-customer.php:95
+msgid "Unpaid sales"
+msgstr ""
+
+#: views/admin/dues-customer.php:97
+msgid "All paid up."
+msgstr ""
+
+#. translators: 1: total, 2: still owed.
+#: views/admin/dues-customer.php:108
+#, php-format
+msgid "Total %1$s · owes %2$s"
+msgstr ""
+
+#: views/admin/dues-customer.php:118
+#: views/admin/dues.php:48
+#: views/admin/sale-view.php:145
+msgid "Overdue"
+msgstr ""
+
+#. translators: %d: number of customers.
+#: views/admin/dues.php:29
+#, php-format
+msgid "%d customer"
+msgid_plural "%d customers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/dues.php:34
+msgid "Overdue installments"
+msgstr ""
+
+#: views/admin/dues.php:36
+msgid "Call these customers first."
+msgstr ""
+
+#: views/admin/dues.php:41
+msgid "Nobody owes you money. Sales on credit and installment plans show up here."
+msgstr ""
+
+#: views/admin/dues.php:47
+msgid "Owes"
+msgstr ""
+
+#: views/admin/dues.php:49
+msgid "Next installment"
+msgstr ""
+
+#: views/admin/dues.php:50
+msgid "Since"
+msgstr ""
+
+#: views/admin/dues.php:78
+msgid "Collect"
+msgstr ""
+
+#: views/admin/dues.php:79
+msgid "Remind"
+msgstr ""
+
+#: views/admin/invoice/a4.php:20
+msgid "Website"
+msgstr ""
+
+#: views/admin/invoice/a4.php:42
+msgid "Bill to"
+msgstr ""
+
+#: views/admin/invoice/a4.php:70
+#: views/admin/invoice/thermal.php:39
+msgid "VOID"
+msgstr ""
+
+#: views/admin/invoice/a4.php:77
+msgid "Description"
+msgstr ""
+
+#: views/admin/invoice/a4.php:79
+msgid "Unit price"
+msgstr ""
+
+#: views/admin/invoice/a4.php:80
+#: views/admin/shift-report.php:49
+#: views/admin/shifts.php:84
+#: assets/js/pos.js:237
+msgid "Amount"
+msgstr ""
+
+#: views/admin/invoice/a4.php:105
+msgid "Terms"
+msgstr ""
+
+#: views/admin/invoice/a4.php:117
+#: views/admin/repair-ticket.php:68
+msgid "Customer signature"
+msgstr ""
+
+#: views/admin/invoice/a4.php:118
+msgid "Authorised signature"
+msgstr ""
+
+#: views/admin/item-form.php:21
+#: views/admin/list.php:26
+msgid "Add accessory"
+msgstr ""
+
+#: views/admin/item-form.php:31
+msgid "Sell this item"
+msgstr ""
+
+#: views/admin/item-form.php:32
+msgid "Print sticker"
+msgstr ""
+
+#: views/admin/item-form.php:35
+msgid "Add another like this"
+msgstr ""
+
+#: views/admin/item-form.php:43
+msgid "Details copied from the last phone. Scan the new IMEI and check the colour, then add it to stock."
+msgstr ""
+
+#: views/admin/item-form.php:73
+#: views/admin/pos.php:141
+#: views/admin/purchase-form.php:55
+msgid "Model"
+msgstr ""
+
+#: views/admin/item-form.php:114
+msgid "IMEI 1"
+msgstr ""
+
+#: views/admin/item-form.php:121
+msgid "Dial *#06# on the phone. A barcode scanner works here too."
+msgstr ""
+
+#: views/admin/item-form.php:128
+msgid "IMEI 2 (dual SIM)"
+msgstr ""
+
+#: views/admin/item-form.php:143
+#: views/admin/pos.php:153
+msgid "Battery health %"
+msgstr ""
+
+#: views/admin/item-form.php:154
+msgid "Serial number"
+msgstr ""
+
+#: views/admin/item-form.php:164
+msgid "20W USB-C charger"
+msgstr ""
+
+#: views/admin/item-form.php:184
+#: views/admin/purchase-form.php:86
+msgid "SKU / barcode"
+msgstr ""
+
+#: views/admin/item-form.php:188
+msgid "Quantity in stock"
+msgstr ""
+
+#: views/admin/item-form.php:212
+msgid "Cost price"
+msgstr ""
+
+#: views/admin/item-form.php:218
+msgid "What you paid. Never shown to customers."
+msgstr ""
+
+#: views/admin/item-form.php:225
+#: views/admin/purchase-form.php:64
+#: views/admin/purchase-form.php:89
+msgid "Selling price"
+msgstr ""
+
+#: views/admin/item-form.php:235
+msgid "Bought from"
+msgstr ""
+
+#: views/admin/item-form.php:240
+msgid "Availability"
+msgstr ""
+
+#: views/admin/item-form.php:243
+msgid "Reserved for a customer"
+msgstr ""
+
+#: views/admin/item-form.php:250
+msgid "Private notes"
+msgstr ""
+
+#: views/admin/item-form.php:254
+#: views/admin/settings.php:98
+msgid "Online shop"
+msgstr ""
+
+#: views/admin/item-form.php:262
+msgid "Add to stock"
+msgstr ""
+
+#: views/admin/item-form.php:262
+#: views/admin/repair-form.php:175
+msgid "Save changes"
+msgstr ""
+
+#: views/admin/item-form.php:269
+msgid "Sales of this item"
+msgstr ""
+
+#: views/admin/item-photos.php:22
+msgid "Photos"
+msgstr ""
+
+#: views/admin/item-photos.php:27
+msgid "Shown in your stock list and on your website. For a new phone, the photo appears when a customer picks this colour."
+msgstr ""
+
+#: views/admin/item-photos.php:28
+msgid "Shown in your stock list and on your website."
+msgstr ""
+
+#: views/admin/item-photos.php:44
+#: assets/js/item-photos.js:101
+msgid "Change main photo"
+msgstr ""
+
+#: views/admin/item-photos.php:44
+#: assets/js/item-photos.js:101
+msgid "Choose main photo"
+msgstr ""
+
+#: views/admin/item-photos.php:46
+#: views/admin/purchase-form.php:48
+#: assets/js/pos.js:143
+#: assets/js/pos.js:374
+msgid "Remove"
+msgstr ""
+
+#: views/admin/item-photos.php:51
+#: assets/js/item-photos.js:121
+msgid "More photos"
+msgstr ""
+
+#: views/admin/item-photos.php:55
+#: assets/js/item-photos.js:80
+msgid "Remove photo"
+msgstr ""
+
+#: views/admin/item-photos.php:59
+msgid "Add more photos"
+msgstr ""
+
+#. translators: 1: model name, 2: phones in stock, 3: number of colour/storage options.
+#: views/admin/item-website.php:23
+#, php-format
+msgid "Listed on your website as %1$s: %2$d new phone in stock across %3$d option."
+msgid_plural "Listed on your website as %1$s: %2$d new phones in stock across %3$d options."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: option such as "128GB · Black", 2: phones in stock.
+#: views/admin/item-website.php:33
+#, php-format
+msgid "%1$s: %2$d in stock."
+msgstr ""
+
+#: views/admin/item-website.php:37
+msgid "Listed on your website. Stock and price update automatically."
+msgstr ""
+
+#: views/admin/item-website.php:39
+msgid "View"
+msgstr ""
+
+#: views/admin/item-website.php:40
+msgid "Add photos"
+msgstr ""
+
+#. translators: %s: model name.
+#: views/admin/item-website.php:44
+#, php-format
+msgid "Take %s off your website? Every colour and storage option is removed. The phones stay in stock."
+msgstr ""
+
+#. translators: %s: model name.
+#: views/admin/item-website.php:44
+msgid "Remove model from website"
+msgstr ""
+
+#: views/admin/item-website.php:46
+msgid "Remove from website"
+msgstr ""
+
+#. translators: 1: model name, 2: phones in stock.
+#: views/admin/item-website.php:53
+#, php-format
+msgid "Not on your website yet. Publishing lists every new %1$s as one product where customers choose storage and colour (%2$d in stock now). Each order gets the phone of that colour that has been in stock longest. IMEIs stay private."
+msgstr ""
+
+#: views/admin/item-website.php:59
+msgid "Publish model to website"
+msgstr ""
+
+#: views/admin/item-website.php:61
+msgid "Not on your website yet. Publishing creates a WooCommerce product with this price and stock. The IMEI stays private."
+msgstr ""
+
+#: views/admin/item-website.php:62
+msgid "Publish to website"
+msgstr ""
+
+#: views/admin/list.php:14
+msgid "Search name, IMEI, SKU or supplier"
+msgstr ""
+
+#: views/admin/list.php:15
+msgid "Search invoice, customer or phone"
+msgstr ""
+
+#: views/admin/list.php:16
+msgid "Search ticket, customer, phone, device or IMEI"
+msgstr ""
+
+#: views/admin/list.php:17
+msgid "Search name, phone or email"
+msgstr ""
+
+#: views/admin/list.php:27
+msgid "New purchase (bulk)"
+msgstr ""
+
+#: views/admin/list.php:28
+#: views/admin/stickers.php:29
+msgid "Price stickers"
+msgstr ""
+
+#: views/admin/list.php:32
+msgid "Add new"
+msgstr ""
+
+#: views/admin/list.php:36
+msgid "Export CSV"
+msgstr ""
+
+#: views/admin/list.php:47
+#: views/admin/purchase-view.php:33
+#: views/frontend/stock.php:113
+msgid "From"
+msgstr ""
+
+#: views/admin/list.php:49
+msgid "To"
+msgstr ""
+
+#: views/admin/list.php:57
+msgid "Search"
+msgstr ""
+
+#: views/admin/not-found.php:11
+msgid "Not found"
+msgstr ""
+
+#: views/admin/not-found.php:12
+msgid "That record no longer exists. It may have been deleted."
+msgstr ""
+
+#: views/admin/not-found.php:13
+msgid "Back to the dashboard"
+msgstr ""
+
+#: views/admin/pos.php:23
+msgid "Open a shift"
+msgstr ""
+
+#. translators: %s: time the shift opened.
+#: views/admin/pos.php:25
+#, php-format
+msgid "Shift since %s"
+msgstr ""
+
+#: views/admin/pos.php:30
+#: views/admin/pos.php:133
+msgid "Held sales"
+msgstr ""
+
+#: views/admin/pos.php:33
+msgid "Full screen"
+msgstr ""
+
+#: views/admin/pos.php:41
+msgid "Products"
+msgstr ""
+
+#: views/admin/pos.php:44
+#: views/admin/pos.php:45
+msgid "Scan an IMEI or barcode, or type a name"
+msgstr ""
+
+#: views/admin/pos.php:49
+msgid "Item type"
+msgstr ""
+
+#: views/admin/pos.php:56
+msgid "Current sale"
+msgstr ""
+
+#: views/admin/pos.php:59
+#: views/admin/pos.php:60
+msgid "Customer phone"
+msgstr ""
+
+#: views/admin/pos.php:61
+#: views/admin/repair-form.php:49
+msgid "Customer name"
+msgstr ""
+
+#: views/admin/pos.php:69
+msgid "Scan or tap a product to start a sale."
+msgstr ""
+
+#: views/admin/pos.php:72
+msgid "Discount and note"
+msgstr ""
+
+#: views/admin/pos.php:74
+#: views/admin/pos.php:81
+#: views/admin/sale-view.php:45
+msgid "Discount"
+msgstr ""
+
+#: views/admin/pos.php:75
+msgid "Note on receipt"
+msgstr ""
+
+#: views/admin/pos.php:80
+#: views/admin/sale-view.php:41
+msgid "Subtotal"
+msgstr ""
+
+#: views/admin/pos.php:84
+msgid "To pay"
+msgstr ""
+
+#: views/admin/pos.php:89
+msgid "Cash received"
+msgstr ""
+
+#: views/admin/pos.php:96
+msgid "Installments"
+msgstr ""
+
+#: views/admin/pos.php:98
+msgid "No plan"
+msgstr ""
+
+#: views/admin/pos.php:104
+msgid "Every"
+msgstr ""
+
+#: views/admin/pos.php:106
+msgid "Month"
+msgstr ""
+
+#: views/admin/pos.php:107
+msgid "Week"
+msgstr ""
+
+#: views/admin/pos.php:110
+msgid "First payment"
+msgstr ""
+
+#: views/admin/pos.php:120
+msgid "Hold"
+msgstr ""
+
+#: views/admin/pos.php:121
+msgid "Take payment"
+msgstr ""
+
+#: views/admin/pos.php:127
+#: views/admin/pos.php:133
+#: views/admin/pos.php:138
+msgid "Close"
+msgstr ""
+
+#: views/admin/pos.php:138
+msgid "Take a phone in trade"
+msgstr ""
+
+#: views/admin/pos.php:154
+msgid "IMEI (dial *#06#)"
+msgstr ""
+
+#: views/admin/pos.php:155
+msgid "Value you give"
+msgstr ""
+
+#: views/admin/pos.php:157
+msgid "Checked"
+msgstr ""
+
+#: views/admin/pos.php:163
+msgid "Add trade-in"
+msgstr ""
+
+#: views/admin/pos.php:170
+msgid "Sale complete"
+msgstr ""
+
+#: views/admin/pos.php:173
+#: views/admin/sale-view.php:120
+msgid "Print receipt"
+msgstr ""
+
+#: views/admin/pos.php:175
+#: views/admin/sale-view.php:123
+msgid "Send on WhatsApp"
+msgstr ""
+
+#: views/admin/purchase-form.php:63
+#: views/admin/purchase-form.php:88
+msgid "You paid (each)"
+msgstr ""
+
+#: views/admin/purchase-form.php:70
+msgid "IMEIs: scan each phone, one per line"
+msgstr ""
+
+#: views/admin/purchase-form.php:78
+msgid "+ New accessory"
+msgstr ""
+
+#. translators: 1: accessory name, 2: units in stock.
+#: views/admin/purchase-form.php:81
+#, php-format
+msgid "%1$s · %2$d in stock"
+msgstr ""
+
+#: views/admin/purchase-form.php:85
+msgid "New accessory name"
+msgstr ""
+
+#: views/admin/purchase-form.php:85
+msgid "USB-C cable 1m"
+msgstr ""
+
+#: views/admin/purchase-form.php:87
+#: views/admin/stickers.php:61
+msgid "How many"
+msgstr ""
+
+#: views/admin/purchase-form.php:98
+#: views/admin/supplier-view.php:19
+#: views/admin/suppliers.php:16
+#: views/admin/suppliers.php:69
+msgid "New purchase"
+msgstr ""
+
+#: views/admin/purchase-form.php:106
+msgid "Supplier and invoice"
+msgstr ""
+
+#: views/admin/purchase-form.php:108
+#: views/admin/suppliers.php:39
+msgid "Supplier"
+msgstr ""
+
+#: views/admin/purchase-form.php:108
+msgid "+ New supplier"
+msgstr ""
+
+#: views/admin/purchase-form.php:109
+msgid "Their invoice no."
+msgstr ""
+
+#: views/admin/purchase-form.php:110
+msgid "Date received"
+msgstr ""
+
+#: views/admin/purchase-form.php:113
+msgid "New supplier name"
+msgstr ""
+
+#: views/admin/purchase-form.php:114
+msgid "Supplier phone"
+msgstr ""
+
+#: views/admin/purchase-form.php:128
+msgid "Add phones (scan IMEIs)"
+msgstr ""
+
+#: views/admin/purchase-form.php:129
+msgid "Add accessories"
+msgstr ""
+
+#: views/admin/purchase-form.php:133
+msgid "Payment to the supplier"
+msgstr ""
+
+#: views/admin/purchase-form.php:135
+msgid "Paid now"
+msgstr ""
+
+#: views/admin/purchase-form.php:135
+msgid "Leave 0 to owe the supplier the whole amount."
+msgstr ""
+
+#: views/admin/purchase-form.php:137
+msgid "Reference"
+msgstr ""
+
+#: views/admin/purchase-form.php:140
+#: views/admin/purchase-view.php:57
+#: assets/js/pos.js:193
+#: assets/js/pos.js:516
+msgid "Paid in full"
+msgstr ""
+
+#: views/admin/purchase-form.php:141
+msgid "On credit"
+msgstr ""
+
+#: views/admin/purchase-form.php:147
+#: views/admin/supplier-view.php:94
+msgid "Units"
+msgstr ""
+
+#: views/admin/purchase-form.php:149
+msgid "Add everything to stock"
+msgstr ""
+
+#. translators: %d: purchase number.
+#: views/admin/purchase-view.php:21
+#, php-format
+msgid "Purchase #%d"
+msgstr ""
+
+#: views/admin/purchase-view.php:27
+msgid "Another purchase"
+msgstr ""
+
+#. translators: 1: amount paid, 2: amount still owed.
+#: views/admin/purchase-view.php:56
+#, php-format
+msgid "Paid %1$s · you owe %2$s"
+msgstr ""
+
+#. translators: %s: number of units.
+#: views/admin/purchase-view.php:68
+#, php-format
+msgid "%s unit received"
+msgid_plural "%s units received"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/purchase-view.php:76
+msgid "In stock now"
+msgstr ""
+
+#: views/admin/repair-form.php:20
+msgid "Book in a repair"
+msgstr ""
+
+#. translators: %s: ticket code.
+#: views/admin/repair-form.php:23
+#, php-format
+msgid "Repair %s"
+msgstr ""
+
+#: views/admin/repair-form.php:29
+msgid "Print job ticket"
+msgstr ""
+
+#: views/admin/repair-form.php:31
+msgid "Tell customer it is ready"
+msgstr ""
+
+#: views/admin/repair-form.php:31
+msgid "Send update on WhatsApp"
+msgstr ""
+
+#: views/admin/repair-form.php:44
+msgid "Customer and device"
+msgstr ""
+
+#: views/admin/repair-form.php:61
+#: views/frontend/repair-request.php:72
+msgid "Phone number"
+msgstr ""
+
+#: views/admin/repair-form.php:69
+msgid "Existing customers are matched by this number."
+msgstr ""
+
+#: views/admin/repair-form.php:91
+#: views/frontend/repair-request.php:102
+msgid "IMEI"
+msgstr ""
+
+#: views/admin/repair-form.php:101
+msgid "Fault reported"
+msgstr ""
+
+#: views/admin/repair-form.php:102
+msgid "Left with the device"
+msgstr ""
+
+#: views/admin/repair-form.php:102
+msgid "SIM tray, case, charger"
+msgstr ""
+
+#: views/admin/repair-form.php:106
+msgid "Job"
+msgstr ""
+
+#: views/admin/repair-form.php:112
+#: views/admin/repair-ticket.php:51
+msgid "Ready by"
+msgstr ""
+
+#: views/admin/repair-form.php:138
+msgid "Deposit paid"
+msgstr ""
+
+#: views/admin/repair-form.php:150
+msgid "Final cost"
+msgstr ""
+
+#: views/admin/repair-form.php:156
+msgid "Leave empty to use the estimate."
+msgstr ""
+
+#. translators: %s: amount.
+#: views/admin/repair-form.php:165
+#, php-format
+msgid "Balance to collect: %s"
+msgstr ""
+
+#: views/admin/repair-form.php:169
+msgid "Message for the customer"
+msgstr ""
+
+#: views/admin/repair-form.php:169
+msgid "Shown on the website repair tracker, e.g. \"Screen ordered, arrives Tuesday\"."
+msgstr ""
+
+#: views/admin/repair-form.php:170
+msgid "Technician notes (private)"
+msgstr ""
+
+#: views/admin/repair-form.php:175
+msgid "Book in and create ticket"
+msgstr ""
+
+#: views/admin/repair-ticket.php:15
+msgid "Customer copy"
+msgstr ""
+
+#: views/admin/repair-ticket.php:16
+msgid "Shop copy"
+msgstr ""
+
+#: views/admin/repair-ticket.php:21
+msgid "Job ticket"
+msgstr ""
+
+#: views/admin/repair-ticket.php:22
+#: views/admin/shift-report.php:28
+msgid "Print"
+msgstr ""
+
+#: views/admin/repair-ticket.php:23
+msgid "Back to job"
+msgstr ""
+
+#: views/admin/repair-ticket.php:46
+msgid "Fault"
+msgstr ""
+
+#: views/admin/repair-ticket.php:48
+msgid "Left with device"
+msgstr ""
+
+#: views/admin/repair-ticket.php:54
+msgid "Deposit"
+msgstr ""
+
+#. translators: %s: ticket code.
+#: views/admin/repair-ticket.php:61
+#, php-format
+msgid "Check progress on our website with ticket %s and the last 4 digits of your phone number."
+msgstr ""
+
+#. translators: %s: invoice number.
+#: views/admin/sale-return.php:20
+#, php-format
+msgid "Return items from %s"
+msgstr ""
+
+#: views/admin/sale-return.php:23
+msgid "Back to sale"
+msgstr ""
+
+#: views/admin/sale-return.php:28
+msgid "This sale is void or fully returned. Nothing more can come back."
+msgstr ""
+
+#: views/admin/sale-return.php:30
+msgid "This sale is not fully paid. Collect the balance under Dues first, or void the sale."
+msgstr ""
+
+#: views/admin/sale-return.php:35
+msgid "What is coming back?"
+msgstr ""
+
+#: views/admin/sale-return.php:41
+msgid "Return"
+msgstr ""
+
+#: views/admin/sale-return.php:42
+msgid "Back in stock"
+msgstr ""
+
+#. translators: %d: quantity already returned.
+#: views/admin/sale-return.php:58
+#, php-format
+msgid "%d already returned"
+msgstr ""
+
+#: views/admin/sale-return.php:66
+msgid "Quantity to return"
+msgstr ""
+
+#. translators: %d: quantity that can be returned.
+#: views/admin/sale-return.php:71
+#, php-format
+msgid "of %d"
+msgstr ""
+
+#: views/admin/sale-return.php:80
+msgid "Yes"
+msgstr ""
+
+#: views/admin/sale-return.php:87
+msgid "Untick \"Back in stock\" for a faulty item you will send back to the supplier. The refund is the item's share of what was paid, after any discount."
+msgstr ""
+
+#: views/admin/sale-return.php:91
+msgid "Money back"
+msgstr ""
+
+#: views/admin/sale-return.php:93
+msgid "Give it back as"
+msgstr ""
+
+#: views/admin/sale-return.php:94
+msgid "Reason"
+msgstr ""
+
+#: views/admin/sale-return.php:94
+msgid "Changed mind, faulty, exchange…"
+msgstr ""
+
+#: views/admin/sale-return.php:97
+msgid "For an exchange, choose store credit: the customer can spend it on their next sale at the POS."
+msgstr ""
+
+#: views/admin/sale-return.php:99
+msgid "Record return"
+msgstr ""
+
+#. translators: 1: item, 2: quantity returned.
+#: views/admin/sale-view.php:26
+#, php-format
+msgid "%1$s (returned: %2$d)"
+msgstr ""
+
+#. translators: %s: payment method, e.g. "bKash (TRX123)".
+#: views/admin/sale-view.php:68
+#, php-format
+msgid "Paid · %s"
+msgstr ""
+
+#: views/admin/sale-view.php:78
+msgid "Refunded"
+msgstr ""
+
+#: views/admin/sale-view.php:82
+msgid "Balance due"
+msgstr ""
+
+#: views/admin/sale-view.php:84
+msgid "Change"
+msgstr ""
+
+#. translators: %s: invoice number.
+#: views/admin/sale-view.php:94
+#, php-format
+msgid "Sale %s"
+msgstr ""
+
+#: views/admin/sale-view.php:99
+msgid "Return items"
+msgstr ""
+
+#: views/admin/sale-view.php:102
+msgid "Void this sale and put its items back in stock?"
+msgstr ""
+
+#: views/admin/sale-view.php:102
+msgid "Void / return"
+msgstr ""
+
+#: views/admin/sale-view.php:108
+msgid "From website order"
+msgstr ""
+
+#: views/admin/sale-view.php:114
+msgid "Print format"
+msgstr ""
+
+#: views/admin/sale-view.php:120
+msgid "Print invoice"
+msgstr ""
+
+#. translators: %s: amount still owed.
+#: views/admin/sale-view.php:136
+#, php-format
+msgid "Still owed: %s"
+msgstr ""
+
+#: views/admin/sale-view.php:151
+msgid "Collect payment"
+msgstr ""
+
+#. translators: 1: cost, 2: profit.
+#: views/admin/sale-view.php:160
+#, php-format
+msgid "Cost %1$s · Profit %2$s (not printed)"
+msgstr ""
+
+#: views/admin/settings.php:18
+msgid "Mobile Shop settings"
+msgstr ""
+
+#: views/admin/settings.php:24
+msgid "Shop details (printed on receipts and job tickets)"
+msgstr ""
+
+#: views/admin/settings.php:27
+#: views/admin/stickers.php:74
+msgid "Shop name"
+msgstr ""
+
+#: views/admin/settings.php:39
+msgid "Receipt footer"
+msgstr ""
+
+#: views/admin/settings.php:41
+msgid "Warranty or return policy, e.g. \"7-day replacement warranty with this receipt.\""
+msgstr ""
+
+#: views/admin/settings.php:44
+msgid "Repair terms"
+msgstr ""
+
+#: views/admin/settings.php:49
+msgid "Receipts and invoices"
+msgstr ""
+
+#: views/admin/settings.php:52
+#: views/admin/settings.php:55
+msgid "Default print format"
+msgstr ""
+
+#: views/admin/settings.php:60
+msgid "Shown first after a sale. You can switch to the other format on any sale before printing."
+msgstr ""
+
+#: views/admin/settings.php:64
+msgid "Thermal paper width"
+msgstr ""
+
+#: views/admin/settings.php:71
+msgid "Match your receipt printer roll. In the print dialog, set margins to None."
+msgstr ""
+
+#: views/admin/settings.php:76
+msgid "Sales and stock"
+msgstr ""
+
+#: views/admin/settings.php:79
+msgid "Currency symbol"
+msgstr ""
+
+#: views/admin/settings.php:83
+msgid "WooCommerce is active, so its currency is used instead."
+msgstr ""
+
+#: views/admin/settings.php:88
+msgid "Invoice prefix"
+msgstr ""
+
+#: views/admin/settings.php:90
+msgid "Letters, numbers, - and /. Applies to new sales."
+msgstr ""
+
+#: views/admin/settings.php:93
+msgid "Low stock warning"
+msgstr ""
+
+#: views/admin/settings.php:95
+msgid "Accessories at or below this quantity show on the dashboard."
+msgstr ""
+
+#: views/admin/settings.php:100
+msgid "Sync stock with WooCommerce"
+msgstr ""
+
+#: views/admin/settings.php:101
+msgid "Counter sales update website stock, and paid website orders are recorded as sales and taken from shop stock."
+msgstr ""
+
+#: views/admin/settings.php:106
+msgid "Staff commission"
+msgstr ""
+
+#: views/admin/settings.php:109
+#: views/admin/staff.php:43
+msgid "Commission"
+msgstr ""
+
+#: views/admin/settings.php:112
+msgid "of each staff member's"
+msgstr ""
+
+#: views/admin/settings.php:113
+msgid "Commission is a share of"
+msgstr ""
+
+#: views/admin/settings.php:115
+msgid "profit"
+msgstr ""
+
+#: views/admin/settings.php:117
+msgid "After returns. 0 turns commission off. See it under Mobile Shop → Staff and commission; cashiers see their own on the dashboard."
+msgstr ""
+
+#: views/admin/settings.php:122
+msgid "Warranty"
+msgstr ""
+
+#: views/admin/settings.php:125
+#: assets/js/pos.js:26
+msgid "New phones"
+msgstr ""
+
+#: views/admin/settings.php:126
+#: views/admin/settings.php:130
+msgid "days"
+msgstr ""
+
+#: views/admin/settings.php:129
+#: assets/js/pos.js:27
+msgid "Used phones"
+msgstr ""
+
+#: views/admin/settings.php:131
+msgid "Counted from the sale date and shown by the warranty check on your website. 0 means no warranty."
+msgstr ""
+
+#: views/admin/settings.php:135
+msgid "WhatsApp messages"
+msgstr ""
+
+#: views/admin/settings.php:136
+msgid "Buttons on receipts, repairs and dues open WhatsApp with these messages already written. You check the text and press send: no API account or fees. Write them in Bangla or English; {words} in braces are filled in for you. Clear a box to go back to the default wording."
+msgstr ""
+
+#: views/admin/settings.php:139
+msgid "Country calling code"
+msgstr ""
+
+#: views/admin/settings.php:142
+msgid "Added to local numbers, so 01712-345678 is sent to +880 1712-345678."
+msgstr ""
+
+#: views/admin/settings.php:156
+msgid "Website shortcodes"
+msgstr ""
+
+#: views/admin/settings.php:157
+msgid "Add these to any page with the \"Mobile Shop\" blocks in the block editor, the \"Mobile Shop\" widgets in Elementor, or the shortcodes below. Every one also accepts accent=\"#0d9488\" and radius=\"16\"."
+msgstr ""
+
+#: views/admin/settings.php:163
+msgid "Phones in stock now, with photo, price, condition and colours, and brand and new/used filters. Cost prices and IMEIs are never shown."
+msgstr ""
+
+#: views/admin/settings.php:164
+msgid "Options: type=\"phone|accessory|all\", brand=\"Samsung\", condition=\"new|used\", per_page=\"12\", columns=\"3\", filters=\"no\""
+msgstr ""
+
+#: views/admin/settings.php:169
+msgid "Customers enter an IMEI to see when they bought the phone from you and whether it is still under warranty."
+msgstr ""
+
+#: views/admin/settings.php:173
+msgid "Customers book a repair online. It appears under Repairs as \"Booked online\" with a ticket code, and you get an email."
+msgstr ""
+
+#: views/admin/settings.php:177
+msgid "Customers check a repair with their ticket number and the last 4 digits of their phone number."
+msgstr ""
+
+#: views/admin/shift-report.php:27
+msgid "Shift report"
+msgstr ""
+
+#: views/admin/shift-report.php:37
+msgid "END OF SHIFT REPORT"
+msgstr ""
+
+#: views/admin/shift-report.php:37
+msgid "SHIFT SO FAR (STILL OPEN)"
+msgstr ""
+
+#: views/admin/shift-report.php:41
+#: views/admin/shifts.php:137
+msgid "Cashier"
+msgstr ""
+
+#: views/admin/shift-report.php:42
+#: views/admin/shifts.php:136
+msgid "Opened"
+msgstr ""
+
+#: views/admin/shift-report.php:44
+msgid "Closed"
+msgstr ""
+
+#: views/admin/shift-report.php:49
+msgid "Taken by"
+msgstr ""
+
+#: views/admin/shift-report.php:56
+msgid "Sales payments"
+msgstr ""
+
+#: views/admin/shift-report.php:57
+msgid "Dues collected"
+msgstr ""
+
+#: views/admin/shift-report.php:58
+msgid "Refunds"
+msgstr ""
+
+#: views/admin/shift-report.php:60
+msgid "Paid to suppliers"
+msgstr ""
+
+#: views/admin/shift-report.php:62
+msgid "Petty cash out"
+msgstr ""
+
+#: views/admin/shift-report.php:63
+msgid "Petty cash in"
+msgstr ""
+
+#: views/admin/shift-report.php:64
+msgid "Opening float"
+msgstr ""
+
+#: views/admin/shift-report.php:65
+msgid "Expected cash"
+msgstr ""
+
+#: views/admin/shift-report.php:67
+msgid "Counted cash"
+msgstr ""
+
+#: views/admin/shift-report.php:68
+msgid "Short"
+msgstr ""
+
+#: views/admin/shift-report.php:68
+msgid "Over"
+msgstr ""
+
+#: views/admin/shift-report.php:68
+#: views/admin/shifts.php:158
+msgid "Balanced"
+msgstr ""
+
+#: views/admin/shifts.php:26
+msgid "Start your shift"
+msgstr ""
+
+#: views/admin/shifts.php:27
+msgid "Count the cash already in the drawer (change for the day). At closing, the plugin works out how much should be there."
+msgstr ""
+
+#: views/admin/shifts.php:32
+msgid "Cash in the drawer now"
+msgstr ""
+
+#: views/admin/shifts.php:49
+msgid "Cash that should be in the drawer"
+msgstr ""
+
+#. translators: 1: time the shift opened, 2: opening float.
+#: views/admin/shifts.php:54
+#, php-format
+msgid "Open since %1$s with %2$s float"
+msgstr ""
+
+#: views/admin/shifts.php:58
+msgid "No money taken yet. Sales, dues and petty cash show up here as they happen."
+msgstr ""
+
+#: views/admin/shifts.php:68
+msgid "Petty cash"
+msgstr ""
+
+#: views/admin/shifts.php:76
+msgid "Taken out (expense)"
+msgstr ""
+
+#: views/admin/shifts.php:77
+msgid "Put in (top-up)"
+msgstr ""
+
+#: views/admin/shifts.php:94
+msgid "What for?"
+msgstr ""
+
+#: views/admin/shifts.php:94
+msgid "Tea, transport, change from the bank…"
+msgstr ""
+
+#: views/admin/shifts.php:95
+msgid "Record"
+msgstr ""
+
+#: views/admin/shifts.php:108
+msgid "Close the shift: count the drawer"
+msgstr ""
+
+#: views/admin/shifts.php:118
+#: views/admin/shifts.php:139
+msgid "Counted"
+msgstr ""
+
+#: views/admin/shifts.php:122
+msgid "Note for the owner"
+msgstr ""
+
+#: views/admin/shifts.php:122
+msgid "Anything to explain a difference"
+msgstr ""
+
+#: views/admin/shifts.php:123
+msgid "Close shift and print report"
+msgstr ""
+
+#: views/admin/shifts.php:129
+msgid "Past shifts"
+msgstr ""
+
+#: views/admin/shifts.php:131
+msgid "Closed shifts and their reports appear here."
+msgstr ""
+
+#: views/admin/shifts.php:138
+msgid "Expected"
+msgstr ""
+
+#: views/admin/shifts.php:140
+msgid "Difference"
+msgstr ""
+
+#: views/admin/shifts.php:156
+#: views/admin/suppliers.php:70
+msgid "Open"
+msgstr ""
+
+#: views/admin/staff.php:22
+msgid "Add a cashier"
+msgstr ""
+
+#: views/admin/staff.php:26
+msgid "Period"
+msgstr ""
+
+#: views/admin/staff.php:34
+msgid "No sales in this period."
+msgstr ""
+
+#: views/admin/staff.php:39
+msgid "Staff"
+msgstr ""
+
+#: views/admin/staff.php:41
+msgid "Sold (after returns)"
+msgstr ""
+
+#. translators: %s: commission percentage.
+#: views/admin/staff.php:74
+#, php-format
+msgid "Commission is %s%% of the profit on each person's sales. Change it in Settings."
+msgstr ""
+
+#. translators: %s: commission percentage.
+#: views/admin/staff.php:76
+#, php-format
+msgid "Commission is %s%% of each person's sales. Change it in Settings."
+msgstr ""
+
+#: views/admin/staff.php:79
+msgid "Commission is off. Set a percentage under Settings → Staff commission."
+msgstr ""
+
+#: views/admin/staff.php:86
+msgid "Cashiers"
+msgstr ""
+
+#: views/admin/staff.php:87
+msgid "Give counter staff the \"Shop Cashier\" role (Users → Add New). Cashiers can sell, take repairs, collect dues and run their own cash register. They never see cost prices, profit, suppliers or other people's takings, and cannot void sales, refund, or change stock."
+msgstr ""
+
+#: views/admin/staff.php:89
+msgid "No cashiers yet."
+msgstr ""
+
+#: views/admin/stickers.php:15
+msgid "One sticker per item"
+msgstr ""
+
+#: views/admin/stickers.php:16
+msgid "Two per item"
+msgstr ""
+
+#: views/admin/stickers.php:17
+msgid "Three per item"
+msgstr ""
+
+#: views/admin/stickers.php:18
+msgid "One per unit in stock"
+msgstr ""
+
+#: views/admin/stickers.php:30
+msgid "Back to stock"
+msgstr ""
+
+#: views/admin/stickers.php:52
+msgid "Paper"
+msgstr ""
+
+#: views/admin/stickers.php:70
+msgid "Show on the sticker"
+msgstr ""
+
+#: views/admin/stickers.php:78
+msgid "Update preview"
+msgstr ""
+
+#. translators: %s: number of stickers.
+#: views/admin/stickers.php:83
+#, php-format
+msgid "Print %s sticker"
+msgid_plural "Print %s stickers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin/stickers.php:94
+msgid "No stock arrived in this period. Widen the range, or tick items in Stock and choose \"Print price stickers\"."
+msgstr ""
+
+#: views/admin/stickers.php:96
+msgid "Those items no longer exist."
+msgstr ""
+
+#. translators: %s: maximum number of stickers.
+#: views/admin/stickers.php:104
+#, php-format
+msgid "Showing the first %s stickers. Print these, then pick the rest."
+msgstr ""
+
+#: views/admin/supplier-form.php:15
+#: views/admin/suppliers.php:17
+msgid "Add supplier"
+msgstr ""
+
+#: views/admin/supplier-form.php:15
+msgid "Edit supplier"
+msgstr ""
+
+#: views/admin/supplier-form.php:16
+#: views/admin/supplier-view.php:21
+msgid "All suppliers"
+msgstr ""
+
+#: views/admin/supplier-form.php:39
+msgid "Notes (terms, contact person…)"
+msgstr ""
+
+#: views/admin/supplier-form.php:40
+msgid "Save supplier"
+msgstr ""
+
+#: views/admin/supplier-view.php:32
+#: views/admin/suppliers.php:42
+msgid "You owe"
+msgstr ""
+
+#: views/admin/supplier-view.php:41
+msgid "Amount paid"
+msgstr ""
+
+#: views/admin/supplier-view.php:53
+msgid "Reference (bank, bKash…)"
+msgstr ""
+
+#: views/admin/supplier-view.php:54
+msgid "Settles the oldest deliveries first. Cash paid comes out of your cash register."
+msgstr ""
+
+#: views/admin/supplier-view.php:58
+msgid "Nothing owed. Every delivery is paid."
+msgstr ""
+
+#: views/admin/supplier-view.php:63
+msgid "Payments made"
+msgstr ""
+
+#: views/admin/supplier-view.php:65
+msgid "No payments yet."
+msgstr ""
+
+#: views/admin/supplier-view.php:85
+#: views/admin/suppliers.php:40
+msgid "Deliveries"
+msgstr ""
+
+#: views/admin/supplier-view.php:87
+msgid "No purchases from this supplier yet."
+msgstr ""
+
+#: views/admin/supplier-view.php:93
+msgid "Their invoice"
+msgstr ""
+
+#. translators: %s: amount still owed on a delivery.
+#: views/admin/supplier-view.php:114
+#, php-format
+msgid "Owe %s"
+msgstr ""
+
+#: views/admin/suppliers.php:23
+msgid "You owe suppliers"
+msgstr ""
+
+#: views/admin/suppliers.php:25
+msgid "Unpaid deliveries. Pay a supplier from their account."
+msgstr ""
+
+#: views/admin/suppliers.php:28
+msgid "Stock in fast"
+msgstr ""
+
+#: views/admin/suppliers.php:29
+msgid "A new purchase adds a whole delivery at once: scan the IMEIs of every phone of a model, add accessories by quantity, then print price stickers for all of it."
+msgstr ""
+
+#: views/admin/suppliers.php:34
+msgid "No suppliers yet. Record a purchase and type the supplier name, or add one now."
+msgstr ""
+
+#: views/admin/suppliers.php:41
+msgid "Last delivery"
+msgstr ""
+
+#: views/admin/suppliers.php:65
+msgid "Settled"
+msgstr ""
+
+#: views/admin/suppliers.php:70
+msgid "Pay"
+msgstr ""
+
+#: views/frontend/repair-request.php:21
+msgid "(optional)"
+msgstr ""
+
+#: views/frontend/repair-request.php:43
+msgid "Your repair is booked"
+msgstr ""
+
+#: views/frontend/repair-request.php:44
+msgid "Your ticket number is"
+msgstr ""
+
+#: views/frontend/repair-request.php:46
+msgid "Bring the phone to the shop and quote this number. Keep it to check progress on our website with the last 4 digits of your phone number."
+msgstr ""
+
+#: views/frontend/repair-request.php:52
+msgid "Please check the fields marked below."
+msgstr ""
+
+#: views/frontend/repair-request.php:63
+msgid "Your name"
+msgstr ""
+
+#: views/frontend/repair-request.php:88
+msgid "We will email you the ticket number."
+msgstr ""
+
+#: views/frontend/repair-request.php:93
+msgid "Phone brand and model"
+msgstr ""
+
+#: views/frontend/repair-request.php:106
+msgid "Dial *#06# to see it."
+msgstr ""
+
+#: views/frontend/repair-request.php:111
+msgid "What is wrong with the phone?"
+msgstr ""
+
+#: views/frontend/repair-request.php:121
+msgid "When will you bring it in?"
+msgstr ""
+
+#: views/frontend/repair-request.php:132
+msgid "Leave this empty"
+msgstr ""
+
+#: views/frontend/repair-request.php:136
+msgid "Book repair"
+msgstr ""
+
+#: views/frontend/repair-status.php:27
+msgid "Ticket number"
+msgstr ""
+
+#: views/frontend/repair-status.php:31
+msgid "Last 4 digits of your phone"
+msgstr ""
+
+#: views/frontend/repair-status.php:34
+msgid "Check status"
+msgstr ""
+
+#: views/frontend/repair-status.php:87
+msgid "Expected ready"
+msgstr ""
+
+#: views/frontend/repair-status.php:92
+msgid "Balance to pay"
+msgstr ""
+
+#: views/frontend/stock.php:25
+#: assets/js/pos.js:25
+msgid "All"
+msgstr ""
+
+#: views/frontend/stock.php:26
+#: views/frontend/stock.php:65
+#: assets/js/pos-dom.js:53
+msgid "New"
+msgstr ""
+
+#: views/frontend/stock.php:27
+#: views/frontend/stock.php:65
+msgid "Used"
+msgstr ""
+
+#: views/frontend/stock.php:34
+msgid "Filter stock"
+msgstr ""
+
+#: views/frontend/stock.php:44
+#: assets/js/pos.js:91
+msgid "All brands"
+msgstr ""
+
+#: views/frontend/stock.php:55
+msgid "Nothing in stock matches right now. Try another brand, or call us to ask."
+msgstr ""
+
+#: views/frontend/stock.php:121
+#: assets/js/pos-dom.js:58
+msgid "Last one"
+msgstr ""
+
+#. translators: %d: number in stock.
+#: views/frontend/stock.php:123
+#: assets/js/pos-dom.js:58
+#, php-format,js-format
+msgid "%d in stock"
+msgstr ""
+
+#: views/frontend/stock.php:129
+msgid "View and buy"
+msgstr ""
+
+#: views/frontend/stock.php:131
+msgid "Call to order"
+msgstr ""
+
+#: views/frontend/stock.php:139
+msgid "Stock pages"
+msgstr ""
+
+#: views/frontend/stock.php:141
+msgid "Previous"
+msgstr ""
+
+#. translators: 1: page number, 2: number of pages.
+#: views/frontend/stock.php:146
+#, php-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: views/frontend/stock.php:150
+msgid "Next"
+msgstr ""
+
+#: views/frontend/warranty.php:20
+msgid "IMEI number"
+msgstr ""
+
+#: views/frontend/warranty.php:22
+msgid "Dial *#06# on the phone, or look on the box."
+msgstr ""
+
+#: views/frontend/warranty.php:24
+msgid "Check warranty"
+msgstr ""
+
+#: views/frontend/warranty.php:35
+msgid "Under warranty"
+msgstr ""
+
+#: views/frontend/warranty.php:36
+msgid "Warranty ended"
+msgstr ""
+
+#: views/frontend/warranty.php:37
+msgid "No warranty"
+msgstr ""
+
+#: views/frontend/warranty.php:50
+msgid "Bought from us"
+msgstr ""
+
+#: views/frontend/warranty.php:55
+msgid "Covered until"
+msgstr ""
+
+#: views/frontend/warranty.php:55
+msgid "Ended on"
+msgstr ""
+
+#: views/frontend/warranty.php:61
+msgid "Days left"
+msgstr ""
+
+#: views/frontend/warranty.php:67
+msgid "Bring the phone and your receipt to the shop for a warranty repair."
+msgstr ""
+
+#: assets/js/blocks.js:21
+msgid "Teal"
+msgstr ""
+
+#: assets/js/blocks.js:22
+msgid "Blue"
+msgstr ""
+
+#: assets/js/blocks.js:23
+msgid "Violet"
+msgstr ""
+
+#: assets/js/blocks.js:24
+msgid "Rose"
+msgstr ""
+
+#: assets/js/blocks.js:25
+msgid "Orange"
+msgstr ""
+
+#: assets/js/blocks.js:26
+msgid "Ink"
+msgstr ""
+
+#: assets/js/blocks.js:39
+msgid "Style"
+msgstr ""
+
+#: assets/js/blocks.js:115
+msgid "Show brand and condition filters"
+msgstr ""
+
+#: assets/js/item-photos.js:116
+msgid "Use photo"
+msgstr ""
+
+#: assets/js/item-photos.js:120
+msgid "Main photo"
+msgstr ""
+
+#. translators: %d: number of colour/storage options.
+#: assets/js/pos-dom.js:55
+#, js-format
+msgid "%d option"
+msgid_plural "%d options"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/js/pos.js:83
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: assets/js/pos.js:101
+msgid "Nothing in stock yet. Add phones and accessories under Stock."
+msgstr ""
+
+#: assets/js/pos.js:101
+msgid "Nothing matches. Try another tab or search."
+msgstr ""
+
+#: assets/js/pos.js:123
+msgid "That is all the stock there is of this item."
+msgstr ""
+
+#: assets/js/pos.js:137
+msgid "One less"
+msgstr ""
+
+#: assets/js/pos.js:139
+msgid "One more"
+msgstr ""
+
+#: assets/js/pos.js:165
+msgid "Remove trade-in"
+msgstr ""
+
+#: assets/js/pos.js:186
+msgid "Exact"
+msgstr ""
+
+#. translators: %s: change to give back.
+#: assets/js/pos.js:200
+#, js-format
+msgid "Change to give: %s"
+msgstr ""
+
+#. translators: %s: amount still owed.
+#: assets/js/pos.js:204
+#, js-format
+msgid "Still owed: %s (goes on the customer's account)"
+msgstr ""
+
+#. translators: 1: number of installments, 2: amount of each.
+#: assets/js/pos.js:224
+#, js-format
+msgid "%1$d payments of about %2$s"
+msgstr ""
+
+#: assets/js/pos.js:232
+msgid "Payment method"
+msgstr ""
+
+#: assets/js/pos.js:238
+msgid "Transaction ID"
+msgstr ""
+
+#: assets/js/pos.js:239
+msgid "Remove payment"
+msgstr ""
+
+#: assets/js/pos.js:273
+msgid "New customer. Add a name to save them."
+msgstr ""
+
+#. translators: %d: number of purchases.
+#: assets/js/pos.js:284
+#, js-format
+msgid "%d purchase"
+msgid_plural "%d purchases"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: total spent.
+#: assets/js/pos.js:286
+#, js-format
+msgid "spent %s"
+msgstr ""
+
+#. translators: %s: date of last visit.
+#: assets/js/pos.js:288
+#, js-format
+msgid "last visit %s"
+msgstr ""
+
+#. translators: %s: amount the customer owes.
+#: assets/js/pos.js:293
+#, js-format
+msgid "owes %s"
+msgstr ""
+
+#. translators: %s: store credit balance.
+#: assets/js/pos.js:298
+#, js-format
+msgid "Use store credit %s"
+msgstr ""
+
+#: assets/js/pos.js:367
+msgid "No sales on hold."
+msgstr ""
+
+#. translators: 1: number of items, 2: time saved.
+#: assets/js/pos.js:371
+#, js-format
+msgid "%1$d items · held at %2$s"
+msgstr ""
+
+#: assets/js/pos.js:373
+msgid "Resume"
+msgstr ""
+
+#: assets/js/pos.js:417
+msgid "Enter the brand and model."
+msgstr ""
+
+#: assets/js/pos.js:419
+msgid "Enter the 15-digit IMEI (dial *#06#)."
+msgstr ""
+
+#: assets/js/pos.js:423
+msgid "This phone is already added, or you have 3 trade-ins."
+msgstr ""
+
+#: assets/js/pos.js:439
+msgid "Add items before holding a sale."
+msgstr ""
+
+#. translators: %s: time.
+#: assets/js/pos.js:443
+#, js-format
+msgid "Sale at %s"
+msgstr ""
+
+#: assets/js/pos.js:470
+msgid "Some items were sold meanwhile and were left out."
+msgstr ""
+
+#: assets/js/pos.js:478
+msgid "Add items to the sale first."
+msgstr ""
+
+#. translators: %s: change.
+#: assets/js/pos.js:515
+#, js-format
+msgid "Give change: %s"
+msgstr ""
+
+#. translators: %s: amount owed.
+#: assets/js/pos.js:516
+#, js-format
+msgid "%s added to the customer's account"
+msgstr ""
+
+#. translators: %d: phones scanned.
+#: assets/js/purchase.js:130
+#, js-format
+msgid "%d phone"
+msgid_plural "%d phones"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: IMEIs.
+#: assets/js/purchase.js:133
+#, js-format
+msgid "not valid: %s"
+msgstr ""
+
+#. translators: %s: IMEIs.
+#: assets/js/purchase.js:137
+#, js-format
+msgid "scanned twice: %s"
+msgstr ""
+
+#. translators: %s: amount owed.
+#: assets/js/purchase.js:160
+#, js-format
+msgid "You will owe the supplier %s"
+msgstr ""
+
+#: blocks/repair-request/block.json
+msgctxt "block title"
+msgid "Book a Repair"
+msgstr ""
+
+#: blocks/repair-request/block.json
+msgctxt "block description"
+msgid "A form for customers to book a phone repair online. They get a ticket number."
+msgstr ""
+
+#: blocks/repair-request/block.json
+#: blocks/repair-status/block.json
+msgctxt "block keyword"
+msgid "repair"
+msgstr ""
+
+#: blocks/repair-request/block.json
+msgctxt "block keyword"
+msgid "booking"
+msgstr ""
+
+#: blocks/repair-request/block.json
+msgctxt "block keyword"
+msgid "service"
+msgstr ""
+
+#: blocks/repair-request/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr ""
+
+#: blocks/repair-status/block.json
+msgctxt "block title"
+msgid "Repair Tracker"
+msgstr ""
+
+#: blocks/repair-status/block.json
+msgctxt "block description"
+msgid "Customers check their repair with the ticket number and the last 4 digits of their phone."
+msgstr ""
+
+#: blocks/repair-status/block.json
+msgctxt "block keyword"
+msgid "status"
+msgstr ""
+
+#: blocks/repair-status/block.json
+msgctxt "block keyword"
+msgid "tracker"
+msgstr ""
+
+#: blocks/repair-status/block.json
+msgctxt "block keyword"
+msgid "ticket"
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block title"
+msgid "Phones in Stock"
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block description"
+msgid "Phones (or accessories) in your shop now, with photos, prices, colours and brand filters."
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block keyword"
+msgid "phones"
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block keyword"
+msgid "stock"
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block keyword"
+msgid "shop"
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block keyword"
+msgid "mobile"
+msgstr ""
+
+#: blocks/stock/block.json
+msgctxt "block keyword"
+msgid "inventory"
+msgstr ""
+
+#: blocks/warranty/block.json
+msgctxt "block title"
+msgid "Warranty Check"
+msgstr ""
+
+#: blocks/warranty/block.json
+msgctxt "block description"
+msgid "Customers enter an IMEI to see when they bought the phone and whether it is still under warranty."
+msgstr ""
+
+#: blocks/warranty/block.json
+msgctxt "block keyword"
+msgid "warranty"
+msgstr ""
+
+#: blocks/warranty/block.json
+msgctxt "block keyword"
+msgid "imei"
+msgstr ""
+
+#: blocks/warranty/block.json
+msgctxt "block keyword"
+msgid "guarantee"
+msgstr ""

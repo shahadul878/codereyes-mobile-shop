@@ -1,5 +1,5 @@
 === Codereyes Mobile Shop ===
-Contributors: codereyes
+Contributors: codereyes, shahadul878
 Tags: mobile shop, pos, imei, phone repair, elementor
 Requires at least: 6.4
 Tested up to: 7.1
@@ -139,15 +139,25 @@ No. The buttons open WhatsApp (app or web) with the message written; you press s
 
 No. Cost prices are only shown to shop staff, and IMEIs are never published to the website.
 
+== External services ==
+
+This plugin does not contact any outside server on its own. It has one optional link to an outside service:
+
+**WhatsApp (wa.me), run by Meta.** The WhatsApp buttons on receipts, repairs and dues open a link to `https://wa.me/` in a new tab. The link carries the customer's phone number and the message you are about to send (for example a receipt total or a repair ticket code). Nothing is sent until you press one of these buttons, and the message is only delivered when you press send in WhatsApp. If you never use the buttons, nothing goes to WhatsApp. [WhatsApp terms of service](https://www.whatsapp.com/legal/terms-of-service), [WhatsApp privacy policy](https://www.whatsapp.com/legal/privacy-policy).
+
+WooCommerce sync, when you turn it on, only talks to WooCommerce on your own site.
+
 == Screenshots ==
 
-1. Dashboard with today's sales, stock and the repair queue.
-2. Point of sale with IMEI search and cart.
-3. Thermal receipt and A4 invoice.
-4. Adding a phone to stock.
-5. One website product for a model, with colour and storage choices.
-6. Repair job ticket.
-7. Customer repair tracker on the website.
+1. Dashboard: today's sales, profit, cash taken and money owed, with a 30-day sales and profit chart.
+2. Full-screen point of sale: product grid with brand tabs, IMEI scanning, the customer's history and quick cash.
+3. Stock, tracked phone by phone with IMEI, condition and battery health.
+4. Price stickers with scannable barcodes for label rolls or A4 sheets.
+5. Thermal receipt for a sale, ready to print or send on WhatsApp.
+6. Dues: who owes what, overdue installments, and one-tap reminders.
+7. Repairs moving through each stage, with ticket codes.
+8. Phones in stock on your website (block, Elementor widget or shortcode).
+9. Customers track their repair on your website with the ticket code.
 
 == Changelog ==
 

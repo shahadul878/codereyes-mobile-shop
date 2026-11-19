@@ -52,9 +52,8 @@
 	function tileNode( tile, money ) {
 		const badge = 'new' === tile.condition ? __( 'New', 'codereyes-mobile-shop' ) : tile.grade;
 		const detail = 'model' === tile.kind
-			/* translators: %d: number of colour/storage options. */
-			? sprintf( _n( '%d option', '%d options', tile.options.length, 'codereyes-mobile-shop' ), tile.options.length )
-			: [ tile.detail, null !== tile.battery && undefined !== tile.battery ? sprintf( /* translators: %d: battery health. */ __( 'Battery %d%%', 'codereyes-mobile-shop' ), tile.battery ) : '' ].filter( Boolean ).join( ' · ' );
+			? sprintf( /* translators: %d: number of colour/storage options. */ _n( '%d option', '%d options', tile.options.length, 'codereyes-mobile-shop' ), tile.options.length )
+			: [ tile.detail, null !== tile.battery && undefined !== tile.battery ? sprintf( /* translators: %d: battery health percentage. */ __( 'Battery %d%%', 'codereyes-mobile-shop' ), tile.battery ) : '' ].filter( Boolean ).join( ' · ' );
 		const swatches = 'model' === tile.kind ? el( 'span', { className: 'cmshop-pos-tile__swatches' }, tile.options.slice( 0, 5 ).map( ( option ) => el( 'i', { style: option.swatch ? 'background:' + option.swatch : null, title: option.color } ) ) ) : null;
 		const stock = 1 === tile.stock ? __( 'Last one', 'codereyes-mobile-shop' ) : sprintf( /* translators: %d: number in stock. */ __( '%d in stock', 'codereyes-mobile-shop' ), tile.stock );
 

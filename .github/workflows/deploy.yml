@@ -1,0 +1,40 @@
+# Publishes a GitHub release to the WordPress.org plugin directory (SVN trunk + tag).
+# Needs repository secrets SVN_USERNAME and SVN_PASSWORD (your WordPress.org login).
+name: Deploy to WordPress.org
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check the tag matches the plugin version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          header=$(grep -m1 -E '^\s*\*\s*Version:' codereyes-mobile-shop.php | awk '{print $NF}')
+          stable=$(grep -m1 -E '^Stable tag:' readme.txt | awk '{print $NF}')
+          echo "tag=$tag header=$header stable=$stable"
+          test "$tag" = "$header" && test "$tag" = "$stable"
+
+      - name: Deploy to WordPress.org
+        id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@2.3.0
+        with:
+          generate-zip: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: codereyes-mobile-shop
+          ASSETS_DIR: .wordpress-org
+
+      - name: Attach the ZIP to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" "${{ steps.deploy.outputs.zip-path }}" --clobber

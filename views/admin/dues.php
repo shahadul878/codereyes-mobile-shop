@@ -59,7 +59,7 @@ $cmshop_format  = (string) get_option( 'date_format' );
 							<a class="row-title" href="<?php echo esc_url( $cmshop_url ); ?>"><?php echo esc_html( (string) $cmshop_row['name'] ); ?></a><br>
 							<small><?php echo esc_html( (string) $cmshop_row['phone'] ); ?> ·
 								<?php
-								/* translators: %d: unpaid sales. */
+								/* translators: %d: number of sales. */
 								echo esc_html( sprintf( _n( '%d sale', '%d sales', (int) $cmshop_row['sales'], 'codereyes-mobile-shop' ), (int) $cmshop_row['sales'] ) );
 								?>
 							</small>

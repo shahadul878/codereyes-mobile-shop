@@ -1,0 +1,28 @@
+# Updates readme.txt and the banner, icon and screenshots on WordPress.org
+# without a new release. Needs the same SVN_USERNAME and SVN_PASSWORD secrets.
+name: Update WordPress.org readme and assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - readme.txt
+      - .wordpress-org/**
+
+permissions:
+  contents: read
+
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Update readme and assets
+        uses: 10up/action-wordpress-plugin-asset-update@2.2.0
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: codereyes-mobile-shop
+          ASSETS_DIR: .wordpress-org
+          IGNORE_OTHER_FILES: true
