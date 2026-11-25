@@ -2,7 +2,7 @@
 /**
  * Tests for grouping new phones of one model into website options.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

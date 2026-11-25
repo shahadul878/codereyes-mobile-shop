@@ -2,7 +2,7 @@
 /**
  * Repair job statuses.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -31,14 +31,14 @@ final class Cmshop_Repair_Status {
 	 */
 	public static function all(): array {
 		return array(
-			self::REQUESTED     => __( 'Booked online', 'codereyes-mobile-shop' ),
-			self::RECEIVED      => __( 'Received', 'codereyes-mobile-shop' ),
-			self::DIAGNOSING    => __( 'Diagnosing', 'codereyes-mobile-shop' ),
-			self::WAITING_PARTS => __( 'Waiting for parts', 'codereyes-mobile-shop' ),
-			self::REPAIRING     => __( 'Repairing', 'codereyes-mobile-shop' ),
-			self::READY         => __( 'Ready to collect', 'codereyes-mobile-shop' ),
-			self::COLLECTED     => __( 'Collected', 'codereyes-mobile-shop' ),
-			self::CANCELLED     => __( 'Cancelled', 'codereyes-mobile-shop' ),
+			self::REQUESTED     => __( 'Booked online', 'mobile-shop-manager' ),
+			self::RECEIVED      => __( 'Received', 'mobile-shop-manager' ),
+			self::DIAGNOSING    => __( 'Diagnosing', 'mobile-shop-manager' ),
+			self::WAITING_PARTS => __( 'Waiting for parts', 'mobile-shop-manager' ),
+			self::REPAIRING     => __( 'Repairing', 'mobile-shop-manager' ),
+			self::READY         => __( 'Ready to collect', 'mobile-shop-manager' ),
+			self::COLLECTED     => __( 'Collected', 'mobile-shop-manager' ),
+			self::CANCELLED     => __( 'Cancelled', 'mobile-shop-manager' ),
 		);
 	}
 

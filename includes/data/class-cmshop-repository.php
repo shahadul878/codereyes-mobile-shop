@@ -5,7 +5,7 @@
  * phpcs:disable WordPress.DB.DirectDatabaseQuery -- Custom tables; nothing to cache across requests.
  * phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders -- WHERE / ORDER BY come from Cmshop_Query (whitelisted columns, placeholder values).
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

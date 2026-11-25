@@ -2,7 +2,7 @@
 /**
  * Stock purchases from suppliers.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

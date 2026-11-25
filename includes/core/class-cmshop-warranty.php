@@ -2,7 +2,7 @@
 /**
  * Warranty cover from the date a phone was sold.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

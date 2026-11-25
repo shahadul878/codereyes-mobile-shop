@@ -3,7 +3,7 @@
  * Lists every new phone of a model as one WooCommerce variable product,
  * with an option per storage and colour.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -218,8 +218,8 @@ final class Cmshop_Woo_Models {
 	 */
 	private function parent_attributes( array $item, array $variants, array $used ): array {
 		$attributes = array(
-			$this->attribute( __( 'Brand', 'codereyes-mobile-shop' ), array( Cmshop_Woo_Brands::is_available() ? '' : trim( (string) $item['brand'] ) ), false, 0 ),
-			$this->attribute( __( 'Condition', 'codereyes-mobile-shop' ), array( Cmshop_Item::label( Cmshop_Item::grades(), 'new' ) ), false, 1 ),
+			$this->attribute( __( 'Brand', 'mobile-shop-manager' ), array( Cmshop_Woo_Brands::is_available() ? '' : trim( (string) $item['brand'] ) ), false, 0 ),
+			$this->attribute( __( 'Condition', 'mobile-shop-manager' ), array( Cmshop_Item::label( Cmshop_Item::grades(), 'new' ) ), false, 1 ),
 		);
 		$position   = 2;
 
@@ -304,7 +304,7 @@ final class Cmshop_Woo_Models {
 	 * @return string
 	 */
 	private function label( string $name ): string {
-		return Cmshop_Model_Listing::ATTRIBUTE_STORAGE === $name ? __( 'Storage', 'codereyes-mobile-shop' ) : __( 'Colour', 'codereyes-mobile-shop' );
+		return Cmshop_Model_Listing::ATTRIBUTE_STORAGE === $name ? __( 'Storage', 'mobile-shop-manager' ) : __( 'Colour', 'mobile-shop-manager' );
 	}
 
 	/**

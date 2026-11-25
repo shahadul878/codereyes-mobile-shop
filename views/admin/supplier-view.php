@@ -2,7 +2,7 @@
 /**
  * A supplier's account: what is owed, deliveries, payments and the pay form.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array $cmshop { supplier: array, purchases: array[], payments: array[], owed: int, values: array, errors: array }
  */
@@ -16,9 +16,9 @@ $cmshop_values   = array_merge( array( 'amount' => Cmshop_Money::from_cents( $cm
 ?>
 <div class="wrap cmshop-wrap">
 	<h1 class="wp-heading-inline"><?php echo esc_html( (string) $cmshop_supplier['name'] ); ?></h1>
-	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG, array( 'action' => 'purchase', 'supplier' => (int) $cmshop_supplier['id'] ) ) ); ?>"><?php esc_html_e( 'New purchase', 'codereyes-mobile-shop' ); ?></a>
-	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG, array( 'action' => 'edit', 'id' => (int) $cmshop_supplier['id'] ) ) ); ?>"><?php esc_html_e( 'Edit', 'codereyes-mobile-shop' ); ?></a>
-	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG ) ); ?>"><?php esc_html_e( 'All suppliers', 'codereyes-mobile-shop' ); ?></a>
+	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG, array( 'action' => 'purchase', 'supplier' => (int) $cmshop_supplier['id'] ) ) ); ?>"><?php esc_html_e( 'New purchase', 'mobile-shop-manager' ); ?></a>
+	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG, array( 'action' => 'edit', 'id' => (int) $cmshop_supplier['id'] ) ) ); ?>"><?php esc_html_e( 'Edit', 'mobile-shop-manager' ); ?></a>
+	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG ) ); ?>"><?php esc_html_e( 'All suppliers', 'mobile-shop-manager' ); ?></a>
 	<hr class="wp-header-end">
 	<?php Cmshop_View::notice(); ?>
 	<?php Cmshop_View::error_summary( $cmshop['errors'] ); ?>
@@ -29,7 +29,7 @@ $cmshop_values   = array_merge( array( 'amount' => Cmshop_Money::from_cents( $cm
 
 	<div class="cmshop-form-grid">
 		<section class="cmshop-card">
-			<h2><?php esc_html_e( 'You owe', 'codereyes-mobile-shop' ); ?></h2>
+			<h2><?php esc_html_e( 'You owe', 'mobile-shop-manager' ); ?></h2>
 			<p class="cmshop-shift-big"><?php echo esc_html( Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop['owed'] ) ) ); ?></p>
 			<?php if ( $cmshop['owed'] > 0 ) : ?>
 				<?php Cmshop_View::form_open( 'pay_supplier' ); ?>
@@ -38,7 +38,7 @@ $cmshop_values   = array_merge( array( 'amount' => Cmshop_Money::from_cents( $cm
 						<?php
 						Cmshop_View::input(
 							'amount',
-							__( 'Amount paid', 'codereyes-mobile-shop' ),
+							__( 'Amount paid', 'mobile-shop-manager' ),
 							$cmshop_values,
 							$cmshop['errors'],
 							array(
@@ -47,22 +47,22 @@ $cmshop_values   = array_merge( array( 'amount' => Cmshop_Money::from_cents( $cm
 								'required'  => true,
 							)
 						);
-						Cmshop_View::select( 'method', __( 'Paid by', 'codereyes-mobile-shop' ), Cmshop_Purchase_Service::methods(), $cmshop_values, $cmshop['errors'] );
+						Cmshop_View::select( 'method', __( 'Paid by', 'mobile-shop-manager' ), Cmshop_Purchase_Service::methods(), $cmshop_values, $cmshop['errors'] );
 						?>
 					</div>
-					<?php Cmshop_View::input( 'reference', __( 'Reference (bank, bKash…)', 'codereyes-mobile-shop' ), $cmshop_values, $cmshop['errors'] ); ?>
-					<p class="description"><?php esc_html_e( 'Settles the oldest deliveries first. Cash paid comes out of your cash register.', 'codereyes-mobile-shop' ); ?></p>
-					<?php submit_button( __( 'Record payment', 'codereyes-mobile-shop' ), 'primary', 'submit', false ); ?>
+					<?php Cmshop_View::input( 'reference', __( 'Reference (bank, bKash…)', 'mobile-shop-manager' ), $cmshop_values, $cmshop['errors'] ); ?>
+					<p class="description"><?php esc_html_e( 'Settles the oldest deliveries first. Cash paid comes out of your cash register.', 'mobile-shop-manager' ); ?></p>
+					<?php submit_button( __( 'Record payment', 'mobile-shop-manager' ), 'primary', 'submit', false ); ?>
 				</form>
 			<?php else : ?>
-				<p class="cmshop-empty"><?php esc_html_e( 'Nothing owed. Every delivery is paid.', 'codereyes-mobile-shop' ); ?></p>
+				<p class="cmshop-empty"><?php esc_html_e( 'Nothing owed. Every delivery is paid.', 'mobile-shop-manager' ); ?></p>
 			<?php endif; ?>
 		</section>
 
 		<section class="cmshop-card">
-			<h2><?php esc_html_e( 'Payments made', 'codereyes-mobile-shop' ); ?></h2>
+			<h2><?php esc_html_e( 'Payments made', 'mobile-shop-manager' ); ?></h2>
 			<?php if ( array() === $cmshop['payments'] ) : ?>
-				<p class="cmshop-empty"><?php esc_html_e( 'No payments yet.', 'codereyes-mobile-shop' ); ?></p>
+				<p class="cmshop-empty"><?php esc_html_e( 'No payments yet.', 'mobile-shop-manager' ); ?></p>
 			<?php else : ?>
 				<ul class="cmshop-list cmshop-shift-petty">
 					<?php foreach ( $cmshop['payments'] as $cmshop_payment ) : ?>
@@ -82,18 +82,18 @@ $cmshop_values   = array_merge( array( 'amount' => Cmshop_Money::from_cents( $cm
 	</div>
 
 	<section class="cmshop-card">
-		<h2><?php esc_html_e( 'Deliveries', 'codereyes-mobile-shop' ); ?></h2>
+		<h2><?php esc_html_e( 'Deliveries', 'mobile-shop-manager' ); ?></h2>
 		<?php if ( array() === $cmshop['purchases'] ) : ?>
-			<p class="cmshop-empty"><?php esc_html_e( 'No purchases from this supplier yet.', 'codereyes-mobile-shop' ); ?></p>
+			<p class="cmshop-empty"><?php esc_html_e( 'No purchases from this supplier yet.', 'mobile-shop-manager' ); ?></p>
 		<?php else : ?>
 			<table class="widefat striped">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Date', 'codereyes-mobile-shop' ); ?></th>
-						<th><?php esc_html_e( 'Their invoice', 'codereyes-mobile-shop' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Units', 'codereyes-mobile-shop' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Total', 'codereyes-mobile-shop' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Paid', 'codereyes-mobile-shop' ); ?></th>
+						<th><?php esc_html_e( 'Date', 'mobile-shop-manager' ); ?></th>
+						<th><?php esc_html_e( 'Their invoice', 'mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Units', 'mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Total', 'mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Paid', 'mobile-shop-manager' ); ?></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -111,11 +111,11 @@ $cmshop_values   = array_merge( array( 'amount' => Cmshop_Money::from_cents( $cm
 									<span class="cmshop-badge cmshop-badge--reserved">
 										<?php
 										/* translators: %s: amount still owed on a delivery. */
-										echo esc_html( sprintf( __( 'Owe %s', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_left ) ) ) );
+										echo esc_html( sprintf( __( 'Owe %s', 'mobile-shop-manager' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_left ) ) ) );
 										?>
 									</span>
 								<?php else : ?>
-									<span class="cmshop-badge cmshop-badge--completed"><?php esc_html_e( 'Paid', 'codereyes-mobile-shop' ); ?></span>
+									<span class="cmshop-badge cmshop-badge--completed"><?php esc_html_e( 'Paid', 'mobile-shop-manager' ); ?></span>
 								<?php endif; ?>
 							</td>
 						</tr>

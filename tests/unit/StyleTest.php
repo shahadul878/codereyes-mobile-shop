@@ -2,7 +2,7 @@
 /**
  * Tests for the style options shared by shortcodes, blocks and widgets.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

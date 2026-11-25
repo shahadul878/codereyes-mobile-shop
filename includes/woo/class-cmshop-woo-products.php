@@ -2,7 +2,7 @@
 /**
  * Publishes stock items as WooCommerce products and keeps their stock in step.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -272,7 +272,7 @@ final class Cmshop_Woo_Products {
 		}
 
 		if ( Cmshop_Woo_Models::is_model_product( $product ) ) {
-			$parts = array( Cmshop_Item::label( Cmshop_Item::grades(), 'new' ), __( 'IMEI checked', 'codereyes-mobile-shop' ) );
+			$parts = array( Cmshop_Item::label( Cmshop_Item::grades(), 'new' ), __( 'IMEI checked', 'mobile-shop-manager' ) );
 			printf( '<p class="cmshop-condition">%s</p>', esc_html( implode( ' · ', $parts ) ) );
 			return;
 		}
@@ -287,10 +287,10 @@ final class Cmshop_Woo_Products {
 
 		if ( null !== $item['battery_health'] && '' !== $item['battery_health'] ) {
 			/* translators: %d: battery health percentage. */
-			$parts[] = sprintf( __( 'Battery health %d%%', 'codereyes-mobile-shop' ), (int) $item['battery_health'] );
+			$parts[] = sprintf( __( 'Battery health %d%%', 'mobile-shop-manager' ), (int) $item['battery_health'] );
 		}
 
-		$parts[] = __( 'IMEI checked', 'codereyes-mobile-shop' );
+		$parts[] = __( 'IMEI checked', 'mobile-shop-manager' );
 
 		printf( '<p class="cmshop-condition">%s</p>', esc_html( implode( ' · ', $parts ) ) );
 	}
@@ -375,14 +375,14 @@ final class Cmshop_Woo_Products {
 	private function attributes( array $item ): array {
 		$values = array(
 			// With WooCommerce Brands the brand has its own place on the product page.
-			__( 'Brand', 'codereyes-mobile-shop' )     => Cmshop_Woo_Brands::is_available() ? '' : (string) $item['brand'],
-			__( 'Storage', 'codereyes-mobile-shop' )   => (string) $item['storage'],
-			__( 'Colour', 'codereyes-mobile-shop' )    => (string) $item['color'],
-			__( 'Condition', 'codereyes-mobile-shop' ) => Cmshop_Item::TYPE_PHONE === $item['item_type'] ? Cmshop_Item::label( Cmshop_Item::grades(), (string) $item['grade'] ) : '',
+			__( 'Brand', 'mobile-shop-manager' )     => Cmshop_Woo_Brands::is_available() ? '' : (string) $item['brand'],
+			__( 'Storage', 'mobile-shop-manager' )   => (string) $item['storage'],
+			__( 'Colour', 'mobile-shop-manager' )    => (string) $item['color'],
+			__( 'Condition', 'mobile-shop-manager' ) => Cmshop_Item::TYPE_PHONE === $item['item_type'] ? Cmshop_Item::label( Cmshop_Item::grades(), (string) $item['grade'] ) : '',
 		);
 
 		if ( null !== $item['battery_health'] && '' !== $item['battery_health'] ) {
-			$values[ __( 'Battery health', 'codereyes-mobile-shop' ) ] = (int) $item['battery_health'] . '%';
+			$values[ __( 'Battery health', 'mobile-shop-manager' ) ] = (int) $item['battery_health'] . '%';
 		}
 
 		$attributes = array();
@@ -425,7 +425,7 @@ final class Cmshop_Woo_Products {
 	 * @return int[]
 	 */
 	public static function category_ids( string $type ): array {
-		$name = Cmshop_Item::TYPE_PHONE === $type ? __( 'Phones', 'codereyes-mobile-shop' ) : __( 'Accessories', 'codereyes-mobile-shop' );
+		$name = Cmshop_Item::TYPE_PHONE === $type ? __( 'Phones', 'mobile-shop-manager' ) : __( 'Accessories', 'mobile-shop-manager' );
 		$term = term_exists( $name, 'product_cat' );
 
 		if ( ! $term ) {

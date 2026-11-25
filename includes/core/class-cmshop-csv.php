@@ -2,7 +2,7 @@
 /**
  * Spreadsheet-safe CSV cells and rows.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

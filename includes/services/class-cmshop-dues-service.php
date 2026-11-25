@@ -2,7 +2,7 @@
 /**
  * Collecting money customers owe, and their installment schedules.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -66,11 +66,11 @@ final class Cmshop_Dues_Service {
 		$parsed = Cmshop_Money::parse( $amount );
 
 		if ( null === $parsed ) {
-			throw new InvalidArgumentException( __( 'Enter the amount received.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Enter the amount received.', 'mobile-shop-manager' ) );
 		}
 
 		if ( ! array_key_exists( $method, Cmshop_Settings::payment_methods() ) ) {
-			throw new InvalidArgumentException( __( 'Choose how the customer paid.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Choose how the customer paid.', 'mobile-shop-manager' ) );
 		}
 
 		$cents = Cmshop_Money::to_cents( $parsed );

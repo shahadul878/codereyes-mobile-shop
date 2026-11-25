@@ -2,7 +2,7 @@
 /**
  * Installment plans for credit sales, and applying collected money to dues.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -36,11 +36,11 @@ final class Cmshop_Installments {
 		$start = DateTimeImmutable::createFromFormat( '!Y-m-d', $first );
 
 		if ( $due <= 0 || $count < self::MIN_COUNT || $count > self::MAX_COUNT || ! in_array( $interval, self::INTERVALS, true ) ) {
-			throw new InvalidArgumentException( __( 'Choose 2 to 12 weekly or monthly installments.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Choose 2 to 12 weekly or monthly installments.', 'mobile-shop-manager' ) );
 		}
 
 		if ( false === $start || $start->format( 'Y-m-d' ) !== $first ) {
-			throw new InvalidArgumentException( __( 'Enter the first installment date as YYYY-MM-DD.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Enter the first installment date as YYYY-MM-DD.', 'mobile-shop-manager' ) );
 		}
 
 		$each = intdiv( $due, $count );
@@ -131,11 +131,11 @@ final class Cmshop_Installments {
 		$owed = (int) array_sum( array_column( $sales, 'due' ) );
 
 		if ( $amount <= 0 ) {
-			throw new InvalidArgumentException( __( 'Enter the amount received.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Enter the amount received.', 'mobile-shop-manager' ) );
 		}
 
 		if ( $amount > $owed ) {
-			throw new InvalidArgumentException( __( 'That is more than the customer owes.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'That is more than the customer owes.', 'mobile-shop-manager' ) );
 		}
 
 		$parts = array();

@@ -2,7 +2,7 @@
 /**
  * Everything the dashboard shows, gathered in one place.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -116,10 +116,10 @@ final class Cmshop_Dashboard {
 		$month    = substr( $today, 0, 8 ) . '01';
 
 		return array(
-			'today'      => array( __( 'Today', 'codereyes-mobile-shop' ), $today . ' 00:00:00', $tomorrow ),
-			'week'       => array( __( 'Last 7 days', 'codereyes-mobile-shop' ), self::shift( $today, -6 ) . ' 00:00:00', $tomorrow ),
-			'month'      => array( __( 'This month', 'codereyes-mobile-shop' ), $month . ' 00:00:00', $tomorrow ),
-			'last_month' => array( __( 'Last month', 'codereyes-mobile-shop' ), ( new DateTimeImmutable( $month ) )->modify( '-1 month' )->format( 'Y-m-d' ) . ' 00:00:00', $month . ' 00:00:00' ),
+			'today'      => array( __( 'Today', 'mobile-shop-manager' ), $today . ' 00:00:00', $tomorrow ),
+			'week'       => array( __( 'Last 7 days', 'mobile-shop-manager' ), self::shift( $today, -6 ) . ' 00:00:00', $tomorrow ),
+			'month'      => array( __( 'This month', 'mobile-shop-manager' ), $month . ' 00:00:00', $tomorrow ),
+			'last_month' => array( __( 'Last month', 'mobile-shop-manager' ), ( new DateTimeImmutable( $month ) )->modify( '-1 month' )->format( 'Y-m-d' ) . ' 00:00:00', $month . ' 00:00:00' ),
 		);
 	}
 
@@ -142,7 +142,7 @@ final class Cmshop_Dashboard {
 			$tasks[] = array(
 				'icon' => 'phone',
 				/* translators: %d: repairs ready to collect. */
-				'text' => sprintf( _n( '%d repair is ready: call the customer', '%d repairs are ready: call the customers', $ready, 'codereyes-mobile-shop' ), $ready ),
+				'text' => sprintf( _n( '%d repair is ready: call the customer', '%d repairs are ready: call the customers', $ready, 'mobile-shop-manager' ), $ready ),
 				'url'  => Cmshop_View::url( 'cmshop-repairs', array( 'status' => Cmshop_Repair_Status::READY ) ),
 				'tone' => 'good',
 			);
@@ -152,7 +152,7 @@ final class Cmshop_Dashboard {
 			$tasks[] = array(
 				'icon' => 'calendar-alt',
 				/* translators: %d: repairs booked on the website. */
-				'text' => sprintf( _n( '%d repair booked online: confirm with the customer', '%d repairs booked online: confirm with the customers', $booked, 'codereyes-mobile-shop' ), $booked ),
+				'text' => sprintf( _n( '%d repair booked online: confirm with the customer', '%d repairs booked online: confirm with the customers', $booked, 'mobile-shop-manager' ), $booked ),
 				'url'  => Cmshop_View::url( 'cmshop-repairs', array( 'status' => Cmshop_Repair_Status::REQUESTED ) ),
 				'tone' => 'info',
 			);
@@ -162,7 +162,7 @@ final class Cmshop_Dashboard {
 			$tasks[] = array(
 				'icon' => 'clock',
 				/* translators: %d: overdue repairs. */
-				'text' => sprintf( _n( '%d repair is past its promised date', '%d repairs are past their promised date', $overdue, 'codereyes-mobile-shop' ), $overdue ),
+				'text' => sprintf( _n( '%d repair is past its promised date', '%d repairs are past their promised date', $overdue, 'mobile-shop-manager' ), $overdue ),
 				'url'  => Cmshop_View::url( 'cmshop-repairs' ),
 				'tone' => 'warn',
 			);
@@ -172,7 +172,7 @@ final class Cmshop_Dashboard {
 			$tasks[] = array(
 				'icon' => 'cart',
 				/* translators: %d: accessories running low. */
-				'text' => sprintf( _n( 'Reorder %d accessory that is running low', 'Reorder %d accessories that are running low', $low, 'codereyes-mobile-shop' ), $low ),
+				'text' => sprintf( _n( 'Reorder %d accessory that is running low', 'Reorder %d accessories that are running low', $low, 'mobile-shop-manager' ), $low ),
 				'url'  => Cmshop_View::url( 'cmshop-suppliers', array( 'action' => 'purchase' ) ),
 				'tone' => 'warn',
 			);
@@ -182,7 +182,7 @@ final class Cmshop_Dashboard {
 			$tasks[] = array(
 				'icon' => 'money-alt',
 				/* translators: 1: amount owed, 2: number of unpaid sales. */
-				'text' => sprintf( _n( 'Collect %1$s owed on %2$d sale', 'Collect %1$s owed on %2$d sales', $dues['sales'], 'codereyes-mobile-shop' ), Cmshop_Settings::money( $dues['amount'] ), $dues['sales'] ),
+				'text' => sprintf( _n( 'Collect %1$s owed on %2$d sale', 'Collect %1$s owed on %2$d sales', $dues['sales'], 'mobile-shop-manager' ), Cmshop_Settings::money( $dues['amount'] ), $dues['sales'] ),
 				'url'  => Cmshop_View::url( 'cmshop-dues' ),
 				'tone' => 'warn',
 			);
@@ -194,7 +194,7 @@ final class Cmshop_Dashboard {
 			$tasks[] = array(
 				'icon' => 'store',
 				/* translators: %s: amount owed to suppliers. */
-				'text' => sprintf( __( 'You owe suppliers %s', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $suppliers ) ) ),
+				'text' => sprintf( __( 'You owe suppliers %s', 'mobile-shop-manager' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $suppliers ) ) ),
 				'url'  => Cmshop_View::url( 'cmshop-suppliers' ),
 				'tone' => 'muted',
 			);
@@ -202,7 +202,7 @@ final class Cmshop_Dashboard {
 
 		$tasks[] = array(
 			'icon' => 'lock',
-			'text' => __( 'Count the cash drawer before closing', 'codereyes-mobile-shop' ),
+			'text' => __( 'Count the cash drawer before closing', 'mobile-shop-manager' ),
 			'url'  => Cmshop_View::url( 'cmshop-shifts' ),
 			'tone' => 'muted',
 		);

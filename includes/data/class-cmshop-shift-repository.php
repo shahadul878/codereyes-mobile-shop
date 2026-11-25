@@ -2,7 +2,7 @@
 /**
  * Cash register shifts.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

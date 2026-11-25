@@ -2,7 +2,7 @@
 /**
  * End-of-day (shift) report, printable on a receipt printer.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array $cmshop { shift: array (with summary, petty) }
  */
@@ -24,9 +24,9 @@ $cmshop_diff   = $cmshop_closed ? Cmshop_Shift_Math::difference( Cmshop_Money::t
 ?>
 <div class="wrap cmshop-wrap">
 	<div class="cmshop-no-print">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Shift report', 'codereyes-mobile-shop' ); ?></h1>
-		<button type="button" class="page-title-action cmshop-print"><?php esc_html_e( 'Print', 'codereyes-mobile-shop' ); ?></button>
-		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-shifts' ) ); ?>"><?php esc_html_e( 'Cash register', 'codereyes-mobile-shop' ); ?></a>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Shift report', 'mobile-shop-manager' ); ?></h1>
+		<button type="button" class="page-title-action cmshop-print"><?php esc_html_e( 'Print', 'mobile-shop-manager' ); ?></button>
+		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-shifts' ) ); ?>"><?php esc_html_e( 'Cash register', 'mobile-shop-manager' ); ?></a>
 		<hr class="wp-header-end">
 		<?php Cmshop_View::notice(); ?>
 	</div>
@@ -34,38 +34,38 @@ $cmshop_diff   = $cmshop_closed ? Cmshop_Shift_Math::difference( Cmshop_Money::t
 	<article class="cmshop-receipt">
 		<header class="cmshop-receipt__head">
 			<h2><?php echo esc_html( (string) Cmshop_Settings::get( 'shop_name' ) ); ?></h2>
-			<p><?php echo esc_html( $cmshop_closed ? __( 'END OF SHIFT REPORT', 'codereyes-mobile-shop' ) : __( 'SHIFT SO FAR (STILL OPEN)', 'codereyes-mobile-shop' ) ); ?></p>
+			<p><?php echo esc_html( $cmshop_closed ? __( 'END OF SHIFT REPORT', 'mobile-shop-manager' ) : __( 'SHIFT SO FAR (STILL OPEN)', 'mobile-shop-manager' ) ); ?></p>
 		</header>
 
 		<dl class="cmshop-receipt__meta">
-			<dt><?php esc_html_e( 'Cashier', 'codereyes-mobile-shop' ); ?></dt><dd><?php echo esc_html( $cmshop_user ? $cmshop_user->display_name : '—' ); ?></dd>
-			<dt><?php esc_html_e( 'Opened', 'codereyes-mobile-shop' ); ?></dt><dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_shift['opened_at'] ) ); ?></dd>
+			<dt><?php esc_html_e( 'Cashier', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( $cmshop_user ? $cmshop_user->display_name : '—' ); ?></dd>
+			<dt><?php esc_html_e( 'Opened', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_shift['opened_at'] ) ); ?></dd>
 			<?php if ( $cmshop_closed ) : ?>
-				<dt><?php esc_html_e( 'Closed', 'codereyes-mobile-shop' ); ?></dt><dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_shift['closed_at'] ) ); ?></dd>
+				<dt><?php esc_html_e( 'Closed', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_shift['closed_at'] ) ); ?></dd>
 			<?php endif; ?>
 		</dl>
 
 		<table class="cmshop-receipt__lines">
-			<thead><tr><th><?php esc_html_e( 'Taken by', 'codereyes-mobile-shop' ); ?></th><th class="num"><?php esc_html_e( 'Amount', 'codereyes-mobile-shop' ); ?></th></tr></thead>
+			<thead><tr><th><?php esc_html_e( 'Taken by', 'mobile-shop-manager' ); ?></th><th class="num"><?php esc_html_e( 'Amount', 'mobile-shop-manager' ); ?></th></tr></thead>
 			<tbody>
 				<?php foreach ( $cmshop_sum['by_method'] as $cmshop_method => $cmshop_cents ) : ?>
 					<tr><td><?php echo esc_html( Cmshop_Item::label( $cmshop_labels, (string) $cmshop_method ) ); ?></td><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_cents ) ); ?></td></tr>
 				<?php endforeach; ?>
 			</tbody>
 			<tfoot>
-				<tr><th><?php esc_html_e( 'Sales payments', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['sales'] ) ); ?></td></tr>
-				<tr><th><?php esc_html_e( 'Dues collected', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['dues'] ) ); ?></td></tr>
-				<tr><th><?php esc_html_e( 'Refunds', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['refunds'] ) ); ?></td></tr>
+				<tr><th><?php esc_html_e( 'Sales payments', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['sales'] ) ); ?></td></tr>
+				<tr><th><?php esc_html_e( 'Dues collected', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['dues'] ) ); ?></td></tr>
+				<tr><th><?php esc_html_e( 'Refunds', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['refunds'] ) ); ?></td></tr>
 				<?php if ( $cmshop_sum['suppliers'] > 0 ) : ?>
-					<tr><th><?php esc_html_e( 'Paid to suppliers', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['suppliers'] ) ); ?></td></tr>
+					<tr><th><?php esc_html_e( 'Paid to suppliers', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['suppliers'] ) ); ?></td></tr>
 				<?php endif; ?>
-				<tr><th><?php esc_html_e( 'Petty cash out', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['cash_out'] ) ); ?></td></tr>
-				<tr><th><?php esc_html_e( 'Petty cash in', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['cash_in'] ) ); ?></td></tr>
-				<tr><th><?php esc_html_e( 'Opening float', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( Cmshop_Settings::money( (string) $cmshop_shift['opening_float'] ) ); ?></td></tr>
-				<tr class="is-total"><th><?php esc_html_e( 'Expected cash', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_closed ? Cmshop_Money::to_cents( (string) $cmshop_shift['expected_cash'] ) : $cmshop_sum['expected'] ) ); ?></td></tr>
+				<tr><th><?php esc_html_e( 'Petty cash out', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_minus( $cmshop_sum['cash_out'] ) ); ?></td></tr>
+				<tr><th><?php esc_html_e( 'Petty cash in', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_sum['cash_in'] ) ); ?></td></tr>
+				<tr><th><?php esc_html_e( 'Opening float', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( Cmshop_Settings::money( (string) $cmshop_shift['opening_float'] ) ); ?></td></tr>
+				<tr class="is-total"><th><?php esc_html_e( 'Expected cash', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( $cmshop_closed ? Cmshop_Money::to_cents( (string) $cmshop_shift['expected_cash'] ) : $cmshop_sum['expected'] ) ); ?></td></tr>
 				<?php if ( $cmshop_closed ) : ?>
-					<tr><th><?php esc_html_e( 'Counted cash', 'codereyes-mobile-shop' ); ?></th><td class="num"><?php echo esc_html( Cmshop_Settings::money( (string) $cmshop_shift['counted_cash'] ) ); ?></td></tr>
-					<tr class="<?php echo esc_attr( 0 === $cmshop_diff ? '' : 'is-due' ); ?>"><th><?php echo esc_html( $cmshop_diff < 0 ? __( 'Short', 'codereyes-mobile-shop' ) : ( $cmshop_diff > 0 ? __( 'Over', 'codereyes-mobile-shop' ) : __( 'Balanced', 'codereyes-mobile-shop' ) ) ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( abs( $cmshop_diff ) ) ); ?></td></tr>
+					<tr><th><?php esc_html_e( 'Counted cash', 'mobile-shop-manager' ); ?></th><td class="num"><?php echo esc_html( Cmshop_Settings::money( (string) $cmshop_shift['counted_cash'] ) ); ?></td></tr>
+					<tr class="<?php echo esc_attr( 0 === $cmshop_diff ? '' : 'is-due' ); ?>"><th><?php echo esc_html( $cmshop_diff < 0 ? __( 'Short', 'mobile-shop-manager' ) : ( $cmshop_diff > 0 ? __( 'Over', 'mobile-shop-manager' ) : __( 'Balanced', 'mobile-shop-manager' ) ) ); ?></th><td class="num"><?php echo esc_html( $cmshop_money( abs( $cmshop_diff ) ) ); ?></td></tr>
 				<?php endif; ?>
 			</tfoot>
 		</table>

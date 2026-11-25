@@ -2,7 +2,7 @@
 /**
  * Stock item vocabulary: types, statuses and condition grades.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -30,8 +30,8 @@ final class Cmshop_Item {
 	 */
 	public static function types(): array {
 		return array(
-			self::TYPE_PHONE     => __( 'Phone', 'codereyes-mobile-shop' ),
-			self::TYPE_ACCESSORY => __( 'Accessory', 'codereyes-mobile-shop' ),
+			self::TYPE_PHONE     => __( 'Phone', 'mobile-shop-manager' ),
+			self::TYPE_ACCESSORY => __( 'Accessory', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -42,9 +42,9 @@ final class Cmshop_Item {
 	 */
 	public static function statuses(): array {
 		return array(
-			self::STATUS_IN_STOCK => __( 'In stock', 'codereyes-mobile-shop' ),
-			self::STATUS_RESERVED => __( 'Reserved', 'codereyes-mobile-shop' ),
-			self::STATUS_SOLD     => __( 'Sold', 'codereyes-mobile-shop' ),
+			self::STATUS_IN_STOCK => __( 'In stock', 'mobile-shop-manager' ),
+			self::STATUS_RESERVED => __( 'Reserved', 'mobile-shop-manager' ),
+			self::STATUS_SOLD     => __( 'Sold', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -55,10 +55,10 @@ final class Cmshop_Item {
 	 */
 	public static function grades(): array {
 		return array(
-			'new'      => __( 'New (sealed)', 'codereyes-mobile-shop' ),
-			'like_new' => __( 'Like new', 'codereyes-mobile-shop' ),
-			'good'     => __( 'Good', 'codereyes-mobile-shop' ),
-			'fair'     => __( 'Fair', 'codereyes-mobile-shop' ),
+			'new'      => __( 'New (sealed)', 'mobile-shop-manager' ),
+			'like_new' => __( 'Like new', 'mobile-shop-manager' ),
+			'good'     => __( 'Good', 'mobile-shop-manager' ),
+			'fair'     => __( 'Fair', 'mobile-shop-manager' ),
 		);
 	}
 

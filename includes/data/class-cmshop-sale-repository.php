@@ -4,7 +4,7 @@
  *
  * phpcs:disable WordPress.DB.DirectDatabaseQuery -- Custom tables; nothing to cache across requests.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

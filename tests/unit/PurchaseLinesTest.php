@@ -2,7 +2,7 @@
 /**
  * Bulk purchase lines: phones by scanned IMEIs, accessories by quantity.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

@@ -2,7 +2,7 @@
 /**
  * REST endpoints used by the point-of-sale screen.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -188,16 +188,17 @@ final class Cmshop_Rest {
 	 * @return WP_REST_Response
 	 */
 	public function checkout( WP_REST_Request $request ): WP_REST_Response {
-		$text = static function ( string $key ) use ( $request ): string {
+		$text  = static function ( string $key ) use ( $request ): string {
 			$value = $request->get_param( $key );
 
-			return is_scalar( $value ) ? (string) $value : '';
+			return is_scalar( $value ) ? sanitize_text_field( (string) $value ) : '';
 		};
+		$notes = $request->get_param( 'notes' );
 
 		try {
 			$sale_id = $this->service->checkout(
 				array(
-					'lines'          => (array) $request->get_param( 'lines' ),
+					'lines'          => (array) Cmshop_Sanitize::deep( (array) $request->get_param( 'lines' ) ),
 					'customer_name'  => $text( 'customer_name' ),
 					'customer_phone' => $text( 'customer_phone' ),
 					'discount'       => $text( 'discount' ),
@@ -205,8 +206,8 @@ final class Cmshop_Rest {
 					'payment_method' => sanitize_key( $text( 'payment_method' ) ),
 					'payments'       => $this->payments( $request ),
 					'installments'   => $this->installments( $request ),
-					'trade_ins'      => array_values( array_filter( (array) $request->get_param( 'trade_ins' ), 'is_array' ) ),
-					'notes'          => $text( 'notes' ),
+					'trade_ins'      => array_values( array_filter( (array) Cmshop_Sanitize::deep( (array) $request->get_param( 'trade_ins' ) ), 'is_array' ) ),
+					'notes'          => is_scalar( $notes ) ? sanitize_textarea_field( (string) $notes ) : '',
 					'channel'        => Cmshop_Sale_Repository::CHANNEL_STORE,
 				),
 				get_current_user_id()
@@ -215,9 +216,9 @@ final class Cmshop_Rest {
 			return self::envelope( null, $error->getMessage(), 422 );
 		} catch ( RuntimeException $error ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log of a database failure.
-			error_log( 'Codereyes Mobile Shop checkout failed: ' . $error->getMessage() );
+			error_log( 'Mobile Shop Manager checkout failed: ' . $error->getMessage() );
 
-			return self::envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'codereyes-mobile-shop' ), 500 );
+			return self::envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'mobile-shop-manager' ), 500 );
 		}
 
 		$sale = (array) Cmshop_Plugin::sales()->find( $sale_id );

@@ -2,7 +2,7 @@
 /**
  * [cmshop_warranty] IMEI form and result.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array  $outcome { imei, error, sale, warranty }
  * @var string $style   Inline CSS custom properties from block/widget settings.
@@ -17,11 +17,11 @@ $cmshop_format   = (string) get_option( 'date_format' );
 	<form method="post" class="cmshop-panel cmshop-lookup__form cmshop-lookup__form--single">
 		<?php wp_nonce_field( Cmshop_Warranty_Check::nonce_action(), '_cmshop_nonce' ); ?>
 		<p>
-			<label for="cmshop-warranty-imei"><?php esc_html_e( 'IMEI number', 'codereyes-mobile-shop' ); ?></label>
+			<label for="cmshop-warranty-imei"><?php esc_html_e( 'IMEI number', 'mobile-shop-manager' ); ?></label>
 			<input type="text" id="cmshop-warranty-imei" name="cmshop_warranty_imei" value="<?php echo esc_attr( $outcome['imei'] ); ?>" inputmode="numeric" maxlength="20" autocomplete="off" required placeholder="490154203237518" aria-describedby="cmshop-warranty-help">
-			<small id="cmshop-warranty-help"><?php esc_html_e( 'Dial *#06# on the phone, or look on the box.', 'codereyes-mobile-shop' ); ?></small>
+			<small id="cmshop-warranty-help"><?php esc_html_e( 'Dial *#06# on the phone, or look on the box.', 'mobile-shop-manager' ); ?></small>
 		</p>
-		<p><button type="submit"><?php esc_html_e( 'Check warranty', 'codereyes-mobile-shop' ); ?></button></p>
+		<p><button type="submit"><?php esc_html_e( 'Check warranty', 'mobile-shop-manager' ); ?></button></p>
 	</form>
 
 	<?php if ( '' !== $outcome['error'] ) : ?>
@@ -32,9 +32,9 @@ $cmshop_format   = (string) get_option( 'date_format' );
 		<?php
 		$cmshop_active = Cmshop_Warranty::ACTIVE === $cmshop_warranty['state'];
 		$cmshop_labels = array(
-			Cmshop_Warranty::ACTIVE  => __( 'Under warranty', 'codereyes-mobile-shop' ),
-			Cmshop_Warranty::EXPIRED => __( 'Warranty ended', 'codereyes-mobile-shop' ),
-			Cmshop_Warranty::NONE    => __( 'No warranty', 'codereyes-mobile-shop' ),
+			Cmshop_Warranty::ACTIVE  => __( 'Under warranty', 'mobile-shop-manager' ),
+			Cmshop_Warranty::EXPIRED => __( 'Warranty ended', 'mobile-shop-manager' ),
+			Cmshop_Warranty::NONE    => __( 'No warranty', 'mobile-shop-manager' ),
 		);
 		?>
 		<section class="cmshop-panel cmshop-lookup__result" aria-live="polite">
@@ -47,24 +47,24 @@ $cmshop_format   = (string) get_option( 'date_format' );
 			</h3>
 			<dl class="cmshop-facts">
 				<div>
-					<dt><?php esc_html_e( 'Bought from us', 'codereyes-mobile-shop' ); ?></dt>
+					<dt><?php esc_html_e( 'Bought from us', 'mobile-shop-manager' ); ?></dt>
 					<dd><?php echo esc_html( mysql2date( $cmshop_format, (string) $outcome['sale']['sold_at'] ) ); ?></dd>
 				</div>
 				<?php if ( Cmshop_Warranty::NONE !== $cmshop_warranty['state'] ) : ?>
 					<div>
-						<dt><?php echo esc_html( $cmshop_active ? __( 'Covered until', 'codereyes-mobile-shop' ) : __( 'Ended on', 'codereyes-mobile-shop' ) ); ?></dt>
+						<dt><?php echo esc_html( $cmshop_active ? __( 'Covered until', 'mobile-shop-manager' ) : __( 'Ended on', 'mobile-shop-manager' ) ); ?></dt>
 						<dd><?php echo esc_html( mysql2date( $cmshop_format, $cmshop_warranty['ends'] ) ); ?></dd>
 					</div>
 				<?php endif; ?>
 				<?php if ( $cmshop_active ) : ?>
 					<div>
-						<dt><?php esc_html_e( 'Days left', 'codereyes-mobile-shop' ); ?></dt>
+						<dt><?php esc_html_e( 'Days left', 'mobile-shop-manager' ); ?></dt>
 						<dd><?php echo esc_html( (string) $cmshop_warranty['days_left'] ); ?></dd>
 					</div>
 				<?php endif; ?>
 			</dl>
 			<?php if ( $cmshop_active ) : ?>
-				<p class="cmshop-note"><?php esc_html_e( 'Bring the phone and your receipt to the shop for a warranty repair.', 'codereyes-mobile-shop' ); ?></p>
+				<p class="cmshop-note"><?php esc_html_e( 'Bring the phone and your receipt to the shop for a warranty repair.', 'mobile-shop-manager' ); ?></p>
 			<?php endif; ?>
 		</section>
 	<?php endif; ?>

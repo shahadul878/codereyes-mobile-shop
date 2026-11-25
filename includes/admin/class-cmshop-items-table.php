@@ -2,7 +2,7 @@
 /**
  * Items list table.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -22,15 +22,15 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 	public function get_columns(): array {
 		return array(
 			'cb'         => '<input type="checkbox">',
-			'name'       => __( 'Item', 'codereyes-mobile-shop' ),
-			'imei1'      => __( 'IMEI / SKU', 'codereyes-mobile-shop' ),
-			'grade'      => __( 'Condition', 'codereyes-mobile-shop' ),
-			'quantity'   => __( 'Qty', 'codereyes-mobile-shop' ),
-			'cost_price' => __( 'Cost', 'codereyes-mobile-shop' ),
-			'sale_price' => __( 'Price', 'codereyes-mobile-shop' ),
-			'status'     => __( 'Status', 'codereyes-mobile-shop' ),
-			'online'     => __( 'Online', 'codereyes-mobile-shop' ),
-			'created_at' => __( 'Added', 'codereyes-mobile-shop' ),
+			'name'       => __( 'Item', 'mobile-shop-manager' ),
+			'imei1'      => __( 'IMEI / SKU', 'mobile-shop-manager' ),
+			'grade'      => __( 'Condition', 'mobile-shop-manager' ),
+			'quantity'   => __( 'Qty', 'mobile-shop-manager' ),
+			'cost_price' => __( 'Cost', 'mobile-shop-manager' ),
+			'sale_price' => __( 'Price', 'mobile-shop-manager' ),
+			'status'     => __( 'Status', 'mobile-shop-manager' ),
+			'online'     => __( 'Online', 'mobile-shop-manager' ),
+			'created_at' => __( 'Added', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -40,7 +40,7 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 	 * @return array
 	 */
 	protected function get_bulk_actions(): array {
-		return array( 'stickers' => __( 'Print price stickers', 'codereyes-mobile-shop' ) );
+		return array( 'stickers' => __( 'Print price stickers', 'mobile-shop-manager' ) );
 	}
 
 	/**
@@ -54,7 +54,7 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 			'<label class="screen-reader-text" for="cmshop-item-%1$d">%2$s</label><input type="checkbox" id="cmshop-item-%1$d" name="item[]" value="%1$d">',
 			(int) $item['id'],
 			/* translators: %s: item name. */
-			esc_html( sprintf( __( 'Select %s', 'codereyes-mobile-shop' ), Cmshop_Item::display_name( $item ) ) )
+			esc_html( sprintf( __( 'Select %s', 'mobile-shop-manager' ), Cmshop_Item::display_name( $item ) ) )
 		);
 	}
 
@@ -79,9 +79,9 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 	 */
 	protected function filter_choices(): array {
 		return array(
-			'item_type' => array( __( 'Type', 'codereyes-mobile-shop' ), Cmshop_Item::types() ),
-			'status'    => array( __( 'Status', 'codereyes-mobile-shop' ), Cmshop_Item::statuses() ),
-			'grade'     => array( __( 'Condition', 'codereyes-mobile-shop' ), Cmshop_Item::grades() ),
+			'item_type' => array( __( 'Type', 'mobile-shop-manager' ), Cmshop_Item::types() ),
+			'status'    => array( __( 'Status', 'mobile-shop-manager' ), Cmshop_Item::statuses() ),
+			'grade'     => array( __( 'Condition', 'mobile-shop-manager' ), Cmshop_Item::grades() ),
 		);
 	}
 
@@ -105,9 +105,9 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 						)
 					)
 				),
-				esc_html__( 'Edit', 'codereyes-mobile-shop' )
+				esc_html__( 'Edit', 'mobile-shop-manager' )
 			),
-			'sell'    => sprintf( '<a href="%s">%s</a>', esc_url( Cmshop_View::url( 'cmshop-pos', array( 'add' => $id ) ) ), esc_html__( 'Sell', 'codereyes-mobile-shop' ) ),
+			'sell'    => sprintf( '<a href="%s">%s</a>', esc_url( Cmshop_View::url( 'cmshop-pos', array( 'add' => $id ) ) ), esc_html__( 'Sell', 'mobile-shop-manager' ) ),
 			'sticker' => sprintf(
 				'<a href="%s">%s</a>',
 				esc_url(
@@ -119,13 +119,13 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 						)
 					)
 				),
-				esc_html__( 'Sticker', 'codereyes-mobile-shop' )
+				esc_html__( 'Sticker', 'mobile-shop-manager' )
 			),
 			'delete'  => sprintf(
 				'<a href="%s" class="cmshop-confirm" data-confirm="%s">%s</a>',
 				esc_url( Cmshop_View::action_url( 'delete_item', array( 'id' => $id ) ) ),
-				esc_attr__( 'Delete this stock item?', 'codereyes-mobile-shop' ),
-				esc_html__( 'Delete', 'codereyes-mobile-shop' )
+				esc_attr__( 'Delete this stock item?', 'mobile-shop-manager' ),
+				esc_html__( 'Delete', 'mobile-shop-manager' )
 			),
 		);
 
@@ -217,7 +217,7 @@ final class Cmshop_Items_Table extends Cmshop_List_Table {
 			return '—';
 		}
 
-		return sprintf( '<a href="%s">%s</a>', esc_url( (string) get_edit_post_link( $product_id ) ), esc_html__( 'Product', 'codereyes-mobile-shop' ) );
+		return sprintf( '<a href="%s">%s</a>', esc_url( (string) get_edit_post_link( $product_id ) ), esc_html__( 'Product', 'mobile-shop-manager' ) );
 	}
 
 	/**

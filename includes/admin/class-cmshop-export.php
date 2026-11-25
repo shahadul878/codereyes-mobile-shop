@@ -2,7 +2,7 @@
 /**
  * CSV export of stock, sales, repairs and customers.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -74,7 +74,7 @@ final class Cmshop_Export {
 	 */
 	public function download(): void {
 		if ( ! current_user_can( Cmshop_Installer::CAPABILITY ) ) {
-			wp_die( esc_html__( 'You do not have permission to export.', 'codereyes-mobile-shop' ), 403 );
+			wp_die( esc_html__( 'You do not have permission to export.', 'mobile-shop-manager' ), 403 );
 		}
 
 		check_admin_referer( self::ACTION );
@@ -84,7 +84,7 @@ final class Cmshop_Export {
 		$columns    = Cmshop_Csv::columns( $dataset );
 
 		if ( null === $repository || array() === $columns ) {
-			wp_die( esc_html__( 'Unknown export.', 'codereyes-mobile-shop' ), 400 );
+			wp_die( esc_html__( 'Unknown export.', 'mobile-shop-manager' ), 400 );
 		}
 
 		$args = array_merge( Cmshop_List_Table::request_args(), array( 'filters' => $this->filters( $dataset ) ) );
@@ -96,7 +96,7 @@ final class Cmshop_Export {
 		$out = fopen( 'php://output', 'w' );
 
 		if ( false === $out ) {
-			wp_die( esc_html__( 'The export could not be started.', 'codereyes-mobile-shop' ), 500 );
+			wp_die( esc_html__( 'The export could not be started.', 'mobile-shop-manager' ), 500 );
 		}
 
 		// UTF-8 byte order mark so Excel shows ৳ and Bengali names correctly.

@@ -2,7 +2,7 @@
 /**
  * [cmshop_repair_request] booking form, or the confirmation after booking.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array $view { values, errors, error, booked, nonce, action, honeypot, today, style }
  */
@@ -18,7 +18,7 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 		<label for="<?php echo esc_attr( $id ); ?>">
 			<?php echo esc_html( $label ); ?>
 			<?php if ( ! $required ) : ?>
-				<span class="cmshop-booking__optional"><?php esc_html_e( '(optional)', 'codereyes-mobile-shop' ); ?></span>
+				<span class="cmshop-booking__optional"><?php esc_html_e( '(optional)', 'mobile-shop-manager' ); ?></span>
 			<?php endif; ?>
 		</label>
 		<?php if ( 'textarea' === ( $opts['type'] ?? '' ) ) : ?>
@@ -40,16 +40,16 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 	<?php if ( '' !== $view['booked'] ) : ?>
 		<section class="cmshop-panel cmshop-booking__done" role="status">
 			<span class="cmshop-status-icon" aria-hidden="true">&#10003;</span>
-			<h3><?php esc_html_e( 'Your repair is booked', 'codereyes-mobile-shop' ); ?></h3>
-			<p><?php esc_html_e( 'Your ticket number is', 'codereyes-mobile-shop' ); ?></p>
+			<h3><?php esc_html_e( 'Your repair is booked', 'mobile-shop-manager' ); ?></h3>
+			<p><?php esc_html_e( 'Your ticket number is', 'mobile-shop-manager' ); ?></p>
 			<p class="cmshop-booking__code"><?php echo esc_html( $view['booked'] ); ?></p>
-			<p><?php esc_html_e( 'Bring the phone to the shop and quote this number. Keep it to check progress on our website with the last 4 digits of your phone number.', 'codereyes-mobile-shop' ); ?></p>
+			<p><?php esc_html_e( 'Bring the phone to the shop and quote this number. Keep it to check progress on our website with the last 4 digits of your phone number.', 'mobile-shop-manager' ); ?></p>
 		</section>
 	<?php else : ?>
 		<?php if ( '' !== $view['error'] ) : ?>
 			<p class="cmshop-alert" role="alert"><?php echo esc_html( $view['error'] ); ?></p>
 		<?php elseif ( array() !== $view['errors'] ) : ?>
-			<p class="cmshop-alert" role="alert"><?php esc_html_e( 'Please check the fields marked below.', 'codereyes-mobile-shop' ); ?></p>
+			<p class="cmshop-alert" role="alert"><?php esc_html_e( 'Please check the fields marked below.', 'mobile-shop-manager' ); ?></p>
 		<?php endif; ?>
 
 		<form method="post" class="cmshop-panel cmshop-booking__form" novalidate>
@@ -60,7 +60,7 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 				<?php
 				$cmshop_field(
 					'customer_name',
-					__( 'Your name', 'codereyes-mobile-shop' ),
+					__( 'Your name', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'required'     => true,
@@ -69,7 +69,7 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 				);
 				$cmshop_field(
 					'customer_phone',
-					__( 'Phone number', 'codereyes-mobile-shop' ),
+					__( 'Phone number', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'required'     => true,
@@ -79,18 +79,18 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 				);
 				$cmshop_field(
 					'customer_email',
-					__( 'Email', 'codereyes-mobile-shop' ),
+					__( 'Email', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'type'         => 'email',
 						'autocomplete' => 'email',
 						'wide'         => true,
-						'help'         => __( 'We will email you the ticket number.', 'codereyes-mobile-shop' ),
+						'help'         => __( 'We will email you the ticket number.', 'mobile-shop-manager' ),
 					)
 				);
 				$cmshop_field(
 					'device',
-					__( 'Phone brand and model', 'codereyes-mobile-shop' ),
+					__( 'Phone brand and model', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'required'    => true,
@@ -99,16 +99,16 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 				);
 				$cmshop_field(
 					'imei',
-					__( 'IMEI', 'codereyes-mobile-shop' ),
+					__( 'IMEI', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'inputmode' => 'numeric',
-						'help'      => __( 'Dial *#06# to see it.', 'codereyes-mobile-shop' ),
+						'help'      => __( 'Dial *#06# to see it.', 'mobile-shop-manager' ),
 					)
 				);
 				$cmshop_field(
 					'fault',
-					__( 'What is wrong with the phone?', 'codereyes-mobile-shop' ),
+					__( 'What is wrong with the phone?', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'required' => true,
@@ -118,7 +118,7 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 				);
 				$cmshop_field(
 					'preferred_date',
-					__( 'When will you bring it in?', 'codereyes-mobile-shop' ),
+					__( 'When will you bring it in?', 'mobile-shop-manager' ),
 					$view,
 					array(
 						'type' => 'date',
@@ -129,11 +129,11 @@ $cmshop_field = static function ( string $name, string $label, array $view, arra
 			</div>
 
 			<p class="cmshop-booking__trap" aria-hidden="true">
-				<label for="cmshop-book-website"><?php esc_html_e( 'Leave this empty', 'codereyes-mobile-shop' ); ?></label>
+				<label for="cmshop-book-website"><?php esc_html_e( 'Leave this empty', 'mobile-shop-manager' ); ?></label>
 				<input type="text" id="cmshop-book-website" name="<?php echo esc_attr( $view['honeypot'] ); ?>" value="" tabindex="-1" autocomplete="off">
 			</p>
 
-			<p><button type="submit"><?php esc_html_e( 'Book repair', 'codereyes-mobile-shop' ); ?></button></p>
+			<p><button type="submit"><?php esc_html_e( 'Book repair', 'mobile-shop-manager' ); ?></button></p>
 		</form>
 	<?php endif; ?>
 </div>

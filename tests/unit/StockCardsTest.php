@@ -2,7 +2,7 @@
 /**
  * Tests for the cards shown by the [cmshop_stock] shortcode.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

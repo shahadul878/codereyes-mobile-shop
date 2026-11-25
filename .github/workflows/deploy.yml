@@ -21,7 +21,7 @@ jobs:
       - name: Check the tag matches the plugin version
         run: |
           tag="${GITHUB_REF_NAME#v}"
-          header=$(grep -m1 -E '^\s*\*\s*Version:' codereyes-mobile-shop.php | awk '{print $NF}')
+          header=$(grep -m1 -E '^\s*\*\s*Version:' mobile-shop-manager.php | awk '{print $NF}')
           stable=$(grep -m1 -E '^Stable tag:' readme.txt | awk '{print $NF}')
           echo "tag=$tag header=$header stable=$stable"
           test "$tag" = "$header" && test "$tag" = "$stable"
@@ -34,7 +34,7 @@ jobs:
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SLUG: codereyes-mobile-shop
+          SLUG: mobile-shop-manager
           ASSETS_DIR: .wordpress-org
 
       - name: Attach the ZIP to the release

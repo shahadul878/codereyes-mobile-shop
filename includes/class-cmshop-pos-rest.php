@@ -2,7 +2,7 @@
 /**
  * REST routes for the full-screen POS: product grid, customer lookup, held sales.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -212,7 +212,7 @@ final class Cmshop_Pos_Rest {
 	public function unhold( WP_REST_Request $request ): WP_REST_Response {
 		$removed = Cmshop_Held_Sales::remove( get_current_user_id(), (string) $request->get_param( 'id' ) );
 
-		return $removed ? Cmshop_Rest::envelope( true ) : Cmshop_Rest::envelope( null, __( 'That held sale was not found.', 'codereyes-mobile-shop' ), 404 );
+		return $removed ? Cmshop_Rest::envelope( true ) : Cmshop_Rest::envelope( null, __( 'That held sale was not found.', 'mobile-shop-manager' ), 404 );
 	}
 
 	/**
@@ -231,7 +231,7 @@ final class Cmshop_Pos_Rest {
 				'image'      => false === $image ? '' : $image,
 				'price_text' => 'model' === $tile['kind'] && $tile['price_min'] !== $tile['price_max']
 					/* translators: %s: lowest price. */
-					? sprintf( __( 'From %s', 'codereyes-mobile-shop' ), Cmshop_Settings::money( $price ) )
+					? sprintf( __( 'From %s', 'mobile-shop-manager' ), Cmshop_Settings::money( $price ) )
 					: Cmshop_Settings::money( $price ),
 			)
 		);

@@ -2,7 +2,7 @@
 /**
  * Tests for installment plans and collecting dues.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

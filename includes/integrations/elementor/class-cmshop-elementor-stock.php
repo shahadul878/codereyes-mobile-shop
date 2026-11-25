@@ -2,7 +2,7 @@
 /**
  * Elementor widget: phones in stock.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ final class Cmshop_Elementor_Stock extends Cmshop_Elementor_Widget {
 	 * @return string
 	 */
 	public function get_title(): string {
-		return __( 'Phones in Stock', 'codereyes-mobile-shop' );
+		return __( 'Phones in Stock', 'mobile-shop-manager' );
 	}
 
 	/**
@@ -68,7 +68,7 @@ final class Cmshop_Elementor_Stock extends Cmshop_Elementor_Widget {
 		$this->start_controls_section(
 			'cmshop_content',
 			array(
-				'label' => __( 'What to show', 'codereyes-mobile-shop' ),
+				'label' => __( 'What to show', 'mobile-shop-manager' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -76,13 +76,13 @@ final class Cmshop_Elementor_Stock extends Cmshop_Elementor_Widget {
 		$this->add_control(
 			'type',
 			array(
-				'label'   => __( 'Items', 'codereyes-mobile-shop' ),
+				'label'   => __( 'Items', 'mobile-shop-manager' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'phone',
 				'options' => array(
-					'phone'     => __( 'Phones', 'codereyes-mobile-shop' ),
-					'accessory' => __( 'Accessories', 'codereyes-mobile-shop' ),
-					'all'       => __( 'Phones and accessories', 'codereyes-mobile-shop' ),
+					'phone'     => __( 'Phones', 'mobile-shop-manager' ),
+					'accessory' => __( 'Accessories', 'mobile-shop-manager' ),
+					'all'       => __( 'Phones and accessories', 'mobile-shop-manager' ),
 				),
 			)
 		);
@@ -90,13 +90,13 @@ final class Cmshop_Elementor_Stock extends Cmshop_Elementor_Widget {
 		$this->add_control(
 			'condition',
 			array(
-				'label'   => __( 'Condition', 'codereyes-mobile-shop' ),
+				'label'   => __( 'Condition', 'mobile-shop-manager' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'all',
 				'options' => array(
-					'all'  => __( 'New and used', 'codereyes-mobile-shop' ),
-					'new'  => __( 'New only', 'codereyes-mobile-shop' ),
-					'used' => __( 'Used only', 'codereyes-mobile-shop' ),
+					'all'  => __( 'New and used', 'mobile-shop-manager' ),
+					'new'  => __( 'New only', 'mobile-shop-manager' ),
+					'used' => __( 'Used only', 'mobile-shop-manager' ),
 				),
 			)
 		);
@@ -104,29 +104,29 @@ final class Cmshop_Elementor_Stock extends Cmshop_Elementor_Widget {
 		$this->add_control(
 			'brand',
 			array(
-				'label'       => __( 'Only this brand', 'codereyes-mobile-shop' ),
+				'label'       => __( 'Only this brand', 'mobile-shop-manager' ),
 				'type'        => Controls_Manager::TEXT,
 				'placeholder' => 'Samsung',
-				'description' => __( 'Leave empty to show every brand.', 'codereyes-mobile-shop' ),
+				'description' => __( 'Leave empty to show every brand.', 'mobile-shop-manager' ),
 			)
 		);
 
 		$this->add_control(
 			'columns',
 			array(
-				'label'       => __( 'Columns', 'codereyes-mobile-shop' ),
+				'label'       => __( 'Columns', 'mobile-shop-manager' ),
 				'type'        => Controls_Manager::NUMBER,
 				'min'         => 0,
 				'max'         => 6,
 				'default'     => 0,
-				'description' => __( '0 fits as many as the page allows.', 'codereyes-mobile-shop' ),
+				'description' => __( '0 fits as many as the page allows.', 'mobile-shop-manager' ),
 			)
 		);
 
 		$this->add_control(
 			'per_page',
 			array(
-				'label'   => __( 'Items per page', 'codereyes-mobile-shop' ),
+				'label'   => __( 'Items per page', 'mobile-shop-manager' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => 1,
 				'max'     => 48,
@@ -137,7 +137,7 @@ final class Cmshop_Elementor_Stock extends Cmshop_Elementor_Widget {
 		$this->add_control(
 			'filters',
 			array(
-				'label'        => __( 'Brand and condition filters', 'codereyes-mobile-shop' ),
+				'label'        => __( 'Brand and condition filters', 'mobile-shop-manager' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'return_value' => 'yes',
 				'default'      => 'yes',

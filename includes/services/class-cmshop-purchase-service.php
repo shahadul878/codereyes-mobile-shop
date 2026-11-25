@@ -2,7 +2,7 @@
 /**
  * Buying stock from suppliers and paying them.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -141,11 +141,11 @@ final class Cmshop_Purchase_Service {
 		$cents  = null === $parsed ? 0 : Cmshop_Money::to_cents( $parsed );
 
 		if ( null === $this->suppliers->find( $supplier_id ) ) {
-			throw new InvalidArgumentException( __( 'That supplier no longer exists.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'That supplier no longer exists.', 'mobile-shop-manager' ) );
 		}
 
 		if ( $cents <= 0 ) {
-			throw new InvalidArgumentException( __( 'Enter the amount you paid.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Enter the amount you paid.', 'mobile-shop-manager' ) );
 		}
 
 		return $this->purchases->transaction(
@@ -166,7 +166,7 @@ final class Cmshop_Purchase_Service {
 
 				if ( $cents > $owed ) {
 					/* translators: %s: amount owed to the supplier. */
-					throw new InvalidArgumentException( sprintf( __( 'That is more than you owe this supplier (%s).', 'codereyes-mobile-shop' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $owed ) ) ) );
+					throw new InvalidArgumentException( sprintf( __( 'That is more than you owe this supplier (%s).', 'mobile-shop-manager' ), Cmshop_Settings::money( Cmshop_Money::from_cents( $owed ) ) ) );
 				}
 
 				$paid_now = array_column( $dues, 'paid', 'id' );
@@ -213,7 +213,7 @@ final class Cmshop_Purchase_Service {
 			$row = $this->suppliers->find( $id );
 
 			if ( null === $row ) {
-				$errors['supplier_id'] = __( 'That supplier no longer exists. Pick another.', 'codereyes-mobile-shop' );
+				$errors['supplier_id'] = __( 'That supplier no longer exists. Pick another.', 'mobile-shop-manager' );
 				return array(
 					'id'    => 0,
 					'name'  => '',
@@ -231,7 +231,7 @@ final class Cmshop_Purchase_Service {
 		$name = mb_substr( trim( sanitize_text_field( (string) ( $input['supplier_name'] ?? '' ) ) ), 0, 150 );
 
 		if ( '' === $name ) {
-			$errors['supplier_name'] = __( 'Pick a supplier or type a new supplier name.', 'codereyes-mobile-shop' );
+			$errors['supplier_name'] = __( 'Pick a supplier or type a new supplier name.', 'mobile-shop-manager' );
 		}
 
 		$existing = '' === $name ? null : $this->suppliers->find_by_name( $name );
@@ -256,11 +256,11 @@ final class Cmshop_Purchase_Service {
 		$cents  = null === $parsed ? 0 : Cmshop_Money::to_cents( $parsed );
 
 		if ( null === $parsed || $cents > $total ) {
-			$errors['paid'] = __( 'Paid now must be between 0 and the purchase total.', 'codereyes-mobile-shop' );
+			$errors['paid'] = __( 'Paid now must be between 0 and the purchase total.', 'mobile-shop-manager' );
 		}
 
 		if ( $cents > 0 && ! array_key_exists( (string) ( $input['method'] ?? '' ), self::methods() ) ) {
-			$errors['method'] = __( 'Choose how you paid the supplier.', 'codereyes-mobile-shop' );
+			$errors['method'] = __( 'Choose how you paid the supplier.', 'mobile-shop-manager' );
 		}
 
 		return $cents;
@@ -280,7 +280,7 @@ final class Cmshop_Purchase_Service {
 
 			if ( array() !== $found ) {
 				/* translators: 1: line number, 2: IMEIs. */
-				$errors[ 'lines-' . $index . '-imeis' ] = sprintf( __( 'Line %1$d: already in stock: %2$s.', 'codereyes-mobile-shop' ), $index + 1, implode( ', ', $found ) );
+				$errors[ 'lines-' . $index . '-imeis' ] = sprintf( __( 'Line %1$d: already in stock: %2$s.', 'mobile-shop-manager' ), $index + 1, implode( ', ', $found ) );
 			}
 		}
 
@@ -305,7 +305,7 @@ final class Cmshop_Purchase_Service {
 
 			if ( null === $item || Cmshop_Item::TYPE_ACCESSORY !== $item['item_type'] ) {
 				/* translators: %d: line number. */
-				$errors[ 'lines-' . $index . '-item_id' ] = sprintf( __( 'Line %d: that accessory is no longer in stock records. Pick it again.', 'codereyes-mobile-shop' ), $index + 1 );
+				$errors[ 'lines-' . $index . '-item_id' ] = sprintf( __( 'Line %d: that accessory is no longer in stock records. Pick it again.', 'mobile-shop-manager' ), $index + 1 );
 			}
 		}
 
@@ -408,7 +408,7 @@ final class Cmshop_Purchase_Service {
 				'kind'        => Cmshop_Payment_Repository::KIND_SUPPLIER,
 				'supplier_id' => $supplier_id,
 				/* translators: %s: purchase numbers. */
-				'note'        => sprintf( __( 'Supplier payment for purchase %s', 'codereyes-mobile-shop' ), $purchases ),
+				'note'        => sprintf( __( 'Supplier payment for purchase %s', 'mobile-shop-manager' ), $purchases ),
 				'created_by'  => $user_id,
 			)
 		);

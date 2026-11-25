@@ -5,7 +5,7 @@
  * Every handler checks the capability and nonce first, then redirects back
  * with a notice code (post/redirect/get).
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -218,7 +218,7 @@ final class Cmshop_Actions extends Cmshop_Handler {
 			$other = $customers->find_by_phone( $result->data()['phone'] );
 
 			if ( null !== $other && (int) $other['id'] !== $id ) {
-				$result = $result->with_error( 'phone', __( 'Another customer already has this phone number.', 'codereyes-mobile-shop' ) );
+				$result = $result->with_error( 'phone', __( 'Another customer already has this phone number.', 'mobile-shop-manager' ) );
 			}
 		}
 
@@ -525,7 +525,7 @@ final class Cmshop_Actions extends Cmshop_Handler {
 
 		$other = $duplicates[0];
 		/* translators: 1: phone name, 2: stock item ID. */
-		$message = sprintf( __( 'This IMEI is already in stock: %1$s (item #%2$d).', 'codereyes-mobile-shop' ), Cmshop_Item::display_name( $other ), (int) $other['id'] );
+		$message = sprintf( __( 'This IMEI is already in stock: %1$s (item #%2$d).', 'mobile-shop-manager' ), Cmshop_Item::display_name( $other ), (int) $other['id'] );
 
 		return $result->with_error( in_array( $data['imei1'], array( $other['imei1'], $other['imei2'] ), true ) ? 'imei1' : 'imei2', $message );
 	}

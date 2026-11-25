@@ -2,7 +2,7 @@
 /**
  * Price stickers with a scannable barcode, for label rolls or A4 sheets.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array $cmshop { labels: array[], ids: int[], added: string, ranges: array, copies: string, size: string, price: bool, shop: bool }
  */
@@ -12,10 +12,10 @@ defined( 'ABSPATH' ) || exit;
 $cmshop_labels = $cmshop['labels'];
 $cmshop_shop   = (string) Cmshop_Settings::get( 'shop_name' );
 $cmshop_copies = array(
-	'1'     => __( 'One sticker per item', 'codereyes-mobile-shop' ),
-	'2'     => __( 'Two per item', 'codereyes-mobile-shop' ),
-	'3'     => __( 'Three per item', 'codereyes-mobile-shop' ),
-	'stock' => __( 'One per unit in stock', 'codereyes-mobile-shop' ),
+	'1'     => __( 'One sticker per item', 'mobile-shop-manager' ),
+	'2'     => __( 'Two per item', 'mobile-shop-manager' ),
+	'3'     => __( 'Three per item', 'mobile-shop-manager' ),
+	'stock' => __( 'One per unit in stock', 'mobile-shop-manager' ),
 );
 $cmshop_sizes  = array_map(
 	static function ( array $size ): string {
@@ -26,8 +26,8 @@ $cmshop_sizes  = array_map(
 ?>
 <div class="wrap cmshop-wrap">
 	<div class="cmshop-no-print">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Price stickers', 'codereyes-mobile-shop' ); ?></h1>
-		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items' ) ); ?>"><?php esc_html_e( 'Back to stock', 'codereyes-mobile-shop' ); ?></a>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Price stickers', 'mobile-shop-manager' ); ?></h1>
+		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items' ) ); ?>"><?php esc_html_e( 'Back to stock', 'mobile-shop-manager' ); ?></a>
 		<hr class="wp-header-end">
 
 		<form method="get" class="cmshop-card cmshop-sticker-tools">
@@ -39,7 +39,7 @@ $cmshop_sizes  = array_map(
 
 			<?php if ( array() === $cmshop['ids'] ) : ?>
 				<label>
-					<span><?php esc_html_e( 'Stock', 'codereyes-mobile-shop' ); ?></span>
+					<span><?php esc_html_e( 'Stock', 'mobile-shop-manager' ); ?></span>
 					<select name="added">
 						<?php foreach ( $cmshop['ranges'] as $cmshop_key => $cmshop_range ) : ?>
 							<option value="<?php echo esc_attr( $cmshop_key ); ?>" <?php selected( $cmshop['added'], $cmshop_key ); ?>><?php echo esc_html( $cmshop_range[0] ); ?></option>
@@ -49,7 +49,7 @@ $cmshop_sizes  = array_map(
 			<?php endif; ?>
 
 			<label>
-				<span><?php esc_html_e( 'Paper', 'codereyes-mobile-shop' ); ?></span>
+				<span><?php esc_html_e( 'Paper', 'mobile-shop-manager' ); ?></span>
 				<select name="size">
 					<?php foreach ( $cmshop_sizes as $cmshop_key => $cmshop_name ) : ?>
 						<option value="<?php echo esc_attr( $cmshop_key ); ?>" <?php selected( $cmshop['size'], $cmshop_key ); ?>><?php echo esc_html( $cmshop_name ); ?></option>
@@ -58,7 +58,7 @@ $cmshop_sizes  = array_map(
 			</label>
 
 			<label>
-				<span><?php esc_html_e( 'How many', 'codereyes-mobile-shop' ); ?></span>
+				<span><?php esc_html_e( 'How many', 'mobile-shop-manager' ); ?></span>
 				<select name="copies">
 					<?php foreach ( $cmshop_copies as $cmshop_key => $cmshop_name ) : ?>
 						<option value="<?php echo esc_attr( $cmshop_key ); ?>" <?php selected( $cmshop['copies'], $cmshop_key ); ?>><?php echo esc_html( $cmshop_name ); ?></option>
@@ -67,20 +67,20 @@ $cmshop_sizes  = array_map(
 			</label>
 
 			<fieldset>
-				<legend class="screen-reader-text"><?php esc_html_e( 'Show on the sticker', 'codereyes-mobile-shop' ); ?></legend>
+				<legend class="screen-reader-text"><?php esc_html_e( 'Show on the sticker', 'mobile-shop-manager' ); ?></legend>
 				<input type="hidden" name="price" value="0">
-				<label class="cmshop-check"><input type="checkbox" name="price" value="1" <?php checked( $cmshop['price'] ); ?>> <?php esc_html_e( 'Price', 'codereyes-mobile-shop' ); ?></label>
+				<label class="cmshop-check"><input type="checkbox" name="price" value="1" <?php checked( $cmshop['price'] ); ?>> <?php esc_html_e( 'Price', 'mobile-shop-manager' ); ?></label>
 				<input type="hidden" name="shop" value="0">
-				<label class="cmshop-check"><input type="checkbox" name="shop" value="1" <?php checked( $cmshop['shop'] ); ?>> <?php esc_html_e( 'Shop name', 'codereyes-mobile-shop' ); ?></label>
+				<label class="cmshop-check"><input type="checkbox" name="shop" value="1" <?php checked( $cmshop['shop'] ); ?>> <?php esc_html_e( 'Shop name', 'mobile-shop-manager' ); ?></label>
 			</fieldset>
 
 			<div class="cmshop-sticker-tools__go">
-				<?php submit_button( __( 'Update preview', 'codereyes-mobile-shop' ), 'secondary', '', false ); ?>
+				<?php submit_button( __( 'Update preview', 'mobile-shop-manager' ), 'secondary', '', false ); ?>
 				<?php if ( array() !== $cmshop_labels ) : ?>
 					<button type="button" class="button button-primary cmshop-print">
 						<?php
 						/* translators: %s: number of stickers. */
-						echo esc_html( sprintf( _n( 'Print %s sticker', 'Print %s stickers', count( $cmshop_labels ), 'codereyes-mobile-shop' ), number_format_i18n( count( $cmshop_labels ) ) ) );
+						echo esc_html( sprintf( _n( 'Print %s sticker', 'Print %s stickers', count( $cmshop_labels ), 'mobile-shop-manager' ), number_format_i18n( count( $cmshop_labels ) ) ) );
 						?>
 					</button>
 				<?php endif; ?>
@@ -91,9 +91,9 @@ $cmshop_sizes  = array_map(
 			<p class="cmshop-empty">
 				<?php
 				if ( array() === $cmshop['ids'] ) {
-					esc_html_e( 'No stock arrived in this period. Widen the range, or tick items in Stock and choose "Print price stickers".', 'codereyes-mobile-shop' );
+					esc_html_e( 'No stock arrived in this period. Widen the range, or tick items in Stock and choose "Print price stickers".', 'mobile-shop-manager' );
 				} else {
-					esc_html_e( 'Those items no longer exist.', 'codereyes-mobile-shop' );
+					esc_html_e( 'Those items no longer exist.', 'mobile-shop-manager' );
 				}
 				?>
 			</p>
@@ -101,7 +101,7 @@ $cmshop_sizes  = array_map(
 			<p class="description">
 				<?php
 				/* translators: %s: maximum number of stickers. */
-				echo esc_html( sprintf( __( 'Showing the first %s stickers. Print these, then pick the rest.', 'codereyes-mobile-shop' ), number_format_i18n( Cmshop_Stickers::MAX_LABELS ) ) );
+				echo esc_html( sprintf( __( 'Showing the first %s stickers. Print these, then pick the rest.', 'mobile-shop-manager' ), number_format_i18n( Cmshop_Stickers::MAX_LABELS ) ) );
 				?>
 			</p>
 		<?php endif; ?>

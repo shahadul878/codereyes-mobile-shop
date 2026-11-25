@@ -2,7 +2,7 @@
 /**
  * Validation rules for stock items, customers and repairs.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -64,7 +64,7 @@ final class Cmshop_Validator {
 
 		return $in->result(
 			array(
-				'name'    => $in->text( 'name', 150, __( 'Enter the customer name.', 'codereyes-mobile-shop' ) ),
+				'name'    => $in->text( 'name', 150, __( 'Enter the customer name.', 'mobile-shop-manager' ) ),
 				'phone'   => $in->phone( 'phone', true ),
 				'email'   => $in->email( 'email' ),
 				'address' => $in->textarea( 'address', 500 ),
@@ -83,11 +83,11 @@ final class Cmshop_Validator {
 		$in = new Cmshop_Input( $raw );
 
 		$data = array(
-			'customer_name'  => $in->text( 'customer_name', 150, __( 'Enter the customer name.', 'codereyes-mobile-shop' ) ),
+			'customer_name'  => $in->text( 'customer_name', 150, __( 'Enter the customer name.', 'mobile-shop-manager' ) ),
 			'customer_phone' => $in->phone( 'customer_phone', true ),
-			'device'         => $in->text( 'device', 150, __( 'Enter the phone brand and model.', 'codereyes-mobile-shop' ) ),
+			'device'         => $in->text( 'device', 150, __( 'Enter the phone brand and model.', 'mobile-shop-manager' ) ),
 			'imei'           => $in->imei( 'imei', false ),
-			'fault'          => $in->textarea( 'fault', 2000, __( 'Describe the fault.', 'codereyes-mobile-shop' ) ),
+			'fault'          => $in->textarea( 'fault', 2000, __( 'Describe the fault.', 'mobile-shop-manager' ) ),
 			'items_received' => $in->text( 'items_received', 255 ),
 			'estimate'       => $in->money( 'estimate' ),
 			'deposit'        => $in->money( 'deposit' ),
@@ -108,11 +108,11 @@ final class Cmshop_Validator {
 	 */
 	public static function trade_in_checks(): array {
 		return array(
-			'screen'   => __( 'Screen and touch work', 'codereyes-mobile-shop' ),
-			'body'     => __( 'No cracks or bends', 'codereyes-mobile-shop' ),
-			'camera'   => __( 'Cameras and speakers work', 'codereyes-mobile-shop' ),
-			'unlocked' => __( 'iCloud / Google account removed', 'codereyes-mobile-shop' ),
-			'id'       => __( 'Seller showed ID', 'codereyes-mobile-shop' ),
+			'screen'   => __( 'Screen and touch work', 'mobile-shop-manager' ),
+			'body'     => __( 'No cracks or bends', 'mobile-shop-manager' ),
+			'camera'   => __( 'Cameras and speakers work', 'mobile-shop-manager' ),
+			'unlocked' => __( 'iCloud / Google account removed', 'mobile-shop-manager' ),
+			'id'       => __( 'Seller showed ID', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -142,11 +142,11 @@ final class Cmshop_Validator {
 		}
 
 		if ( 'new' === ( $raw['grade'] ?? '' ) ) {
-			$in->error( 'grade', __( 'A traded-in phone is used: choose its condition.', 'codereyes-mobile-shop' ) );
+			$in->error( 'grade', __( 'A traded-in phone is used: choose its condition.', 'mobile-shop-manager' ) );
 		}
 
 		if ( Cmshop_Money::to_cents( $value ) <= 0 ) {
-			$in->error( 'value', __( 'Enter what you are giving for the phone.', 'codereyes-mobile-shop' ) );
+			$in->error( 'value', __( 'Enter what you are giving for the phone.', 'mobile-shop-manager' ) );
 		}
 
 		return $in->result(
@@ -170,12 +170,12 @@ final class Cmshop_Validator {
 
 		return $in->result(
 			array(
-				'customer_name'  => $in->text( 'customer_name', 150, __( 'Enter your name.', 'codereyes-mobile-shop' ) ),
+				'customer_name'  => $in->text( 'customer_name', 150, __( 'Enter your name.', 'mobile-shop-manager' ) ),
 				'customer_phone' => $in->phone( 'customer_phone', true ),
 				'customer_email' => $in->email( 'customer_email' ),
-				'device'         => $in->text( 'device', 150, __( 'Enter the phone brand and model.', 'codereyes-mobile-shop' ) ),
+				'device'         => $in->text( 'device', 150, __( 'Enter the phone brand and model.', 'mobile-shop-manager' ) ),
 				'imei'           => $in->imei( 'imei', false ),
-				'fault'          => $in->textarea( 'fault', 2000, __( 'Tell us what is wrong with the phone.', 'codereyes-mobile-shop' ) ),
+				'fault'          => $in->textarea( 'fault', 2000, __( 'Tell us what is wrong with the phone.', 'mobile-shop-manager' ) ),
 				'preferred_date' => $in->date( 'preferred_date' ),
 				'status'         => Cmshop_Repair_Status::REQUESTED,
 				'estimate'       => '0.00',
@@ -193,8 +193,8 @@ final class Cmshop_Validator {
 	private static function phone_fields( Cmshop_Input $in ): array {
 		// Read in form order so the error summary lists fields top to bottom.
 		$fields = array(
-			'brand'   => $in->text( 'brand', 100, __( 'Enter the brand, e.g. Samsung.', 'codereyes-mobile-shop' ) ),
-			'model'   => $in->text( 'model', 100, __( 'Enter the model, e.g. Galaxy A15.', 'codereyes-mobile-shop' ) ),
+			'brand'   => $in->text( 'brand', 100, __( 'Enter the brand, e.g. Samsung.', 'mobile-shop-manager' ) ),
+			'model'   => $in->text( 'model', 100, __( 'Enter the model, e.g. Galaxy A15.', 'mobile-shop-manager' ) ),
 			'storage' => $in->text( 'storage', 50 ),
 			'color'   => $in->text( 'color', 50 ),
 			'imei1'   => $in->imei( 'imei1', true ),
@@ -202,7 +202,7 @@ final class Cmshop_Validator {
 		);
 
 		if ( '' !== $fields['imei2'] && $fields['imei1'] === $fields['imei2'] ) {
-			$in->error( 'imei2', __( 'IMEI 2 must be different from IMEI 1.', 'codereyes-mobile-shop' ) );
+			$in->error( 'imei2', __( 'IMEI 2 must be different from IMEI 1.', 'mobile-shop-manager' ) );
 		}
 
 		return array_merge(
@@ -225,7 +225,7 @@ final class Cmshop_Validator {
 	 */
 	private static function accessory_fields( Cmshop_Input $in ): array {
 		return array(
-			'name'           => $in->text( 'name', 200, __( 'Enter the accessory name, e.g. 20W USB-C charger.', 'codereyes-mobile-shop' ) ),
+			'name'           => $in->text( 'name', 200, __( 'Enter the accessory name, e.g. 20W USB-C charger.', 'mobile-shop-manager' ) ),
 			'brand'          => $in->text( 'brand', 100 ),
 			'model'          => '',
 			'storage'        => '',

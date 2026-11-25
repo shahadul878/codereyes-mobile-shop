@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap for pure-logic unit tests (no WordPress runtime).
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 define( 'ABSPATH', sys_get_temp_dir() . '/' );

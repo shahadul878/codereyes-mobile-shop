@@ -2,7 +2,7 @@
 /**
  * Data changes that go with schema upgrades.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

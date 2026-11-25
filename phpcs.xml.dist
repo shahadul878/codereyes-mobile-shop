@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Codereyes Mobile Shop">
+<ruleset name="Mobile Shop Manager">
 	<file>.</file>
 	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>tests/*</exclude-pattern>

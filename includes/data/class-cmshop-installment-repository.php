@@ -2,7 +2,7 @@
 /**
  * Installment schedules and the dues customers owe.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

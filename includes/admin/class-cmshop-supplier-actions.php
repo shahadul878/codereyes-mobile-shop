@@ -2,7 +2,7 @@
 /**
  * Admin-post handlers for suppliers and purchases.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -42,7 +42,7 @@ final class Cmshop_Supplier_Actions extends Cmshop_Handler {
 		$in     = new Cmshop_Input( $posted );
 		$result = $in->result(
 			array(
-				'name'    => $in->text( 'name', 150, __( 'Enter the supplier name.', 'codereyes-mobile-shop' ) ),
+				'name'    => $in->text( 'name', 150, __( 'Enter the supplier name.', 'mobile-shop-manager' ) ),
 				'phone'   => $in->phone( 'phone', false ),
 				'address' => $in->textarea( 'address', 500 ),
 				'notes'   => $in->textarea( 'notes', 2000 ),
@@ -56,7 +56,7 @@ final class Cmshop_Supplier_Actions extends Cmshop_Handler {
 		$same = $result->is_valid() ? $repo->find_by_name( (string) $result->data()['name'] ) : null;
 
 		if ( null !== $same && (int) $same['id'] !== $id ) {
-			$result = $result->with_error( 'name', __( 'A supplier with this name already exists.', 'codereyes-mobile-shop' ) );
+			$result = $result->with_error( 'name', __( 'A supplier with this name already exists.', 'mobile-shop-manager' ) );
 		}
 
 		$back = $id > 0 ? array(

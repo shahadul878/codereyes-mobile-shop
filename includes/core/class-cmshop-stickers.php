@@ -2,7 +2,7 @@
 /**
  * Price sticker contents.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -32,9 +32,9 @@ final class Cmshop_Stickers {
 	 */
 	public static function sizes(): array {
 		return array(
-			'38x25' => array( __( 'Label roll 38 × 25 mm', 'codereyes-mobile-shop' ), 38.0, 25.0 ),
-			'50x30' => array( __( 'Label roll 50 × 30 mm', 'codereyes-mobile-shop' ), 50.0, 30.0 ),
-			'a4'    => array( __( 'A4 sheet, 21 labels (63.5 × 38.1 mm)', 'codereyes-mobile-shop' ), 63.5, 38.1 ),
+			'38x25' => array( __( 'Label roll 38 × 25 mm', 'mobile-shop-manager' ), 38.0, 25.0 ),
+			'50x30' => array( __( 'Label roll 50 × 30 mm', 'mobile-shop-manager' ), 50.0, 30.0 ),
+			'a4'    => array( __( 'A4 sheet, 21 labels (63.5 × 38.1 mm)', 'mobile-shop-manager' ), 63.5, 38.1 ),
 		);
 	}
 
@@ -136,7 +136,7 @@ final class Cmshop_Stickers {
 
 		if ( null !== $battery && '' !== (string) $battery ) {
 			/* translators: %d: battery health percentage. */
-			$parts[] = sprintf( __( 'Battery %d%%', 'codereyes-mobile-shop' ), (int) $battery );
+			$parts[] = sprintf( __( 'Battery %d%%', 'mobile-shop-manager' ), (int) $battery );
 		}
 
 		return implode( ' · ', array_filter( $parts ) );

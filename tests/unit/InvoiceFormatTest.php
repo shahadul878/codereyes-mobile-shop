@@ -2,7 +2,7 @@
 /**
  * Tests for choosing the invoice print format.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

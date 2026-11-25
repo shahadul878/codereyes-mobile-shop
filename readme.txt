@@ -1,10 +1,10 @@
-=== Codereyes Mobile Shop ===
+=== Mobile Shop Manager ===
 Contributors: codereyes, shahadul878
 Tags: mobile shop, pos, imei, phone repair, elementor
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Run a phone shop in store and online: IMEI stock, POS, installments, trade-ins, 
 
 == Description ==
 
-Codereyes Mobile Shop is a complete back office for mobile phone shops that sell at the counter and on their website.
+Mobile Shop Manager is a complete back office for mobile phone shops that sell at the counter and on their website.
 
 **Stock**
 
@@ -161,6 +161,12 @@ WooCommerce sync, when you turn it on, only talks to WooCommerce on your own sit
 
 == Changelog ==
 
+= 1.4.0 =
+* Renamed to Mobile Shop Manager. The slug and text domain are now mobile-shop-manager and the main file is mobile-shop-manager.php. Your data and settings stay as they are.
+* Changed: blocks are now named mobile-shop-manager/stock, /warranty, /repair-request and /repair-status. Re-insert any of these blocks you placed with an earlier version. Shortcodes and Elementor widgets are unchanged.
+* Security: submitted forms, held POS carts and checkout data are sanitized as soon as they arrive, before anything is stored.
+* Fixed: PHP 8.4 and 8.6 deprecation notices.
+
 = 1.3.0 =
 * New: full-screen point of sale with a product grid, model colour/storage picker, held sales, keyboard shortcuts, split payments and quick cash.
 * New: dashboard with today's KPIs, a 30-day sales and profit chart, payment split, best sellers, slow stock and a to-do list.
@@ -191,6 +197,9 @@ WooCommerce sync, when you turn it on, only talks to WooCommerce on your own sit
 * First release: IMEI stock, point of sale, thermal receipts and A4 invoices, repairs with website tracker, customers, CSV export, item photos and WooCommerce stock and brand sync with one product per model for new phones.
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+The plugin is now called Mobile Shop Manager. Reactivate it after updating and re-insert any of its blocks on your pages. Shortcodes, Elementor widgets and your data are unchanged.
 
 = 1.3.0 =
 A new full-screen POS and dashboard, dues and installments, trade-ins, returns, cash register shifts, price stickers, WhatsApp messages, suppliers and a cashier role. The database updates automatically.

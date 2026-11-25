@@ -2,7 +2,7 @@
 /**
  * Keeps submitted values and errors across the post/redirect/get round trip.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -20,15 +20,15 @@ final class Cmshop_Form_State {
 	 * Store values and errors for the next page load.
 	 *
 	 * @param string $form   Form name.
-	 * @param array  $values Submitted values (sanitised).
+	 * @param array  $values Submitted values (sanitised again here before storing).
 	 * @param array  $errors Errors keyed by field.
 	 */
 	public static function save( string $form, array $values, array $errors ): void {
 		set_transient(
 			self::key( $form ),
 			array(
-				'values' => $values,
-				'errors' => $errors,
+				'values' => (array) Cmshop_Sanitize::deep( $values ),
+				'errors' => (array) Cmshop_Sanitize::deep( $errors ),
 			),
 			self::TTL
 		);

@@ -2,7 +2,7 @@
 /**
  * Loads the plugin and builds its services.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -49,6 +49,7 @@ final class Cmshop_Plugin {
 		'core/class-cmshop-purchase-lines.php',
 		'core/class-cmshop-form-errors.php',
 		'core/class-cmshop-commission.php',
+		'core/class-cmshop-sanitize.php',
 		'data/class-cmshop-installer.php',
 		'data/class-cmshop-settings.php',
 		'data/class-cmshop-repository.php',

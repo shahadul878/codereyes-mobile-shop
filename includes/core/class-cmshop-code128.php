@@ -2,7 +2,7 @@
 /**
  * Code 128 barcodes as inline SVG.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -57,7 +57,7 @@ final class Cmshop_Code128 {
 	 */
 	public static function symbols( string $value ): array {
 		if ( '' === $value || strlen( $value ) > self::MAX_LENGTH || 1 !== preg_match( '/^[\x20-\x7E]+$/', $value ) ) {
-			throw new InvalidArgumentException( __( 'A barcode needs 1 to 48 plain letters, digits or symbols.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'A barcode needs 1 to 48 plain letters, digits or symbols.', 'mobile-shop-manager' ) );
 		}
 
 		$data = ctype_digit( $value ) && strlen( $value ) >= self::MIN_PAIRS * 2 ? self::digits( $value ) : self::text( $value );

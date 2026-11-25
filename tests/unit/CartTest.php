@@ -2,7 +2,7 @@
 /**
  * Tests for Cmshop_Cart.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 use PHPUnit\Framework\TestCase;

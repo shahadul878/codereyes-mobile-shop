@@ -2,7 +2,7 @@
 /**
  * A4 invoice for office printers. Included from sale-view.php.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array      $cmshop          { sale, lines, customer }
  * @var array      $cmshop_sale     Sale row.
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 
 $cmshop_customer = is_array( $cmshop['customer'] ) ? $cmshop['customer'] : array();
 $cmshop_bill_to  = trim( (string) $cmshop_sale['customer_name'] );
-$cmshop_channel  = 'online' === $cmshop_sale['channel'] ? __( 'Website', 'codereyes-mobile-shop' ) : __( 'In store', 'codereyes-mobile-shop' );
+$cmshop_channel  = 'online' === $cmshop_sale['channel'] ? __( 'Website', 'mobile-shop-manager' ) : __( 'In store', 'mobile-shop-manager' );
 $cmshop_number   = 0;
 ?>
 <article class="cmshop-invoice <?php echo $cmshop_is_void ? 'is-void' : ''; ?>">
@@ -32,15 +32,15 @@ $cmshop_number   = 0;
 			<?php endif; ?>
 		</div>
 		<div class="cmshop-invoice__title">
-			<p class="cmshop-invoice__kicker"><?php esc_html_e( 'Invoice', 'codereyes-mobile-shop' ); ?></p>
+			<p class="cmshop-invoice__kicker"><?php esc_html_e( 'Invoice', 'mobile-shop-manager' ); ?></p>
 			<p class="cmshop-invoice__number"><?php echo esc_html( (string) $cmshop_sale['invoice_no'] ); ?></p>
 		</div>
 	</header>
 
 	<div class="cmshop-invoice__parties">
 		<section>
-			<h3><?php esc_html_e( 'Bill to', 'codereyes-mobile-shop' ); ?></h3>
-			<p class="cmshop-invoice__name"><?php echo esc_html( '' !== $cmshop_bill_to ? $cmshop_bill_to : __( 'Walk-in customer', 'codereyes-mobile-shop' ) ); ?></p>
+			<h3><?php esc_html_e( 'Bill to', 'mobile-shop-manager' ); ?></h3>
+			<p class="cmshop-invoice__name"><?php echo esc_html( '' !== $cmshop_bill_to ? $cmshop_bill_to : __( 'Walk-in customer', 'mobile-shop-manager' ) ); ?></p>
 			<?php if ( '' !== (string) $cmshop_sale['customer_phone'] ) : ?>
 				<p><?php echo esc_html( (string) $cmshop_sale['customer_phone'] ); ?></p>
 			<?php endif; ?>
@@ -52,11 +52,11 @@ $cmshop_number   = 0;
 			<?php endif; ?>
 		</section>
 		<dl class="cmshop-invoice__meta">
-			<dt><?php esc_html_e( 'Date', 'codereyes-mobile-shop' ); ?></dt>
+			<dt><?php esc_html_e( 'Date', 'mobile-shop-manager' ); ?></dt>
 			<dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_sale['created_at'] ) ); ?></dd>
-			<dt><?php esc_html_e( 'Payment', 'codereyes-mobile-shop' ); ?></dt>
+			<dt><?php esc_html_e( 'Payment', 'mobile-shop-manager' ); ?></dt>
 			<dd><?php echo esc_html( $cmshop_payment ); ?></dd>
-			<dt><?php esc_html_e( 'Sold', 'codereyes-mobile-shop' ); ?></dt>
+			<dt><?php esc_html_e( 'Sold', 'mobile-shop-manager' ); ?></dt>
 			<dd>
 				<?php echo esc_html( $cmshop_channel ); ?>
 				<?php if ( null !== $cmshop_order ) : ?>
@@ -67,17 +67,17 @@ $cmshop_number   = 0;
 	</div>
 
 	<?php if ( $cmshop_is_void ) : ?>
-		<p class="cmshop-invoice__void"><?php esc_html_e( 'VOID', 'codereyes-mobile-shop' ); ?></p>
+		<p class="cmshop-invoice__void"><?php esc_html_e( 'VOID', 'mobile-shop-manager' ); ?></p>
 	<?php endif; ?>
 
 	<table class="cmshop-invoice__lines">
 		<thead>
 			<tr>
 				<th class="cmshop-invoice__no">#</th>
-				<th><?php esc_html_e( 'Description', 'codereyes-mobile-shop' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Qty', 'codereyes-mobile-shop' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Unit price', 'codereyes-mobile-shop' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Amount', 'codereyes-mobile-shop' ); ?></th>
+				<th><?php esc_html_e( 'Description', 'mobile-shop-manager' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Qty', 'mobile-shop-manager' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Unit price', 'mobile-shop-manager' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Amount', 'mobile-shop-manager' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -102,7 +102,7 @@ $cmshop_number   = 0;
 	<div class="cmshop-invoice__summary">
 		<div class="cmshop-invoice__note">
 			<?php if ( '' !== (string) $cmshop_settings['receipt_footer'] ) : ?>
-				<h3><?php esc_html_e( 'Terms', 'codereyes-mobile-shop' ); ?></h3>
+				<h3><?php esc_html_e( 'Terms', 'mobile-shop-manager' ); ?></h3>
 				<p><?php echo nl2br( esc_html( (string) $cmshop_settings['receipt_footer'] ) ); ?></p>
 			<?php endif; ?>
 		</div>
@@ -114,7 +114,7 @@ $cmshop_number   = 0;
 	</div>
 
 	<footer class="cmshop-invoice__sign">
-		<p><?php esc_html_e( 'Customer signature', 'codereyes-mobile-shop' ); ?></p>
-		<p><?php esc_html_e( 'Authorised signature', 'codereyes-mobile-shop' ); ?></p>
+		<p><?php esc_html_e( 'Customer signature', 'mobile-shop-manager' ); ?></p>
+		<p><?php esc_html_e( 'Authorised signature', 'mobile-shop-manager' ); ?></p>
 	</footer>
 </article>

@@ -2,7 +2,7 @@
 /**
  * [cmshop_stock] grid of items in stock.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array $view { cards, page, pages, brands, brand, condition, show_brand, show_cond, shop_phone, type, form_action, style, has_columns }
  */
@@ -22,16 +22,16 @@ $cmshop_filter = static function ( array $args ) use ( $cmshop_base, $view ): st
 	return add_query_arg( array_filter( array_merge( $current, $args ), 'strlen' ), $cmshop_base );
 };
 $cmshop_conds  = array(
-	'all'  => __( 'All', 'codereyes-mobile-shop' ),
-	'new'  => __( 'New', 'codereyes-mobile-shop' ),
-	'used' => __( 'Used', 'codereyes-mobile-shop' ),
+	'all'  => __( 'All', 'mobile-shop-manager' ),
+	'new'  => __( 'New', 'mobile-shop-manager' ),
+	'used' => __( 'Used', 'mobile-shop-manager' ),
 );
 $cmshop_phone  = preg_replace( '/[^\d+]/', '', $view['shop_phone'] );
 $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-stock--cols' : '' );
 ?>
 <div class="<?php echo esc_attr( $cmshop_class ); ?>" style="<?php echo esc_attr( $view['style'] ); ?>">
 	<?php if ( $view['show_brand'] || $view['show_cond'] ) : ?>
-		<nav class="cmshop-stock__filters" aria-label="<?php esc_attr_e( 'Filter stock', 'codereyes-mobile-shop' ); ?>">
+		<nav class="cmshop-stock__filters" aria-label="<?php esc_attr_e( 'Filter stock', 'mobile-shop-manager' ); ?>">
 			<?php if ( $view['show_cond'] ) : ?>
 				<ul class="cmshop-segmented">
 					<?php foreach ( $cmshop_conds as $cmshop_key => $cmshop_label ) : ?>
@@ -41,7 +41,7 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 			<?php endif; ?>
 			<?php if ( $view['show_brand'] ) : ?>
 				<ul class="cmshop-chips">
-					<li><a class="<?php echo esc_attr( '' === $view['brand'] ? 'is-active' : '' ); ?>" <?php echo '' === $view['brand'] ? 'aria-current="true"' : ''; ?> href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_brand' => '' ) ) ); ?>"><?php esc_html_e( 'All brands', 'codereyes-mobile-shop' ); ?></a></li>
+					<li><a class="<?php echo esc_attr( '' === $view['brand'] ? 'is-active' : '' ); ?>" <?php echo '' === $view['brand'] ? 'aria-current="true"' : ''; ?> href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_brand' => '' ) ) ); ?>"><?php esc_html_e( 'All brands', 'mobile-shop-manager' ); ?></a></li>
 					<?php foreach ( $view['brands'] as $cmshop_brand ) : ?>
 						<?php $cmshop_on = 0 === strcasecmp( $cmshop_brand, $view['brand'] ); ?>
 						<li><a class="<?php echo esc_attr( $cmshop_on ? 'is-active' : '' ); ?>" <?php echo $cmshop_on ? 'aria-current="true"' : ''; ?> href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_brand' => $cmshop_brand ) ) ); ?>"><?php echo esc_html( $cmshop_brand ); ?></a></li>
@@ -52,7 +52,7 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 	<?php endif; ?>
 
 	<?php if ( array() === $view['cards'] ) : ?>
-		<p class="cmshop-empty"><?php esc_html_e( 'Nothing in stock matches right now. Try another brand, or call us to ask.', 'codereyes-mobile-shop' ); ?></p>
+		<p class="cmshop-empty"><?php esc_html_e( 'Nothing in stock matches right now. Try another brand, or call us to ask.', 'mobile-shop-manager' ); ?></p>
 	<?php else : ?>
 		<ul class="cmshop-stock__grid">
 			<?php foreach ( $view['cards'] as $cmshop_card ) : ?>
@@ -62,7 +62,7 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 				$cmshop_badge  = '';
 
 				if ( Cmshop_Item::TYPE_PHONE === $cmshop_card['item_type'] ) {
-					$cmshop_badge = $cmshop_is_new ? __( 'New', 'codereyes-mobile-shop' ) : __( 'Used', 'codereyes-mobile-shop' ) . ' · ' . Cmshop_Item::label( Cmshop_Item::grades(), $cmshop_card['grade'] );
+					$cmshop_badge = $cmshop_is_new ? __( 'New', 'mobile-shop-manager' ) : __( 'Used', 'mobile-shop-manager' ) . ' · ' . Cmshop_Item::label( Cmshop_Item::grades(), $cmshop_card['grade'] );
 				}
 				?>
 				<li class="cmshop-stock__card">
@@ -101,7 +101,7 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 									<li><span class="cmshop-tag">
 										<?php
 										/* translators: %d: battery health percentage. */
-										echo esc_html( sprintf( __( 'Battery %d%%', 'codereyes-mobile-shop' ), $cmshop_card['battery_health'] ) );
+										echo esc_html( sprintf( __( 'Battery %d%%', 'mobile-shop-manager' ), $cmshop_card['battery_health'] ) );
 										?>
 									</span></li>
 								<?php endif; ?>
@@ -110,7 +110,7 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 						<div class="cmshop-stock__foot">
 							<p class="cmshop-stock__price">
 								<?php if ( $cmshop_card['price_min'] !== $cmshop_card['price_max'] ) : ?>
-									<small><?php esc_html_e( 'From', 'codereyes-mobile-shop' ); ?></small>
+									<small><?php esc_html_e( 'From', 'mobile-shop-manager' ); ?></small>
 								<?php endif; ?>
 								<?php echo esc_html( Cmshop_Settings::money( $cmshop_card['price_min'] ) ); ?>
 							</p>
@@ -118,17 +118,17 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 								<?php
 								echo esc_html(
 									1 === $cmshop_card['stock']
-										? __( 'Last one', 'codereyes-mobile-shop' )
+										? __( 'Last one', 'mobile-shop-manager' )
 										/* translators: %d: number in stock. */
-										: sprintf( __( '%d in stock', 'codereyes-mobile-shop' ), $cmshop_card['stock'] )
+										: sprintf( __( '%d in stock', 'mobile-shop-manager' ), $cmshop_card['stock'] )
 								);
 								?>
 							</p>
 						</div>
 						<?php if ( '' !== $cmshop_url ) : ?>
-							<a class="cmshop-btn" href="<?php echo esc_url( $cmshop_url ); ?>" tabindex="-1" aria-hidden="true"><?php esc_html_e( 'View and buy', 'codereyes-mobile-shop' ); ?></a>
+							<a class="cmshop-btn" href="<?php echo esc_url( $cmshop_url ); ?>" tabindex="-1" aria-hidden="true"><?php esc_html_e( 'View and buy', 'mobile-shop-manager' ); ?></a>
 						<?php elseif ( '' !== $cmshop_phone ) : ?>
-							<a class="cmshop-btn cmshop-btn--ghost" href="<?php echo esc_url( 'tel:' . $cmshop_phone ); ?>"><?php esc_html_e( 'Call to order', 'codereyes-mobile-shop' ); ?></a>
+							<a class="cmshop-btn cmshop-btn--ghost" href="<?php echo esc_url( 'tel:' . $cmshop_phone ); ?>"><?php esc_html_e( 'Call to order', 'mobile-shop-manager' ); ?></a>
 						<?php endif; ?>
 					</div>
 				</li>
@@ -136,18 +136,18 @@ $cmshop_class  = 'cmshop-ui cmshop-stock' . ( $view['has_columns'] ? ' cmshop-st
 		</ul>
 
 		<?php if ( $view['pages'] > 1 ) : ?>
-			<nav class="cmshop-stock__pages" aria-label="<?php esc_attr_e( 'Stock pages', 'codereyes-mobile-shop' ); ?>">
+			<nav class="cmshop-stock__pages" aria-label="<?php esc_attr_e( 'Stock pages', 'mobile-shop-manager' ); ?>">
 				<?php if ( $view['page'] > 1 ) : ?>
-					<a class="cmshop-btn cmshop-btn--ghost" href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_pg' => (string) ( $view['page'] - 1 ) ) ) ); ?>" rel="prev">&larr; <?php esc_html_e( 'Previous', 'codereyes-mobile-shop' ); ?></a>
+					<a class="cmshop-btn cmshop-btn--ghost" href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_pg' => (string) ( $view['page'] - 1 ) ) ) ); ?>" rel="prev">&larr; <?php esc_html_e( 'Previous', 'mobile-shop-manager' ); ?></a>
 				<?php endif; ?>
 				<span>
 					<?php
 					/* translators: 1: page number, 2: number of pages. */
-					echo esc_html( sprintf( __( 'Page %1$d of %2$d', 'codereyes-mobile-shop' ), $view['page'], $view['pages'] ) );
+					echo esc_html( sprintf( __( 'Page %1$d of %2$d', 'mobile-shop-manager' ), $view['page'], $view['pages'] ) );
 					?>
 				</span>
 				<?php if ( $view['page'] < $view['pages'] ) : ?>
-					<a class="cmshop-btn cmshop-btn--ghost" href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_pg' => (string) ( $view['page'] + 1 ) ) ) ); ?>" rel="next"><?php esc_html_e( 'Next', 'codereyes-mobile-shop' ); ?> &rarr;</a>
+					<a class="cmshop-btn cmshop-btn--ghost" href="<?php echo esc_url( $cmshop_filter( array( 'cmshop_pg' => (string) ( $view['page'] + 1 ) ) ) ); ?>" rel="next"><?php esc_html_e( 'Next', 'mobile-shop-manager' ); ?> &rarr;</a>
 				<?php endif; ?>
 			</nav>
 		<?php endif; ?>

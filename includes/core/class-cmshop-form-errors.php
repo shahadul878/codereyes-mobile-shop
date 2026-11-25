@@ -2,7 +2,7 @@
 /**
  * Several field errors at once.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */

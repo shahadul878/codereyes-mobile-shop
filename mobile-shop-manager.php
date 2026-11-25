@@ -1,24 +1,24 @@
 <?php
 /**
- * Plugin Name:       Codereyes Mobile Shop
+ * Plugin Name:       Mobile Shop Manager
  * Description:       Run a mobile phone shop in store and online: IMEI stock, full-screen POS, installments, trade-ins, repairs, suppliers, cashiers and WooCommerce sync.
- * Version:           1.3.0
+ * Version:           1.4.0
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            H M Shahadul Islam
  * Author URI:        https://github.com/shahadul878
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       codereyes-mobile-shop
+ * Text Domain:       mobile-shop-manager
  * Domain Path:       /languages
  * WC tested up to:   11.0
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CMSHOP_VERSION', '1.3.0' );
+define( 'CMSHOP_VERSION', '1.4.0' );
 define( 'CMSHOP_FILE', __FILE__ );
 define( 'CMSHOP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CMSHOP_URL', plugin_dir_url( __FILE__ ) );

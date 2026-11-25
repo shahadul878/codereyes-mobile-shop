@@ -2,7 +2,7 @@
 /**
  * The point-of-sale product grid.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

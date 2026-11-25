@@ -2,7 +2,7 @@
 /**
  * Pricing a return: what comes back, what it refunds, what it cost.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -34,21 +34,21 @@ final class Cmshop_Returns {
 		$cost       = 0;
 
 		if ( array() === $quantities ) {
-			throw new InvalidArgumentException( __( 'Choose at least one item to return.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Choose at least one item to return.', 'mobile-shop-manager' ) );
 		}
 
 		foreach ( $quantities as $line_id => $quantity ) {
 			$line = $by_id[ $line_id ] ?? null;
 
 			if ( null === $line ) {
-				throw new InvalidArgumentException( __( 'That item is not on this sale.', 'codereyes-mobile-shop' ) );
+				throw new InvalidArgumentException( __( 'That item is not on this sale.', 'mobile-shop-manager' ) );
 			}
 
 			$left = (int) $line['quantity'] - (int) $line['returned_qty'];
 
 			if ( $quantity < 0 || $quantity > $left ) {
 				/* translators: %d: quantity that can still be returned. */
-				throw new InvalidArgumentException( sprintf( __( 'Only %d of that item can still be returned.', 'codereyes-mobile-shop' ), $left ) );
+				throw new InvalidArgumentException( sprintf( __( 'Only %d of that item can still be returned.', 'mobile-shop-manager' ), $left ) );
 			}
 
 			$gross += intdiv( Cmshop_Money::to_cents( (string) $line['line_total'] ) * $quantity, max( 1, (int) $line['quantity'] ) );

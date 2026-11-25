@@ -2,7 +2,7 @@
 /**
  * Block attributes → shortcode attributes.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

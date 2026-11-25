@@ -2,7 +2,7 @@
 /**
  * Builds safe WHERE / ORDER BY clauses for list screens and exports.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

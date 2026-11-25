@@ -2,7 +2,7 @@
 /**
  * Shared plumbing for admin-post form handlers.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -57,24 +57,29 @@ abstract class Cmshop_Handler {
 		$allowed = in_array( $action, static::SELL_ACTIONS, true ) ? Cmshop_Staff::can_sell() : Cmshop_Staff::can_manage();
 
 		if ( ! $allowed ) {
-			wp_die( esc_html__( 'You do not have permission to do that.', 'codereyes-mobile-shop' ), 403 );
+			wp_die( esc_html__( 'You do not have permission to do that.', 'mobile-shop-manager' ), 403 );
 		}
 
 		check_admin_referer( 'cmshop_' . $action );
 	}
 
 	/**
-	 * Submitted form fields, unslashed.
+	 * Submitted form fields, unslashed and sanitised as plain text on arrival.
+	 * Validators then narrow each field further.
 	 *
 	 * @return array
 	 */
 	protected function posted(): array {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce checked in guard(); every field is sanitised by Cmshop_Input.
-		$posted = wp_unslash( $_POST );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce checked in guard().
+		$posted = Cmshop_Sanitize::deep( wp_unslash( $_POST ) );
+
+		if ( ! is_array( $posted ) ) {
+			return array();
+		}
 
 		unset( $posted['_wpnonce'], $posted['_wp_http_referer'], $posted['action'] );
 
-		return is_array( $posted ) ? $posted : array();
+		return $posted;
 	}
 
 	/**
@@ -104,7 +109,7 @@ abstract class Cmshop_Handler {
 	 */
 	protected function log( Throwable $error ): void {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log; users see a generic notice.
-		error_log( 'Codereyes Mobile Shop: ' . $error->getMessage() );
+		error_log( 'Mobile Shop Manager: ' . $error->getMessage() );
 	}
 
 	/**

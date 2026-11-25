@@ -2,7 +2,7 @@
 /**
  * Cards for the public "phones in stock" listing.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

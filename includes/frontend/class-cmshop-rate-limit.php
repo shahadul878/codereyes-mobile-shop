@@ -2,7 +2,7 @@
 /**
  * Per-visitor limits for the public forms.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

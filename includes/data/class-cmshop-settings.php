@@ -2,7 +2,7 @@
 /**
  * Shop settings stored in one option.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -32,10 +32,10 @@ final class Cmshop_Settings {
 			'shop_phone'      => '',
 			'currency_symbol' => '৳',
 			'invoice_prefix'  => 'INV-',
-			'receipt_footer'  => __( 'Thank you for shopping with us.', 'codereyes-mobile-shop' ),
+			'receipt_footer'  => __( 'Thank you for shopping with us.', 'mobile-shop-manager' ),
 			'invoice_format'  => Cmshop_Invoice_Format::THERMAL,
 			'thermal_width'   => '80',
-			'repair_terms'    => __( 'Devices not collected within 60 days may be disposed of. We are not responsible for data loss.', 'codereyes-mobile-shop' ),
+			'repair_terms'    => __( 'Devices not collected within 60 days may be disposed of. We are not responsible for data loss.', 'mobile-shop-manager' ),
 			'low_stock'       => 3,
 			'warranty_new'    => 365,
 			'warranty_used'   => 30,
@@ -59,11 +59,11 @@ final class Cmshop_Settings {
 	 */
 	public static function payment_methods(): array {
 		return array(
-			'cash'           => __( 'Cash', 'codereyes-mobile-shop' ),
-			'card'           => __( 'Card', 'codereyes-mobile-shop' ),
-			'mobile_banking' => __( 'Mobile banking (bKash, Nagad, Rocket)', 'codereyes-mobile-shop' ),
-			'bank_transfer'  => __( 'Bank transfer', 'codereyes-mobile-shop' ),
-			'online'         => __( 'Online (website order)', 'codereyes-mobile-shop' ),
+			'cash'           => __( 'Cash', 'mobile-shop-manager' ),
+			'card'           => __( 'Card', 'mobile-shop-manager' ),
+			'mobile_banking' => __( 'Mobile banking (bKash, Nagad, Rocket)', 'mobile-shop-manager' ),
+			'bank_transfer'  => __( 'Bank transfer', 'mobile-shop-manager' ),
+			'online'         => __( 'Online (website order)', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -76,9 +76,9 @@ final class Cmshop_Settings {
 		return array_merge(
 			self::payment_methods(),
 			array(
-				Cmshop_Payments::SPLIT    => __( 'Split payment', 'codereyes-mobile-shop' ),
-				Cmshop_Payments::TRADE_IN => __( 'Trade-in', 'codereyes-mobile-shop' ),
-				'store_credit'            => __( 'Store credit', 'codereyes-mobile-shop' ),
+				Cmshop_Payments::SPLIT    => __( 'Split payment', 'mobile-shop-manager' ),
+				Cmshop_Payments::TRADE_IN => __( 'Trade-in', 'mobile-shop-manager' ),
+				'store_credit'            => __( 'Store credit', 'mobile-shop-manager' ),
 			)
 		);
 	}

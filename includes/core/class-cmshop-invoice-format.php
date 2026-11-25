@@ -2,7 +2,7 @@
 /**
  * Print formats for sale invoices: thermal receipt roll or A4 page.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -26,8 +26,8 @@ final class Cmshop_Invoice_Format {
 	 */
 	public static function all(): array {
 		return array(
-			self::THERMAL => __( 'Thermal receipt', 'codereyes-mobile-shop' ),
-			self::A4      => __( 'A4 invoice', 'codereyes-mobile-shop' ),
+			self::THERMAL => __( 'Thermal receipt', 'mobile-shop-manager' ),
+			self::A4      => __( 'A4 invoice', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -38,8 +38,8 @@ final class Cmshop_Invoice_Format {
 	 */
 	public static function thermal_widths(): array {
 		return array(
-			'80' => __( '80 mm (standard)', 'codereyes-mobile-shop' ),
-			'58' => __( '58 mm (small)', 'codereyes-mobile-shop' ),
+			'80' => __( '80 mm (standard)', 'mobile-shop-manager' ),
+			'58' => __( '58 mm (small)', 'mobile-shop-manager' ),
 		);
 	}
 

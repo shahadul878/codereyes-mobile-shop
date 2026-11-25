@@ -2,7 +2,7 @@
 /**
  * Repairs list table.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -21,13 +21,13 @@ final class Cmshop_Repairs_Table extends Cmshop_List_Table {
 	 */
 	public function get_columns(): array {
 		return array(
-			'ticket_code'   => __( 'Ticket', 'codereyes-mobile-shop' ),
-			'device'        => __( 'Device', 'codereyes-mobile-shop' ),
-			'customer_name' => __( 'Customer', 'codereyes-mobile-shop' ),
-			'status'        => __( 'Status', 'codereyes-mobile-shop' ),
-			'estimate'      => __( 'Estimate', 'codereyes-mobile-shop' ),
-			'due_date'      => __( 'Due', 'codereyes-mobile-shop' ),
-			'created_at'    => __( 'Booked in', 'codereyes-mobile-shop' ),
+			'ticket_code'   => __( 'Ticket', 'mobile-shop-manager' ),
+			'device'        => __( 'Device', 'mobile-shop-manager' ),
+			'customer_name' => __( 'Customer', 'mobile-shop-manager' ),
+			'status'        => __( 'Status', 'mobile-shop-manager' ),
+			'estimate'      => __( 'Estimate', 'mobile-shop-manager' ),
+			'due_date'      => __( 'Due', 'mobile-shop-manager' ),
+			'created_at'    => __( 'Booked in', 'mobile-shop-manager' ),
 		);
 	}
 
@@ -50,7 +50,7 @@ final class Cmshop_Repairs_Table extends Cmshop_List_Table {
 	 * @return array
 	 */
 	protected function filter_choices(): array {
-		return array( 'status' => array( __( 'Status', 'codereyes-mobile-shop' ), Cmshop_Repair_Status::all() ) );
+		return array( 'status' => array( __( 'Status', 'mobile-shop-manager' ), Cmshop_Repair_Status::all() ) );
 	}
 
 	/**
@@ -73,7 +73,7 @@ final class Cmshop_Repairs_Table extends Cmshop_List_Table {
 						)
 					)
 				),
-				esc_html__( 'Edit', 'codereyes-mobile-shop' )
+				esc_html__( 'Edit', 'mobile-shop-manager' )
 			),
 			'print'  => sprintf(
 				'<a href="%s">%s</a>',
@@ -86,13 +86,13 @@ final class Cmshop_Repairs_Table extends Cmshop_List_Table {
 						)
 					)
 				),
-				esc_html__( 'Print ticket', 'codereyes-mobile-shop' )
+				esc_html__( 'Print ticket', 'mobile-shop-manager' )
 			),
 			'delete' => sprintf(
 				'<a href="%s" class="cmshop-confirm" data-confirm="%s">%s</a>',
 				esc_url( Cmshop_View::action_url( 'delete_repair', array( 'id' => $id ) ) ),
-				esc_attr__( 'Delete this repair job?', 'codereyes-mobile-shop' ),
-				esc_html__( 'Delete', 'codereyes-mobile-shop' )
+				esc_attr__( 'Delete this repair job?', 'mobile-shop-manager' ),
+				esc_html__( 'Delete', 'mobile-shop-manager' )
 			),
 		);
 
@@ -100,7 +100,7 @@ final class Cmshop_Repairs_Table extends Cmshop_List_Table {
 			$actions['whatsapp'] = sprintf(
 				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
 				esc_url( Cmshop_Messages::repair( $item ), array( 'https' ) ),
-				Cmshop_Repair_Status::READY === $item['status'] ? esc_html__( 'WhatsApp: ready', 'codereyes-mobile-shop' ) : esc_html__( 'WhatsApp update', 'codereyes-mobile-shop' )
+				Cmshop_Repair_Status::READY === $item['status'] ? esc_html__( 'WhatsApp: ready', 'mobile-shop-manager' ) : esc_html__( 'WhatsApp update', 'mobile-shop-manager' )
 			);
 		}
 

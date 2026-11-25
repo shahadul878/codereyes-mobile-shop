@@ -2,7 +2,7 @@
 /**
  * Repair status lookup form and result.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * @var array  $outcome { code, error, repair }.
  * @var string $style   Inline CSS custom properties from block/widget settings.
@@ -24,14 +24,14 @@ $cmshop_format = (string) get_option( 'date_format' );
 	<form method="post" class="cmshop-panel cmshop-lookup__form">
 		<?php wp_nonce_field( Cmshop_Repair_Tracker::nonce_action(), '_cmshop_nonce' ); ?>
 		<p>
-			<label for="cmshop-ticket"><?php esc_html_e( 'Ticket number', 'codereyes-mobile-shop' ); ?></label>
+			<label for="cmshop-ticket"><?php esc_html_e( 'Ticket number', 'mobile-shop-manager' ); ?></label>
 			<input type="text" id="cmshop-ticket" name="cmshop_ticket" value="<?php echo esc_attr( $outcome['code'] ); ?>" maxlength="12" autocomplete="off" required placeholder="K7MQ2XRT">
 		</p>
 		<p>
-			<label for="cmshop-last4"><?php esc_html_e( 'Last 4 digits of your phone', 'codereyes-mobile-shop' ); ?></label>
+			<label for="cmshop-last4"><?php esc_html_e( 'Last 4 digits of your phone', 'mobile-shop-manager' ); ?></label>
 			<input type="text" id="cmshop-last4" name="cmshop_phone_last4" inputmode="numeric" pattern="[0-9০-৯]{4}" maxlength="4" autocomplete="off" required placeholder="5678">
 		</p>
-		<p><button type="submit"><?php esc_html_e( 'Check status', 'codereyes-mobile-shop' ); ?></button></p>
+		<p><button type="submit"><?php esc_html_e( 'Check status', 'mobile-shop-manager' ); ?></button></p>
 	</form>
 
 	<?php if ( '' !== $outcome['error'] ) : ?>
@@ -75,21 +75,21 @@ $cmshop_format = (string) get_option( 'date_format' );
 
 			<dl class="cmshop-facts">
 				<div>
-					<dt><?php esc_html_e( 'Ticket', 'codereyes-mobile-shop' ); ?></dt>
+					<dt><?php esc_html_e( 'Ticket', 'mobile-shop-manager' ); ?></dt>
 					<dd><?php echo esc_html( (string) $cmshop_repair['ticket_code'] ); ?></dd>
 				</div>
 				<div>
-					<dt><?php esc_html_e( 'Booked in', 'codereyes-mobile-shop' ); ?></dt>
+					<dt><?php esc_html_e( 'Booked in', 'mobile-shop-manager' ); ?></dt>
 					<dd><?php echo esc_html( mysql2date( $cmshop_format, (string) $cmshop_repair['created_at'] ) ); ?></dd>
 				</div>
 				<?php if ( ! empty( $cmshop_repair['due_date'] ) ) : ?>
 					<div>
-						<dt><?php esc_html_e( 'Expected ready', 'codereyes-mobile-shop' ); ?></dt>
+						<dt><?php esc_html_e( 'Expected ready', 'mobile-shop-manager' ); ?></dt>
 						<dd><?php echo esc_html( mysql2date( $cmshop_format, (string) $cmshop_repair['due_date'] ) ); ?></dd>
 					</div>
 				<?php endif; ?>
 				<div>
-					<dt><?php esc_html_e( 'Balance to pay', 'codereyes-mobile-shop' ); ?></dt>
+					<dt><?php esc_html_e( 'Balance to pay', 'mobile-shop-manager' ); ?></dt>
 					<dd><?php echo esc_html( Cmshop_Settings::money( Cmshop_Repair_Status::balance_due( $cmshop_repair ) ) ); ?></dd>
 				</div>
 			</dl>

@@ -2,7 +2,7 @@
 /**
  * Who may do what in the shop.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -53,9 +53,9 @@ final class Cmshop_Staff {
 		$user = $user_id > 0 ? get_userdata( $user_id ) : false;
 
 		if ( $user_id <= 0 ) {
-			return __( 'Website orders', 'codereyes-mobile-shop' );
+			return __( 'Website orders', 'mobile-shop-manager' );
 		}
 
-		return false === $user ? __( 'Former staff', 'codereyes-mobile-shop' ) : $user->display_name;
+		return false === $user ? __( 'Former staff', 'mobile-shop-manager' ) : $user->display_name;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Digit helpers shared by IMEI, phone and money parsing.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

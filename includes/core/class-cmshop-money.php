@@ -5,7 +5,7 @@
  * Amounts are stored as DECIMAL(12,2) strings ("12500.50") and all arithmetic
  * is done in integer cents so totals never drift.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);

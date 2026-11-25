@@ -2,7 +2,7 @@
 /**
  * Elementor widget: Online repair booking form.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -29,7 +29,7 @@ final class Cmshop_Elementor_Repair_Request extends Cmshop_Elementor_Widget {
 	 * @return string
 	 */
 	public function get_title(): string {
-		return __( 'Book a Repair', 'codereyes-mobile-shop' );
+		return __( 'Book a Repair', 'mobile-shop-manager' );
 	}
 
 	/**

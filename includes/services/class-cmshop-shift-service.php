@@ -2,7 +2,7 @@
 /**
  * Opening and closing the cash register, and petty cash.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -95,11 +95,11 @@ final class Cmshop_Shift_Service {
 		$amount = Cmshop_Money::parse_or_zero( $opening );
 
 		if ( null === $amount ) {
-			throw new InvalidArgumentException( __( 'Enter the cash in the drawer, e.g. 2000.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Enter the cash in the drawer, e.g. 2000.', 'mobile-shop-manager' ) );
 		}
 
 		if ( null !== $this->shifts->open_for( $user_id ) ) {
-			throw new InvalidArgumentException( __( 'You already have an open shift. Close it first.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'You already have an open shift. Close it first.', 'mobile-shop-manager' ) );
 		}
 
 		return $this->shifts->insert(
@@ -125,15 +125,15 @@ final class Cmshop_Shift_Service {
 		$reason = mb_substr( trim( sanitize_text_field( $reason ) ), 0, self::MAX_REASON );
 
 		if ( null === $this->shifts->open_for( $user_id ) ) {
-			throw new InvalidArgumentException( __( 'Open a shift first.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Open a shift first.', 'mobile-shop-manager' ) );
 		}
 
 		if ( null === $parsed || Cmshop_Money::to_cents( $parsed ) <= 0 ) {
-			throw new InvalidArgumentException( __( 'Enter the amount.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Enter the amount.', 'mobile-shop-manager' ) );
 		}
 
 		if ( '' === $reason ) {
-			throw new InvalidArgumentException( __( 'Say what the cash was for.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'Say what the cash was for.', 'mobile-shop-manager' ) );
 		}
 
 		$out = 'out' === $direction;
@@ -166,7 +166,7 @@ final class Cmshop_Shift_Service {
 		$shift = $this->shifts->open_for( $user_id );
 
 		if ( null === $shift ) {
-			throw new InvalidArgumentException( __( 'There is no open shift to close.', 'codereyes-mobile-shop' ) );
+			throw new InvalidArgumentException( __( 'There is no open shift to close.', 'mobile-shop-manager' ) );
 		}
 
 		$live = $this->with_summary( $shift );

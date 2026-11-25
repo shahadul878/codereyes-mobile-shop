@@ -2,7 +2,7 @@
 /**
  * Shared base for the Mobile Shop Elementor widgets.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -69,7 +69,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'cmshop_content',
 			array(
-				'label' => __( 'Content', 'codereyes-mobile-shop' ),
+				'label' => __( 'Content', 'mobile-shop-manager' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -78,7 +78,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 			'cmshop_note',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => esc_html__( 'This form works as it is. Change its look in the Style tab, and shop details under Mobile Shop → Settings.', 'codereyes-mobile-shop' ),
+				'raw'             => esc_html__( 'This form works as it is. Change its look in the Style tab, and shop details under Mobile Shop → Settings.', 'mobile-shop-manager' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			)
 		);
@@ -113,7 +113,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'cmshop_style',
 			array(
-				'label' => __( 'Colours and shape', 'codereyes-mobile-shop' ),
+				'label' => __( 'Colours and shape', 'mobile-shop-manager' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -121,7 +121,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'cmshop_accent',
 			array(
-				'label'     => __( 'Accent colour', 'codereyes-mobile-shop' ),
+				'label'     => __( 'Accent colour', 'mobile-shop-manager' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array( '{{WRAPPER}} .cmshop-ui' => '--cmshop-accent: {{VALUE}};' ),
 			)
@@ -130,7 +130,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'cmshop_accent_ink',
 			array(
-				'label'     => __( 'Text on accent', 'codereyes-mobile-shop' ),
+				'label'     => __( 'Text on accent', 'mobile-shop-manager' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array( '{{WRAPPER}} .cmshop-ui' => '--cmshop-accent-ink: {{VALUE}};' ),
 			)
@@ -139,7 +139,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'cmshop_card',
 			array(
-				'label'     => __( 'Card background', 'codereyes-mobile-shop' ),
+				'label'     => __( 'Card background', 'mobile-shop-manager' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array( '{{WRAPPER}} .cmshop-ui' => '--cmshop-card: {{VALUE}};' ),
 			)
@@ -148,7 +148,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->add_control(
 			'cmshop_text',
 			array(
-				'label'     => __( 'Card text', 'codereyes-mobile-shop' ),
+				'label'     => __( 'Card text', 'mobile-shop-manager' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array( '{{WRAPPER}} .cmshop-panel, {{WRAPPER}} .cmshop-stock__card' => 'color: {{VALUE}};' ),
 			)
@@ -157,7 +157,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'cmshop_radius',
 			array(
-				'label'      => __( 'Corner radius', 'codereyes-mobile-shop' ),
+				'label'      => __( 'Corner radius', 'mobile-shop-manager' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'range'      => array(
@@ -174,7 +174,7 @@ abstract class Cmshop_Elementor_Widget extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'cmshop_heading',
-				'label'    => __( 'Headings', 'codereyes-mobile-shop' ),
+				'label'    => __( 'Headings', 'mobile-shop-manager' ),
 				'selector' => '{{WRAPPER}} .cmshop-stock__title, {{WRAPPER}} .cmshop-lookup__head, {{WRAPPER}} .cmshop-booking__done h3',
 			)
 		);

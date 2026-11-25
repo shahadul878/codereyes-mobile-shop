@@ -2,7 +2,7 @@
 /**
  * Elementor widget: Warranty check by IMEI.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -29,7 +29,7 @@ final class Cmshop_Elementor_Warranty extends Cmshop_Elementor_Widget {
 	 * @return string
 	 */
 	public function get_title(): string {
-		return __( 'Warranty Check', 'codereyes-mobile-shop' );
+		return __( 'Warranty Check', 'mobile-shop-manager' );
 	}
 
 	/**

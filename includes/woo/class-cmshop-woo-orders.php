@@ -2,7 +2,7 @@
 /**
  * Records paid WooCommerce orders as online sales.
  *
- * @package CodereyesMobileShop
+ * @package MobileShopManager
  */
 
 declare(strict_types=1);
@@ -130,22 +130,22 @@ final class Cmshop_Woo_Orders {
 					'channel'        => Cmshop_Sale_Repository::CHANNEL_ONLINE,
 					'wc_order_id'    => (int) $order->get_id(),
 					/* translators: %d: WooCommerce order number. */
-					'notes'          => sprintf( __( 'Website order #%d', 'codereyes-mobile-shop' ), (int) $order->get_id() ),
+					'notes'          => sprintf( __( 'Website order #%d', 'mobile-shop-manager' ), (int) $order->get_id() ),
 				),
 				0
 			);
 			$sale    = $this->sales->find( $sale_id );
 			/* translators: %s: invoice number. */
-			$note = sprintf( __( 'Mobile Shop: recorded as sale %s and removed from shop stock.', 'codereyes-mobile-shop' ), (string) ( $sale['invoice_no'] ?? $sale_id ) );
+			$note = sprintf( __( 'Mobile Shop: recorded as sale %s and removed from shop stock.', 'mobile-shop-manager' ), (string) ( $sale['invoice_no'] ?? $sale_id ) );
 			$order->add_order_note( $note . $this->imei_note( $sale_id ) );
 		} catch ( InvalidArgumentException $error ) {
 			// Usually: the phone was sold at the counter before the website stock updated.
 			/* translators: %s: reason. */
-			$order->add_order_note( sprintf( __( 'Mobile Shop: could not take this order from shop stock — %s Check the stock before shipping.', 'codereyes-mobile-shop' ), $error->getMessage() ) );
+			$order->add_order_note( sprintf( __( 'Mobile Shop: could not take this order from shop stock — %s Check the stock before shipping.', 'mobile-shop-manager' ), $error->getMessage() ) );
 		} catch ( RuntimeException $error ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log of a database failure.
-			error_log( 'Codereyes Mobile Shop: order ' . $order->get_id() . ' not recorded: ' . $error->getMessage() );
-			$order->add_order_note( __( 'Mobile Shop: a database error stopped this order being recorded. Record it at the counter.', 'codereyes-mobile-shop' ) );
+			error_log( 'Mobile Shop Manager: order ' . $order->get_id() . ' not recorded: ' . $error->getMessage() );
+			$order->add_order_note( __( 'Mobile Shop: a database error stopped this order being recorded. Record it at the counter.', 'mobile-shop-manager' ) );
 		}
 	}
 
@@ -161,7 +161,7 @@ final class Cmshop_Woo_Orders {
 		// order itself but not a refunded or failed one. Stock is set to the
 		// shop's count, so a cancelled order is not counted twice.
 		if ( null !== $sale && $this->service->void( (int) $sale['id'], Cmshop_Sale_Repository::CHANNEL_STORE ) ) {
-			$order->add_order_note( __( 'Mobile Shop: sale voided and items returned to shop stock.', 'codereyes-mobile-shop' ) );
+			$order->add_order_note( __( 'Mobile Shop: sale voided and items returned to shop stock.', 'mobile-shop-manager' ) );
 		}
 	}
 
@@ -227,7 +227,7 @@ final class Cmshop_Woo_Orders {
 				esc_html(
 					sprintf(
 						/* translators: 1: phones in stock, 2: product and option, e.g. "Galaxy A15 - Black, 128GB". */
-						__( 'only %1$d of %2$s left in the shop.', 'codereyes-mobile-shop' ),
+						__( 'only %1$d of %2$s left in the shop.', 'mobile-shop-manager' ),
 						count( $ids ),
 						$order_item->get_name()
 					)
