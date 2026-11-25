@@ -21,7 +21,7 @@ final class SanitizeTest extends TestCase {
 	public function test_nested_arrays_are_sanitised(): void {
 		$clean = Cmshop_Sanitize::deep( array( 'lines' => array( array( 'model' => '<script>x</script>A55' ) ) ) );
 
-		$this->assertSame( 'xA55', $clean['lines'][0]['model'] );
+		$this->assertSame( 'A55', $clean['lines'][0]['model'] );
 	}
 
 	public function test_numbers_booleans_and_null_keep_their_type(): void {
