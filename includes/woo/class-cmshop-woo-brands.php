@@ -2,7 +2,7 @@
 /**
  * Keeps stock brands in step with WooCommerce Brands (product_brand).
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

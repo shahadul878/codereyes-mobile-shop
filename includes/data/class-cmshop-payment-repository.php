@@ -2,7 +2,7 @@
 /**
  * Payments ledger: money in (sales, dues collected) and out (refunds).
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

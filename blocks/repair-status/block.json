@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "mobile-shop-manager/repair-status",
+	"name": "codereyes-mobile-shop-manager/repair-status",
 	"title": "Repair Tracker",
-	"category": "mobile-shop-manager",
+	"category": "codereyes-mobile-shop-manager",
 	"icon": "search",
 	"description": "Customers check their repair with the ticket number and the last 4 digits of their phone.",
 	"keywords": [
@@ -12,7 +12,7 @@
 		"tracker",
 		"ticket"
 	],
-	"textdomain": "mobile-shop-manager",
+	"textdomain": "codereyes-mobile-shop-manager",
 	"attributes": {
 		"accentColor": {
 			"type": "string",

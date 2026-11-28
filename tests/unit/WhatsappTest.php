@@ -2,7 +2,7 @@
 /**
  * WhatsApp click-to-chat links.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

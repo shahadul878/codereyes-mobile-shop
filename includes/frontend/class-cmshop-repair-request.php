@@ -2,7 +2,7 @@
 /**
  * [cmshop_repair_request] — customers book a repair on the website.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -78,7 +78,7 @@ final class Cmshop_Repair_Request {
 		}
 
 		if ( ! isset( $_POST['_cmshop_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_cmshop_nonce'] ) ), self::NONCE ) ) {
-			$this->outcome['error'] = __( 'This page has expired. Please reload it and try again.', 'mobile-shop-manager' );
+			$this->outcome['error'] = __( 'This page has expired. Please reload it and try again.', 'codereyes-mobile-shop-manager' );
 			return;
 		}
 
@@ -107,7 +107,7 @@ final class Cmshop_Repair_Request {
 				$this->outcome,
 				array(
 					'values' => $values,
-					'error'  => __( 'Too many bookings from this connection. Please call us instead.', 'mobile-shop-manager' ),
+					'error'  => __( 'Too many bookings from this connection. Please call us instead.', 'codereyes-mobile-shop-manager' ),
 				)
 			);
 			return;
@@ -117,12 +117,12 @@ final class Cmshop_Repair_Request {
 			$repair = $this->book( $result->data() );
 		} catch ( RuntimeException $error ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log of a database failure.
-			error_log( 'Mobile Shop Manager: repair booking failed: ' . $error->getMessage() );
+			error_log( 'Codereyes Mobile Shop Manager: repair booking failed: ' . $error->getMessage() );
 			$this->outcome = array_merge(
 				$this->outcome,
 				array(
 					'values' => $values,
-					'error'  => __( 'Sorry, we could not save your booking. Please try again or call us.', 'mobile-shop-manager' ),
+					'error'  => __( 'Sorry, we could not save your booking. Please try again or call us.', 'codereyes-mobile-shop-manager' ),
 				)
 			);
 			return;
@@ -171,16 +171,16 @@ final class Cmshop_Repair_Request {
 	 */
 	private function book( array $data ): array {
 		$customer = $this->customers->find_or_create( $data['customer_name'], $data['customer_phone'], $data['customer_email'] );
-		$notes    = array( __( 'Booked on the website.', 'mobile-shop-manager' ) );
+		$notes    = array( __( 'Booked on the website.', 'codereyes-mobile-shop-manager' ) );
 
 		if ( null !== $data['preferred_date'] ) {
 			/* translators: %s: date the customer plans to bring the phone. */
-			$notes[] = sprintf( __( 'Preferred drop-off: %s.', 'mobile-shop-manager' ), mysql2date( (string) get_option( 'date_format' ), $data['preferred_date'] ) );
+			$notes[] = sprintf( __( 'Preferred drop-off: %s.', 'codereyes-mobile-shop-manager' ), mysql2date( (string) get_option( 'date_format' ), $data['preferred_date'] ) );
 		}
 
 		if ( '' !== $data['customer_email'] ) {
 			/* translators: %s: customer email. */
-			$notes[] = sprintf( __( 'Email: %s', 'mobile-shop-manager' ), $data['customer_email'] );
+			$notes[] = sprintf( __( 'Email: %s', 'codereyes-mobile-shop-manager' ), $data['customer_email'] );
 		}
 
 		$id = $this->repairs->insert_with_ticket(
@@ -223,13 +223,13 @@ final class Cmshop_Repair_Request {
 
 		$lines = array(
 			/* translators: %s: ticket code. */
-			sprintf( __( 'Ticket: %s', 'mobile-shop-manager' ), $code ),
+			sprintf( __( 'Ticket: %s', 'codereyes-mobile-shop-manager' ), $code ),
 			/* translators: 1: name, 2: phone. */
-			sprintf( __( 'Customer: %1$s, %2$s', 'mobile-shop-manager' ), $data['customer_name'], $data['customer_phone'] ),
+			sprintf( __( 'Customer: %1$s, %2$s', 'codereyes-mobile-shop-manager' ), $data['customer_name'], $data['customer_phone'] ),
 			/* translators: %s: phone model. */
-			sprintf( __( 'Device: %s', 'mobile-shop-manager' ), $data['device'] ),
+			sprintf( __( 'Device: %s', 'codereyes-mobile-shop-manager' ), $data['device'] ),
 			/* translators: %s: fault description. */
-			sprintf( __( 'Fault: %s', 'mobile-shop-manager' ), $data['fault'] ),
+			sprintf( __( 'Fault: %s', 'codereyes-mobile-shop-manager' ), $data['fault'] ),
 			(string) $repair['internal_notes'],
 			'',
 			add_query_arg(
@@ -245,7 +245,7 @@ final class Cmshop_Repair_Request {
 		wp_mail(
 			(string) get_option( 'admin_email' ),
 			/* translators: 1: shop name, 2: ticket code. */
-			sprintf( __( '[%1$s] New repair booking %2$s', 'mobile-shop-manager' ), $shop, $code ),
+			sprintf( __( '[%1$s] New repair booking %2$s', 'codereyes-mobile-shop-manager' ), $shop, $code ),
 			implode( "\n", $lines )
 		);
 
@@ -256,17 +256,17 @@ final class Cmshop_Repair_Request {
 		wp_mail(
 			$data['customer_email'],
 			/* translators: 1: shop name, 2: ticket code. */
-			sprintf( __( 'Your repair booking with %1$s: %2$s', 'mobile-shop-manager' ), $shop, $code ),
+			sprintf( __( 'Your repair booking with %1$s: %2$s', 'codereyes-mobile-shop-manager' ), $shop, $code ),
 			implode(
 				"\n",
 				array(
 					/* translators: %s: customer name. */
-					sprintf( __( 'Hello %s,', 'mobile-shop-manager' ), $data['customer_name'] ),
+					sprintf( __( 'Hello %s,', 'codereyes-mobile-shop-manager' ), $data['customer_name'] ),
 					'',
 					/* translators: %s: phone model. */
-					sprintf( __( 'We have your repair booking for your %s.', 'mobile-shop-manager' ), $data['device'] ),
+					sprintf( __( 'We have your repair booking for your %s.', 'codereyes-mobile-shop-manager' ), $data['device'] ),
 					/* translators: %s: ticket code. */
-					sprintf( __( 'Your ticket number is %s. Bring the phone to the shop and quote this number. You can check progress on our website with the ticket number and the last 4 digits of your phone number.', 'mobile-shop-manager' ), $code ),
+					sprintf( __( 'Your ticket number is %s. Bring the phone to the shop and quote this number. You can check progress on our website with the ticket number and the last 4 digits of your phone number.', 'codereyes-mobile-shop-manager' ), $code ),
 					'',
 					$shop,
 					(string) Cmshop_Settings::get( 'shop_phone' ),

@@ -2,7 +2,7 @@
 /**
  * Add or edit a customer, with their purchases and repairs.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * @var array $cmshop { customer: array|null, values: array, errors: array, sales: array[], repairs: array[] }
  */
@@ -14,7 +14,7 @@ $cmshop_values   = $cmshop['values'];
 $cmshop_errors   = $cmshop['errors'];
 ?>
 <div class="wrap cmshop-wrap">
-	<h1 class="wp-heading-inline"><?php echo esc_html( null === $cmshop_customer ? __( 'Add customer', 'mobile-shop-manager' ) : (string) $cmshop_customer['name'] ); ?></h1>
+	<h1 class="wp-heading-inline"><?php echo esc_html( null === $cmshop_customer ? __( 'Add customer', 'codereyes-mobile-shop-manager' ) : (string) $cmshop_customer['name'] ); ?></h1>
 	<hr class="wp-header-end">
 
 	<?php Cmshop_View::notice(); ?>
@@ -24,12 +24,12 @@ $cmshop_errors   = $cmshop['errors'];
 		<section class="cmshop-card">
 			<?php Cmshop_View::form_open( 'save_customer' ); ?>
 				<input type="hidden" name="id" value="<?php echo esc_attr( (string) (int) ( $cmshop_customer['id'] ?? 0 ) ); ?>">
-				<?php Cmshop_View::input( 'name', __( 'Name', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'required' => true ) ); ?>
+				<?php Cmshop_View::input( 'name', __( 'Name', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'required' => true ) ); ?>
 				<div class="cmshop-row">
 					<?php
 					Cmshop_View::input(
 						'phone',
-						__( 'Phone', 'mobile-shop-manager' ),
+						__( 'Phone', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -43,7 +43,7 @@ $cmshop_errors   = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'email',
-						__( 'Email', 'mobile-shop-manager' ),
+						__( 'Email', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -54,20 +54,20 @@ $cmshop_errors   = $cmshop['errors'];
 					);
 					?>
 				</div>
-				<?php Cmshop_View::textarea( 'address', __( 'Address', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors ); ?>
-				<?php Cmshop_View::textarea( 'notes', __( 'Notes', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors ); ?>
+				<?php Cmshop_View::textarea( 'address', __( 'Address', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors ); ?>
+				<?php Cmshop_View::textarea( 'notes', __( 'Notes', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors ); ?>
 				<p class="submit">
-					<?php submit_button( __( 'Save customer', 'mobile-shop-manager' ), 'primary', 'submit', false ); ?>
-					<a class="button" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-customers' ) ); ?>"><?php esc_html_e( 'Cancel', 'mobile-shop-manager' ); ?></a>
+					<?php submit_button( __( 'Save customer', 'codereyes-mobile-shop-manager' ), 'primary', 'submit', false ); ?>
+					<a class="button" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-customers' ) ); ?>"><?php esc_html_e( 'Cancel', 'codereyes-mobile-shop-manager' ); ?></a>
 				</p>
 			</form>
 		</section>
 
 		<?php if ( null !== $cmshop_customer ) : ?>
 			<section class="cmshop-card">
-				<h2><?php esc_html_e( 'Purchases', 'mobile-shop-manager' ); ?></h2>
+				<h2><?php esc_html_e( 'Purchases', 'codereyes-mobile-shop-manager' ); ?></h2>
 				<?php if ( array() === $cmshop['sales'] ) : ?>
-					<p class="cmshop-empty"><?php esc_html_e( 'No purchases yet.', 'mobile-shop-manager' ); ?></p>
+					<p class="cmshop-empty"><?php esc_html_e( 'No purchases yet.', 'codereyes-mobile-shop-manager' ); ?></p>
 				<?php else : ?>
 					<ul class="cmshop-history">
 						<?php foreach ( $cmshop['sales'] as $cmshop_sale ) : ?>
@@ -80,9 +80,9 @@ $cmshop_errors   = $cmshop['errors'];
 					</ul>
 				<?php endif; ?>
 
-				<h2><?php esc_html_e( 'Repairs', 'mobile-shop-manager' ); ?></h2>
+				<h2><?php esc_html_e( 'Repairs', 'codereyes-mobile-shop-manager' ); ?></h2>
 				<?php if ( array() === $cmshop['repairs'] ) : ?>
-					<p class="cmshop-empty"><?php esc_html_e( 'No repairs yet.', 'mobile-shop-manager' ); ?></p>
+					<p class="cmshop-empty"><?php esc_html_e( 'No repairs yet.', 'codereyes-mobile-shop-manager' ); ?></p>
 				<?php else : ?>
 					<ul class="cmshop-history">
 						<?php foreach ( $cmshop['repairs'] as $cmshop_job ) : ?>

@@ -2,7 +2,7 @@
 /**
  * Field-by-field reader for submitted form data.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -92,7 +92,7 @@ final class Cmshop_Input {
 		}
 
 		if ( ! in_array( $value, $allowed, true ) ) {
-			$this->error( $field, __( 'Choose one of the listed options.', 'mobile-shop-manager' ) );
+			$this->error( $field, __( 'Choose one of the listed options.', 'codereyes-mobile-shop-manager' ) );
 			return $fallback;
 		}
 
@@ -109,7 +109,7 @@ final class Cmshop_Input {
 		$value = Cmshop_Money::parse_or_zero( $this->raw( $field ) );
 
 		if ( null === $value ) {
-			$this->error( $field, __( 'Enter an amount such as 12500 or 12,500.50.', 'mobile-shop-manager' ) );
+			$this->error( $field, __( 'Enter an amount such as 12500 or 12,500.50.', 'codereyes-mobile-shop-manager' ) );
 			return '0.00';
 		}
 
@@ -144,7 +144,7 @@ final class Cmshop_Input {
 
 		if ( 1 !== preg_match( '/^\d+$/', $value ) || (int) $value < $min || (int) $value > $max ) {
 			/* translators: 1: minimum, 2: maximum. */
-			$this->error( $field, sprintf( __( 'Enter a whole number from %1$d to %2$d.', 'mobile-shop-manager' ), $min, $max ) );
+			$this->error( $field, sprintf( __( 'Enter a whole number from %1$d to %2$d.', 'codereyes-mobile-shop-manager' ), $min, $max ) );
 			return $fallback;
 		}
 
@@ -163,13 +163,13 @@ final class Cmshop_Input {
 
 		if ( '' === $value ) {
 			if ( $required ) {
-				$this->error( $field, __( 'Enter the 15-digit IMEI (dial *#06# on the phone).', 'mobile-shop-manager' ) );
+				$this->error( $field, __( 'Enter the 15-digit IMEI (dial *#06# on the phone).', 'codereyes-mobile-shop-manager' ) );
 			}
 			return '';
 		}
 
 		if ( ! Cmshop_Imei::is_valid( $value ) ) {
-			$this->error( $field, __( 'This is not a valid IMEI. Check the 15 digits.', 'mobile-shop-manager' ) );
+			$this->error( $field, __( 'This is not a valid IMEI. Check the 15 digits.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		return $value;
@@ -187,13 +187,13 @@ final class Cmshop_Input {
 
 		if ( '' === ltrim( $value, '+' ) ) {
 			if ( $required ) {
-				$this->error( $field, __( 'Enter a phone number.', 'mobile-shop-manager' ) );
+				$this->error( $field, __( 'Enter a phone number.', 'codereyes-mobile-shop-manager' ) );
 			}
 			return '';
 		}
 
 		if ( ! Cmshop_Phone_Number::is_valid( $value ) ) {
-			$this->error( $field, __( 'Enter a phone number of 6 to 15 digits.', 'mobile-shop-manager' ) );
+			$this->error( $field, __( 'Enter a phone number of 6 to 15 digits.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		return $value;
@@ -209,7 +209,7 @@ final class Cmshop_Input {
 		$value = sanitize_email( $this->raw( $field ) );
 
 		if ( '' !== trim( $this->raw( $field ) ) && ! is_email( $value ) ) {
-			$this->error( $field, __( 'Enter a valid email address.', 'mobile-shop-manager' ) );
+			$this->error( $field, __( 'Enter a valid email address.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		return $value;
@@ -231,7 +231,7 @@ final class Cmshop_Input {
 		$date = DateTimeImmutable::createFromFormat( '!Y-m-d', $value );
 
 		if ( false === $date || $date->format( 'Y-m-d' ) !== $value ) {
-			$this->error( $field, __( 'Enter a date as YYYY-MM-DD.', 'mobile-shop-manager' ) );
+			$this->error( $field, __( 'Enter a date as YYYY-MM-DD.', 'codereyes-mobile-shop-manager' ) );
 			return null;
 		}
 
@@ -276,7 +276,7 @@ final class Cmshop_Input {
 
 		if ( mb_strlen( $value ) > $max_length ) {
 			/* translators: %d: maximum number of characters. */
-			$this->error( $field, sprintf( __( 'Keep this under %d characters.', 'mobile-shop-manager' ), $max_length ) );
+			$this->error( $field, sprintf( __( 'Keep this under %d characters.', 'codereyes-mobile-shop-manager' ), $max_length ) );
 		}
 
 		return $value;

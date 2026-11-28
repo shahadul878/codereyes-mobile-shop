@@ -2,7 +2,7 @@
 /**
  * Tests for the small helpers: money, IMEI, phone numbers, codes, CSV, items.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 use PHPUnit\Framework\TestCase;

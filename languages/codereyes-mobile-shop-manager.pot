@@ -2,36 +2,36 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Mobile Shop Manager 1.4.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mobile-shop-manager\n"
+"Project-Id-Version: Codereyes Mobile Shop Manager 1.5.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/codereyes-mobile-shop-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T15:06:59+00:00\n"
+"POT-Creation-Date: 2026-11-28T12:37:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: mobile-shop-manager\n"
+"X-Domain: codereyes-mobile-shop-manager\n"
 
 #. Plugin Name of the plugin
-#: mobile-shop-manager.php
-msgid "Mobile Shop Manager"
+#: codereyes-mobile-shop-manager.php
+msgid "Codereyes Mobile Shop Manager"
 msgstr ""
 
 #. Description of the plugin
-#: mobile-shop-manager.php
+#: codereyes-mobile-shop-manager.php
 msgid "Run a mobile phone shop in store and online: IMEI stock, full-screen POS, installments, trade-ins, repairs, suppliers, cashiers and WooCommerce sync."
 msgstr ""
 
 #. Author of the plugin
-#: mobile-shop-manager.php
+#: codereyes-mobile-shop-manager.php
 msgid "H M Shahadul Islam"
 msgstr ""
 
 #. Author URI of the plugin
-#: mobile-shop-manager.php
-msgid "https://github.com/shahadul878"
+#: codereyes-mobile-shop-manager.php
+msgid "https://codereyes.com"
 msgstr ""
 
 #: includes/admin/class-cmshop-actions.php:221

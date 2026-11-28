@@ -1,5 +1,5 @@
 /**
- * Mobile Shop Manager — full-screen point of sale.
+ * Codereyes Mobile Shop Manager — full-screen point of sale.
  *
  * Product grid with type and brand tabs, colour/storage picker for new
  * phones, scanner search, customer lookup, split payments with quick cash,
@@ -22,10 +22,10 @@
 	const SEARCH_DELAY = 350;
 	const PHONE_DIGITS = 11;
 	const TYPES = [
-		[ 'all', __( 'All', 'mobile-shop-manager' ) ],
-		[ 'new', __( 'New phones', 'mobile-shop-manager' ) ],
-		[ 'used', __( 'Used phones', 'mobile-shop-manager' ) ],
-		[ 'accessory', __( 'Accessories', 'mobile-shop-manager' ) ],
+		[ 'all', __( 'All', 'codereyes-mobile-shop-manager' ) ],
+		[ 'new', __( 'New phones', 'codereyes-mobile-shop-manager' ) ],
+		[ 'used', __( 'Used phones', 'codereyes-mobile-shop-manager' ) ],
+		[ 'accessory', __( 'Accessories', 'codereyes-mobile-shop-manager' ) ],
 	];
 	const METHODS = Object.entries( config.methods || {} ).filter( ( [ key ] ) => 'online' !== key );
 
@@ -80,7 +80,7 @@
 	 * @return {string} Message.
 	 */
 	function failureText( failure ) {
-		return ( failure && ( failure.error || failure.message ) ) || __( 'Something went wrong. Please try again.', 'mobile-shop-manager' );
+		return ( failure && ( failure.error || failure.message ) ) || __( 'Something went wrong. Please try again.', 'codereyes-mobile-shop-manager' );
 	}
 
 	/* ---------- Grid ---------- */
@@ -88,7 +88,7 @@
 	function renderFilters() {
 		ui.types.replaceChildren( ...TYPES.map( ( [ key, label ] ) => el( 'button', { type: 'button', className: 'cmshop-pos-tab' + ( key === state.filter.type ? ' is-active' : '' ), 'aria-pressed': String( key === state.filter.type ), 'data-type': key, text: label } ) ) );
 		ui.brands.replaceChildren(
-			el( 'button', { type: 'button', className: 'cmshop-pos-tab' + ( '' === state.filter.brand ? ' is-active' : '' ), 'aria-pressed': String( '' === state.filter.brand ), 'data-brand': '', text: __( 'All brands', 'mobile-shop-manager' ) } ),
+			el( 'button', { type: 'button', className: 'cmshop-pos-tab' + ( '' === state.filter.brand ? ' is-active' : '' ), 'aria-pressed': String( '' === state.filter.brand ), 'data-brand': '', text: __( 'All brands', 'codereyes-mobile-shop-manager' ) } ),
 			...state.brands.map( ( brand ) => el( 'button', { type: 'button', className: 'cmshop-pos-tab' + ( brand === state.filter.brand ? ' is-active' : '' ), 'aria-pressed': String( brand === state.filter.brand ), 'data-brand': brand, text: brand } ) )
 		);
 	}
@@ -98,7 +98,7 @@
 
 		ui.grid.replaceChildren( ...tiles.map( ( tile ) => window.cmshopPosDom.tile( tile, money ) ) );
 		ui.gridEmpty.hidden = 0 < tiles.length;
-		ui.gridEmpty.textContent = 0 === state.tiles.length ? __( 'Nothing in stock yet. Add phones and accessories under Stock.', 'mobile-shop-manager' ) : __( 'Nothing matches. Try another tab or search.', 'mobile-shop-manager' );
+		ui.gridEmpty.textContent = 0 === state.tiles.length ? __( 'Nothing in stock yet. Add phones and accessories under Stock.', 'codereyes-mobile-shop-manager' ) : __( 'Nothing matches. Try another tab or search.', 'codereyes-mobile-shop-manager' );
 	}
 
 	function loadCatalog() {
@@ -120,7 +120,7 @@
 	function add( tile, unit ) {
 		const result = core.addLine( state.lines, core.lineFor( tile, unit ) );
 
-		showError( 'max' === result.error ? __( 'That is all the stock there is of this item.', 'mobile-shop-manager' ) : '' );
+		showError( 'max' === result.error ? __( 'That is all the stock there is of this item.', 'codereyes-mobile-shop-manager' ) : '' );
 		state = { ...state, lines: result.lines };
 		renderCart();
 	}
@@ -134,13 +134,13 @@
 				line.imei ? el( 'code', { text: 'IMEI ' + line.imei } ) : null,
 			] ),
 			el( 'div', { className: 'cmshop-pos-line__qty' }, 1 < line.max ? [
-				el( 'button', { type: 'button', 'data-qty': '-1', 'aria-label': __( 'One less', 'mobile-shop-manager' ), text: '−' } ),
+				el( 'button', { type: 'button', 'data-qty': '-1', 'aria-label': __( 'One less', 'codereyes-mobile-shop-manager' ), text: '−' } ),
 				el( 'span', { text: String( line.quantity ) } ),
-				el( 'button', { type: 'button', 'data-qty': '1', 'aria-label': __( 'One more', 'mobile-shop-manager' ), text: '+' } ),
+				el( 'button', { type: 'button', 'data-qty': '1', 'aria-label': __( 'One more', 'codereyes-mobile-shop-manager' ), text: '+' } ),
 			] : [ el( 'span', { text: '1' } ) ] ),
-			el( 'input', { type: 'text', inputmode: 'decimal', className: 'cmshop-pos-line__price', value: core.amount( line.price ), 'aria-label': __( 'Price', 'mobile-shop-manager' ), 'data-price': '' } ),
+			el( 'input', { type: 'text', inputmode: 'decimal', className: 'cmshop-pos-line__price', value: core.amount( line.price ), 'aria-label': __( 'Price', 'codereyes-mobile-shop-manager' ), 'data-price': '' } ),
 			el( 'span', { className: 'cmshop-pos-line__total', text: money( line.price * line.quantity ) } ),
-			el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-remove': '', 'aria-label': __( 'Remove', 'mobile-shop-manager' ), text: '×' } ),
+			el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-remove': '', 'aria-label': __( 'Remove', 'codereyes-mobile-shop-manager' ), text: '×' } ),
 		] ) ) );
 		renderTotals();
 	}
@@ -158,11 +158,11 @@
 		ui.trades.replaceChildren( ...state.trades.map( ( trade, index ) => el( 'li', { className: 'cmshop-pos-line', 'data-trade': String( index ) }, [
 			el( 'div', { className: 'cmshop-pos-line__main' }, [
 				/* translators: %s: the phone traded in, the customer it came from, or what is wrong with it. */
-				el( 'strong', { text: sprintf( __( 'Trade-in: %s', 'mobile-shop-manager' ), [ trade.brand, trade.model, trade.storage ].filter( Boolean ).join( ' ' ) ) } ),
+				el( 'strong', { text: sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop-manager' ), [ trade.brand, trade.model, trade.storage ].filter( Boolean ).join( ' ' ) ) } ),
 				el( 'code', { text: 'IMEI ' + trade.imei1 } ),
 			] ),
 			el( 'span', { className: 'cmshop-pos-line__total', text: '-' + money( core.cents( trade.value ) ) } ),
-			el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-untrade': '', 'aria-label': __( 'Remove trade-in', 'mobile-shop-manager' ), text: '×' } ),
+			el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-untrade': '', 'aria-label': __( 'Remove trade-in', 'codereyes-mobile-shop-manager' ), text: '×' } ),
 		] ) ) );
 		renderTotals();
 	}
@@ -183,25 +183,25 @@
 		ui.payments.querySelectorAll( '[data-amount]' ).forEach( ( input, index ) => {
 			input.placeholder = 0 === index ? core.amount( toPay ) : '0';
 		} );
-		ui.quick.replaceChildren( ...core.quickCash( toPay ).map( ( value, index ) => el( 'button', { type: 'button', className: 'cmshop-pos-cash', 'data-cash': String( value ), text: 0 === index ? __( 'Exact', 'mobile-shop-manager' ) : money( value ) } ) ) );
+		ui.quick.replaceChildren( ...core.quickCash( toPay ).map( ( value, index ) => el( 'button', { type: 'button', className: 'cmshop-pos-cash', 'data-cash': String( value ), text: 0 === index ? __( 'Exact', 'codereyes-mobile-shop-manager' ) : money( value ) } ) ) );
 		renderBalance();
 	}
 
 	function renderBalance() {
 		const total = core.totals( state.lines, ui.discount.value ).total;
 		const sums = core.balance( state.payments, total, credit() );
-		let text = __( 'Paid in full', 'mobile-shop-manager' );
+		let text = __( 'Paid in full', 'codereyes-mobile-shop-manager' );
 		let tone = 'ok';
 
 		if ( 0 === state.lines.length ) {
 			text = '';
 		} else if ( 0 < sums.change ) {
 			/* translators: %s: change to give back. */
-			text = sprintf( __( 'Change to give: %s', 'mobile-shop-manager' ), money( sums.change ) );
+			text = sprintf( __( 'Change to give: %s', 'codereyes-mobile-shop-manager' ), money( sums.change ) );
 			tone = 'change';
 		} else if ( 0 < sums.due ) {
 			/* translators: %s: amount still owed. */
-			text = sprintf( __( 'Still owed: %s (goes on the customer\'s account)', 'mobile-shop-manager' ), money( sums.due ) );
+			text = sprintf( __( 'Still owed: %s (goes on the customer\'s account)', 'codereyes-mobile-shop-manager' ), money( sums.due ) );
 			tone = 'due';
 		}
 
@@ -221,7 +221,7 @@
 
 		plan.hidden = 0 >= due;
 		find( '[data-plan-each]' ).textContent = 0 < count && 0 < due
-			? sprintf( /* translators: 1: number of installments, 2: amount of each. */ __( '%1$d payments of about %2$s', 'mobile-shop-manager' ), count, money( Math.floor( due / count ) ) )
+			? sprintf( /* translators: 1: number of installments, 2: amount of each. */ __( '%1$d payments of about %2$s', 'codereyes-mobile-shop-manager' ), count, money( Math.floor( due / count ) ) )
 			: '';
 	}
 
@@ -229,14 +229,14 @@
 
 	function renderPayments() {
 		ui.payments.replaceChildren( ...state.payments.map( ( row, index ) => el( 'div', { className: 'cmshop-pos-payrow', 'data-pay': String( index ) }, [
-			el( 'select', { 'aria-label': __( 'Payment method', 'mobile-shop-manager' ), 'data-method': '' }, METHODS.concat( 'store_credit' === row.method ? [ [ 'store_credit', __( 'Store credit', 'mobile-shop-manager' ) ] ] : [] ).map( ( [ key, label ] ) => {
+			el( 'select', { 'aria-label': __( 'Payment method', 'codereyes-mobile-shop-manager' ), 'data-method': '' }, METHODS.concat( 'store_credit' === row.method ? [ [ 'store_credit', __( 'Store credit', 'codereyes-mobile-shop-manager' ) ] ] : [] ).map( ( [ key, label ] ) => {
 				const option = el( 'option', { value: key, text: label } );
 				option.selected = key === row.method;
 				return option;
 			} ) ),
-			el( 'input', { type: 'text', inputmode: 'decimal', value: row.amount, 'aria-label': __( 'Amount', 'mobile-shop-manager' ), 'data-amount': '' } ),
-			'cash' !== row.method && 'store_credit' !== row.method ? el( 'input', { type: 'text', value: row.reference, placeholder: __( 'Transaction ID', 'mobile-shop-manager' ), 'aria-label': __( 'Transaction ID', 'mobile-shop-manager' ), 'data-reference': '' } ) : null,
-			0 < index ? el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-unpay': '', 'aria-label': __( 'Remove payment', 'mobile-shop-manager' ), text: '×' } ) : null,
+			el( 'input', { type: 'text', inputmode: 'decimal', value: row.amount, 'aria-label': __( 'Amount', 'codereyes-mobile-shop-manager' ), 'data-amount': '' } ),
+			'cash' !== row.method && 'store_credit' !== row.method ? el( 'input', { type: 'text', value: row.reference, placeholder: __( 'Transaction ID', 'codereyes-mobile-shop-manager' ), 'aria-label': __( 'Transaction ID', 'codereyes-mobile-shop-manager' ), 'data-reference': '' } ) : null,
+			0 < index ? el( 'button', { type: 'button', className: 'cmshop-pos-x', 'data-unpay': '', 'aria-label': __( 'Remove payment', 'codereyes-mobile-shop-manager' ), text: '×' } ) : null,
 		] ) ) );
 		renderTotals();
 	}
@@ -270,7 +270,7 @@
 			ui.customerInfo.hidden = false;
 
 			if ( ! customer ) {
-				ui.customerInfo.textContent = __( 'New customer. Add a name to save them.', 'mobile-shop-manager' );
+				ui.customerInfo.textContent = __( 'New customer. Add a name to save them.', 'codereyes-mobile-shop-manager' );
 				ui.customerInfo.className = 'cmshop-pos-customer__info';
 				return;
 			}
@@ -281,21 +281,21 @@
 
 			const parts = [
 				/* translators: %d: number of purchases. */
-				sprintf( _n( '%d purchase', '%d purchases', customer.sales, 'mobile-shop-manager' ), customer.sales ),
+				sprintf( _n( '%d purchase', '%d purchases', customer.sales, 'codereyes-mobile-shop-manager' ), customer.sales ),
 				/* translators: %s: total spent. */
-				sprintf( __( 'spent %s', 'mobile-shop-manager' ), customer.spent_text ),
+				sprintf( __( 'spent %s', 'codereyes-mobile-shop-manager' ), customer.spent_text ),
 				/* translators: %s: date of last visit. */
-				customer.last_text ? sprintf( __( 'last visit %s', 'mobile-shop-manager' ), customer.last_text ) : '',
+				customer.last_text ? sprintf( __( 'last visit %s', 'codereyes-mobile-shop-manager' ), customer.last_text ) : '',
 			];
 			const owes = 0 < core.cents( customer.due );
 
 			/* translators: %s: amount the customer owes. */
-			ui.customerInfo.textContent = parts.filter( Boolean ).join( ' · ' ) + ( owes ? ' · ' + sprintf( __( 'owes %s', 'mobile-shop-manager' ), customer.due_text ) : '' );
+			ui.customerInfo.textContent = parts.filter( Boolean ).join( ' · ' ) + ( owes ? ' · ' + sprintf( __( 'owes %s', 'codereyes-mobile-shop-manager' ), customer.due_text ) : '' );
 			ui.customerInfo.className = 'cmshop-pos-customer__info is-known' + ( owes ? ' owes' : '' );
 
 			if ( 0 < core.cents( customer.credit || '' ) ) {
 				/* translators: %s: store credit balance. */
-				ui.customerInfo.append( ' ', el( 'button', { type: 'button', className: 'cmshop-pos-credit', 'data-use-credit': String( core.cents( customer.credit ) ), text: sprintf( __( 'Use store credit %s', 'mobile-shop-manager' ), customer.credit_text ) } ) );
+				ui.customerInfo.append( ' ', el( 'button', { type: 'button', className: 'cmshop-pos-credit', 'data-use-credit': String( core.cents( customer.credit ) ), text: sprintf( __( 'Use store credit %s', 'codereyes-mobile-shop-manager' ), customer.credit_text ) } ) );
 			}
 		} ).catch( () => {
 			ui.customerInfo.hidden = true;
@@ -338,7 +338,7 @@
 		box.querySelector( '[data-variant-title]' ).textContent = tile.title;
 		box.querySelector( '[data-options]' ).replaceChildren( ...tile.options.map( ( option ) => el( 'button', { type: 'button', className: 'cmshop-pos-option', 'data-option': option.key }, [
 			el( 'i', { style: option.swatch ? 'background:' + option.swatch : null } ),
-			el( 'span', { text: [ option.storage, option.color ].filter( Boolean ).join( ' · ' ) || __( 'Standard', 'mobile-shop-manager' ) } ),
+			el( 'span', { text: [ option.storage, option.color ].filter( Boolean ).join( ' · ' ) || __( 'Standard', 'codereyes-mobile-shop-manager' ) } ),
 			el( 'small', { text: String( option.units.filter( ( unit ) => ! inCart.has( unit.id ) ).length ) } ),
 		] ) ) );
 		box.querySelector( '[data-options]' ).onclick = ( event ) => {
@@ -364,14 +364,14 @@
 		const box = dialog( 'held' );
 		const list = box.querySelector( '[data-held]' );
 
-		list.replaceChildren( ...( 0 === state.held.length ? [ el( 'li', { className: 'cmshop-pos-empty', text: __( 'No sales on hold.', 'mobile-shop-manager' ) } ) ] : state.held.map( ( entry ) => el( 'li', { className: 'cmshop-pos-heldrow' }, [
+		list.replaceChildren( ...( 0 === state.held.length ? [ el( 'li', { className: 'cmshop-pos-empty', text: __( 'No sales on hold.', 'codereyes-mobile-shop-manager' ) } ) ] : state.held.map( ( entry ) => el( 'li', { className: 'cmshop-pos-heldrow' }, [
 			el( 'div', {}, [
 				el( 'strong', { text: entry.label } ),
 				/* translators: 1: number of items, 2: time saved. */
-				el( 'span', { text: sprintf( __( '%1$d items · held at %2$s', 'mobile-shop-manager' ), ( entry.cart.lines || [] ).length, String( entry.saved_at ).slice( 11, 16 ) ) } ),
+				el( 'span', { text: sprintf( __( '%1$d items · held at %2$s', 'codereyes-mobile-shop-manager' ), ( entry.cart.lines || [] ).length, String( entry.saved_at ).slice( 11, 16 ) ) } ),
 			] ),
-			el( 'button', { type: 'button', className: 'button button-primary', 'data-resume': entry.id, text: __( 'Resume', 'mobile-shop-manager' ) } ),
-			el( 'button', { type: 'button', className: 'button', 'data-discard': entry.id, text: __( 'Remove', 'mobile-shop-manager' ) } ),
+			el( 'button', { type: 'button', className: 'button button-primary', 'data-resume': entry.id, text: __( 'Resume', 'codereyes-mobile-shop-manager' ) } ),
+			el( 'button', { type: 'button', className: 'button', 'data-discard': entry.id, text: __( 'Remove', 'codereyes-mobile-shop-manager' ) } ),
 		] ) ) ) );
 		box.showModal();
 	}
@@ -414,13 +414,13 @@
 		let problem = '';
 
 		if ( '' === trade.brand || '' === trade.model ) {
-			problem = __( 'Enter the brand and model.', 'mobile-shop-manager' );
+			problem = __( 'Enter the brand and model.', 'codereyes-mobile-shop-manager' );
 		} else if ( 15 !== trade.imei1.length ) {
-			problem = __( 'Enter the 15-digit IMEI (dial *#06#).', 'mobile-shop-manager' );
+			problem = __( 'Enter the 15-digit IMEI (dial *#06#).', 'codereyes-mobile-shop-manager' );
 		} else if ( 0 >= core.cents( trade.value ) ) {
-			problem = __( 'Enter what you are giving for the phone.', 'mobile-shop-manager' );
+			problem = __( 'Enter what you are giving for the phone.', 'codereyes-mobile-shop-manager' );
 		} else if ( state.trades.some( ( other ) => other.imei1 === trade.imei1 ) || 3 <= state.trades.length ) {
-			problem = __( 'This phone is already added, or you have 3 trade-ins.', 'mobile-shop-manager' );
+			problem = __( 'This phone is already added, or you have 3 trade-ins.', 'codereyes-mobile-shop-manager' );
 		}
 
 		error.textContent = problem;
@@ -436,11 +436,11 @@
 
 	function hold() {
 		if ( 0 === state.lines.length || state.busy ) {
-			showError( 0 === state.lines.length ? __( 'Add items before holding a sale.', 'mobile-shop-manager' ) : '' );
+			showError( 0 === state.lines.length ? __( 'Add items before holding a sale.', 'codereyes-mobile-shop-manager' ) : '' );
 			return;
 		}
 
-		const label = ui.name.value.trim() || ui.phone.value.trim() || sprintf( /* translators: %s: time. */ __( 'Sale at %s', 'mobile-shop-manager' ), new Date().toTimeString().slice( 0, 5 ) );
+		const label = ui.name.value.trim() || ui.phone.value.trim() || sprintf( /* translators: %s: time. */ __( 'Sale at %s', 'codereyes-mobile-shop-manager' ), new Date().toTimeString().slice( 0, 5 ) );
 
 		api( '/pos/held', { method: 'POST', data: { label, cart: { lines: state.lines, trades: state.trades, phone: ui.phone.value, name: ui.name.value, discount: ui.discount.value, note: ui.note.value } } } )
 			.then( () => refreshHeld() )
@@ -467,7 +467,7 @@
 		renderTrades();
 		renderCart();
 		lookupCustomer();
-		showError( lines.length < ( entry.cart.lines || [] ).length ? __( 'Some items were sold meanwhile and were left out.', 'mobile-shop-manager' ) : '' );
+		showError( lines.length < ( entry.cart.lines || [] ).length ? __( 'Some items were sold meanwhile and were left out.', 'codereyes-mobile-shop-manager' ) : '' );
 	}
 
 	function pay() {
@@ -475,12 +475,12 @@
 		const sums = core.balance( state.payments, total, credit() );
 
 		if ( state.busy || 0 === state.lines.length ) {
-			showError( 0 === state.lines.length ? __( 'Add items to the sale first.', 'mobile-shop-manager' ) : '' );
+			showError( 0 === state.lines.length ? __( 'Add items to the sale first.', 'codereyes-mobile-shop-manager' ) : '' );
 			return;
 		}
 
 		if ( 0 < sums.due && '' === ui.phone.value.trim() ) {
-			showError( __( 'Add the customer\'s phone number to sell on credit.', 'mobile-shop-manager' ) );
+			showError( __( 'Add the customer\'s phone number to sell on credit.', 'codereyes-mobile-shop-manager' ) );
 			ui.phone.focus();
 			return;
 		}
@@ -512,8 +512,8 @@
 			box.querySelector( '[data-receipt="a4"]' ).href = url + '&format=a4&print=1';
 			box.querySelector( '[data-receipt="whatsapp"]' ).href = response.data.whatsapp;
 			box.querySelector( '[data-done-text]' ).textContent = 0 < sums.change
-				? sprintf( /* translators: %s: change. */ __( 'Give change: %s', 'mobile-shop-manager' ), money( sums.change ) )
-				: ( 0 < sums.due ? sprintf( /* translators: %s: amount owed. */ __( '%s added to the customer\'s account', 'mobile-shop-manager' ), money( sums.due ) ) : __( 'Paid in full', 'mobile-shop-manager' ) );
+				? sprintf( /* translators: %s: change. */ __( 'Give change: %s', 'codereyes-mobile-shop-manager' ), money( sums.change ) )
+				: ( 0 < sums.due ? sprintf( /* translators: %s: amount owed. */ __( '%s added to the customer\'s account', 'codereyes-mobile-shop-manager' ), money( sums.due ) ) : __( 'Paid in full', 'codereyes-mobile-shop-manager' ) );
 			reset();
 			box.showModal();
 			loadCatalog();

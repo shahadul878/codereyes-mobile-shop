@@ -2,7 +2,7 @@
 /**
  * Sales and commission per staff member.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * @var array $cmshop { period: string, periods: array, report: array, cashiers: WP_User[] }
  */
@@ -17,13 +17,13 @@ $cmshop_money  = static function ( int $cents ): string {
 };
 ?>
 <div class="wrap cmshop-wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'Staff and commission', 'mobile-shop-manager' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Staff and commission', 'codereyes-mobile-shop-manager' ); ?></h1>
 	<?php if ( current_user_can( 'create_users' ) ) : ?>
-		<a class="page-title-action" href="<?php echo esc_url( admin_url( 'user-new.php' ) ); ?>"><?php esc_html_e( 'Add a cashier', 'mobile-shop-manager' ); ?></a>
+		<a class="page-title-action" href="<?php echo esc_url( admin_url( 'user-new.php' ) ); ?>"><?php esc_html_e( 'Add a cashier', 'codereyes-mobile-shop-manager' ); ?></a>
 	<?php endif; ?>
 	<hr class="wp-header-end">
 
-	<nav class="cmshop-format-switch" aria-label="<?php esc_attr_e( 'Period', 'mobile-shop-manager' ); ?>">
+	<nav class="cmshop-format-switch" aria-label="<?php esc_attr_e( 'Period', 'codereyes-mobile-shop-manager' ); ?>">
 		<?php foreach ( $cmshop['periods'] as $cmshop_key => $cmshop_period ) : ?>
 			<a class="<?php echo esc_attr( $cmshop_key === $cmshop['period'] ? 'is-active' : '' ); ?>" <?php echo $cmshop_key === $cmshop['period'] ? 'aria-current="page"' : ''; ?> href="<?php echo esc_url( Cmshop_View::url( 'cmshop-staff', array( 'period' => $cmshop_key ) ) ); ?>"><?php echo esc_html( $cmshop_period[0] ); ?></a>
 		<?php endforeach; ?>
@@ -31,16 +31,16 @@ $cmshop_money  = static function ( int $cents ): string {
 
 	<section class="cmshop-card">
 		<?php if ( array() === $cmshop_report['rows'] ) : ?>
-			<p class="cmshop-empty"><?php esc_html_e( 'No sales in this period.', 'mobile-shop-manager' ); ?></p>
+			<p class="cmshop-empty"><?php esc_html_e( 'No sales in this period.', 'codereyes-mobile-shop-manager' ); ?></p>
 		<?php else : ?>
 			<table class="widefat striped">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Staff', 'mobile-shop-manager' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Sales', 'mobile-shop-manager' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Sold (after returns)', 'mobile-shop-manager' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Profit', 'mobile-shop-manager' ); ?></th>
-						<th class="num"><?php esc_html_e( 'Commission', 'mobile-shop-manager' ); ?></th>
+						<th><?php esc_html_e( 'Staff', 'codereyes-mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Sales', 'codereyes-mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Sold (after returns)', 'codereyes-mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Profit', 'codereyes-mobile-shop-manager' ); ?></th>
+						<th class="num"><?php esc_html_e( 'Commission', 'codereyes-mobile-shop-manager' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,7 +56,7 @@ $cmshop_money  = static function ( int $cents ): string {
 				</tbody>
 				<tfoot>
 					<tr>
-						<th><?php esc_html_e( 'Total', 'mobile-shop-manager' ); ?></th>
+						<th><?php esc_html_e( 'Total', 'codereyes-mobile-shop-manager' ); ?></th>
 						<th class="num"><?php echo esc_html( number_format_i18n( $cmshop_report['totals']['sales'] ) ); ?></th>
 						<th class="num"><?php echo esc_html( $cmshop_money( $cmshop_report['totals']['total'] ) ); ?></th>
 						<th class="num"><?php echo esc_html( $cmshop_money( $cmshop_report['totals']['profit'] ) ); ?></th>
@@ -71,22 +71,22 @@ $cmshop_money  = static function ( int $cents ): string {
 				echo esc_html(
 					Cmshop_Commission::ON_PROFIT === Cmshop_Settings::get( 'commission_base' )
 						/* translators: %s: commission percentage. */
-						? sprintf( __( 'Commission is %s%% of the profit on each person\'s sales. Change it in Settings.', 'mobile-shop-manager' ), $cmshop_rate )
+						? sprintf( __( 'Commission is %s%% of the profit on each person\'s sales. Change it in Settings.', 'codereyes-mobile-shop-manager' ), $cmshop_rate )
 						/* translators: %s: commission percentage. */
-						: sprintf( __( 'Commission is %s%% of each person\'s sales. Change it in Settings.', 'mobile-shop-manager' ), $cmshop_rate )
+						: sprintf( __( 'Commission is %s%% of each person\'s sales. Change it in Settings.', 'codereyes-mobile-shop-manager' ), $cmshop_rate )
 				);
 			} else {
-				esc_html_e( 'Commission is off. Set a percentage under Settings → Staff commission.', 'mobile-shop-manager' );
+				esc_html_e( 'Commission is off. Set a percentage under Settings → Staff commission.', 'codereyes-mobile-shop-manager' );
 			}
 			?>
 		</p>
 	</section>
 
 	<section class="cmshop-card">
-		<h2><?php esc_html_e( 'Cashiers', 'mobile-shop-manager' ); ?></h2>
-		<p><?php esc_html_e( 'Give counter staff the "Shop Cashier" role (Users → Add New). Cashiers can sell, take repairs, collect dues and run their own cash register. They never see cost prices, profit, suppliers or other people\'s takings, and cannot void sales, refund, or change stock.', 'mobile-shop-manager' ); ?></p>
+		<h2><?php esc_html_e( 'Cashiers', 'codereyes-mobile-shop-manager' ); ?></h2>
+		<p><?php esc_html_e( 'Give counter staff the "Shop Cashier" role (Users → Add New). Cashiers can sell, take repairs, collect dues and run their own cash register. They never see cost prices, profit, suppliers or other people\'s takings, and cannot void sales, refund, or change stock.', 'codereyes-mobile-shop-manager' ); ?></p>
 		<?php if ( array() === $cmshop['cashiers'] ) : ?>
-			<p class="cmshop-empty"><?php esc_html_e( 'No cashiers yet.', 'mobile-shop-manager' ); ?></p>
+			<p class="cmshop-empty"><?php esc_html_e( 'No cashiers yet.', 'codereyes-mobile-shop-manager' ); ?></p>
 		<?php else : ?>
 			<ul class="cmshop-list">
 				<?php foreach ( $cmshop['cashiers'] as $cmshop_user ) : ?>

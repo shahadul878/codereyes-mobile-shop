@@ -2,7 +2,7 @@
 /**
  * Ready-written WhatsApp messages for receipts, repairs and dues.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -28,23 +28,23 @@ final class Cmshop_Messages {
 	public static function templates(): array {
 		return array(
 			self::RECEIPT => array(
-				__( 'Receipt after a sale', 'mobile-shop-manager' ),
-				__( "Hi {name}, thank you for shopping at {shop}!\nInvoice {invoice} · {date}\n{items}\nTotal: *{total}*\nPaid: {paid}\n{due_line}\n{warranty_line}\n{footer}", 'mobile-shop-manager' ),
+				__( 'Receipt after a sale', 'codereyes-mobile-shop-manager' ),
+				__( "Hi {name}, thank you for shopping at {shop}!\nInvoice {invoice} · {date}\n{items}\nTotal: *{total}*\nPaid: {paid}\n{due_line}\n{warranty_line}\n{footer}", 'codereyes-mobile-shop-manager' ),
 				'{name} {shop} {invoice} {date} {items} {total} {paid} {due_line} {warranty_line} {footer} {shop_phone}',
 			),
 			self::REPAIR  => array(
-				__( 'Repair status update', 'mobile-shop-manager' ),
-				__( "Hi {name}, an update from {shop} on your {device}:\nTicket {ticket} is now *{status}*.\n{note}\n{shop_phone}", 'mobile-shop-manager' ),
+				__( 'Repair status update', 'codereyes-mobile-shop-manager' ),
+				__( "Hi {name}, an update from {shop} on your {device}:\nTicket {ticket} is now *{status}*.\n{note}\n{shop_phone}", 'codereyes-mobile-shop-manager' ),
 				'{name} {shop} {device} {ticket} {status} {note} {shop_phone}',
 			),
 			self::READY   => array(
-				__( 'Repair ready to collect', 'mobile-shop-manager' ),
-				__( "Hi {name}, good news! Your {device} is repaired and ready to collect from {shop}.\nTicket: {ticket}\n{balance_line}\n{address}\n{shop_phone}", 'mobile-shop-manager' ),
+				__( 'Repair ready to collect', 'codereyes-mobile-shop-manager' ),
+				__( "Hi {name}, good news! Your {device} is repaired and ready to collect from {shop}.\nTicket: {ticket}\n{balance_line}\n{address}\n{shop_phone}", 'codereyes-mobile-shop-manager' ),
 				'{name} {shop} {device} {ticket} {balance_line} {address} {shop_phone}',
 			),
 			self::DUE     => array(
-				__( 'Payment reminder', 'mobile-shop-manager' ),
-				__( "Hi {name}, a friendly reminder from {shop}.\nYou have *{owed}* still to pay.\n{overdue_line}\n{next_line}\nThank you! {shop_phone}", 'mobile-shop-manager' ),
+				__( 'Payment reminder', 'codereyes-mobile-shop-manager' ),
+				__( "Hi {name}, a friendly reminder from {shop}.\nYou have *{owed}* still to pay.\n{overdue_line}\n{next_line}\nThank you! {shop_phone}", 'codereyes-mobile-shop-manager' ),
 				'{name} {shop} {owed} {overdue_line} {next_line} {shop_phone}',
 			),
 		);
@@ -93,7 +93,7 @@ final class Cmshop_Messages {
 				'total'         => self::money( (string) $sale['total'] ),
 				'paid'          => self::money( (string) $sale['amount_paid'] ),
 				/* translators: %s: amount still owed. */
-				'due_line'      => $owed > 0 ? sprintf( __( 'Still to pay: %s', 'mobile-shop-manager' ), self::money( Cmshop_Money::from_cents( $owed ) ) ) : '',
+				'due_line'      => $owed > 0 ? sprintf( __( 'Still to pay: %s', 'codereyes-mobile-shop-manager' ), self::money( Cmshop_Money::from_cents( $owed ) ) ) : '',
 				'warranty_line' => self::warranty_line( $sale, $lines ),
 				'footer'        => (string) Cmshop_Settings::get( 'receipt_footer' ),
 			)
@@ -121,7 +121,7 @@ final class Cmshop_Messages {
 				'status'       => Cmshop_Repair_Status::label( (string) $repair['status'] ),
 				'note'         => (string) $repair['public_note'],
 				/* translators: %s: amount to pay on collection. */
-				'balance_line' => $balance > 0 ? sprintf( __( 'Amount to pay: %s', 'mobile-shop-manager' ), self::money( Cmshop_Money::from_cents( $balance ) ) ) : '',
+				'balance_line' => $balance > 0 ? sprintf( __( 'Amount to pay: %s', 'codereyes-mobile-shop-manager' ), self::money( Cmshop_Money::from_cents( $balance ) ) ) : '',
 			)
 		);
 
@@ -141,9 +141,9 @@ final class Cmshop_Messages {
 				'name'         => self::name( (string) $debtor['name'] ),
 				'owed'         => self::money( (string) $debtor['owed'] ),
 				/* translators: %s: overdue amount. */
-				'overdue_line' => (int) $debtor['overdue'] > 0 ? sprintf( __( 'Overdue now: %s', 'mobile-shop-manager' ), self::money( Cmshop_Money::from_cents( (int) $debtor['overdue'] ) ) ) : '',
+				'overdue_line' => (int) $debtor['overdue'] > 0 ? sprintf( __( 'Overdue now: %s', 'codereyes-mobile-shop-manager' ), self::money( Cmshop_Money::from_cents( (int) $debtor['overdue'] ) ) ) : '',
 				/* translators: %s: date of the next installment. */
-				'next_line'    => '' === (string) $debtor['next_date'] ? '' : sprintf( __( 'Next installment due: %s', 'mobile-shop-manager' ), (string) mysql2date( (string) get_option( 'date_format' ), (string) $debtor['next_date'] ) ),
+				'next_line'    => '' === (string) $debtor['next_date'] ? '' : sprintf( __( 'Next installment due: %s', 'codereyes-mobile-shop-manager' ), (string) mysql2date( (string) get_option( 'date_format' ), (string) $debtor['next_date'] ) ),
 			)
 		);
 
@@ -185,7 +185,7 @@ final class Cmshop_Messages {
 		}
 
 		/* translators: %s: warranty end date. */
-		return '' === $ends ? '' : sprintf( __( 'Warranty until %s', 'mobile-shop-manager' ), (string) mysql2date( (string) get_option( 'date_format' ), $ends ) );
+		return '' === $ends ? '' : sprintf( __( 'Warranty until %s', 'codereyes-mobile-shop-manager' ), (string) mysql2date( (string) get_option( 'date_format' ), $ends ) );
 	}
 
 	/**
@@ -195,7 +195,7 @@ final class Cmshop_Messages {
 	 * @return string
 	 */
 	private static function name( string $name ): string {
-		return '' === trim( $name ) ? __( 'there', 'mobile-shop-manager' ) : trim( $name );
+		return '' === trim( $name ) ? __( 'there', 'codereyes-mobile-shop-manager' ) : trim( $name );
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Creates the shop tables and grants the capability.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -78,7 +78,7 @@ final class Cmshop_Installer {
 		if ( null === get_role( self::CASHIER_ROLE ) ) {
 			add_role(
 				self::CASHIER_ROLE,
-				__( 'Shop Cashier', 'mobile-shop-manager' ),
+				__( 'Shop Cashier', 'codereyes-mobile-shop-manager' ),
 				array(
 					'read'         => true,
 					self::CAP_SELL => true,

@@ -2,7 +2,7 @@
 /**
  * Gutenberg blocks for the website parts.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Blocks {
 
-	public const CATEGORY = 'mobile-shop-manager';
+	public const CATEGORY = 'codereyes-mobile-shop-manager';
 
 	private const SCRIPT = 'cmshop-blocks';
 
@@ -48,7 +48,7 @@ final class Cmshop_Blocks {
 			CMSHOP_VERSION,
 			true
 		);
-		wp_set_script_translations( self::SCRIPT, 'mobile-shop-manager' );
+		wp_set_script_translations( self::SCRIPT, 'codereyes-mobile-shop-manager' );
 
 		foreach ( self::BLOCKS as $folder => $part ) {
 			register_block_type(
@@ -77,7 +77,7 @@ final class Cmshop_Blocks {
 			array(
 				array(
 					'slug'  => self::CATEGORY,
-					'title' => __( 'Mobile Shop', 'mobile-shop-manager' ),
+					'title' => __( 'Mobile Shop', 'codereyes-mobile-shop-manager' ),
 					'icon'  => 'smartphone',
 				),
 			),

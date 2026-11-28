@@ -2,7 +2,7 @@
 /**
  * [cmshop_stock] — the phones (or accessories) in the shop right now.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

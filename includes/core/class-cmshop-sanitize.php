@@ -2,7 +2,7 @@
 /**
  * Sanitising of submitted data that arrives as nested arrays.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

@@ -4,7 +4,7 @@
  *
  * phpcs:disable WordPress.Security.NonceVerification.Recommended -- List screens only read filters from the URL.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -150,7 +150,7 @@ abstract class Cmshop_List_Table extends WP_List_Table {
 			printf( '<label class="screen-reader-text" for="cmshop-filter-%s">%s</label>', esc_attr( $key ), esc_html( $label ) );
 			printf( '<select name="%1$s" id="cmshop-filter-%1$s">', esc_attr( $key ) );
 			/* translators: %s: filter name, e.g. Status. */
-			printf( '<option value="">%s</option>', esc_html( sprintf( __( 'All: %s', 'mobile-shop-manager' ), $label ) ) );
+			printf( '<option value="">%s</option>', esc_html( sprintf( __( 'All: %s', 'codereyes-mobile-shop-manager' ), $label ) ) );
 
 			foreach ( $options as $value => $text ) {
 				printf( '<option value="%s"%s>%s</option>', esc_attr( $value ), selected( (string) ( $current[ $key ] ?? '' ), (string) $value, false ), esc_html( $text ) );
@@ -159,7 +159,7 @@ abstract class Cmshop_List_Table extends WP_List_Table {
 			echo '</select>';
 		}
 
-		submit_button( __( 'Filter', 'mobile-shop-manager' ), '', 'filter_action', false );
+		submit_button( __( 'Filter', 'codereyes-mobile-shop-manager' ), '', 'filter_action', false );
 		echo '</div>';
 	}
 

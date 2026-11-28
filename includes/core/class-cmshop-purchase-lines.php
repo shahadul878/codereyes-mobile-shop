@@ -2,7 +2,7 @@
 /**
  * Lines of a bulk stock purchase.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -51,10 +51,10 @@ final class Cmshop_Purchase_Lines {
 		$units = (int) array_sum( array_column( $lines, 'quantity' ) );
 
 		if ( array() === $lines ) {
-			$errors['lines'] = __( 'Add at least one phone or accessory.', 'mobile-shop-manager' );
+			$errors['lines'] = __( 'Add at least one phone or accessory.', 'codereyes-mobile-shop-manager' );
 		} elseif ( count( $lines ) > self::MAX_LINES || $units > self::MAX_UNITS ) {
 			/* translators: 1: maximum lines, 2: maximum units. */
-			$errors['lines'] = sprintf( __( 'Split this into smaller purchases: up to %1$d lines and %2$d units each.', 'mobile-shop-manager' ), self::MAX_LINES, self::MAX_UNITS );
+			$errors['lines'] = sprintf( __( 'Split this into smaller purchases: up to %1$d lines and %2$d units each.', 'codereyes-mobile-shop-manager' ), self::MAX_LINES, self::MAX_UNITS );
 		}
 
 		return array(
@@ -82,7 +82,7 @@ final class Cmshop_Purchase_Lines {
 		foreach ( array( 'brand', 'model' ) as $field ) {
 			if ( '' === self::text( $row, $field ) ) {
 				/* translators: %d: line number. */
-				$errors[ $key( $field ) ] = sprintf( 'brand' === $field ? __( 'Line %d: enter the brand.', 'mobile-shop-manager' ) : __( 'Line %d: enter the model.', 'mobile-shop-manager' ), $index + 1 );
+				$errors[ $key( $field ) ] = sprintf( 'brand' === $field ? __( 'Line %d: enter the brand.', 'codereyes-mobile-shop-manager' ) : __( 'Line %d: enter the model.', 'codereyes-mobile-shop-manager' ), $index + 1 );
 			}
 		}
 
@@ -131,12 +131,12 @@ final class Cmshop_Purchase_Lines {
 
 		if ( 0 === $item_id && '' === self::text( $row, 'name' ) ) {
 			/* translators: %d: line number. */
-			$errors[ 'lines-' . $index . '-name' ] = sprintf( __( 'Line %d: enter the accessory name or pick one from stock.', 'mobile-shop-manager' ), $index + 1 );
+			$errors[ 'lines-' . $index . '-name' ] = sprintf( __( 'Line %d: enter the accessory name or pick one from stock.', 'codereyes-mobile-shop-manager' ), $index + 1 );
 		}
 
 		if ( $count < 1 || $count > self::MAX_QUANTITY ) {
 			/* translators: 1: line number, 2: maximum quantity. */
-			$errors[ 'lines-' . $index . '-quantity' ] = sprintf( __( 'Line %1$d: enter how many, from 1 to %2$d.', 'mobile-shop-manager' ), $index + 1, self::MAX_QUANTITY );
+			$errors[ 'lines-' . $index . '-quantity' ] = sprintf( __( 'Line %1$d: enter how many, from 1 to %2$d.', 'codereyes-mobile-shop-manager' ), $index + 1, self::MAX_QUANTITY );
 			$count                                     = 0;
 		}
 
@@ -192,17 +192,17 @@ final class Cmshop_Purchase_Lines {
 
 		if ( array() !== $bad ) {
 			/* translators: 1: line number, 2: list of IMEIs. */
-			return array( $imeis, sprintf( __( 'Line %1$d: not valid IMEIs: %2$s. Check the 15 digits.', 'mobile-shop-manager' ), $index + 1, implode( ', ', $bad ) ) );
+			return array( $imeis, sprintf( __( 'Line %1$d: not valid IMEIs: %2$s. Check the 15 digits.', 'codereyes-mobile-shop-manager' ), $index + 1, implode( ', ', $bad ) ) );
 		}
 
 		if ( array() !== $twice ) {
 			/* translators: 1: line number, 2: list of IMEIs. */
-			return array( $imeis, sprintf( __( 'Line %1$d: scanned twice: %2$s.', 'mobile-shop-manager' ), $index + 1, implode( ', ', $twice ) ) );
+			return array( $imeis, sprintf( __( 'Line %1$d: scanned twice: %2$s.', 'codereyes-mobile-shop-manager' ), $index + 1, implode( ', ', $twice ) ) );
 		}
 
 		if ( array() === $imeis ) {
 			/* translators: %d: line number. */
-			return array( $imeis, sprintf( __( 'Line %d: scan or type at least one IMEI, one per line.', 'mobile-shop-manager' ), $index + 1 ) );
+			return array( $imeis, sprintf( __( 'Line %d: scan or type at least one IMEI, one per line.', 'codereyes-mobile-shop-manager' ), $index + 1 ) );
 		}
 
 		return array( $imeis, '' );
@@ -224,7 +224,7 @@ final class Cmshop_Purchase_Lines {
 
 			if ( null === $parsed ) {
 				/* translators: %d: line number. */
-				$errors[ 'lines-' . $index . '-' . $field ] = sprintf( 'cost_price' === $field ? __( 'Line %d: enter what you paid for each, e.g. 15000.', 'mobile-shop-manager' ) : __( 'Line %d: enter the selling price, e.g. 18500.', 'mobile-shop-manager' ), $index + 1 );
+				$errors[ 'lines-' . $index . '-' . $field ] = sprintf( 'cost_price' === $field ? __( 'Line %d: enter what you paid for each, e.g. 15000.', 'codereyes-mobile-shop-manager' ) : __( 'Line %d: enter the selling price, e.g. 18500.', 'codereyes-mobile-shop-manager' ), $index + 1 );
 			}
 
 			$cents[ $field ] = null === $parsed ? 0 : Cmshop_Money::to_cents( $parsed );

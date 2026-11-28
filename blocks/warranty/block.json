@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "mobile-shop-manager/warranty",
+	"name": "codereyes-mobile-shop-manager/warranty",
 	"title": "Warranty Check",
-	"category": "mobile-shop-manager",
+	"category": "codereyes-mobile-shop-manager",
 	"icon": "shield",
 	"description": "Customers enter an IMEI to see when they bought the phone and whether it is still under warranty.",
 	"keywords": [
@@ -11,7 +11,7 @@
 		"imei",
 		"guarantee"
 	],
-	"textdomain": "mobile-shop-manager",
+	"textdomain": "codereyes-mobile-shop-manager",
 	"attributes": {
 		"accentColor": {
 			"type": "string",

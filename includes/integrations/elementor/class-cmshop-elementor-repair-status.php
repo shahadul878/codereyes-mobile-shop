@@ -2,7 +2,7 @@
 /**
  * Elementor widget: Repair status tracker.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -29,7 +29,7 @@ final class Cmshop_Elementor_Repair_Status extends Cmshop_Elementor_Widget {
 	 * @return string
 	 */
 	public function get_title(): string {
-		return __( 'Repair Tracker', 'mobile-shop-manager' );
+		return __( 'Repair Tracker', 'codereyes-mobile-shop-manager' );
 	}
 
 	/**

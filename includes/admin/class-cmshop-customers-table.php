@@ -2,7 +2,7 @@
 /**
  * Customers list table.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -21,10 +21,10 @@ final class Cmshop_Customers_Table extends Cmshop_List_Table {
 	 */
 	public function get_columns(): array {
 		return array(
-			'name'       => __( 'Name', 'mobile-shop-manager' ),
-			'phone'      => __( 'Phone', 'mobile-shop-manager' ),
-			'email'      => __( 'Email', 'mobile-shop-manager' ),
-			'created_at' => __( 'Added', 'mobile-shop-manager' ),
+			'name'       => __( 'Name', 'codereyes-mobile-shop-manager' ),
+			'phone'      => __( 'Phone', 'codereyes-mobile-shop-manager' ),
+			'email'      => __( 'Email', 'codereyes-mobile-shop-manager' ),
+			'created_at' => __( 'Added', 'codereyes-mobile-shop-manager' ),
 		);
 	}
 
@@ -60,13 +60,13 @@ final class Cmshop_Customers_Table extends Cmshop_List_Table {
 						)
 					)
 				),
-				esc_html__( 'Edit & history', 'mobile-shop-manager' )
+				esc_html__( 'Edit & history', 'codereyes-mobile-shop-manager' )
 			),
 			'delete' => sprintf(
 				'<a href="%s" class="cmshop-confirm" data-confirm="%s">%s</a>',
 				esc_url( Cmshop_View::action_url( 'delete_customer', array( 'id' => $id ) ) ),
-				esc_attr__( 'Delete this customer?', 'mobile-shop-manager' ),
-				esc_html__( 'Delete', 'mobile-shop-manager' )
+				esc_attr__( 'Delete this customer?', 'codereyes-mobile-shop-manager' ),
+				esc_html__( 'Delete', 'codereyes-mobile-shop-manager' )
 			),
 		);
 

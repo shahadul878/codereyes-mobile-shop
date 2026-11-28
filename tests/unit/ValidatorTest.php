@@ -2,7 +2,7 @@
 /**
  * Tests for Cmshop_Validator and Cmshop_Input.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 use PHPUnit\Framework\TestCase;

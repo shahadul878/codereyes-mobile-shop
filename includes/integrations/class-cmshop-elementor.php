@@ -2,7 +2,7 @@
 /**
  * Elementor widgets for the website parts.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Cmshop_Elementor {
 
-	public const CATEGORY = 'mobile-shop-manager';
+	public const CATEGORY = 'codereyes-mobile-shop-manager';
 
 	private const WIDGETS = array(
 		'class-cmshop-elementor-stock.php'          => 'Cmshop_Elementor_Stock',
@@ -42,7 +42,7 @@ final class Cmshop_Elementor {
 		$elements_manager->add_category(
 			self::CATEGORY,
 			array(
-				'title' => __( 'Mobile Shop', 'mobile-shop-manager' ),
+				'title' => __( 'Mobile Shop', 'codereyes-mobile-shop-manager' ),
 				'icon'  => 'eicon-device-mobile',
 			)
 		);

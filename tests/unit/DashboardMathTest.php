@@ -2,7 +2,7 @@
 /**
  * Tests for dashboard figures.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

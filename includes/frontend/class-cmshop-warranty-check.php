@@ -2,7 +2,7 @@
 /**
  * [cmshop_warranty] — customers check a phone's warranty by IMEI.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -89,24 +89,24 @@ final class Cmshop_Warranty_Check {
 		}
 
 		if ( ! isset( $_POST['_cmshop_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_cmshop_nonce'] ) ), self::NONCE ) ) {
-			return array_merge( $outcome, array( 'error' => __( 'This page has expired. Please reload it and try again.', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'This page has expired. Please reload it and try again.', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		$imei            = Cmshop_Imei::normalize( sanitize_text_field( wp_unslash( $_POST['cmshop_warranty_imei'] ) ) );
 		$outcome['imei'] = $imei;
 
 		if ( ! Cmshop_Imei::is_valid( $imei ) ) {
-			return array_merge( $outcome, array( 'error' => __( 'That is not a valid IMEI. Dial *#06# on the phone to see it (15 digits).', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'That is not a valid IMEI. Dial *#06# on the phone to see it (15 digits).', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		if ( Cmshop_Rate_Limit::exceeded( 'warranty', self::MAX_ATTEMPTS, self::WINDOW ) ) {
-			return array_merge( $outcome, array( 'error' => __( 'Too many checks. Please wait 15 minutes and try again.', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'Too many checks. Please wait 15 minutes and try again.', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		$sale = $this->sales->find_phone_sale( $imei, Cmshop_Installer::table( 'items' ) );
 
 		if ( null === $sale ) {
-			return array_merge( $outcome, array( 'error' => __( 'We have no sale for this IMEI. Only phones bought from our shop can be checked here.', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'We have no sale for this IMEI. Only phones bought from our shop can be checked here.', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		$days = Cmshop_Warranty::days_for( (string) $sale['grade'], (int) Cmshop_Settings::get( 'warranty_new' ), (int) Cmshop_Settings::get( 'warranty_used' ) );

@@ -2,7 +2,7 @@
 /**
  * Code 128 barcode encoder.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

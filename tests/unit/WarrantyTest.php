@@ -2,7 +2,7 @@
 /**
  * Tests for warranty status by sale date.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

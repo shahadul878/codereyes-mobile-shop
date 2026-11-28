@@ -2,7 +2,7 @@
 /**
  * Tests for returning items from a sale.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

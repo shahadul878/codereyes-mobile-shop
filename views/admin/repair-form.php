@@ -2,7 +2,7 @@
 /**
  * Book in or update a repair job.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * @var array $cmshop { repair: array|null, values: array, errors: array }
  */
@@ -17,18 +17,18 @@ $cmshop_errors = $cmshop['errors'];
 	<h1 class="wp-heading-inline">
 		<?php
 		if ( null === $cmshop_repair ) {
-			esc_html_e( 'Book in a repair', 'mobile-shop-manager' );
+			esc_html_e( 'Book in a repair', 'codereyes-mobile-shop-manager' );
 		} else {
 			/* translators: %s: ticket code. */
-			echo esc_html( sprintf( __( 'Repair %s', 'mobile-shop-manager' ), (string) $cmshop_repair['ticket_code'] ) );
+			echo esc_html( sprintf( __( 'Repair %s', 'codereyes-mobile-shop-manager' ), (string) $cmshop_repair['ticket_code'] ) );
 		}
 		?>
 	</h1>
 	<?php if ( null !== $cmshop_repair ) : ?>
 		<?php echo wp_kses_post( Cmshop_View::badge( Cmshop_Repair_Status::label( (string) $cmshop_repair['status'] ), (string) $cmshop_repair['status'] ) ); ?>
-		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-repairs', array( 'action' => 'ticket', 'id' => (int) $cmshop_repair['id'] ) ) ); ?>"><?php esc_html_e( 'Print job ticket', 'mobile-shop-manager' ); ?></a>
+		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-repairs', array( 'action' => 'ticket', 'id' => (int) $cmshop_repair['id'] ) ) ); ?>"><?php esc_html_e( 'Print job ticket', 'codereyes-mobile-shop-manager' ); ?></a>
 		<?php if ( ! in_array( $cmshop_repair['status'], array( Cmshop_Repair_Status::COLLECTED, Cmshop_Repair_Status::CANCELLED ), true ) ) : ?>
-			<?php Cmshop_View::whatsapp( Cmshop_Messages::repair( $cmshop_repair ), Cmshop_Repair_Status::READY === $cmshop_repair['status'] ? __( 'Tell customer it is ready', 'mobile-shop-manager' ) : __( 'Send update on WhatsApp', 'mobile-shop-manager' ), 'page-title-action' ); ?>
+			<?php Cmshop_View::whatsapp( Cmshop_Messages::repair( $cmshop_repair ), Cmshop_Repair_Status::READY === $cmshop_repair['status'] ? __( 'Tell customer it is ready', 'codereyes-mobile-shop-manager' ) : __( 'Send update on WhatsApp', 'codereyes-mobile-shop-manager' ), 'page-title-action' ); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 	<hr class="wp-header-end">
@@ -41,12 +41,12 @@ $cmshop_errors = $cmshop['errors'];
 
 		<div class="cmshop-form-grid">
 			<section class="cmshop-card">
-				<h2><?php esc_html_e( 'Customer and device', 'mobile-shop-manager' ); ?></h2>
+				<h2><?php esc_html_e( 'Customer and device', 'codereyes-mobile-shop-manager' ); ?></h2>
 				<div class="cmshop-row">
 					<?php
 					Cmshop_View::input(
 						'customer_name',
-						__( 'Customer name', 'mobile-shop-manager' ),
+						__( 'Customer name', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -58,7 +58,7 @@ $cmshop_errors = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'customer_phone',
-						__( 'Phone number', 'mobile-shop-manager' ),
+						__( 'Phone number', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -66,7 +66,7 @@ $cmshop_errors = $cmshop['errors'];
 							'type'      => 'tel',
 							'inputmode' => 'tel',
 							'class'     => '',
-							'help'      => __( 'Existing customers are matched by this number.', 'mobile-shop-manager' ),
+							'help'      => __( 'Existing customers are matched by this number.', 'codereyes-mobile-shop-manager' ),
 						)
 					);
 					?>
@@ -75,7 +75,7 @@ $cmshop_errors = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'device',
-						__( 'Device', 'mobile-shop-manager' ),
+						__( 'Device', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -88,7 +88,7 @@ $cmshop_errors = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'imei',
-						__( 'IMEI', 'mobile-shop-manager' ),
+						__( 'IMEI', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -98,18 +98,18 @@ $cmshop_errors = $cmshop['errors'];
 					);
 					?>
 				</div>
-				<?php Cmshop_View::textarea( 'fault', __( 'Fault reported', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'required' => true ) ); ?>
-				<?php Cmshop_View::input( 'items_received', __( 'Left with the device', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'placeholder' => __( 'SIM tray, case, charger', 'mobile-shop-manager' ) ) ); ?>
+				<?php Cmshop_View::textarea( 'fault', __( 'Fault reported', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'required' => true ) ); ?>
+				<?php Cmshop_View::input( 'items_received', __( 'Left with the device', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'placeholder' => __( 'SIM tray, case, charger', 'codereyes-mobile-shop-manager' ) ) ); ?>
 			</section>
 
 			<section class="cmshop-card">
-				<h2><?php esc_html_e( 'Job', 'mobile-shop-manager' ); ?></h2>
+				<h2><?php esc_html_e( 'Job', 'codereyes-mobile-shop-manager' ); ?></h2>
 				<div class="cmshop-row">
-					<?php Cmshop_View::select( 'status', __( 'Status', 'mobile-shop-manager' ), Cmshop_Repair_Status::all(), $cmshop_values, $cmshop_errors ); ?>
+					<?php Cmshop_View::select( 'status', __( 'Status', 'codereyes-mobile-shop-manager' ), Cmshop_Repair_Status::all(), $cmshop_values, $cmshop_errors ); ?>
 					<?php
 					Cmshop_View::input(
 						'due_date',
-						__( 'Ready by', 'mobile-shop-manager' ),
+						__( 'Ready by', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -123,7 +123,7 @@ $cmshop_errors = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'estimate',
-						__( 'Estimate', 'mobile-shop-manager' ),
+						__( 'Estimate', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -135,7 +135,7 @@ $cmshop_errors = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'deposit',
-						__( 'Deposit paid', 'mobile-shop-manager' ),
+						__( 'Deposit paid', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
@@ -147,13 +147,13 @@ $cmshop_errors = $cmshop['errors'];
 					<?php
 					Cmshop_View::input(
 						'final_cost',
-						__( 'Final cost', 'mobile-shop-manager' ),
+						__( 'Final cost', 'codereyes-mobile-shop-manager' ),
 						$cmshop_values,
 						$cmshop_errors,
 						array(
 							'inputmode' => 'decimal',
 							'class'     => '',
-							'help'      => __( 'Leave empty to use the estimate.', 'mobile-shop-manager' ),
+							'help'      => __( 'Leave empty to use the estimate.', 'codereyes-mobile-shop-manager' ),
 						)
 					);
 					?>
@@ -162,18 +162,18 @@ $cmshop_errors = $cmshop['errors'];
 					<p class="cmshop-balance">
 						<?php
 						/* translators: %s: amount. */
-						echo esc_html( sprintf( __( 'Balance to collect: %s', 'mobile-shop-manager' ), Cmshop_Settings::money( Cmshop_Repair_Status::balance_due( $cmshop_repair ) ) ) );
+						echo esc_html( sprintf( __( 'Balance to collect: %s', 'codereyes-mobile-shop-manager' ), Cmshop_Settings::money( Cmshop_Repair_Status::balance_due( $cmshop_repair ) ) ) );
 						?>
 					</p>
 				<?php endif; ?>
-				<?php Cmshop_View::input( 'public_note', __( 'Message for the customer', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'help' => __( 'Shown on the website repair tracker, e.g. "Screen ordered, arrives Tuesday".', 'mobile-shop-manager' ) ) ); ?>
-				<?php Cmshop_View::textarea( 'internal_notes', __( 'Technician notes (private)', 'mobile-shop-manager' ), $cmshop_values, $cmshop_errors ); ?>
+				<?php Cmshop_View::input( 'public_note', __( 'Message for the customer', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors, array( 'help' => __( 'Shown on the website repair tracker, e.g. "Screen ordered, arrives Tuesday".', 'codereyes-mobile-shop-manager' ) ) ); ?>
+				<?php Cmshop_View::textarea( 'internal_notes', __( 'Technician notes (private)', 'codereyes-mobile-shop-manager' ), $cmshop_values, $cmshop_errors ); ?>
 			</section>
 		</div>
 
 		<p class="submit">
-			<?php submit_button( null === $cmshop_repair ? __( 'Book in and create ticket', 'mobile-shop-manager' ) : __( 'Save changes', 'mobile-shop-manager' ), 'primary large', 'submit', false ); ?>
-			<a class="button button-large" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-repairs' ) ); ?>"><?php esc_html_e( 'Cancel', 'mobile-shop-manager' ); ?></a>
+			<?php submit_button( null === $cmshop_repair ? __( 'Book in and create ticket', 'codereyes-mobile-shop-manager' ) : __( 'Save changes', 'codereyes-mobile-shop-manager' ), 'primary large', 'submit', false ); ?>
+			<a class="button button-large" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-repairs' ) ); ?>"><?php esc_html_e( 'Cancel', 'codereyes-mobile-shop-manager' ); ?></a>
 		</p>
 	</form>
 </div>

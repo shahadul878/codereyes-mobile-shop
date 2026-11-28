@@ -4,7 +4,7 @@
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for the cashier and are escaped where they are displayed.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -33,24 +33,24 @@ final class Cmshop_Cart {
 	 */
 	public static function price( array $lines, array $items, string $discount, string $amount_paid ): array {
 		if ( array() === $lines ) {
-			throw new InvalidArgumentException( __( 'Add at least one item to the sale.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'Add at least one item to the sale.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		if ( count( $lines ) > self::MAX_LINES ) {
-			throw new InvalidArgumentException( __( 'A sale can have at most 100 lines.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'A sale can have at most 100 lines.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$priced   = self::price_lines( $lines, $items );
 		$subtotal = array_sum( array_column( $priced, 'line_cents' ) );
 		$cost     = array_sum( array_column( $priced, 'cost_cents' ) );
-		$discount = self::amount( $discount, __( 'The discount is not a valid amount.', 'mobile-shop-manager' ) );
+		$discount = self::amount( $discount, __( 'The discount is not a valid amount.', 'codereyes-mobile-shop-manager' ) );
 
 		if ( $discount > $subtotal ) {
-			throw new InvalidArgumentException( __( 'The discount is larger than the sale.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'The discount is larger than the sale.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$total = $subtotal - $discount;
-		$paid  = '' === trim( $amount_paid ) ? $total : self::amount( $amount_paid, __( 'The amount paid is not a valid amount.', 'mobile-shop-manager' ) );
+		$paid  = '' === trim( $amount_paid ) ? $total : self::amount( $amount_paid, __( 'The amount paid is not a valid amount.', 'codereyes-mobile-shop-manager' ) );
 
 		return array(
 			'lines'       => array_map( array( self::class, 'public_line' ), $priced ),
@@ -81,7 +81,7 @@ final class Cmshop_Cart {
 			$item_id = (int) ( $line['item_id'] ?? 0 );
 
 			if ( isset( $seen[ $item_id ] ) ) {
-				throw new InvalidArgumentException( __( 'The same item is listed twice. Change its quantity instead.', 'mobile-shop-manager' ) );
+				throw new InvalidArgumentException( __( 'The same item is listed twice. Change its quantity instead.', 'codereyes-mobile-shop-manager' ) );
 			}
 
 			$seen[ $item_id ] = true;
@@ -101,7 +101,7 @@ final class Cmshop_Cart {
 	 */
 	private static function price_line( array $line, ?array $item ): array {
 		if ( null === $item ) {
-			throw new InvalidArgumentException( __( 'An item in the sale no longer exists. Remove it and try again.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'An item in the sale no longer exists. Remove it and try again.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$name     = Cmshop_Item::display_name( $item );
@@ -110,14 +110,14 @@ final class Cmshop_Cart {
 
 		if ( $quantity < 1 || $quantity > $in_stock ) {
 			/* translators: 1: item name, 2: quantity in stock. */
-			throw new InvalidArgumentException( sprintf( __( '%1$s: only %2$d in stock.', 'mobile-shop-manager' ), $name, $in_stock ) );
+			throw new InvalidArgumentException( sprintf( __( '%1$s: only %2$d in stock.', 'codereyes-mobile-shop-manager' ), $name, $in_stock ) );
 		}
 
 		$raw_price = isset( $line['unit_price'] ) ? (string) $line['unit_price'] : '';
 		$price     = '' === trim( $raw_price )
 			? Cmshop_Money::to_cents( (string) $item['sale_price'] )
 			/* translators: %s: item name. */
-			: self::amount( $raw_price, sprintf( __( '%s: the price is not a valid amount.', 'mobile-shop-manager' ), $name ) );
+			: self::amount( $raw_price, sprintf( __( '%s: the price is not a valid amount.', 'codereyes-mobile-shop-manager' ), $name ) );
 		$cost = Cmshop_Money::to_cents( (string) $item['cost_price'] );
 
 		return array(

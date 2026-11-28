@@ -2,7 +2,7 @@
 /**
  * Settings screen.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * @var array $cmshop { settings: array }
  */
@@ -15,131 +15,131 @@ $cmshop_name = static function ( string $key ): string {
 };
 ?>
 <div class="wrap cmshop-wrap">
-	<h1><?php esc_html_e( 'Mobile Shop settings', 'mobile-shop-manager' ); ?></h1>
+	<h1><?php esc_html_e( 'Mobile Shop settings', 'codereyes-mobile-shop-manager' ); ?></h1>
 	<?php settings_errors(); ?>
 
 	<form method="post" action="options.php">
 		<?php settings_fields( 'cmshop_settings' ); ?>
 
-		<h2><?php esc_html_e( 'Shop details (printed on receipts and job tickets)', 'mobile-shop-manager' ); ?></h2>
+		<h2><?php esc_html_e( 'Shop details (printed on receipts and job tickets)', 'codereyes-mobile-shop-manager' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><label for="cmshop-shop-name"><?php esc_html_e( 'Shop name', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-shop-name"><?php esc_html_e( 'Shop name', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><input type="text" id="cmshop-shop-name" class="regular-text" name="<?php echo esc_attr( $cmshop_name( 'shop_name' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['shop_name'] ); ?>"></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-shop-address"><?php esc_html_e( 'Address', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-shop-address"><?php esc_html_e( 'Address', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><textarea id="cmshop-shop-address" class="large-text" rows="3" name="<?php echo esc_attr( $cmshop_name( 'shop_address' ) ); ?>"><?php echo esc_textarea( (string) $cmshop_s['shop_address'] ); ?></textarea></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-shop-phone"><?php esc_html_e( 'Phone', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-shop-phone"><?php esc_html_e( 'Phone', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><input type="text" id="cmshop-shop-phone" class="regular-text" name="<?php echo esc_attr( $cmshop_name( 'shop_phone' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['shop_phone'] ); ?>"></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-footer"><?php esc_html_e( 'Receipt footer', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-footer"><?php esc_html_e( 'Receipt footer', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><textarea id="cmshop-footer" class="large-text" rows="2" name="<?php echo esc_attr( $cmshop_name( 'receipt_footer' ) ); ?>"><?php echo esc_textarea( (string) $cmshop_s['receipt_footer'] ); ?></textarea>
-				<p class="description"><?php esc_html_e( 'Warranty or return policy, e.g. "7-day replacement warranty with this receipt."', 'mobile-shop-manager' ); ?></p></td>
+				<p class="description"><?php esc_html_e( 'Warranty or return policy, e.g. "7-day replacement warranty with this receipt."', 'codereyes-mobile-shop-manager' ); ?></p></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-terms"><?php esc_html_e( 'Repair terms', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-terms"><?php esc_html_e( 'Repair terms', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><textarea id="cmshop-terms" class="large-text" rows="3" name="<?php echo esc_attr( $cmshop_name( 'repair_terms' ) ); ?>"><?php echo esc_textarea( (string) $cmshop_s['repair_terms'] ); ?></textarea></td>
 			</tr>
 		</table>
 
-		<h2><?php esc_html_e( 'Receipts and invoices', 'mobile-shop-manager' ); ?></h2>
+		<h2><?php esc_html_e( 'Receipts and invoices', 'codereyes-mobile-shop-manager' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Default print format', 'mobile-shop-manager' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Default print format', 'codereyes-mobile-shop-manager' ); ?></th>
 				<td>
 					<fieldset>
-						<legend class="screen-reader-text"><?php esc_html_e( 'Default print format', 'mobile-shop-manager' ); ?></legend>
+						<legend class="screen-reader-text"><?php esc_html_e( 'Default print format', 'codereyes-mobile-shop-manager' ); ?></legend>
 						<?php foreach ( Cmshop_Invoice_Format::all() as $cmshop_format => $cmshop_format_label ) : ?>
 							<label><input type="radio" name="<?php echo esc_attr( $cmshop_name( 'invoice_format' ) ); ?>" value="<?php echo esc_attr( $cmshop_format ); ?>" <?php checked( $cmshop_format, (string) $cmshop_s['invoice_format'] ); ?>> <?php echo esc_html( $cmshop_format_label ); ?></label><br>
 						<?php endforeach; ?>
 					</fieldset>
-					<p class="description"><?php esc_html_e( 'Shown first after a sale. You can switch to the other format on any sale before printing.', 'mobile-shop-manager' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Shown first after a sale. You can switch to the other format on any sale before printing.', 'codereyes-mobile-shop-manager' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-thermal-width"><?php esc_html_e( 'Thermal paper width', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-thermal-width"><?php esc_html_e( 'Thermal paper width', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td>
 					<select id="cmshop-thermal-width" name="<?php echo esc_attr( $cmshop_name( 'thermal_width' ) ); ?>">
 						<?php foreach ( Cmshop_Invoice_Format::thermal_widths() as $cmshop_width => $cmshop_width_label ) : ?>
 							<option value="<?php echo esc_attr( (string) $cmshop_width ); ?>" <?php selected( (string) $cmshop_width, (string) $cmshop_s['thermal_width'] ); ?>><?php echo esc_html( $cmshop_width_label ); ?></option>
 						<?php endforeach; ?>
 					</select>
-					<p class="description"><?php esc_html_e( 'Match your receipt printer roll. In the print dialog, set margins to None.', 'mobile-shop-manager' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Match your receipt printer roll. In the print dialog, set margins to None.', 'codereyes-mobile-shop-manager' ); ?></p>
 				</td>
 			</tr>
 		</table>
 
-		<h2><?php esc_html_e( 'Sales and stock', 'mobile-shop-manager' ); ?></h2>
+		<h2><?php esc_html_e( 'Sales and stock', 'codereyes-mobile-shop-manager' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><label for="cmshop-currency"><?php esc_html_e( 'Currency symbol', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-currency"><?php esc_html_e( 'Currency symbol', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td>
 					<input type="text" id="cmshop-currency" class="small-text" maxlength="5" name="<?php echo esc_attr( $cmshop_name( 'currency_symbol' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['currency_symbol'] ); ?>">
 					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-						<p class="description"><?php esc_html_e( 'WooCommerce is active, so its currency is used instead.', 'mobile-shop-manager' ); ?></p>
+						<p class="description"><?php esc_html_e( 'WooCommerce is active, so its currency is used instead.', 'codereyes-mobile-shop-manager' ); ?></p>
 					<?php endif; ?>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-prefix"><?php esc_html_e( 'Invoice prefix', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-prefix"><?php esc_html_e( 'Invoice prefix', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><input type="text" id="cmshop-prefix" class="small-text" maxlength="10" name="<?php echo esc_attr( $cmshop_name( 'invoice_prefix' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['invoice_prefix'] ); ?>">
-				<p class="description"><?php esc_html_e( 'Letters, numbers, - and /. Applies to new sales.', 'mobile-shop-manager' ); ?></p></td>
+				<p class="description"><?php esc_html_e( 'Letters, numbers, - and /. Applies to new sales.', 'codereyes-mobile-shop-manager' ); ?></p></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-low"><?php esc_html_e( 'Low stock warning', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-low"><?php esc_html_e( 'Low stock warning', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td><input type="number" id="cmshop-low" class="small-text" min="0" max="1000" name="<?php echo esc_attr( $cmshop_name( 'low_stock' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['low_stock'] ); ?>">
-				<p class="description"><?php esc_html_e( 'Accessories at or below this quantity show on the dashboard.', 'mobile-shop-manager' ); ?></p></td>
+				<p class="description"><?php esc_html_e( 'Accessories at or below this quantity show on the dashboard.', 'codereyes-mobile-shop-manager' ); ?></p></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Online shop', 'mobile-shop-manager' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Online shop', 'codereyes-mobile-shop-manager' ); ?></th>
 				<td>
-					<label><input type="checkbox" name="<?php echo esc_attr( $cmshop_name( 'woo_sync' ) ); ?>" value="1" <?php checked( 1, (int) $cmshop_s['woo_sync'] ); ?>> <?php esc_html_e( 'Sync stock with WooCommerce', 'mobile-shop-manager' ); ?></label>
-					<p class="description"><?php esc_html_e( 'Counter sales update website stock, and paid website orders are recorded as sales and taken from shop stock.', 'mobile-shop-manager' ); ?></p>
+					<label><input type="checkbox" name="<?php echo esc_attr( $cmshop_name( 'woo_sync' ) ); ?>" value="1" <?php checked( 1, (int) $cmshop_s['woo_sync'] ); ?>> <?php esc_html_e( 'Sync stock with WooCommerce', 'codereyes-mobile-shop-manager' ); ?></label>
+					<p class="description"><?php esc_html_e( 'Counter sales update website stock, and paid website orders are recorded as sales and taken from shop stock.', 'codereyes-mobile-shop-manager' ); ?></p>
 				</td>
 			</tr>
 		</table>
 
-		<h2><?php esc_html_e( 'Staff commission', 'mobile-shop-manager' ); ?></h2>
+		<h2><?php esc_html_e( 'Staff commission', 'codereyes-mobile-shop-manager' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><label for="cmshop-commission-rate"><?php esc_html_e( 'Commission', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-commission-rate"><?php esc_html_e( 'Commission', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td>
 					<input type="text" id="cmshop-commission-rate" class="small-text" inputmode="decimal" name="<?php echo esc_attr( $cmshop_name( 'commission_rate' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['commission_rate'] ); ?>"> %
-					<?php esc_html_e( 'of each staff member\'s', 'mobile-shop-manager' ); ?>
-					<select name="<?php echo esc_attr( $cmshop_name( 'commission_base' ) ); ?>" aria-label="<?php esc_attr_e( 'Commission is a share of', 'mobile-shop-manager' ); ?>">
-						<option value="<?php echo esc_attr( Cmshop_Commission::ON_SALES ); ?>" <?php selected( $cmshop_s['commission_base'], Cmshop_Commission::ON_SALES ); ?>><?php esc_html_e( 'sales', 'mobile-shop-manager' ); ?></option>
-						<option value="<?php echo esc_attr( Cmshop_Commission::ON_PROFIT ); ?>" <?php selected( $cmshop_s['commission_base'], Cmshop_Commission::ON_PROFIT ); ?>><?php esc_html_e( 'profit', 'mobile-shop-manager' ); ?></option>
+					<?php esc_html_e( 'of each staff member\'s', 'codereyes-mobile-shop-manager' ); ?>
+					<select name="<?php echo esc_attr( $cmshop_name( 'commission_base' ) ); ?>" aria-label="<?php esc_attr_e( 'Commission is a share of', 'codereyes-mobile-shop-manager' ); ?>">
+						<option value="<?php echo esc_attr( Cmshop_Commission::ON_SALES ); ?>" <?php selected( $cmshop_s['commission_base'], Cmshop_Commission::ON_SALES ); ?>><?php esc_html_e( 'sales', 'codereyes-mobile-shop-manager' ); ?></option>
+						<option value="<?php echo esc_attr( Cmshop_Commission::ON_PROFIT ); ?>" <?php selected( $cmshop_s['commission_base'], Cmshop_Commission::ON_PROFIT ); ?>><?php esc_html_e( 'profit', 'codereyes-mobile-shop-manager' ); ?></option>
 					</select>
-					<p class="description"><?php esc_html_e( 'After returns. 0 turns commission off. See it under Mobile Shop → Staff and commission; cashiers see their own on the dashboard.', 'mobile-shop-manager' ); ?></p>
+					<p class="description"><?php esc_html_e( 'After returns. 0 turns commission off. See it under Mobile Shop → Staff and commission; cashiers see their own on the dashboard.', 'codereyes-mobile-shop-manager' ); ?></p>
 				</td>
 			</tr>
 		</table>
 
-		<h2><?php esc_html_e( 'Warranty', 'mobile-shop-manager' ); ?></h2>
+		<h2><?php esc_html_e( 'Warranty', 'codereyes-mobile-shop-manager' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><label for="cmshop-warranty-new"><?php esc_html_e( 'New phones', 'mobile-shop-manager' ); ?></label></th>
-				<td><input type="number" id="cmshop-warranty-new" class="small-text" min="0" max="3650" name="<?php echo esc_attr( $cmshop_name( 'warranty_new' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['warranty_new'] ); ?>"> <?php esc_html_e( 'days', 'mobile-shop-manager' ); ?></td>
+				<th scope="row"><label for="cmshop-warranty-new"><?php esc_html_e( 'New phones', 'codereyes-mobile-shop-manager' ); ?></label></th>
+				<td><input type="number" id="cmshop-warranty-new" class="small-text" min="0" max="3650" name="<?php echo esc_attr( $cmshop_name( 'warranty_new' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['warranty_new'] ); ?>"> <?php esc_html_e( 'days', 'codereyes-mobile-shop-manager' ); ?></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="cmshop-warranty-used"><?php esc_html_e( 'Used phones', 'mobile-shop-manager' ); ?></label></th>
-				<td><input type="number" id="cmshop-warranty-used" class="small-text" min="0" max="3650" name="<?php echo esc_attr( $cmshop_name( 'warranty_used' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['warranty_used'] ); ?>"> <?php esc_html_e( 'days', 'mobile-shop-manager' ); ?>
-				<p class="description"><?php esc_html_e( 'Counted from the sale date and shown by the warranty check on your website. 0 means no warranty.', 'mobile-shop-manager' ); ?></p></td>
+				<th scope="row"><label for="cmshop-warranty-used"><?php esc_html_e( 'Used phones', 'codereyes-mobile-shop-manager' ); ?></label></th>
+				<td><input type="number" id="cmshop-warranty-used" class="small-text" min="0" max="3650" name="<?php echo esc_attr( $cmshop_name( 'warranty_used' ) ); ?>" value="<?php echo esc_attr( (string) (int) $cmshop_s['warranty_used'] ); ?>"> <?php esc_html_e( 'days', 'codereyes-mobile-shop-manager' ); ?>
+				<p class="description"><?php esc_html_e( 'Counted from the sale date and shown by the warranty check on your website. 0 means no warranty.', 'codereyes-mobile-shop-manager' ); ?></p></td>
 			</tr>
 		</table>
 
-		<h2><?php esc_html_e( 'WhatsApp messages', 'mobile-shop-manager' ); ?></h2>
-		<p><?php esc_html_e( 'Buttons on receipts, repairs and dues open WhatsApp with these messages already written. You check the text and press send: no API account or fees. Write them in Bangla or English; {words} in braces are filled in for you. Clear a box to go back to the default wording.', 'mobile-shop-manager' ); ?></p>
+		<h2><?php esc_html_e( 'WhatsApp messages', 'codereyes-mobile-shop-manager' ); ?></h2>
+		<p><?php esc_html_e( 'Buttons on receipts, repairs and dues open WhatsApp with these messages already written. You check the text and press send: no API account or fees. Write them in Bangla or English; {words} in braces are filled in for you. Clear a box to go back to the default wording.', 'codereyes-mobile-shop-manager' ); ?></p>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><label for="cmshop-wa-country"><?php esc_html_e( 'Country calling code', 'mobile-shop-manager' ); ?></label></th>
+				<th scope="row"><label for="cmshop-wa-country"><?php esc_html_e( 'Country calling code', 'codereyes-mobile-shop-manager' ); ?></label></th>
 				<td>
 					+<input type="text" id="cmshop-wa-country" class="small-text" inputmode="numeric" maxlength="4" name="<?php echo esc_attr( $cmshop_name( 'wa_country' ) ); ?>" value="<?php echo esc_attr( (string) $cmshop_s['wa_country'] ); ?>">
-					<p class="description"><?php esc_html_e( 'Added to local numbers, so 01712-345678 is sent to +880 1712-345678.', 'mobile-shop-manager' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Added to local numbers, so 01712-345678 is sent to +880 1712-345678.', 'codereyes-mobile-shop-manager' ); ?></p>
 				</td>
 			</tr>
 			<?php foreach ( Cmshop_Messages::templates() as $cmshop_key => $cmshop_template ) : ?>
@@ -153,28 +153,28 @@ $cmshop_name = static function ( string $key ): string {
 			<?php endforeach; ?>
 		</table>
 
-		<h2><?php esc_html_e( 'Website shortcodes', 'mobile-shop-manager' ); ?></h2>
-		<p><?php esc_html_e( 'Add these to any page with the "Mobile Shop" blocks in the block editor, the "Mobile Shop" widgets in Elementor, or the shortcodes below. Every one also accepts accent="#0d9488" and radius="16".', 'mobile-shop-manager' ); ?></p>
+		<h2><?php esc_html_e( 'Website shortcodes', 'codereyes-mobile-shop-manager' ); ?></h2>
+		<p><?php esc_html_e( 'Add these to any page with the "Mobile Shop" blocks in the block editor, the "Mobile Shop" widgets in Elementor, or the shortcodes below. Every one also accepts accent="#0d9488" and radius="16".', 'codereyes-mobile-shop-manager' ); ?></p>
 		<table class="widefat striped cmshop-shortcodes">
 			<tbody>
 				<tr>
 					<td><code>[<?php echo esc_html( Cmshop_Stock_Shortcode::SHORTCODE ); ?>]</code></td>
 					<td>
-						<?php esc_html_e( 'Phones in stock now, with photo, price, condition and colours, and brand and new/used filters. Cost prices and IMEIs are never shown.', 'mobile-shop-manager' ); ?><br>
-						<small><?php esc_html_e( 'Options: type="phone|accessory|all", brand="Samsung", condition="new|used", per_page="12", columns="3", filters="no"', 'mobile-shop-manager' ); ?></small>
+						<?php esc_html_e( 'Phones in stock now, with photo, price, condition and colours, and brand and new/used filters. Cost prices and IMEIs are never shown.', 'codereyes-mobile-shop-manager' ); ?><br>
+						<small><?php esc_html_e( 'Options: type="phone|accessory|all", brand="Samsung", condition="new|used", per_page="12", columns="3", filters="no"', 'codereyes-mobile-shop-manager' ); ?></small>
 					</td>
 				</tr>
 				<tr>
 					<td><code>[<?php echo esc_html( Cmshop_Warranty_Check::SHORTCODE ); ?>]</code></td>
-					<td><?php esc_html_e( 'Customers enter an IMEI to see when they bought the phone from you and whether it is still under warranty.', 'mobile-shop-manager' ); ?></td>
+					<td><?php esc_html_e( 'Customers enter an IMEI to see when they bought the phone from you and whether it is still under warranty.', 'codereyes-mobile-shop-manager' ); ?></td>
 				</tr>
 				<tr>
 					<td><code>[<?php echo esc_html( Cmshop_Repair_Request::SHORTCODE ); ?>]</code></td>
-					<td><?php esc_html_e( 'Customers book a repair online. It appears under Repairs as "Booked online" with a ticket code, and you get an email.', 'mobile-shop-manager' ); ?></td>
+					<td><?php esc_html_e( 'Customers book a repair online. It appears under Repairs as "Booked online" with a ticket code, and you get an email.', 'codereyes-mobile-shop-manager' ); ?></td>
 				</tr>
 				<tr>
 					<td><code>[<?php echo esc_html( Cmshop_Repair_Tracker::SHORTCODE ); ?>]</code></td>
-					<td><?php esc_html_e( 'Customers check a repair with their ticket number and the last 4 digits of their phone number.', 'mobile-shop-manager' ); ?></td>
+					<td><?php esc_html_e( 'Customers check a repair with their ticket number and the last 4 digits of their phone number.', 'codereyes-mobile-shop-manager' ); ?></td>
 				</tr>
 			</tbody>
 		</table>

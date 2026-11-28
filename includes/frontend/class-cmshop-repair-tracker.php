@@ -2,7 +2,7 @@
 /**
  * [cmshop_repair_status] — customers check their repair on the website.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -78,7 +78,7 @@ final class Cmshop_Repair_Tracker {
 		}
 
 		if ( ! isset( $_POST['_cmshop_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_cmshop_nonce'] ) ), self::NONCE ) ) {
-			return array_merge( $outcome, array( 'error' => __( 'This page has expired. Please reload it and try again.', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'This page has expired. Please reload it and try again.', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		$code  = Cmshop_Code::normalize_ticket( sanitize_text_field( wp_unslash( $_POST['cmshop_ticket'] ) ) );
@@ -87,13 +87,13 @@ final class Cmshop_Repair_Tracker {
 		$outcome['code'] = $code;
 
 		if ( Cmshop_Rate_Limit::exceeded( 'repair_lookup', self::MAX_ATTEMPTS, self::WINDOW ) ) {
-			return array_merge( $outcome, array( 'error' => __( 'Too many lookups. Please wait 15 minutes and try again.', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'Too many lookups. Please wait 15 minutes and try again.', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		$repair = Cmshop_Code::is_ticket( $code ) && 4 === strlen( $last4 ) ? $this->repairs->find_by_ticket( $code ) : null;
 
 		if ( null === $repair || ! hash_equals( Cmshop_Phone_Number::last_four( (string) $repair['customer_phone'] ), $last4 ) ) {
-			return array_merge( $outcome, array( 'error' => __( 'We could not find a repair with that ticket number and phone number.', 'mobile-shop-manager' ) ) );
+			return array_merge( $outcome, array( 'error' => __( 'We could not find a repair with that ticket number and phone number.', 'codereyes-mobile-shop-manager' ) ) );
 		}
 
 		return array_merge( $outcome, array( 'repair' => $repair ) );

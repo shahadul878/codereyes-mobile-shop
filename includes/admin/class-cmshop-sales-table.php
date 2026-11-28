@@ -2,7 +2,7 @@
 /**
  * Sales list table.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -28,14 +28,14 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	 */
 	public function get_columns(): array {
 		$columns = array(
-			'invoice_no'     => __( 'Invoice', 'mobile-shop-manager' ),
-			'created_at'     => __( 'Date', 'mobile-shop-manager' ),
-			'customer_name'  => __( 'Customer', 'mobile-shop-manager' ),
-			'channel'        => __( 'Channel', 'mobile-shop-manager' ),
-			'payment_method' => __( 'Payment', 'mobile-shop-manager' ),
-			'total'          => __( 'Total', 'mobile-shop-manager' ),
-			'profit'         => __( 'Profit', 'mobile-shop-manager' ),
-			'status'         => __( 'Status', 'mobile-shop-manager' ),
+			'invoice_no'     => __( 'Invoice', 'codereyes-mobile-shop-manager' ),
+			'created_at'     => __( 'Date', 'codereyes-mobile-shop-manager' ),
+			'customer_name'  => __( 'Customer', 'codereyes-mobile-shop-manager' ),
+			'channel'        => __( 'Channel', 'codereyes-mobile-shop-manager' ),
+			'payment_method' => __( 'Payment', 'codereyes-mobile-shop-manager' ),
+			'total'          => __( 'Total', 'codereyes-mobile-shop-manager' ),
+			'profit'         => __( 'Profit', 'codereyes-mobile-shop-manager' ),
+			'status'         => __( 'Status', 'codereyes-mobile-shop-manager' ),
 		);
 
 		// Cashiers never see profit.
@@ -63,19 +63,19 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	protected function filter_choices(): array {
 		return array(
 			'channel'        => array(
-				__( 'Channel', 'mobile-shop-manager' ),
+				__( 'Channel', 'codereyes-mobile-shop-manager' ),
 				array(
-					Cmshop_Sale_Repository::CHANNEL_STORE  => __( 'In store', 'mobile-shop-manager' ),
-					Cmshop_Sale_Repository::CHANNEL_ONLINE => __( 'Online', 'mobile-shop-manager' ),
+					Cmshop_Sale_Repository::CHANNEL_STORE  => __( 'In store', 'codereyes-mobile-shop-manager' ),
+					Cmshop_Sale_Repository::CHANNEL_ONLINE => __( 'Online', 'codereyes-mobile-shop-manager' ),
 				),
 			),
-			'payment_method' => array( __( 'Payment', 'mobile-shop-manager' ), Cmshop_Settings::payment_labels() ),
+			'payment_method' => array( __( 'Payment', 'codereyes-mobile-shop-manager' ), Cmshop_Settings::payment_labels() ),
 			'status'         => array(
-				__( 'Status', 'mobile-shop-manager' ),
+				__( 'Status', 'codereyes-mobile-shop-manager' ),
 				array(
-					Cmshop_Sale_Repository::STATUS_COMPLETED => __( 'Completed', 'mobile-shop-manager' ),
-					Cmshop_Sale_Repository::STATUS_VOID => __( 'Void', 'mobile-shop-manager' ),
-					Cmshop_Sale_Repository::STATUS_RETURNED => __( 'Returned', 'mobile-shop-manager' ),
+					Cmshop_Sale_Repository::STATUS_COMPLETED => __( 'Completed', 'codereyes-mobile-shop-manager' ),
+					Cmshop_Sale_Repository::STATUS_VOID => __( 'Void', 'codereyes-mobile-shop-manager' ),
+					Cmshop_Sale_Repository::STATUS_RETURNED => __( 'Returned', 'codereyes-mobile-shop-manager' ),
 				),
 			),
 		);
@@ -135,7 +135,7 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	protected function column_channel( $item ): string {
 		$online = Cmshop_Sale_Repository::CHANNEL_ONLINE === $item['channel'];
 
-		return Cmshop_View::badge( $online ? __( 'Online', 'mobile-shop-manager' ) : __( 'In store', 'mobile-shop-manager' ), (string) $item['channel'] );
+		return Cmshop_View::badge( $online ? __( 'Online', 'codereyes-mobile-shop-manager' ) : __( 'In store', 'codereyes-mobile-shop-manager' ), (string) $item['channel'] );
 	}
 
 	/**
@@ -176,11 +176,11 @@ final class Cmshop_Sales_Table extends Cmshop_List_Table {
 	 */
 	protected function column_status( $item ): string {
 		$labels = array(
-			Cmshop_Sale_Repository::STATUS_VOID     => __( 'Void', 'mobile-shop-manager' ),
-			Cmshop_Sale_Repository::STATUS_RETURNED => __( 'Returned', 'mobile-shop-manager' ),
+			Cmshop_Sale_Repository::STATUS_VOID     => __( 'Void', 'codereyes-mobile-shop-manager' ),
+			Cmshop_Sale_Repository::STATUS_RETURNED => __( 'Returned', 'codereyes-mobile-shop-manager' ),
 		);
 
-		$label = $labels[ $item['status'] ] ?? ( Cmshop_Money::to_cents( (string) $item['refunded'] ) > 0 ? __( 'Part returned', 'mobile-shop-manager' ) : __( 'Completed', 'mobile-shop-manager' ) );
+		$label = $labels[ $item['status'] ] ?? ( Cmshop_Money::to_cents( (string) $item['refunded'] ) > 0 ? __( 'Part returned', 'codereyes-mobile-shop-manager' ) : __( 'Completed', 'codereyes-mobile-shop-manager' ) );
 
 		return Cmshop_View::badge( $label, (string) $item['status'] );
 	}

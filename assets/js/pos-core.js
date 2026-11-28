@@ -1,5 +1,5 @@
 /**
- * Mobile Shop Manager — POS logic without the screen: money, filtering,
+ * Codereyes Mobile Shop Manager — POS logic without the screen: money, filtering,
  * cart changes and payment maths. Pure functions; the screen is in pos.js.
  *
  * Money is handled in whole cents (integers) to avoid rounding errors.

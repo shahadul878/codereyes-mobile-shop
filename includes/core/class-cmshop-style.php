@@ -2,7 +2,7 @@
 /**
  * Style options for the website parts (shortcodes, blocks, Elementor widgets).
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

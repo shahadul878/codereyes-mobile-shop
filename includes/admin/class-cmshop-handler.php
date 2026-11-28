@@ -2,7 +2,7 @@
 /**
  * Shared plumbing for admin-post form handlers.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -57,7 +57,7 @@ abstract class Cmshop_Handler {
 		$allowed = in_array( $action, static::SELL_ACTIONS, true ) ? Cmshop_Staff::can_sell() : Cmshop_Staff::can_manage();
 
 		if ( ! $allowed ) {
-			wp_die( esc_html__( 'You do not have permission to do that.', 'mobile-shop-manager' ), 403 );
+			wp_die( esc_html__( 'You do not have permission to do that.', 'codereyes-mobile-shop-manager' ), 403 );
 		}
 
 		check_admin_referer( 'cmshop_' . $action );
@@ -109,7 +109,7 @@ abstract class Cmshop_Handler {
 	 */
 	protected function log( Throwable $error ): void {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log; users see a generic notice.
-		error_log( 'Mobile Shop Manager: ' . $error->getMessage() );
+		error_log( 'Codereyes Mobile Shop Manager: ' . $error->getMessage() );
 	}
 
 	/**

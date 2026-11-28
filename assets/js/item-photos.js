@@ -1,5 +1,5 @@
 /**
- * Mobile Shop Manager — photo picker on the stock item form.
+ * Codereyes Mobile Shop Manager — photo picker on the stock item form.
  *
  * Uses the WordPress Media Library. Attachment IDs are kept in two hidden
  * fields (image_id, gallery_ids) that the form submits.
@@ -77,7 +77,7 @@
 		remove.type = 'button';
 		remove.className = 'cmshop-photos__drop';
 		remove.dataset.removePhoto = '';
-		remove.setAttribute( 'aria-label', __( 'Remove photo', 'mobile-shop-manager' ) );
+		remove.setAttribute( 'aria-label', __( 'Remove photo', 'codereyes-mobile-shop-manager' ) );
 		remove.textContent = '×';
 
 		li.append( image( url ), remove );
@@ -98,7 +98,7 @@
 		mainInput.value = String( id );
 		mainPreview.replaceChildren( id > 0 ? image( url ) : placeholder );
 		removeMain.hidden = id <= 0;
-		chooseMain.textContent = id > 0 ? __( 'Change main photo', 'mobile-shop-manager' ) : __( 'Choose main photo', 'mobile-shop-manager' );
+		chooseMain.textContent = id > 0 ? __( 'Change main photo', 'codereyes-mobile-shop-manager' ) : __( 'Choose main photo', 'codereyes-mobile-shop-manager' );
 	}
 
 	/**
@@ -113,12 +113,12 @@
 			title,
 			multiple,
 			library: { type: 'image' },
-			button: { text: __( 'Use photo', 'mobile-shop-manager' ) },
+			button: { text: __( 'Use photo', 'codereyes-mobile-shop-manager' ) },
 		} );
 	}
 
-	const mainFrame = frame( __( 'Main photo', 'mobile-shop-manager' ), false );
-	const galleryFrame = frame( __( 'More photos', 'mobile-shop-manager' ), true );
+	const mainFrame = frame( __( 'Main photo', 'codereyes-mobile-shop-manager' ), false );
+	const galleryFrame = frame( __( 'More photos', 'codereyes-mobile-shop-manager' ), true );
 
 	mainFrame.on( 'select', () => {
 		const attachment = mainFrame.state().get( 'selection' ).first().toJSON();

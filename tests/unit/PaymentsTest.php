@@ -2,7 +2,7 @@
 /**
  * Tests for splitting a sale's payment across methods.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

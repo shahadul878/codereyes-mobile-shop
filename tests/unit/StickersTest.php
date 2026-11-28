@@ -2,7 +2,7 @@
 /**
  * Price sticker contents.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

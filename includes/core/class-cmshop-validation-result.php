@@ -2,7 +2,7 @@
 /**
  * Immutable outcome of validating a form.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

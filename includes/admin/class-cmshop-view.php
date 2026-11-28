@@ -2,7 +2,7 @@
 /**
  * Small rendering helpers shared by the admin templates.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -150,7 +150,7 @@ final class Cmshop_View {
 		}
 
 		echo '<div class="notice notice-error cmshop-error-summary" role="alert"><p><strong>';
-		esc_html_e( 'Please fix the highlighted fields.', 'mobile-shop-manager' );
+		esc_html_e( 'Please fix the highlighted fields.', 'codereyes-mobile-shop-manager' );
 		echo '</strong></p><ul>';
 
 		foreach ( $errors as $field => $message ) {
@@ -173,7 +173,7 @@ final class Cmshop_View {
 			esc_attr( $classes ),
 			esc_url( $url, array( 'https' ) ),
 			esc_html( $label ),
-			esc_html__( '(opens WhatsApp in a new tab)', 'mobile-shop-manager' )
+			esc_html__( '(opens WhatsApp in a new tab)', 'codereyes-mobile-shop-manager' )
 		);
 	}
 
@@ -229,31 +229,31 @@ final class Cmshop_View {
 	 */
 	private static function notices(): array {
 		return array(
-			'item_saved'       => array( 'success', __( 'Stock item saved.', 'mobile-shop-manager' ) ),
-			'item_deleted'     => array( 'success', __( 'Stock item deleted.', 'mobile-shop-manager' ) ),
-			'item_has_sales'   => array( 'error', __( 'This item has sales, so it cannot be deleted. Its sales history is kept.', 'mobile-shop-manager' ) ),
-			'published'        => array( 'success', __( 'Item published to your online shop.', 'mobile-shop-manager' ) ),
-			'unpublished'      => array( 'success', __( 'Item removed from your online shop.', 'mobile-shop-manager' ) ),
-			'model_published'  => array( 'success', __( 'Model published: customers choose storage and colour, and stock follows your shop.', 'mobile-shop-manager' ) ),
-			'model_removed'    => array( 'success', __( 'Model removed from your online shop. Its phones are still in stock.', 'mobile-shop-manager' ) ),
-			'publish_failed'   => array( 'error', __( 'The item could not be published. Check that WooCommerce is active.', 'mobile-shop-manager' ) ),
-			'customer_saved'   => array( 'success', __( 'Customer saved.', 'mobile-shop-manager' ) ),
-			'customer_deleted' => array( 'success', __( 'Customer deleted.', 'mobile-shop-manager' ) ),
-			'customer_in_use'  => array( 'error', __( 'This customer has sales or repairs, so they cannot be deleted.', 'mobile-shop-manager' ) ),
-			'repair_saved'     => array( 'success', __( 'Repair job saved.', 'mobile-shop-manager' ) ),
-			'repair_deleted'   => array( 'success', __( 'Repair job deleted.', 'mobile-shop-manager' ) ),
-			'sale_voided'      => array( 'success', __( 'Sale voided. Its items are back in stock.', 'mobile-shop-manager' ) ),
-			'sale_not_voided'  => array( 'error', __( 'Only completed sales can be voided.', 'mobile-shop-manager' ) ),
-			'not_found'        => array( 'error', __( 'That record no longer exists.', 'mobile-shop-manager' ) ),
-			'shift_opened'     => array( 'success', __( 'Shift opened. Good selling!', 'mobile-shop-manager' ) ),
-			'petty_saved'      => array( 'success', __( 'Cash movement recorded.', 'mobile-shop-manager' ) ),
-			'shift_closed'     => array( 'success', __( 'Shift closed. Here is the end-of-day report.', 'mobile-shop-manager' ) ),
-			'items_returned'   => array( 'success', __( 'Return recorded. Stock and money are updated.', 'mobile-shop-manager' ) ),
-			'due_collected'    => array( 'success', __( 'Payment received and added to the customer\'s account.', 'mobile-shop-manager' ) ),
-			'supplier_saved'   => array( 'success', __( 'Supplier saved.', 'mobile-shop-manager' ) ),
-			'purchase_saved'   => array( 'success', __( 'Purchase recorded. Everything below is now in stock.', 'mobile-shop-manager' ) ),
-			'supplier_paid'    => array( 'success', __( 'Payment to the supplier recorded.', 'mobile-shop-manager' ) ),
-			'db_error'         => array( 'error', __( 'Something went wrong while saving. Nothing was changed. Please try again.', 'mobile-shop-manager' ) ),
+			'item_saved'       => array( 'success', __( 'Stock item saved.', 'codereyes-mobile-shop-manager' ) ),
+			'item_deleted'     => array( 'success', __( 'Stock item deleted.', 'codereyes-mobile-shop-manager' ) ),
+			'item_has_sales'   => array( 'error', __( 'This item has sales, so it cannot be deleted. Its sales history is kept.', 'codereyes-mobile-shop-manager' ) ),
+			'published'        => array( 'success', __( 'Item published to your online shop.', 'codereyes-mobile-shop-manager' ) ),
+			'unpublished'      => array( 'success', __( 'Item removed from your online shop.', 'codereyes-mobile-shop-manager' ) ),
+			'model_published'  => array( 'success', __( 'Model published: customers choose storage and colour, and stock follows your shop.', 'codereyes-mobile-shop-manager' ) ),
+			'model_removed'    => array( 'success', __( 'Model removed from your online shop. Its phones are still in stock.', 'codereyes-mobile-shop-manager' ) ),
+			'publish_failed'   => array( 'error', __( 'The item could not be published. Check that WooCommerce is active.', 'codereyes-mobile-shop-manager' ) ),
+			'customer_saved'   => array( 'success', __( 'Customer saved.', 'codereyes-mobile-shop-manager' ) ),
+			'customer_deleted' => array( 'success', __( 'Customer deleted.', 'codereyes-mobile-shop-manager' ) ),
+			'customer_in_use'  => array( 'error', __( 'This customer has sales or repairs, so they cannot be deleted.', 'codereyes-mobile-shop-manager' ) ),
+			'repair_saved'     => array( 'success', __( 'Repair job saved.', 'codereyes-mobile-shop-manager' ) ),
+			'repair_deleted'   => array( 'success', __( 'Repair job deleted.', 'codereyes-mobile-shop-manager' ) ),
+			'sale_voided'      => array( 'success', __( 'Sale voided. Its items are back in stock.', 'codereyes-mobile-shop-manager' ) ),
+			'sale_not_voided'  => array( 'error', __( 'Only completed sales can be voided.', 'codereyes-mobile-shop-manager' ) ),
+			'not_found'        => array( 'error', __( 'That record no longer exists.', 'codereyes-mobile-shop-manager' ) ),
+			'shift_opened'     => array( 'success', __( 'Shift opened. Good selling!', 'codereyes-mobile-shop-manager' ) ),
+			'petty_saved'      => array( 'success', __( 'Cash movement recorded.', 'codereyes-mobile-shop-manager' ) ),
+			'shift_closed'     => array( 'success', __( 'Shift closed. Here is the end-of-day report.', 'codereyes-mobile-shop-manager' ) ),
+			'items_returned'   => array( 'success', __( 'Return recorded. Stock and money are updated.', 'codereyes-mobile-shop-manager' ) ),
+			'due_collected'    => array( 'success', __( 'Payment received and added to the customer\'s account.', 'codereyes-mobile-shop-manager' ) ),
+			'supplier_saved'   => array( 'success', __( 'Supplier saved.', 'codereyes-mobile-shop-manager' ) ),
+			'purchase_saved'   => array( 'success', __( 'Purchase recorded. Everything below is now in stock.', 'codereyes-mobile-shop-manager' ) ),
+			'supplier_paid'    => array( 'success', __( 'Payment to the supplier recorded.', 'codereyes-mobile-shop-manager' ) ),
+			'db_error'         => array( 'error', __( 'Something went wrong while saving. Nothing was changed. Please try again.', 'codereyes-mobile-shop-manager' ) ),
 		);
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Minimal WordPress stand-ins for pure-logic unit tests.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 // phpcs:disable

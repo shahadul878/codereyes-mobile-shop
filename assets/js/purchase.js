@@ -127,14 +127,14 @@
 				} );
 
 				const note = line.querySelector( '[data-imei-count]' );
-				const parts = [ sprintf( /* translators: %d: phones scanned. */ _n( '%d phone', '%d phones', count, 'mobile-shop-manager' ), count ) ];
+				const parts = [ sprintf( /* translators: %d: phones scanned. */ _n( '%d phone', '%d phones', count, 'codereyes-mobile-shop-manager' ), count ) ];
 
 				if ( bad.length ) {
-					parts.push( sprintf( /* translators: %s: IMEIs. */ __( 'not valid: %s', 'mobile-shop-manager' ), bad.join( ', ' ) ) );
+					parts.push( sprintf( /* translators: %s: IMEIs. */ __( 'not valid: %s', 'codereyes-mobile-shop-manager' ), bad.join( ', ' ) ) );
 				}
 
 				if ( twice.length ) {
-					parts.push( sprintf( /* translators: %s: IMEIs. */ __( 'scanned twice: %s', 'mobile-shop-manager' ), twice.join( ', ' ) ) );
+					parts.push( sprintf( /* translators: %s: IMEIs. */ __( 'scanned twice: %s', 'codereyes-mobile-shop-manager' ), twice.join( ', ' ) ) );
 				}
 
 				note.textContent = parts.join( ' · ' );
@@ -157,7 +157,7 @@
 		const left = total - cents( form.querySelector( '[name="paid"]' ).value );
 
 		form.querySelector( '[data-owe]' ).textContent = 0 < left && 0 < total
-			? sprintf( /* translators: %s: amount owed. */ __( 'You will owe the supplier %s', 'mobile-shop-manager' ), money( left ) )
+			? sprintf( /* translators: %s: amount owed. */ __( 'You will owe the supplier %s', 'codereyes-mobile-shop-manager' ), money( left ) )
 			: '';
 	}
 

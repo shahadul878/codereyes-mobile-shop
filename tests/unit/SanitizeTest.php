@@ -2,7 +2,7 @@
 /**
  * Deep sanitising of submitted data.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

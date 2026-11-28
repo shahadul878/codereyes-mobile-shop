@@ -2,7 +2,7 @@
 /**
  * Suppliers (wholesalers and distributors the shop buys stock from).
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

@@ -2,7 +2,7 @@
 /**
  * Thermal receipt (80 mm or 58 mm roll). Included from sale-view.php.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * @var array $cmshop          { sale, lines }
  * @var array $cmshop_sale     Sale row.
@@ -29,21 +29,21 @@ $cmshop_class = 'cmshop-receipt cmshop-receipt--' . $cmshop_width . ( $cmshop_is
 	</header>
 
 	<dl class="cmshop-receipt__meta">
-		<dt><?php esc_html_e( 'Invoice', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( (string) $cmshop_sale['invoice_no'] ); ?></dd>
-		<dt><?php esc_html_e( 'Date', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_sale['created_at'] ) ); ?></dd>
-		<dt><?php esc_html_e( 'Customer', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( trim( $cmshop_sale['customer_name'] . ' ' . $cmshop_sale['customer_phone'] ) ); ?></dd>
-		<dt><?php esc_html_e( 'Payment', 'mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( $cmshop_payment ); ?></dd>
+		<dt><?php esc_html_e( 'Invoice', 'codereyes-mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( (string) $cmshop_sale['invoice_no'] ); ?></dd>
+		<dt><?php esc_html_e( 'Date', 'codereyes-mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( Cmshop_View::date( (string) $cmshop_sale['created_at'] ) ); ?></dd>
+		<dt><?php esc_html_e( 'Customer', 'codereyes-mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( trim( $cmshop_sale['customer_name'] . ' ' . $cmshop_sale['customer_phone'] ) ); ?></dd>
+		<dt><?php esc_html_e( 'Payment', 'codereyes-mobile-shop-manager' ); ?></dt><dd><?php echo esc_html( $cmshop_payment ); ?></dd>
 	</dl>
 
 	<?php if ( $cmshop_is_void ) : ?>
-		<p class="cmshop-receipt__void"><?php esc_html_e( 'VOID', 'mobile-shop-manager' ); ?></p>
+		<p class="cmshop-receipt__void"><?php esc_html_e( 'VOID', 'codereyes-mobile-shop-manager' ); ?></p>
 	<?php endif; ?>
 
 	<table class="cmshop-receipt__lines">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Item', 'mobile-shop-manager' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Total', 'mobile-shop-manager' ); ?></th>
+				<th><?php esc_html_e( 'Item', 'codereyes-mobile-shop-manager' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Total', 'codereyes-mobile-shop-manager' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>

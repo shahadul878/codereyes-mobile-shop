@@ -4,7 +4,7 @@
  *
  * phpcs:disable WordPress.Security.NonceVerification.Recommended -- Pages only read which record to show; changes go through Cmshop_Actions.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -42,26 +42,26 @@ final class Cmshop_Admin {
 		$manage = Cmshop_Installer::CAPABILITY;
 
 		// Managers also hold the sell capability, so the menu shows for both.
-		add_menu_page( __( 'Mobile Shop', 'mobile-shop-manager' ), __( 'Mobile Shop', 'mobile-shop-manager' ), $sell, self::SLUG, array( $this, 'dashboard' ), 'dashicons-smartphone', 56 );
+		add_menu_page( __( 'Mobile Shop', 'codereyes-mobile-shop-manager' ), __( 'Mobile Shop', 'codereyes-mobile-shop-manager' ), $sell, self::SLUG, array( $this, 'dashboard' ), 'dashicons-smartphone', 56 );
 
 		$pages = array(
-			self::SLUG         => array( __( 'Dashboard', 'mobile-shop-manager' ), 'dashboard', $sell ),
-			'cmshop-pos'       => array( __( 'New sale (POS)', 'mobile-shop-manager' ), 'pos', $sell ),
-			'cmshop-items'     => array( __( 'Stock', 'mobile-shop-manager' ), 'items', $manage ),
-			'cmshop-suppliers' => array( __( 'Suppliers', 'mobile-shop-manager' ), array( new Cmshop_Supplier_Pages(), 'render' ), $manage ),
-			'cmshop-sales'     => array( __( 'Sales', 'mobile-shop-manager' ), 'sales', $sell ),
-			'cmshop-repairs'   => array( __( 'Repairs', 'mobile-shop-manager' ), 'repairs', $sell ),
-			'cmshop-customers' => array( __( 'Customers', 'mobile-shop-manager' ), 'customers', $sell ),
-			'cmshop-dues'      => array( __( 'Dues', 'mobile-shop-manager' ), 'dues', $sell ),
-			'cmshop-shifts'    => array( __( 'Cash register', 'mobile-shop-manager' ), 'shifts', $sell ),
-			'cmshop-staff'     => array( __( 'Staff and commission', 'mobile-shop-manager' ), 'staff', $manage ),
+			self::SLUG         => array( __( 'Dashboard', 'codereyes-mobile-shop-manager' ), 'dashboard', $sell ),
+			'cmshop-pos'       => array( __( 'New sale (POS)', 'codereyes-mobile-shop-manager' ), 'pos', $sell ),
+			'cmshop-items'     => array( __( 'Stock', 'codereyes-mobile-shop-manager' ), 'items', $manage ),
+			'cmshop-suppliers' => array( __( 'Suppliers', 'codereyes-mobile-shop-manager' ), array( new Cmshop_Supplier_Pages(), 'render' ), $manage ),
+			'cmshop-sales'     => array( __( 'Sales', 'codereyes-mobile-shop-manager' ), 'sales', $sell ),
+			'cmshop-repairs'   => array( __( 'Repairs', 'codereyes-mobile-shop-manager' ), 'repairs', $sell ),
+			'cmshop-customers' => array( __( 'Customers', 'codereyes-mobile-shop-manager' ), 'customers', $sell ),
+			'cmshop-dues'      => array( __( 'Dues', 'codereyes-mobile-shop-manager' ), 'dues', $sell ),
+			'cmshop-shifts'    => array( __( 'Cash register', 'codereyes-mobile-shop-manager' ), 'shifts', $sell ),
+			'cmshop-staff'     => array( __( 'Staff and commission', 'codereyes-mobile-shop-manager' ), 'staff', $manage ),
 		);
 
 		foreach ( $pages as $slug => $page ) {
 			add_submenu_page( self::SLUG, $page[0], $page[0], $page[2], $slug, is_array( $page[1] ) ? $page[1] : array( $this, $page[1] ) );
 		}
 
-		add_submenu_page( self::SLUG, __( 'Settings', 'mobile-shop-manager' ), __( 'Settings', 'mobile-shop-manager' ), 'manage_options', 'cmshop-settings', array( $this, 'settings' ) );
+		add_submenu_page( self::SLUG, __( 'Settings', 'codereyes-mobile-shop-manager' ), __( 'Settings', 'codereyes-mobile-shop-manager' ), 'manage_options', 'cmshop-settings', array( $this, 'settings' ) );
 	}
 
 	/**
@@ -109,12 +109,12 @@ final class Cmshop_Admin {
 		if ( false !== strpos( $hook, 'cmshop-items' ) && in_array( $this->action(), array( 'new', 'edit' ), true ) && current_user_can( 'upload_files' ) ) {
 			wp_enqueue_media();
 			wp_enqueue_script( 'cmshop-item-photos', CMSHOP_URL . 'assets/js/item-photos.js', array( 'media-editor', 'wp-i18n' ), CMSHOP_VERSION, true );
-			wp_set_script_translations( 'cmshop-item-photos', 'mobile-shop-manager' );
+			wp_set_script_translations( 'cmshop-item-photos', 'codereyes-mobile-shop-manager' );
 		}
 
 		if ( false !== strpos( $hook, Cmshop_Supplier_Pages::SLUG ) && 'purchase' === $this->action() ) {
 			wp_enqueue_script( 'cmshop-purchase', CMSHOP_URL . 'assets/js/purchase.js', array( 'wp-i18n' ), CMSHOP_VERSION, true );
-			wp_set_script_translations( 'cmshop-purchase', 'mobile-shop-manager' );
+			wp_set_script_translations( 'cmshop-purchase', 'codereyes-mobile-shop-manager' );
 			wp_localize_script( 'cmshop-purchase', 'cmshopPurchase', array( 'symbol' => Cmshop_Settings::currency_symbol() ) );
 		}
 
@@ -128,9 +128,9 @@ final class Cmshop_Admin {
 		wp_enqueue_style( 'cmshop-pos-dialogs', CMSHOP_URL . 'assets/css/pos-dialogs.css', array( 'cmshop-pos' ), CMSHOP_VERSION );
 		wp_enqueue_script( 'cmshop-pos-core', CMSHOP_URL . 'assets/js/pos-core.js', array(), CMSHOP_VERSION, true );
 		wp_enqueue_script( 'cmshop-pos-dom', CMSHOP_URL . 'assets/js/pos-dom.js', array( 'wp-i18n' ), CMSHOP_VERSION, true );
-		wp_set_script_translations( 'cmshop-pos-dom', 'mobile-shop-manager' );
+		wp_set_script_translations( 'cmshop-pos-dom', 'codereyes-mobile-shop-manager' );
 		wp_enqueue_script( 'cmshop-pos', CMSHOP_URL . 'assets/js/pos.js', array( 'cmshop-pos-core', 'cmshop-pos-dom', 'wp-api-fetch', 'wp-i18n' ), CMSHOP_VERSION, true );
-		wp_set_script_translations( 'cmshop-pos', 'mobile-shop-manager' );
+		wp_set_script_translations( 'cmshop-pos', 'codereyes-mobile-shop-manager' );
 		wp_localize_script(
 			'cmshop-pos',
 			'cmshopPos',
@@ -162,7 +162,7 @@ final class Cmshop_Admin {
 	 * @return string[]
 	 */
 	public function action_links( array $links ): array {
-		$link = sprintf( '<a href="%s">%s</a>', esc_url( Cmshop_View::url( 'cmshop-settings' ) ), esc_html__( 'Settings', 'mobile-shop-manager' ) );
+		$link = sprintf( '<a href="%s">%s</a>', esc_url( Cmshop_View::url( 'cmshop-settings' ) ), esc_html__( 'Settings', 'codereyes-mobile-shop-manager' ) );
 
 		return array_merge( array( $link ), $links );
 	}
@@ -289,9 +289,9 @@ final class Cmshop_Admin {
 		$today = current_time( 'Y-m-d' ) . ' 00:00:00';
 
 		return array(
-			'today' => array( __( 'Added today', 'mobile-shop-manager' ), $today ),
-			'week'  => array( __( 'Added in the last 7 days', 'mobile-shop-manager' ), gmdate( 'Y-m-d H:i:s', strtotime( $today . ' -6 days' ) ) ),
-			'month' => array( __( 'Added in the last 30 days', 'mobile-shop-manager' ), gmdate( 'Y-m-d H:i:s', strtotime( $today . ' -29 days' ) ) ),
+			'today' => array( __( 'Added today', 'codereyes-mobile-shop-manager' ), $today ),
+			'week'  => array( __( 'Added in the last 7 days', 'codereyes-mobile-shop-manager' ), gmdate( 'Y-m-d H:i:s', strtotime( $today . ' -6 days' ) ) ),
+			'month' => array( __( 'Added in the last 30 days', 'codereyes-mobile-shop-manager' ), gmdate( 'Y-m-d H:i:s', strtotime( $today . ' -29 days' ) ) ),
 		);
 	}
 
@@ -610,7 +610,7 @@ final class Cmshop_Admin {
 		}
 
 		if ( ! $allowed ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'mobile-shop-manager' ), 403 );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'codereyes-mobile-shop-manager' ), 403 );
 		}
 
 		$cmshop = $vars;

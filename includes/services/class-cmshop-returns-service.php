@@ -2,7 +2,7 @@
 /**
  * Returning items from a sale: stock back, money back (or store credit).
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for staff and are escaped where they are displayed.
  */
@@ -73,7 +73,7 @@ final class Cmshop_Returns_Service {
 		$methods = Cmshop_Settings::payment_methods();
 		unset( $methods['online'] );
 
-		return $has_customer ? array_merge( $methods, array( self::STORE_CREDIT => __( 'Store credit (for an exchange)', 'mobile-shop-manager' ) ) ) : $methods;
+		return $has_customer ? array_merge( $methods, array( self::STORE_CREDIT => __( 'Store credit (for an exchange)', 'codereyes-mobile-shop-manager' ) ) ) : $methods;
 	}
 
 	/**
@@ -94,15 +94,15 @@ final class Cmshop_Returns_Service {
 				$sale = $this->sales->lock_sale( $sale_id );
 
 				if ( null === $sale || Cmshop_Sale_Repository::STATUS_COMPLETED !== $sale['status'] ) {
-					throw new InvalidArgumentException( __( 'Only completed sales can have returns.', 'mobile-shop-manager' ) );
+					throw new InvalidArgumentException( __( 'Only completed sales can have returns.', 'codereyes-mobile-shop-manager' ) );
 				}
 
 				if ( Cmshop_Money::to_cents( (string) $sale['amount_paid'] ) < Cmshop_Money::to_cents( (string) $sale['total'] ) ) {
-					throw new InvalidArgumentException( __( 'This sale is not fully paid. Collect the balance first, or void the sale.', 'mobile-shop-manager' ) );
+					throw new InvalidArgumentException( __( 'This sale is not fully paid. Collect the balance first, or void the sale.', 'codereyes-mobile-shop-manager' ) );
 				}
 
 				if ( ! array_key_exists( $method, self::refund_methods( (int) $sale['customer_id'] > 0 ) ) ) {
-					throw new InvalidArgumentException( __( 'Choose how to give the money back.', 'mobile-shop-manager' ) );
+					throw new InvalidArgumentException( __( 'Choose how to give the money back.', 'codereyes-mobile-shop-manager' ) );
 				}
 
 				$lines  = $this->sales->lines( $sale_id );
@@ -139,7 +139,7 @@ final class Cmshop_Returns_Service {
 					$customer = $this->customers->lock( (int) $sale['customer_id'] );
 
 					if ( null === $customer ) {
-						throw new InvalidArgumentException( __( 'Store credit needs a customer on the sale.', 'mobile-shop-manager' ) );
+						throw new InvalidArgumentException( __( 'Store credit needs a customer on the sale.', 'codereyes-mobile-shop-manager' ) );
 					}
 
 					$this->customers->adjust_credit( $customer, $priced['refund'] );

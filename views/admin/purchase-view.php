@@ -2,7 +2,7 @@
 /**
  * A recorded purchase: what came in, what it cost, stickers for it.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * @var array $cmshop { purchase: array, supplier: array|null, items: array[] }
  */
@@ -18,19 +18,19 @@ $cmshop_ids      = array_map( 'intval', array_column( $cmshop['items'], 'id' ) )
 	<h1 class="wp-heading-inline">
 		<?php
 		/* translators: %d: purchase number. */
-		echo esc_html( sprintf( __( 'Purchase #%d', 'mobile-shop-manager' ), (int) $cmshop_purchase['id'] ) );
+		echo esc_html( sprintf( __( 'Purchase #%d', 'codereyes-mobile-shop-manager' ), (int) $cmshop_purchase['id'] ) );
 		?>
 	</h1>
 	<?php if ( array() !== $cmshop_ids ) : ?>
-		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'stickers', 'item' => $cmshop_ids, 'copies' => 'stock' ) ) ); ?>"><?php esc_html_e( 'Print price stickers', 'mobile-shop-manager' ); ?></a>
+		<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( 'cmshop-items', array( 'action' => 'stickers', 'item' => $cmshop_ids, 'copies' => 'stock' ) ) ); ?>"><?php esc_html_e( 'Print price stickers', 'codereyes-mobile-shop-manager' ); ?></a>
 	<?php endif; ?>
-	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG, array( 'action' => 'purchase' ) ) ); ?>"><?php esc_html_e( 'Another purchase', 'mobile-shop-manager' ); ?></a>
+	<a class="page-title-action" href="<?php echo esc_url( Cmshop_View::url( Cmshop_Supplier_Pages::SLUG, array( 'action' => 'purchase' ) ) ); ?>"><?php esc_html_e( 'Another purchase', 'codereyes-mobile-shop-manager' ); ?></a>
 	<hr class="wp-header-end">
 	<?php Cmshop_View::notice(); ?>
 
 	<div class="cmshop-dues-summary">
 		<div class="cmshop-card">
-			<h2><?php esc_html_e( 'From', 'mobile-shop-manager' ); ?></h2>
+			<h2><?php esc_html_e( 'From', 'codereyes-mobile-shop-manager' ); ?></h2>
 			<p class="cmshop-dues-summary__value">
 				<?php if ( null === $cmshop_supplier ) : ?>
 					&mdash;
@@ -46,15 +46,15 @@ $cmshop_ids      = array_map( 'intval', array_column( $cmshop['items'], 'id' ) )
 			</p>
 		</div>
 		<div class="cmshop-card<?php echo $cmshop_left > 0 ? ' is-alert' : ''; ?>">
-			<h2><?php esc_html_e( 'Total', 'mobile-shop-manager' ); ?></h2>
+			<h2><?php esc_html_e( 'Total', 'codereyes-mobile-shop-manager' ); ?></h2>
 			<p class="cmshop-dues-summary__value"><?php echo esc_html( Cmshop_Settings::money( (string) $cmshop_purchase['total'] ) ); ?></p>
 			<p>
 				<?php
 				echo esc_html(
 					$cmshop_left > 0
 						/* translators: 1: amount paid, 2: amount still owed. */
-						? sprintf( __( 'Paid %1$s · you owe %2$s', 'mobile-shop-manager' ), Cmshop_Settings::money( (string) $cmshop_purchase['paid'] ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_left ) ) )
-						: __( 'Paid in full', 'mobile-shop-manager' )
+						? sprintf( __( 'Paid %1$s · you owe %2$s', 'codereyes-mobile-shop-manager' ), Cmshop_Settings::money( (string) $cmshop_purchase['paid'] ), Cmshop_Settings::money( Cmshop_Money::from_cents( $cmshop_left ) ) )
+						: __( 'Paid in full', 'codereyes-mobile-shop-manager' )
 				);
 				?>
 			</p>
@@ -65,17 +65,17 @@ $cmshop_ids      = array_map( 'intval', array_column( $cmshop['items'], 'id' ) )
 		<h2>
 			<?php
 			/* translators: %s: number of units. */
-			echo esc_html( sprintf( _n( '%s unit received', '%s units received', (int) $cmshop_purchase['units'], 'mobile-shop-manager' ), number_format_i18n( (int) $cmshop_purchase['units'] ) ) );
+			echo esc_html( sprintf( _n( '%s unit received', '%s units received', (int) $cmshop_purchase['units'], 'codereyes-mobile-shop-manager' ), number_format_i18n( (int) $cmshop_purchase['units'] ) ) );
 			?>
 		</h2>
 		<table class="widefat striped">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Item', 'mobile-shop-manager' ); ?></th>
-					<th><?php esc_html_e( 'IMEI / SKU', 'mobile-shop-manager' ); ?></th>
-					<th class="num"><?php esc_html_e( 'In stock now', 'mobile-shop-manager' ); ?></th>
-					<th class="num"><?php esc_html_e( 'Cost', 'mobile-shop-manager' ); ?></th>
-					<th class="num"><?php esc_html_e( 'Price', 'mobile-shop-manager' ); ?></th>
+					<th><?php esc_html_e( 'Item', 'codereyes-mobile-shop-manager' ); ?></th>
+					<th><?php esc_html_e( 'IMEI / SKU', 'codereyes-mobile-shop-manager' ); ?></th>
+					<th class="num"><?php esc_html_e( 'In stock now', 'codereyes-mobile-shop-manager' ); ?></th>
+					<th class="num"><?php esc_html_e( 'Cost', 'codereyes-mobile-shop-manager' ); ?></th>
+					<th class="num"><?php esc_html_e( 'Price', 'codereyes-mobile-shop-manager' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>

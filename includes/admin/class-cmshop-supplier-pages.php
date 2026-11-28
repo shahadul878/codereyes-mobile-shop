@@ -4,7 +4,7 @@
  *
  * phpcs:disable WordPress.Security.NonceVerification.Recommended -- Pages only read which record to show; changes go through Cmshop_Supplier_Actions.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -23,7 +23,7 @@ final class Cmshop_Supplier_Pages {
 	 */
 	public function render(): void {
 		if ( ! Cmshop_Staff::can_manage() ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'mobile-shop-manager' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$action = isset( $_GET['action'] ) ? sanitize_key( wp_unslash( $_GET['action'] ) ) : '';

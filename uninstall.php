@@ -8,7 +8,7 @@
  *
  *     define( 'CMSHOP_DELETE_DATA', true );
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;

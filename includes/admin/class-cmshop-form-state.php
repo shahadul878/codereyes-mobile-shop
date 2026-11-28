@@ -2,7 +2,7 @@
 /**
  * Keeps submitted values and errors across the post/redirect/get round trip.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

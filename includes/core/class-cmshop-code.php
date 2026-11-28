@@ -2,7 +2,7 @@
 /**
  * Invoice numbers and repair ticket codes.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

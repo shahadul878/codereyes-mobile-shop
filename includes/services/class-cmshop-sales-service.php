@@ -4,7 +4,7 @@
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for the cashier and are escaped where they are displayed.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -116,7 +116,7 @@ final class Cmshop_Sales_Service {
 				$paid    = Cmshop_Payments::allocate( array_merge( $this->payment_rows( $order, $sale['total'], $credit ), $this->trade_rows( $trades ) ), Cmshop_Money::to_cents( $sale['total'] ), $methods );
 
 				if ( $paid['due'] > 0 && ! isset( $buyer['phone'] ) ) {
-					throw new InvalidArgumentException( __( 'Add the customer\'s phone number to sell on credit.', 'mobile-shop-manager' ) );
+					throw new InvalidArgumentException( __( 'Add the customer\'s phone number to sell on credit.', 'codereyes-mobile-shop-manager' ) );
 				}
 
 				$customer = isset( $buyer['phone'] ) ? $this->customers->find_or_create( $buyer['name'], $buyer['phone'], $buyer['email'] ) : $buyer;
@@ -238,11 +238,11 @@ final class Cmshop_Sales_Service {
 		$email = sanitize_email( (string) ( $order['customer_email'] ?? '' ) );
 
 		if ( '' === ltrim( $phone, '+' ) ) {
-			return array( 'name' => '' === $name ? __( 'Walk-in customer', 'mobile-shop-manager' ) : $name );
+			return array( 'name' => '' === $name ? __( 'Walk-in customer', 'codereyes-mobile-shop-manager' ) : $name );
 		}
 
 		if ( ! Cmshop_Phone_Number::is_valid( $phone ) ) {
-			throw new InvalidArgumentException( __( 'The customer phone number should have 6 to 15 digits.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'The customer phone number should have 6 to 15 digits.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		return array(
@@ -305,7 +305,7 @@ final class Cmshop_Sales_Service {
 		$locked = isset( $customer['id'] ) ? $this->customers->lock( (int) $customer['id'] ) : null;
 
 		if ( null === $locked || Cmshop_Money::to_cents( (string) $locked['credit'] ) < $used ) {
-			throw new InvalidArgumentException( __( 'The customer doesn\'t have that much store credit.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'The customer doesn\'t have that much store credit.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$this->customers->adjust_credit( $locked, -$used );
@@ -320,7 +320,7 @@ final class Cmshop_Sales_Service {
 	 */
 	private function trade_ins( array $raw ): array {
 		if ( count( $raw ) > self::MAX_TRADE_INS ) {
-			throw new InvalidArgumentException( __( 'Take at most 3 phones in trade on one sale.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'Take at most 3 phones in trade on one sale.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$trades = array();
@@ -331,7 +331,7 @@ final class Cmshop_Sales_Service {
 
 			if ( ! $result->is_valid() ) {
 				/* translators: %s: the phone traded in, the customer it came from, or what is wrong with it. */
-				throw new InvalidArgumentException( sprintf( __( 'Trade-in: %s', 'mobile-shop-manager' ), (string) current( $result->errors() ) ) );
+				throw new InvalidArgumentException( sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop-manager' ), (string) current( $result->errors() ) ) );
 			}
 
 			$trades[] = $result->data();
@@ -339,7 +339,7 @@ final class Cmshop_Sales_Service {
 		}
 
 		if ( count( $imeis ) !== count( array_unique( $imeis ) ) ) {
-			throw new InvalidArgumentException( __( 'Trade-in: the same IMEI was entered twice.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'Trade-in: the same IMEI was entered twice.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		return $trades;
@@ -381,7 +381,7 @@ final class Cmshop_Sales_Service {
 
 			if ( array() !== $this->items->find_unsold_by_imeis( array_filter( array( $item['imei1'], $item['imei2'] ) ) ) ) {
 				/* translators: %s: IMEI. */
-				throw new InvalidArgumentException( sprintf( __( 'Trade-in: IMEI %s is already in your stock.', 'mobile-shop-manager' ), $item['imei1'] ) );
+				throw new InvalidArgumentException( sprintf( __( 'Trade-in: IMEI %s is already in your stock.', 'codereyes-mobile-shop-manager' ), $item['imei1'] ) );
 			}
 
 			$checks = array_map(
@@ -396,9 +396,9 @@ final class Cmshop_Sales_Service {
 					$item,
 					array(
 						/* translators: %s: the phone traded in, the customer it came from, or what is wrong with it. */
-						'supplier'   => mb_substr( sprintf( __( 'Trade-in: %s', 'mobile-shop-manager' ), $customer ), 0, 150 ),
+						'supplier'   => mb_substr( sprintf( __( 'Trade-in: %s', 'codereyes-mobile-shop-manager' ), $customer ), 0, 150 ),
 						/* translators: 1: invoice number, 2: checks done. */
-						'notes'      => sprintf( __( 'Taken in trade on %1$s. Checked: %2$s', 'mobile-shop-manager' ), $invoice, array() === $checks ? '—' : implode( ', ', $checks ) ),
+						'notes'      => sprintf( __( 'Taken in trade on %1$s. Checked: %2$s', 'codereyes-mobile-shop-manager' ), $invoice, array() === $checks ? '—' : implode( ', ', $checks ) ),
 						'created_by' => $user_id,
 					)
 				)

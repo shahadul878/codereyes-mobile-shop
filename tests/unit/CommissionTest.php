@@ -2,7 +2,7 @@
 /**
  * Staff commission.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

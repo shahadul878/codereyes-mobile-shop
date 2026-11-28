@@ -2,7 +2,7 @@
 /**
  * Cash drawer maths: counting notes, what should be in the drawer.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

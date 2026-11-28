@@ -1,5 +1,5 @@
 /**
- * Mobile Shop Manager — small admin behaviours: confirm links, print buttons.
+ * Codereyes Mobile Shop Manager — small admin behaviours: confirm links, print buttons.
  */
 ( function () {
 	'use strict';

@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "mobile-shop-manager/stock",
+	"name": "codereyes-mobile-shop-manager/stock",
 	"title": "Phones in Stock",
-	"category": "mobile-shop-manager",
+	"category": "codereyes-mobile-shop-manager",
 	"icon": "smartphone",
 	"description": "Phones (or accessories) in your shop now, with photos, prices, colours and brand filters.",
 	"keywords": [
@@ -13,7 +13,7 @@
 		"mobile",
 		"inventory"
 	],
-	"textdomain": "mobile-shop-manager",
+	"textdomain": "codereyes-mobile-shop-manager",
 	"attributes": {
 		"type": {
 			"type": "string",

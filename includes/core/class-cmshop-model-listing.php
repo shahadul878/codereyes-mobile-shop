@@ -3,7 +3,7 @@
  * Groups new phones of the same model into one website listing with
  * colour and storage options.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -154,7 +154,7 @@ final class Cmshop_Model_Listing {
 	 * @return string
 	 */
 	public static function option( string $value ): string {
-		return '' === $value ? __( 'Standard', 'mobile-shop-manager' ) : $value;
+		return '' === $value ? __( 'Standard', 'codereyes-mobile-shop-manager' ) : $value;
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Loads the plugin and builds its services.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

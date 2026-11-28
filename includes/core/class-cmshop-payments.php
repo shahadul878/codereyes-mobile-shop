@@ -2,7 +2,7 @@
 /**
  * Splitting a sale's payment across methods (cash, bKash, card...).
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are for the cashier and are escaped where they are displayed.
  */
@@ -41,7 +41,7 @@ final class Cmshop_Payments {
 	 */
 	public static function allocate( array $rows, int $total, array $methods ): array {
 		if ( count( $rows ) > self::MAX_ROWS ) {
-			throw new InvalidArgumentException( __( 'Use at most 5 payment methods in one sale.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'Use at most 5 payment methods in one sale.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$merged = self::merge( $rows, $methods );
@@ -51,7 +51,7 @@ final class Cmshop_Payments {
 		$change = max( 0, $sum - $total );
 
 		if ( $change > $cash + $trade ) {
-			throw new InvalidArgumentException( __( 'Card, mobile banking and bank payments can\'t be more than the total. Give change in cash only.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'Card, mobile banking and bank payments can\'t be more than the total. Give change in cash only.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		if ( $change > 0 ) {
@@ -122,11 +122,11 @@ final class Cmshop_Payments {
 			$method = (string) ( $row['method'] ?? '' );
 
 			if ( null === $amount ) {
-				throw new InvalidArgumentException( __( 'A payment amount is not valid.', 'mobile-shop-manager' ) );
+				throw new InvalidArgumentException( __( 'A payment amount is not valid.', 'codereyes-mobile-shop-manager' ) );
 			}
 
 			if ( ! in_array( $method, $methods, true ) ) {
-				throw new InvalidArgumentException( __( 'Choose a payment method for each amount.', 'mobile-shop-manager' ) );
+				throw new InvalidArgumentException( __( 'Choose a payment method for each amount.', 'codereyes-mobile-shop-manager' ) );
 			}
 
 			$cents = Cmshop_Money::to_cents( $amount );

@@ -2,7 +2,7 @@
 /**
  * REST endpoints used by the point-of-sale screen.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);
@@ -216,9 +216,9 @@ final class Cmshop_Rest {
 			return self::envelope( null, $error->getMessage(), 422 );
 		} catch ( RuntimeException $error ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Server-side log of a database failure.
-			error_log( 'Mobile Shop Manager checkout failed: ' . $error->getMessage() );
+			error_log( 'Codereyes Mobile Shop Manager checkout failed: ' . $error->getMessage() );
 
-			return self::envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'mobile-shop-manager' ), 500 );
+			return self::envelope( null, __( 'The sale could not be saved. Nothing was charged to stock. Please try again.', 'codereyes-mobile-shop-manager' ), 500 );
 		}
 
 		$sale = (array) Cmshop_Plugin::sales()->find( $sale_id );

@@ -2,7 +2,7 @@
 /**
  * Tests for turning block attributes into shortcode attributes.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

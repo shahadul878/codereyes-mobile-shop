@@ -2,7 +2,7 @@
 /**
  * Figures for the dashboard: daily series, bar heights, changes, shares.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

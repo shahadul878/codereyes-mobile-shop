@@ -2,7 +2,7 @@
 /**
  * Tests for the POS product grid.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

@@ -2,7 +2,7 @@
 /**
  * IMEI normalisation and validation.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  */
 
 declare(strict_types=1);

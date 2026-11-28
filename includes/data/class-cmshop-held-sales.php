@@ -2,7 +2,7 @@
 /**
  * Sales a cashier has put on hold, kept per user on the server.
  *
- * @package MobileShopManager
+ * @package CodereyesMobileShopManager
  *
  * phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Messages are returned as JSON and escaped where they are displayed.
  */
@@ -48,13 +48,13 @@ final class Cmshop_Held_Sales {
 		$held = self::all( $user_id );
 
 		if ( count( $held ) >= self::MAX_HELD ) {
-			throw new InvalidArgumentException( __( 'You can hold up to 10 sales. Finish or remove one first.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'You can hold up to 10 sales. Finish or remove one first.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$cart = (array) Cmshop_Sanitize::deep( $cart );
 
 		if ( strlen( (string) wp_json_encode( $cart ) ) > self::MAX_BYTES ) {
-			throw new InvalidArgumentException( __( 'This sale is too large to hold.', 'mobile-shop-manager' ) );
+			throw new InvalidArgumentException( __( 'This sale is too large to hold.', 'codereyes-mobile-shop-manager' ) );
 		}
 
 		$entry = array(
